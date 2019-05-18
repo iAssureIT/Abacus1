@@ -6,7 +6,7 @@ const mongoose = require ('mongoose');
 
 // Routes which should handle requests
 const userRoutes = require('./api/routes/users');
-const packageRoutes = require('./api/routes/package');
+const packageRoutes = require('./api/routes/packagemanagementmasters');
 
 
 // mongoose.connect('mongodb+srv://node-shop:'+ process.env.MONGO_ATLAS_PW +'@node-rest-shop-dz1fp.mongodb.net/test?retryWrites=true',
@@ -15,7 +15,9 @@ const packageRoutes = require('./api/routes/package');
 // 	}
 // );
 
-mongoose.connect('mongodb://localhost/onlineExamSystem')
+mongoose.connect('mongodb://localhost/onlineExamSystem',{
+	useNewUrlParser: true
+})
 mongoose.promise =global.Promise;
 
 // process.env.MANGO_ATLAS_PW envirnmaent variable name

@@ -4,7 +4,6 @@ const jwt		= require("jsonwebtoken");
 
 const User = require('../models/users');
 
-//Need to work
 exports.user_signup = (req,res,next)=>{
 	User.find({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
@@ -122,4 +121,20 @@ exports.user_delete = (req,res,next)=>{
 				error: err
 			});
 		});
+}
+
+exports.user_list = (req,res,next)=>{
+	User.find({})
+		.exec()
+		.then(users =>{
+			console.log('users ',users);
+			res.status(200).json(users);
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+	
 }
