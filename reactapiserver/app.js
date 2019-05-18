@@ -6,12 +6,16 @@ const mongoose = require ('mongoose');
 
 // Routes which should handle requests
 const userRoutes = require('./api/routes/users');
+const packageRoutes = require('./api/routes/package');
 
-mongoose.connect('mongodb+srv://node-shop:'+ process.env.MONGO_ATLAS_PW +'@node-rest-shop-dz1fp.mongodb.net/test?retryWrites=true',
-	{ 
-		useNewUrlParser: true
-	}
-);
+
+// mongoose.connect('mongodb+srv://node-shop:'+ process.env.MONGO_ATLAS_PW +'@node-rest-shop-dz1fp.mongodb.net/test?retryWrites=true',
+// 	{ 
+// 		useNewUrlParser: true
+// 	}
+// );
+
+mongoose.connect('mongodb://localhost/onlineExamSystem')
 mongoose.promise =global.Promise;
 
 // process.env.MANGO_ATLAS_PW envirnmaent variable name
@@ -32,6 +36,8 @@ app.use((req, res, next) =>{
 
 //routes for urls
 app.use("/user", userRoutes);
+app.use("/packages", packageRoutes);
+
 
 // handle all other request which not found 
 app.use((req, res, next) => {

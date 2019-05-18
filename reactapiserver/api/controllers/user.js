@@ -4,8 +4,9 @@ const jwt		= require("jsonwebtoken");
 
 const User = require('../models/users');
 
+//Need to work
 exports.user_signup = (req,res,next)=>{
-	User.find({email: req.body.email})
+	User.find({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
 		.then(user =>{
 			if(user.length >= 1){
@@ -14,18 +15,29 @@ exports.user_signup = (req,res,next)=>{
 					message: ' Email Id already exits.'
 				});
 			}else{
-				console.log('email ',req.body.email);
 				bcrypt.hash(req.body.password,10,(err,hash)=>{
 					if(err){
 						return res.status(500).json({
 							error:err
 						});
 					}else{
-
 						const user = new User({
-			              _id: new mongoose.Types.ObjectId(),
-			              email: req.body.email,
-			              password: hash
+										_id: new mongoose.Types.ObjectId(),
+										createdAt	: new Date,
+										// emails[0].address: req.body.email,
+										// emails.push({address:req.body.email,verified:false}),
+										services	: {
+											password:{
+														bcrypt:hash
+														},
+										},
+										username	: req.body.email,
+										emails		: [
+												{
+													address  : req.body.email,
+													verified : true 
+												}
+										]
 			            });	
 						user.save()
 							.then(result =>{
@@ -54,15 +66,14 @@ exports.user_signup = (req,res,next)=>{
 };
 
 exports.user_login = (req,res,next)=>{
-	User.find({email: req.body.email})
+	console.log('email ',req.body.email);
+	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
 		.then(user => {
-			if(user.length < 1){
-				return res.status(401).json({
-					message: 'Auth failed'
-				});
-			}
-			bcrypt.compare(req.body.password,user[0].password,(err,result)=>{
+			console.log("_id ",user);
+			var pwd = user.services.password.bcrypt;
+			console.log('user fetched  password ',user.services.password.bcrypt);
+			bcrypt.compare(req.body.password,pwd,(err,result)=>{
 				if(err){
 					return res.status(401).json({
 						message: 'Auth failed'
@@ -70,8 +81,8 @@ exports.user_login = (req,res,next)=>{
 				}
 				if(result){
 					const token = jwt.sign({
-						email 	: user[0].email,
-						userId	: user[0]._id,
+						email 	: req.body.email,
+						userId	:  mongoose.Types.ObjectId(user._id) ,
 					},process.env.JWT_KEY,
 					{
 						expiresIn: "1h"
