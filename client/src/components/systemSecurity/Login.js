@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -7,8 +8,11 @@ import './SignUp.css';
 
 class Login extends Component {
 
+  userlogin(){
+    
 
 
+  }
 
   render(){
     var winHeight = window.innerHeight;
@@ -50,7 +54,7 @@ class Login extends Component {
         </div>
         <div className="col-lg-6 offset-lg-2 col-md-6 offset-md-2 col-sm-12 offset-sm-2 formbg1 signupPadding signUpFormWrap loginOesWrap loginforms1" style={{"height": winHeight}}>
           <div className="divLoginInWrap">
-            <form id="login" /*onSubmit={this.userlogin.bind(this)}*/>
+            <form id="login" onSubmit={this.userlogin.bind(this)}>
               <h3 className="signInNameTitle"><span className="bordbt">SIGN IN</span></h3>
               <div className="col-lg-12 col-md-12 col-sm-12 ">
                 <div className="inputContent">
@@ -75,19 +79,19 @@ class Login extends Component {
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pdcls">
                 <div className="col-lg-5 col-md-6 col-sm-6 ">
-                  <a href="/signUp" className="UMGreyy UMcreateacc col-lg-12 col-md-12 col-xs-12 col-sm-12"> Sign Up</a>
+                  <Link to='/signup' className="UMGreyy UMcreateacc col-lg-12 col-md-12 col-xs-12 col-sm-12"> Sign Up</Link>
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-6 offset-lg-1 ">
-                  <a href="/ForgotPassword" className="UMGreyy UMcreateacc col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                  <Link to='/forgot-pwd' className="UMGreyy UMcreateacc col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     Forgot Password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 pdcls">
                 <div className="col-lg-12 col-md-12 col-sm-12 ">
-                  <a href="/verifyAccount" className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                  <Link to='/verify-email' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     OTP Verification
-                  </a>
+                  </Link>
                 </div>
               </div>
             </form>

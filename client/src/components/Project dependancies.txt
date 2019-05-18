@@ -7,3 +7,8 @@ npm install react-input-mask --save
 3.For Font-Awesome---->
 npm install --save font-awesome
 
+4.For Swal---->
+npm install sweetalert --save
+
+5.For JQuery---->
+npm install jquery

@@ -8,10 +8,14 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bootstrap": "^4.3.1",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.4.1",
     "react": "^16.8.6",
+    "react-bootstrap-sweetalert": "^4.4.1",
     "react-dom": "^16.8.6",
     "react-input-mask": "^2.0.4",
-    "react-scripts": "3.0.1"
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.1",
+    "sweetalert": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

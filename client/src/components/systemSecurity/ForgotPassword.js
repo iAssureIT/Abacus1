@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -70,7 +71,7 @@ class ForgotPassword extends Component {
                     <button type="submit" className="btn col-lg-12 col-md-12 col-sm-12 col-xs-12 submitBtn UMloginbutton">Send Verification Code</button>
                   </div>
                   <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">
-                    <a href="/" className="UMGrey signInbtn col-lg-12 col-md-12 col-sm-12 col-xs-12">Sign In</a>   
+                    <Link to='/' className="UMGrey signInbtn col-lg-12 col-md-12 col-sm-12 col-xs-12">Sign In</Link>   
                   </div>
                 </form>
               </div>
