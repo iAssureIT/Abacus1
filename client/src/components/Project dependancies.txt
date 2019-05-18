@@ -1,0 +1,9 @@
+1.For Bootstrap css---->
+npm install --save bootstrap
+
+2.For inputMask---->
+npm install react-input-mask --save
+
+3.For Font-Awesome---->
+npm install --save font-awesome
+
