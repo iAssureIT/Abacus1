@@ -12,3 +12,10 @@ npm install sweetalert --save
 
 5.For JQuery---->
 npm install jquery
+
+6.jspdf---->
+npm install --save jspdf
+
+7.html2canvas---->
+npm install --save html2canvas
+

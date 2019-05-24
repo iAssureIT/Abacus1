@@ -1,81 +1,6 @@
-/*****App.css*****/
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*****common.css*****/
 .studentSidebar{
-  position: fixed;
+	position: fixed;
 }
 .tip{
     top: 67% !important;
@@ -84,20 +9,20 @@
     top: 58% !important;
 }
 .selectLabel{
-  margin-bottom: 4px;
-  color: #555;
+	margin-bottom: 4px;
+	color: #555;
     font-weight: 600;
     font-size: 13px;
 }
 .bcktolgn{
-  padding-top:10px;
-  color:white;  
+	padding-top:10px;
+	color:white;	
 }
 .bcktolgn:hover{
-  cursor:pointer;
+	cursor:pointer;
 }
 .greyText{
-  color:#777;
+	color:#777;
 }
 
 
@@ -181,13 +106,21 @@ body {
 /*
  * Content Wrapper - contains the main content
  */
-.content-wrapper,
+
 .main-footer {
   -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
   -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
   -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
   transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
   margin-left: 230px;
+  z-index: 820;
+}
+.content-wrapper{
+  -webkit-transition: -webkit-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  -moz-transition: -moz-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  -o-transition: -o-transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+  margin-left: 0px;
   z-index: 820;
 }
 .layout-top-nav .content-wrapper,
@@ -272,13 +205,16 @@ body {
    -o-transition: none;
    transition: none;
  }
+ .hold-transition .content-wrapper {
+  padding-right:15px;
+ }
 /* Content */
 .content {
   min-height: 630px;
   padding: 15px;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 45px;
+  margin-top: 0px;
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -873,7 +809,7 @@ a:focus {
   .control-sidebar-open .content-wrapper,
   .control-sidebar-open .right-side,
   .control-sidebar-open .main-footer {
-    margin-right: 230px;
+    margin-right: 50px;
   }
 }
 .fixed .control-sidebar {
@@ -5546,163 +5482,163 @@ table.text-center th {
 
 
 .outerexambox{
-  background:rgba(255,255,255,1);
-  min-height: 450px;
-  padding:20px;
-  border: 10px solid #F9E79F;
+	background:rgba(255,255,255,1);
+	min-height: 450px;
+	padding:20px;
+	border: 10px solid #F9E79F;
 }
 .examdetail{
-  font-size: 40px;
+	font-size: 40px;
     font-weight: bold;
    
 }
 .examdetailsubtitles{
-  font-size: 18px;
+	font-size: 18px;
     font-weight: bold;
    
 }
 .examdetailsubtitles1{
-  font-size: 15px;
+	font-size: 15px;
     font-weight: bold;
    
 }
 .examdate{
-  color:red;
+	color:red;
 }
 .examtitles{
-   color: #777 ;
-   /*color: #5DADE2 ;*/
+	 color: #777 ;
+	 /*color: #5DADE2 ;*/
 }
 .orange{
-  color:#F5B041
+	color:#F5B041
 }
 .examlogo{
-  height:40px;
+	height:40px;
 }
 /*.examdetailbox{
-  margin-top:15px;
+	margin-top:15px;
 }*/
 .paybtn{
-  margin-top:15px;
-  margin-left:10px;
+	margin-top:15px;
+	margin-left:10px;
 }
 .green{
-  color:#27AE60;
+	color:#27AE60;
 }
 .abacustitle{
-  color:#333;
+	color:#333;
 }
 .abacussubtitle{
-  
-  font-size:30px!important;
+	
+	font-size:30px!important;
 }
 .blue{
-  color:blue;
+	color:blue;
 }
 .pckgtitle1{
-  color:#333;
-  font-size: 15px;
+	color:#333;
+	font-size: 15px;
   padding-top: 70px;
 }
 .floatLeft{
   float: left;
 }
 .pckgboxlist{
-  
+	
 }
 .zeropadding{
-  padding:0!important;
+	padding:0!important;
 }
 .singlepackagebox1{
-  height:50px;
+	height:50px;
 }
 .smallbx{
-  background:yellow;
-  margin-bottom:5px;
+	background:yellow;
+	margin-bottom:5px;
 }
 .smallfont{
-  font-size: 10px;
+	font-size: 10px;
 }
 /*.titlepaddingzero{
-  padding-left:0!important;
+	padding-left:0!important;
 }*/
 .examCatWrap{
-  padding: 0px !important;
+	padding: 0px !important;
 }
 .outerbox{
-  border:1px solid #888;
-  border-radius:3px;
-  padding:10px;
+	border:1px solid #888;
+	border-radius:3px;
+	padding:10px;
 }
 .smallboxpckg{
 
-  padding-top:6!important;
-  padding-bottom:0!important;
-  padding-left:0!important;
-  padding-right:0!important;
+	padding-top:6!important;
+	padding-bottom:0!important;
+	padding-left:0!important;
+	padding-right:0!important;
     height: auto;
     /*padding-top: 6px;*/
-  border:2px solid #cd6422;
-  border-radius:5px;
-  margin-bottom:5px;
-  background:#fff;
-  /*background:#F9E79F;*/
-  color:#333;
-  font-weight: bold;
+	border:2px solid #cd6422;
+	border-radius:5px;
+	margin-bottom:5px;
+	background:#fff;
+	/*background:#F9E79F;*/
+	color:#333;
+	font-weight: bold;
 }
 .smallboxpckg1{
-  padding-top:6!important;
-  padding-bottom:0!important;
-  padding-left:1!important;
-  padding-right:0!important;
+	padding-top:6!important;
+	padding-bottom:0!important;
+	padding-left:1!important;
+	padding-right:0!important;
     height: auto;
     padding-top: 6px;
-  border:2px solid #cd6422;
-  border-radius:5px;
-  margin-bottom:5px;
-  background:#fff;
-  /*background:#F9E79F;*/
-  color:#333;
-  font-weight: bold;
+	border:2px solid #cd6422;
+	border-radius:5px;
+	margin-bottom:5px;
+	background:#fff;
+	/*background:#F9E79F;*/
+	color:#333;
+	font-weight: bold;
 }
 .smallboxpckg1{
-  padding-left:4!important;
+	padding-left:4!important;
 }
 .boxlistpadding{
-  padding-left: 28px;
+	padding-left: 28px;
     padding-right: 28px;
     /*margin-top:12px;*/
 }
 .outerboxpadding{
-  padding:5px!important;
-  text-align: center;
+	padding:5px!important;
+	text-align: center;
 }
 .boldfont{
-  font-weight: bold;
-  padding:0px!important;
+	font-weight: bold;
+	padding:0px!important;
 }
 .startlink{
-  color:blue;
-  font-size: 12px!important
+	color:blue;
+	font-size: 12px!important
 }
 .paddingnone{
-  padding:0!important;
+	padding:0!important;
 }
 .scrollbar{
-  height: 110px;
+	height: 110px;
     overflow-y: auto;
     margin-top:10px;
 }
 .ACTit{
-  font-weight: bold !important;
-  font-size: 18px; 
+	font-weight: bold !important;
+	font-size: 18px; 
 }
 .rfoac{
-  text-align: center;
+	text-align: center;
 }
 .imgLogoWrapReg > img{
-  margin: auto;
-  margin-bottom: 10px;
+	margin: auto;
+	margin-bottom: 10px;
 }
 .fontstyle{
 font-family: sans-serif;
@@ -5710,7 +5646,7 @@ font-family: sans-serif;
 
 
 .receiptBtn a{
-  text-decoration: none;
+	text-decoration: none;
     background: #3c8dbc;
     padding: 2px 5px;
     color: #fff;
@@ -5719,156 +5655,156 @@ font-family: sans-serif;
     opacity: 0.7;
 }
 .compReceipt, .packageReceipt{
-  text-align: right;
+	text-align: right;
     font-size: 14px;
     color: #999;
     margin-top: 2px;
     padding-right: 0px;
 }
 .studentdashboardtoppadding{
-  padding-top:14%;
+	padding-top:14%;
 }
 .clickhereclr{
-  color: #3c8dbc
+	color: #3c8dbc
 }
 .franchisedis{
-  font-size: 15px;
+	font-size: 15px;
     font-weight: bold;
 }
 .docattachsubmit{
     margin-right: 20px;
 }
 .receiptType{
-  text-align: center;
+	text-align: center;
 }
 .studentdashboardtoppadding{
-  padding-top:14%;
+	padding-top:14%;
 
 }
 .boxlistpadding{
-  height:140px;
-  overflow-y: hidden;
+	height:140px;
+	overflow-y: hidden;
 }
 .boxlistpadding:hover{
-  height:140px;
-  overflow-y: auto;
+	height:140px;
+	overflow-y: auto;
 }
 blink{
-  animation: blinker 1s linear infinite;
-  }
-  @keyframes blinker {  
-  50% { opacity: 0.2; }
+	animation: blinker 1s linear infinite;
+	}
+	@keyframes blinker {  
+	50% { opacity: 0.2; }
 }
 .studentEmailText{
-  margin-left:20px;
+	margin-left:20px;
 }
 .imageUploadLabel{
-  text-align: right;
+	text-align: right;
 }
 .imageSize{
-  font-size: 12px!important;
-  padding-right: 35px;
+	font-size: 12px!important;
+	padding-right: 35px;
 }
 .imageSize1{
-  padding-right: 85px;
+	padding-right: 85px;
 }
 .genderLabel{
-  font-size: 13px!important;
-  color: #333!important;
-  margin-left:20px!important;
+	font-size: 13px!important;
+	color: #333!important;
+	margin-left:20px!important;
 }
 .genderFemaleLabel{
-  font-size: 13px!important;
-  color: #333!important;
+	font-size: 13px!important;
+	color: #333!important;
 }
 .franchiseTableWrap{
-  height: 260px;
+	height: 260px;
     overflow-y: auto;
 }
 .studProfileTitSec{
-  text-align: left !important;
+	text-align: left !important;
 }
 .bgmonkeyspace{
-  padding:0px 25px;
+	padding:0px 25px;
 }
 .paymentBtnList{
-  padding: 4px 10px;
+	padding: 4px 10px;
     font-size: 12px;
     font-weight: bold;
     margin-right: 5px;
 }
 .studentCashPaymentModal{
-  /*padding:20px;*/
+	/*padding:20px;*/
 }
 .examtitlecolor{
-  color:#1d109d!important;
+	color:#1d109d!important;
 }
 .attemptedTd{
-  background:#4BB543;
+	background:#4BB543;
 }
 .tdWhiteText{
-  color:white!important;  
+	color:white!important;	
 }
 .nullPadding{
-  padding:0!important;
-  font-size:14px!important;
+	padding:0!important;
+	font-size:14px!important;
 }
 .dashboardPckgDesc{
-  text-align: left!important;
+	text-align: left!important;
 }
 .freePPaper{
-  padding-left:0!important;
-  padding-right:0!important;
-  height:20px;
+	padding-left:0!important;
+	padding-right:0!important;
+	height:20px;
 }
 .pEListTableScroll{
-  /*overflow-x: hidden;*/
-  height: 60px!important;
+	/*overflow-x: hidden;*/
+	height: 60px!important;
 }
 .multiExamLeft{
-  margin-top:25%;
+	margin-top:25%;
 }
 .crslDiv{
-  height:auto;
-  padding-left:33px!important;
+	height:auto;
+	padding-left:33px!important;
 }
 .startmultiexambtn{
-  font-size:11px!important;
-  margin-top:0px!important;
+	font-size:11px!important;
+	margin-top:0px!important;
 }
 .startmultiexambtn1{
-  font-size:13px!important;
+	font-size:13px!important;
 }
 .allExamlink{
 padding-left:35px!important;
 }
 .tabletxtwrap{
-  word-break: break-all!important;
+	word-break: break-all!important;
 }
 .netspeedimgbrwse{
-  font-size:14px!important;
+	font-size:14px!important;
 }
 .netspeedtext{
-  margin-top:150px;
+	margin-top:150px;
 }
 .speedTitle{
-  text-align: right;
+	text-align: right;
 }
 .speedContent{
-  text-align: left;
+	text-align: left;
 }
 .speedtextcolor{
-  color: #555!important;
+	color: #555!important;
 }
 .adminContact{
-  color:blue;
+	color:blue;
 }
 .studentblck{
-  margin-top:40px;
+	margin-top:40px;
 }
 .netspeedgif{
-  height:500px!important;
-  width:800px!important;
+	height:500px!important;
+	width:800px!important;
 }
 
 
@@ -7797,159 +7733,159 @@ display: none;
 
 
 .outerexambox{
-  background:rgba(255,255,255,1);
-  min-height: 450px;
-  padding:20px;
-  border: 10px solid #F9E79F;
+	background:rgba(255,255,255,1);
+	min-height: 450px;
+	padding:20px;
+	border: 10px solid #F9E79F;
 }
 .examdetail{
-  font-size: 40px;
+	font-size: 40px;
     font-weight: bold;
    
 }
 .examdetailsubtitles{
-  font-size: 18px;
+	font-size: 18px;
     font-weight: bold;
    
 }
 .examdetailsubtitles1{
-  font-size: 15px;
+	font-size: 15px;
     font-weight: bold;
    
 }
 .examdate{
-  color:red;
+	color:red;
 }
 .examtitles{
-   color: #777 ;
-   /*color: #5DADE2 ;*/
+	 color: #777 ;
+	 /*color: #5DADE2 ;*/
 }
 .orange{
-  color:#F5B041
+	color:#F5B041
 }
 .examlogo{
-  height:40px;
+	height:40px;
 }
 /*.examdetailbox{
-  margin-top:15px;
+	margin-top:15px;
 }*/
 .paybtn{
-  margin-top:15px;
-  margin-left:10px;
+	margin-top:15px;
+	margin-left:10px;
 }
 .green{
-  color:#27AE60;
+	color:#27AE60;
 }
 .abacustitle{
-  color:#333;
+	color:#333;
 }
 .abacussubtitle{
-  
-  font-size:30px!important;
+	
+	font-size:30px!important;
 }
 .blue{
-  color:blue;
+	color:blue;
 }
 .pckgtitle1{
-  color:#333;
-  font-size: 15px;
+	color:#333;
+	font-size: 15px;
 }
 .pckgboxlist{
-  
+	
 }
 .zeropadding{
-  padding:0!important;
+	padding:0!important;
 }
 .singlepackagebox1{
-  height:50px;
+	height:50px;
 }
 .smallbx{
-  background:yellow;
-  margin-bottom:5px;
+	background:yellow;
+	margin-bottom:5px;
 }
 .smallfont{
-  font-size: 10px;
+	font-size: 10px;
 }
 /*.titlepaddingzero{
-  padding-left:0!important;
+	padding-left:0!important;
 }*/
 .examCatWrap{
-  padding: 0px !important;
+	padding: 0px !important;
 }
 .outerbox{
-  border:1px solid #888;
-  border-radius:3px;
-  padding:10px;
+	border:1px solid #888;
+	border-radius:3px;
+	padding:10px;
 }
 .smallboxpckg{
 
-  padding-top:6!important;
-  padding-bottom:0!important;
-  padding-left:0!important;
-  padding-right:0!important;
+	padding-top:6!important;
+	padding-bottom:0!important;
+	padding-left:0!important;
+	padding-right:0!important;
     height: auto;
     /*padding-top: 6px;*/
-  border:2px solid #cd6422;
-  border-radius:5px;
-  margin-bottom:5px;
-  background:#fff;
-  /*background:#F9E79F;*/
-  color:#333;
-  font-weight: bold;
+	border:2px solid #cd6422;
+	border-radius:5px;
+	margin-bottom:5px;
+	background:#fff;
+	/*background:#F9E79F;*/
+	color:#333;
+	font-weight: bold;
 }
 .smallboxpckg1{
-  padding-top:6!important;
-  padding-bottom:0!important;
-  padding-left:1!important;
-  padding-right:0!important;
+	padding-top:6!important;
+	padding-bottom:0!important;
+	padding-left:1!important;
+	padding-right:0!important;
     height: auto;
     padding-top: 6px;
-  border:2px solid #cd6422;
-  border-radius:5px;
-  margin-bottom:5px;
-  background:#fff;
-  /*background:#F9E79F;*/
-  color:#333;
-  font-weight: bold;
+	border:2px solid #cd6422;
+	border-radius:5px;
+	margin-bottom:5px;
+	background:#fff;
+	/*background:#F9E79F;*/
+	color:#333;
+	font-weight: bold;
 }
 .smallboxpckg1{
-  padding-left:4!important;
+	padding-left:4!important;
 }
 .boxlistpadding{
-  padding-left: 28px;
+	padding-left: 28px;
     padding-right: 28px;
     /*margin-top:12px;*/
 }
 .outerboxpadding{
-  padding:5px!important;
-  text-align: center;
+	padding:5px!important;
+	text-align: center;
 }
 .boldfont{
-  font-weight: bold;
-  padding:0px!important;
+	font-weight: bold;
+	padding:0px!important;
 }
 .startlink{
-  color:blue;
-  font-size: 12px!important
+	color:blue;
+	font-size: 12px!important
 }
 .paddingnone{
-  padding:0!important;
+	padding:0!important;
 }
 .scrollbar{
-  height: 110px;
+	height: 110px;
     overflow-y: auto;
     margin-top:10px;
 }
 .ACTit{
-  font-weight: bold !important;
-  font-size: 18px; 
+	font-weight: bold !important;
+	font-size: 18px; 
 }
 .rfoac{
-  text-align: center;
+	text-align: center;
 }
 .imgLogoWrapReg > img{
-  margin: auto;
-  margin-bottom: 10px;
+	margin: auto;
+	margin-bottom: 10px;
 }
 .fontstyle{
 font-family: sans-serif;
@@ -7957,7 +7893,7 @@ font-family: sans-serif;
 
 
 .receiptBtn a{
-  text-decoration: none;
+	text-decoration: none;
     background: #3c8dbc;
     padding: 2px 5px;
     color: #fff;
@@ -7966,156 +7902,156 @@ font-family: sans-serif;
     opacity: 0.7;
 }
 .compReceipt, .packageReceipt{
-  text-align: right;
+	text-align: right;
     font-size: 14px;
     color: #999;
     margin-top: 2px;
     padding-right: 0px;
 }
 .studentdashboardtoppadding{
-  padding-top:14%;
+	padding-top:14%;
 }
 .clickhereclr{
-  color: #3c8dbc
+	color: #3c8dbc
 }
 .franchisedis{
-  font-size: 15px;
+	font-size: 15px;
     font-weight: bold;
 }
 .docattachsubmit{
     margin-right: 20px;
 }
 .receiptType{
-  text-align: center;
+	text-align: center;
 }
 .studentdashboardtoppadding{
-  padding-top:14%;
+	padding-top:14%;
 
 }
 .boxlistpadding{
-  height:140px;
-  overflow-y: hidden;
+	height:140px;
+	overflow-y: hidden;
 }
 .boxlistpadding:hover{
-  height:140px;
-  overflow-y: auto;
+	height:140px;
+	overflow-y: auto;
 }
 blink{
-  animation: blinker 1s linear infinite;
-  }
-  @keyframes blinker {  
-  50% { opacity: 0.2; }
+	animation: blinker 1s linear infinite;
+	}
+	@keyframes blinker {  
+	50% { opacity: 0.2; }
 }
 .studentEmailText{
-  margin-left:20px;
+	margin-left:20px;
 }
 .imageUploadLabel{
-  text-align: right;
+	text-align: right;
 }
 .imageSize{
-  font-size: 12px!important;
-  padding-right: 35px;
+	font-size: 12px!important;
+	padding-right: 35px;
 }
 .imageSize1{
-  padding-right: 85px;
+	padding-right: 85px;
 }
 .genderLabel{
-  font-size: 13px!important;
-  color: #333!important;
-  margin-left:20px!important;
+	font-size: 13px!important;
+	color: #333!important;
+	margin-left:20px!important;
 }
 .genderFemaleLabel{
-  font-size: 13px!important;
-  color: #333!important;
+	font-size: 13px!important;
+	color: #333!important;
 }
 .franchiseTableWrap{
-  height: 260px;
+	height: 260px;
     overflow-y: auto;
 }
 .studProfileTitSec{
-  text-align: left !important;
+	text-align: left !important;
 }
 .bgmonkeyspace{
-  padding:0px 25px;
+	padding:0px 25px;
 }
 .paymentBtnList{
-  padding: 4px 10px;
+	padding: 4px 10px;
     font-size: 12px;
     font-weight: bold;
     margin-right: 5px;
 }
 .studentCashPaymentModal{
-  /*padding:20px;*/
+	/*padding:20px;*/
 }
 .examtitlecolor{
-  color:#1d109d!important;
+	color:#1d109d!important;
 }
 .attemptedTd{
-  background:#4BB543;
+	background:#4BB543;
 }
 .tdWhiteText{
-  color:white!important;  
+	color:white!important;	
 }
 .nullPadding{
-  padding:0!important;
-  font-size:14px!important;
+	padding:0!important;
+	font-size:14px!important;
 }
 .dashboardPckgDesc{
-  text-align: left!important;
+	text-align: left!important;
 }
 .freePPaper{
-  padding-left:0!important;
-  padding-right:0!important;
-  height:20px;
+	padding-left:0!important;
+	padding-right:0!important;
+	height:20px;
 }
 .pEListTableScroll{
-  /*overflow-x: hidden;*/
-  height: 60px!important;
+	/*overflow-x: hidden;*/
+	height: 60px!important;
 }
 .multiExamLeft{
-  margin-top:25%;
+	margin-top:25%;
 }
 .crslDiv{
-  height:auto;
-  padding-left:33px!important;
+	height:auto;
+	padding-left:33px!important;
 }
 .startmultiexambtn{
-  font-size:11px!important;
-  margin-top:0px!important;
+	font-size:11px!important;
+	margin-top:0px!important;
 }
 .startmultiexambtn1{
-  font-size:13px!important;
+	font-size:13px!important;
 }
 .allExamlink{
 padding-left:35px!important;
 }
 .tabletxtwrap{
-  word-break: break-all!important;
+	word-break: break-all!important;
 }
 .netspeedimgbrwse{
-  font-size:14px!important;
+	font-size:14px!important;
 }
 .netspeedtext{
-  margin-top:150px;
+	margin-top:150px;
 }
 .speedTitle{
-  text-align: right;
+	text-align: right;
 }
 .speedContent{
-  text-align: left;
+	text-align: left;
 }
 .speedtextcolor{
-  color: #555!important;
+	color: #555!important;
 }
 .adminContact{
-  color:blue;
+	color:blue;
 }
 .studentblck{
-  margin-top:40px;
+	margin-top:40px;
 }
 .netspeedgif{
-  height:500px!important;
-  width:800px!important;
+	height:500px!important;
+	width:800px!important;
 }
 
 
@@ -8646,7 +8582,7 @@ body{
 }*/
 .backGround-Parallax{
      /* The image used */
-    background-image: url(  /images/worldmap_dots.png);
+    background-image: url(	/images/worldmap_dots.png);
 
     /* Set a specific height */
     height: 500px;
@@ -13442,128 +13378,128 @@ html,
 
 
 body {
-  margin: 0 0 0 0;
-   background:url('https://i.imgur.com/hqEzvRn.jpg');
-  background-size:cover;
-  }
+	margin: 0 0 0 0;
+	 background:url('https://i.imgur.com/hqEzvRn.jpg');
+	background-size:cover;
+	}
 .click{
-    background: url('https://cdn2.digitalartsonline.co.uk/cmsdata/slideshow/3513552/polybreno_1500.jpg');
-    background-size:contain;
-    position: relative;
-      -webkit-border-radius: 50%;
+	  background: url('https://cdn2.digitalartsonline.co.uk/cmsdata/slideshow/3513552/polybreno_1500.jpg');
+	  background-size:contain;
+	  position: relative;
+	    -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-                  -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-        box-shadow: 0px 0px 0px 2pt transparent;
-    border: 0px solid #FFF;
-    margin: auto;
+	  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+			  box-shadow: 0px 0px 0px 2pt transparent;
+	  border: 0px solid #FFF;
+	  margin: auto;
   cursor: pointer;
-      width:120px;
-  height:120px;
-  }
+	  	width:120px;
+	height:120px;
+	}
 .Profile{
-  margin-left:auto;
-    z-index: 9999;
-  margin-right:auto;
-  text-align:center;
-                    -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-  width:300px;
-  height:200px;
-      border-radius:50%;
-  margin-top:34vh;
-  }
-  .clickProfile{
-  margin-left:auto;
-    border-top-left-radius:20px;
-  border-top-right-radius:20px;
-  margin-right:auto;
-  background:#191919;
-  text-align:center;
-  padding:20px 0px 20px 0px;
-                    -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
-      width:300px;
-  height:120px;
-  margin-top:24vh;
-  }
+	margin-left:auto;
+	  z-index: 9999;
+	margin-right:auto;
+	text-align:center;
+		  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+	width:300px;
+	height:200px;
+		  border-radius:50%;
+	margin-top:34vh;
+	}
+	.clickProfile{
+	margin-left:auto;
+		border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	margin-right:auto;
+	background:#191919;
+	text-align:center;
+	padding:20px 0px 20px 0px;
+		  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.5s;
+			width:300px;
+	height:120px;
+	margin-top:24vh;
+	}
 .Img{
-    background: url('https://cdn2.digitalartsonline.co.uk/cmsdata/slideshow/3513552/polybreno_1500.jpg');
-    background-size:contain;
-        z-index: 9999;
-    position: relative;
-      -webkit-border-radius: 50%;
+	  background: url('https://cdn2.digitalartsonline.co.uk/cmsdata/slideshow/3513552/polybreno_1500.jpg');
+	  background-size:contain;
+	  	  z-index: 9999;
+	  position: relative;
+	    -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-                  -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.2s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.2s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.2s;
-        box-shadow: 0px 0px 0px 2pt transparent;
-    border: 0px solid #FFF;
-    margin: auto;
+	  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.2s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.2s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.2s;
+			  box-shadow: 0px 0px 0px 2pt transparent;
+	  border: 0px solid #FFF;
+	  margin: auto;
   cursor: pointer;
-      width:200px;
-  height:200px;
-  }
-    .clickPopUp{
-      position: relative;
-  background: #e74c3c;
-  display:none;
-    opacity:1;
-    width:300px;
-                          -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-  margin-top:20px;
-  border-bottom-left-radius:20px;
-  border-bottom-right-radius:20px;
-  padding: 13px 0px 10px 0px;
-  font-size:18px;
-    }
+	  	width:200px;
+	height:200px;
+	}
+		.clickPopUp{
+			position: relative;
+	background: #e74c3c;
+	display:none;
+		opacity:1;
+		width:300px;
+					  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+	margin-top:20px;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+	padding: 13px 0px 10px 0px;
+	font-size:18px;
+		}
 .PopUp {
-  position: relative;
-  background: #e74c3c;
-    width:300px;
-    opacity:0;
-        font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif;
-  font-weight: 700;
-  text-decoration:none;
-  text-transform:uppercase;
-  color:#FFF;
-                      -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-  margin-top:20px;
-  border-radius:20px;
-  padding: 13px 0px 10px 0px;
-  font-size:18px;
+	position: relative;
+	background: #e74c3c;
+		width:300px;
+		opacity:0;
+				font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif;
+	font-weight: 700;
+	text-decoration:none;
+	text-transform:uppercase;
+	color:#FFF;
+			  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+	margin-top:20px;
+	border-radius:20px;
+	padding: 13px 0px 10px 0px;
+	font-size:18px;
 }
 .PopUp:after, .clickPopUp:after {
-  bottom: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(231, 76, 60, 0);
-  border-bottom-color: #e74c3c;
-  border-width: 10px;
-  margin-left: -10px;
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(231, 76, 60, 0);
+	border-bottom-color: #e74c3c;
+	border-width: 10px;
+	margin-left: -10px;
 
 }
 .PopUp a, .clickPopUp a{
-    font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif;
-  font-weight: 700;
-  text-decoration:none;
-  text-transform:uppercase;
-  color:#FFF;
-  }
+		font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif;
+	font-weight: 700;
+	text-decoration:none;
+	text-transform:uppercase;
+	color:#FFF;
+	}
 .overlay{
   background: rgba(0,0,0,.5);
   position: absolute;
@@ -13609,48 +13545,48 @@ body {
   transition: 1.3s ease;
 }
 .content{
-  padding-left: 15px; padding-right: 15px;
-  color:#FFF;
-  font-family: 'Open Sans', sans-serif;
-  }
+	padding-left: 15px; padding-right: 15px;
+	color:#FFF;
+	font-family: 'Open Sans', sans-serif;
+	}
 #logo {
   width: 40px; /* required to center */
   height: 40px;
-    border-radius:50%;
-  margin-top:15px;
-     margin-left:20px;
-     margin-right:20px;
-                        -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+  	border-radius:50%;
+	margin-top:15px;
+		 margin-left:20px;
+		 margin-right:20px;
+  			  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
     fill: white;
 }
 #logo:hover{
-  background:#191919;
-  border-radius:50%;
-   fill: #e74c3c;;
-  }
-  .clickPopUp h4{
-    margin-top:10px;
-    }
-    .buttons{
-      background:transprent;
-      padding:20px;
-      margin:0;
-                              -webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    -moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
-    border-top: 1px solid #891d1d;
-    border-left: 0px solid #891d1d;
-        }
-        .b{
-          border-bottom: 1px solid #891d1d;
-          }
-      .buttons:hover{
-        background:#FF7364;
-        border-left: 3px solid #891d1d;
-        box-shadow: inset 0px 0px 8px rgba(0,0,0,0.2);
-        }
+	background:#191919;
+	border-radius:50%;
+	 fill: #e74c3c;;
+	}
+	.clickPopUp h4{
+		margin-top:10px;
+		}
+		.buttons{
+			background:transprent;
+			padding:20px;
+			margin:0;
+			  			  	  					-webkit-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		-moz-transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		transition:cubic-bezier(.34,.43,0,1.02) 0.4s;
+		border-top: 1px solid #891d1d;
+		border-left: 0px solid #891d1d;
+				}
+				.b{
+					border-bottom: 1px solid #891d1d;
+					}
+			.buttons:hover{
+				background:#FF7364;
+				border-left: 3px solid #891d1d;
+				box-shadow: inset 0px 0px 8px rgba(0,0,0,0.2);
+				}
 
 .navbar{
     position: fixed;
@@ -13658,8 +13594,8 @@ body {
     height: 20px;
 }
 .cfcustom{
-  padding-left:0px !important;
-  padding-right: 0px !important;
+	padding-left:0px !important;
+	padding-right: 0px !important;
 
 }
 .testtitle {

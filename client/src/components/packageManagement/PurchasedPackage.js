@@ -3,7 +3,6 @@ import InputMask from 'react-input-mask';
 
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './SignUp.css';
 // import {render} from 'react-dom';
 // import {withTracker} from 'meteor/react-meteor-data';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -169,8 +168,8 @@ render(){
 // if(this.state.showstartExamBtn){
 return(
   <div>
-    <div className="CountIncrement">0</div>
-    <div className="CountDecreBackArrow">0</div>
+    {/*<div className="CountIncrement">0</div>
+    <div className="CountDecreBackArrow">0</div>*/}
           <div className="content-wrapper">
               <section className="content-header">
                <h1>Start Purchased Practice Exam</h1>

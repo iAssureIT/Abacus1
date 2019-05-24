@@ -1,3 +1,4 @@
+/*****SignUp.css*****/
 @font-face{
   font-family: 'Raleway-Regular';
   src: url("/fonts/Raleway-Regular.ttf");
@@ -334,22 +335,31 @@
   margin-right: -15px !important;
   /*box-shadow: 1px 0px 20px #333;*/
 }
-.UMGrey,.UMGreyy, .UMIHaveRead{
+.UMGrey,.UMGrey1,.UMGreyy, .UMIHaveRead{
   color: #999;
   /*font-family: Poppins-Regular;*/
   font-size: 14px;
   margin-left: 0px;
 }
+.UMGrey1{
+  color: #333333;
+}
 .UMGrey{
   color: #333333;
+  float: left;
 }
 /*.UMGrey:hover{
   color: #337ab7;
   text-decoration: underline;
 }*/
-
+.customFl{
+  float: left;
+  padding-left: 0px;
+  padding-right: 0px;
+}
 .UMGreyy{
   color: #333333;
+  float: left;
 }
 #businessListTable > tbody > tr > td:first-child{
   /*cursor: pointer;*/
@@ -417,7 +427,7 @@
   padding: 4px 0;
   color: #fff;
   border: 0;
-  /*text-transform: uppercase;*/
+  text-transform: uppercase;
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -674,7 +684,7 @@
 .floating-label1 {
     position: absolute;
     pointer-events: none;
-    left: 18px;
+    left: 12px;
     top: 8px;
     color: #555;
     font-weight: 600;
@@ -690,7 +700,7 @@
     font-weight: bold;
 }
 .lbfloatpass{
-  left: 12px !important;
+  left: 5px !important;
 }
 .form-group1{
   float:left;
@@ -905,7 +915,7 @@ input[type=radio]:checked ~ span{
   color: #333333;
   padding: 4px;
   background: #d8d8d8;
-  margin-top: 4px !important;
+  margin-top: 12px !important;
   border-radius: 4px;
   /* margin-left: 5%; */
   font-weight: bold;
@@ -996,4 +1006,65 @@ input[type="radio"]:checked:before {
 }
 .pdcls {
     padding: 0px;
+}
+.studentSidebar{
+  position: fixed;
+}
+.tip{
+    top: 67% !important;
+}
+.long{
+    top: 58% !important;
+}
+.selectLabel{
+  margin-bottom: 4px;
+  color: #555;
+    font-weight: 600;
+    font-size: 13px;
+}
+.bcktolgn{
+  padding-top:10px;
+  color:white;  
+}
+.bcktolgn:hover{
+  cursor:pointer;
+}
+.greyText{
+  color:#777;
+}
+.form-control:focus{
+  background: #D8D8D8;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face{
+  font-family:'Roboto-BoldCondensed';
+  src: url("/fonts/Roboto-BoldCondensed.ttf");
+  font-style: normal;
+}
+
+a,a:active,a:focus,a:hover{
+  outline:0;
+  text-decoration: none;
+
+}
+
+.imageSize{
+  font-size: 12px!important;
+  padding-right: 35px;
 }

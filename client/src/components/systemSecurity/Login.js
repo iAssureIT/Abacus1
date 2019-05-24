@@ -17,7 +17,7 @@ class Login extends Component {
   render(){
     var winHeight = window.innerHeight;
     console.log("winHeight =",winHeight);
-        var divHeight = winHeight/4.5+'px';
+    var divHeight = winHeight/4.5+'px';
     console.log("divHeight =",divHeight);
     // console.log('window inner height: ', window.innerHeight);
 
@@ -81,7 +81,7 @@ class Login extends Component {
                 <div className="col-lg-5 col-md-6 col-sm-6 ">
                   <Link to='/signup' className="UMGreyy UMcreateacc col-lg-12 col-md-12 col-xs-12 col-sm-12"> Sign Up</Link>
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-6 offset-lg-1 ">
+                <div className="col-lg-6 col-md-6 col-sm-6 offset-lg-1 customFl">
                   <Link to='/forgot-pwd' className="UMGreyy UMcreateacc col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     Forgot Password?
                   </Link>

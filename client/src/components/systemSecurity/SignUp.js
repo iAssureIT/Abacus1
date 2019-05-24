@@ -174,7 +174,7 @@ import './SignUp.css';
 						    </div>
 						    <div className="form-group form-group1 col-lg-12 col-md-12 col-xs-12 col-sm-12 inputContent termspad">
 						    
-				                    <input  id="idacceptcondition" type="checkbox"  value="acceptedconditions" onClick={this.acceptcondition.bind(this)}/><Link to='#openModal' className="form-checkbox UMGrey modalbutton fontbold terms1" onClick={this.showModal.bind(this)}>&nbsp;I agree to the<span className="under"> terms & conditions</span><label className="requiredsign">*</label></Link>
+				                    <input  id="idacceptcondition" type="checkbox"  value="acceptedconditions" onClick={this.acceptcondition.bind(this)}/><Link to='#openModal' className="form-checkbox UMGrey1 modalbutton fontbold terms1" onClick={this.showModal.bind(this)}>&nbsp;I agree to the<span className="under"> terms & conditions</span><label className="requiredsign">*</label></Link>
 				                      <span className="checkmark1"></span>
 				            </div>
 	                        <div id="openModal" className="modalbg">
@@ -189,9 +189,9 @@ import './SignUp.css';
 						    	<input id="signUpBtn" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 acceptinput UMloginbutton UMloginbutton1 hvr-sweep-to-right" type="submit" value="Sign Up" disabled/>
 						    </div>		   
 
-					    	{/*<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">*/}
+					    	<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">
 						    	<Link to='/' className="UMGrey signInbtn1 col-lg-12 col-md-12 col-sm-12 col-xs-12 mrleftsign">Sign In</Link> 	
-					    	{/*</div>*/}
+					    	</div>
 					    </div> 
 				  	</form>
 				  	</div>
