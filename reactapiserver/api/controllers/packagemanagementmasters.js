@@ -2,25 +2,6 @@ const mongoose	= require("mongoose");
 
 const Package = require('../models/packagemanagementmasters');
 
-// exports.list_packages = (req,res,next)=>{
-//     // res.status(200).json({
-//     //     message:'In package controller',
-//     // });
-//     // var id = "TypqichNEsQfruiNF";
-//     Package.find({})
-//            .exec()
-//            .then(packages => {
-//                console.log('packages ',packages);
-//                res.status(200).json(packages);
-//             })
-//            .catch(err =>{
-//                 console.log(err);
-//                 res.status(500).json({
-//                     error: err
-//                 });
-// 	        });
-// }
-
 exports.create_package = (req,res,next) => {
     console.log('create package');
     const package = new Package({
@@ -48,17 +29,17 @@ exports.create_package = (req,res,next) => {
 
 exports.list_packages = (req,res,next)=>{
     Package.find()
-        // .select("product quantity _id")
-		.exec()
-		.then(packages =>{
-			console.log('packages ',packages);
-			res.status(200).json(packages);
-		})
-		.catch(err =>{
-			console.log(err);
-			res.status(500).json({
-				error: err
-			});
+            .select("packageName categoryName subCategory NoOfPracticeTest AttemptOfPracticeTest PackagePrice Description")
+		        .exec()
+            .then(packages =>{
+              console.log('packages ',packages);
+              res.status(200).json(packages);
+            })
+            .catch(err =>{
+              console.log(err);
+              res.status(500).json({
+              error: err
+            });
         });
     
 }

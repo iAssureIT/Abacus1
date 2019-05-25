@@ -1,0 +1,119 @@
+Practice Exam :
+    1. Start Free Practice Exam
+    2. Start Purchased Exam
+    3. Practice Exam Reports
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                            1. Start Free Practice Exam
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch releted instructions 
+    
+    Collections : instructionmasters
+
+    Method          : GET
+    URL             : /instructions
+    Input           : 
+                        {
+                            instype : String
+                        }
+                        
+    Output          :
+                        {
+                            "_id"           : String,
+                            "instruction"   : String
+                        }
+
+2. Get practice Exam Time Data
+
+    Collections : mypracticeexammasters
+
+    Method          : GET
+    URL             : /practiseexam/getPracticeExamTimeData
+    Input           : 
+                        {
+                            examId      : String,
+                            studentId   : String
+                        }
+                        
+    Output          :
+                        {
+                            "_id"           : String,
+                            "examTime"   : String
+                        }
+
+
+3. Get Last Visited Question by student
+
+    Collections : mypracticeexammasters
+
+    Method          : GET
+    URL             : /practiseexam/getLastVisitedQuestion
+    Input           : 
+                        {
+                            examId   : String
+                        }
+                        
+    Output          :
+                        {
+                            "_id"                   : String,
+                            "lastVisitedQuestion"   : String,
+                            "lastVisitedQAnswer"   : String
+                        }
+
+4. Get Exam Questions for student
+
+    Collections : mypracticeexammasters
+
+    Method          : GET
+    URL             : /practiseexam/getExamQuestions
+    Input           : 
+                        {
+                            examId   : String
+                            studentId   : String
+                        }
+                        
+    Output          :
+                        {
+                            "_id"                   : String,
+                            "lastVisitedQuestion"   : String,
+                            "lastVisitedQAnswer"   : String
+                        }
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                            2. Start Purchased Exam
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                            3. Practice Exam Reports
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch all the practice exam along with score by the students 
+    
+    Collections : mypracticeexammasters
+
+    Method          : GET
+    URL             : /practiseexam/allexamreport
+    Input           : 
+                        {
+                            studentId       : String,      
+                        }
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                examName                : String,
+                                date                    : String,
+                                category                : Number,
+                                totalQuestion           : Number,
+                                attemptedQues           : Number,
+                                correctAnswer           : Number,
+                                wrongAnswer             : Number,
+                                originalTime            : String,
+                                examTime                : String,
+                                totalScore              : Number,
+                            }
+                        ]

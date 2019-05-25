@@ -17,7 +17,7 @@ const myexammastersSchema = mongoose.Schema({
     subCategory : String,
     paperName : String,
     examTime : String,
-    examSolvingTime : Strign,
+    examSolvingTime : String,
     examSolvedTime : String,
     paperTitle : String,
     examType : String,
@@ -53,7 +53,8 @@ const myexammastersSchema = mongoose.Schema({
         {
             studentImage : String
         }
-    ]
+    ],
+    rank : String
 });
 
 module.exports = mongoose.model('myexammasters',myexammastersSchema);

@@ -1,0 +1,78 @@
+Practice Package :
+    1. Purchase New Package
+    2. My Package List
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                                1. Purchase New Package
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+
+1. Fetch all the Packages 
+    
+    Collections : packagemanagementmasters
+
+    Method          : GET
+    URL             : /listpackage
+    Input           : -NA-
+                        
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                packageName             : String,
+                                categoryName            : String,
+                                subCategory             : String,
+                                NoOfPracticeTest        : Number, 
+                                AttemptOfPracticeTest   : String,
+                                PackagePrice            : Number,
+                                Description             : String
+                            }
+                        ]
+
+2. Student Purchase Package - Add Package
+
+    Collections : studentmasters, packageordermasters
+
+    Method          : 
+    URL             : 
+    Input           : 
+                        
+    Output          :
+                        
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                                2. My Package List
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+
+1. Fetch releted instructions 
+    
+    Collections : instructionmasters
+
+    Method          : GET
+    URL             : /instructions
+    Input           : 
+                        {
+                            instype : String
+                        }
+                        
+    Output          :
+                        {
+                            "_id"           : String,
+                            "instruction"   : String
+                        }
+
+2. Fetch all the purchased packages
+    
+    Collections : instructionmasters
+
+    Method          : GET
+    URL             : /instructions
+    Input           : 
+                        {
+                            studentId : String
+                        }
+                        
+    Output          :
+                        {
+                            "_id"           : String,
+                            "instruction"   : String
+                        }

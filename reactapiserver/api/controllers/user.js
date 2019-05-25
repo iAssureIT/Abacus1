@@ -123,7 +123,7 @@ exports.user_delete = (req,res,next)=>{
 		});
 }
 
-exports.user_list = (req,res,next)=>{
+exports.users_list = (req,res,next)=>{
 	User.find({})
 		.exec()
 		.then(users =>{
@@ -137,4 +137,21 @@ exports.user_list = (req,res,next)=>{
 			});
 		});
 	
+}
+
+exports.user_details = (req, res, next)=>{
+	var sId = req.body.studentId;
+	User.findOne({_id:sId})
+		.select("profile")
+		.exec()
+		.then(users =>{
+			console.log('users ',users);
+			res.status(200).json(users);
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
 }

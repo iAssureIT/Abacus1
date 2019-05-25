@@ -1,0 +1,18 @@
+1. Fetch All the Certificates which are to be shown to the students - 
+    
+    Collections : exammaster
+
+    Method          : GET
+    URL             : /competition
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id             : String,
+                                competitionName : String,
+                                competitionView : String
+                            }
+                        ]
+
+

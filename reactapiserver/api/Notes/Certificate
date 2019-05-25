@@ -1,0 +1,97 @@
+Certificate :
+    1. Certificate
+    2. Participation Certificate
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                                1. Certificate
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch All the Certificates which are to be shown to the students - 
+    
+    Collections : exammaster
+
+    Method          : GET
+    URL             : /competition
+    Input           : -NA-
+                       
+    Output          :
+                       [
+                            {
+                                _id             : String,
+                                competitionName : String,
+                                competitionView : String
+                            }
+                       ]
+
+
+2. Fetch Only those Certificates for which student has opted. - 
+
+    Collection : myexammaster
+
+    Method          : GET
+    URL             : /certificates/mycertificates
+    Input           : -NA-
+                        {
+                            competitionId   : String,
+                            studentId       : String,
+                        }
+    Output          :
+                        {
+                            _id             : String,
+                            competitionName : String
+                        }
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                        2. Participation Certificate
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch All the Certificates which are to be shown to the students - 
+    
+    Collections : exammaster
+
+    Method          : GET
+    URL             : /certificates
+    Input           : -NA-
+                        {
+                            
+                        }
+    Output          :
+                        {
+                            _id             : String,
+                            competitionName : String
+                        }
+
+
+2. Fetch Only those Participation Certificates for which student has opted. - 
+
+    Collection : myexammaster
+
+    Method          : GET
+    URL             : /certificates/myparticipationcertificates
+    Input           : -NA-
+                        {
+                            competitionId   : String,
+                            studentId       : String,
+                        }
+    Output          :
+                        {
+                            _id             : String,
+                            competitionName : String
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -20,5 +20,4 @@ const packageSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('packagemanagementmasters',packageSchema);
-// module.exports = mongoose.model('users',userSchema);
 

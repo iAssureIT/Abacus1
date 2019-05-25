@@ -1,0 +1,160 @@
+Main Exam :
+    1. Start Main Exam
+    2. Main Exam Reports
+    3. Competition Result View
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                            1. Start Main Exam
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                            2. Main Exam Reports
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch all the main exam along with score by the students 
+    
+    Collections : myexammasters
+
+    Method          : GET
+    URL             : /mainexam/allexamreport
+    Input           : 
+                        {
+                            studentId       : String,      
+                        }
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                competitionName         : String,
+                                date                    : String,
+                                category                : Number,
+                                totalQuestion           : Number,
+                                attemptedQues           : Number,
+                                correctAnswer           : Number,
+                                wrongAnswer             : Number,
+                                examSolvedTime          : String,
+                                totalScore              : Number,
+                            }
+                        ]
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                            3. Competition Result View
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch All the Certificates which are to be shown to the students - 
+    
+    Collections : exammaster
+
+    Method          : GET
+    URL             : /competition
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id             : String,
+                                competitionName : String,
+                                competitionView : String
+                            }
+                        ]
+
+2. Get status of a particular Competition
+
+    Collections : exammaster
+
+    Method          : GET
+    URL             : /competition/:competitionId
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id             : String,
+                            result          : String
+                        }
+
+3. Get all Categories 
+
+    Collections : categorymasters
+
+    Method          : GET
+    URL             : /categories
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id             : String,
+                            categoryName    : String
+                        }
+    
+4. Get details of specific Category
+
+    Collections : categorymasters
+
+    Method          : GET
+    URL             : /categories/:categoryName
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id             : String,
+                            categoryName    : String,
+                            categoryMarks   : String,
+                            levels          : [ 
+                                        {
+                                            type:Map, of: String
+                                        }
+                                    ]
+                        }
+                    
+5. Competition Result 
+
+    Collections : exammaster
+
+    Method          : GET
+    URL             : /competition/competitionresult
+    Input           : 
+                        {
+                            categoryName    : String,
+                            subCategory     : String,
+                            competitionId   : String,
+                            startRange      : Number,
+                            dataRange       : Number
+                        }
+    Output          :
+                        [
+                            {
+                                _id             : String,
+                                totalMarks      : String,
+                                StudentId       : String,
+                                attemptedQues   : Number,
+                                competitionName : String,
+                                firstName       : String,
+                                lastName        : String,
+                                totalQuestion   : Number,
+                                totalScore      : Number,
+                                examSolvedTime  : String,
+                                status          : String,
+                                rank            : String,
+                                category        : String,
+                                subCategory     : String,
+                                studImg         : String
+                            }
+                        ]
+
+6. Get Franchise Name for the student
+
+    Collections : studentmasters
+
+    Method          : GET
+    URL             : /mainexam/getFranchiseName
+    Input           : 
+                        {
+                            studentId    : String,
+                        }
+    Output          :
+                            {
+                                _id             : String,
+                                franchiseName   : String
+                            }

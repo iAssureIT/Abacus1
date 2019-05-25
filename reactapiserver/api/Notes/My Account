@@ -1,0 +1,155 @@
+My Account :
+    1. Chanage Password
+    2. Registration Form
+    3. My Order
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                                1. Chanage Password
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                        2. Registration Form
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch Instructions for Registration Process
+    
+    Collections : instructionmasters
+
+    Method          : GET
+    URL             : /instructions
+    Input           : 
+                        {
+                            instype : String      
+                        }
+    Output          :
+                        {
+                            _id             : String,
+                            instruction     : String
+                        }
+
+
+2. Fetch Student Details  
+
+    Collection : studentmasters, users
+
+    Method          : GET
+    URL             : /myaccount/studentinforegistration
+    Input           : 
+                        {
+                            studentId       : String,
+                        }
+    Output          :
+                        {
+                            _id                     : String,
+                            studentFirstName        : String,
+                            studentMiddleName       : String,
+                            studentLastName         : String,
+                            mobileNumber   	        : String,
+                            studentDOB              : String,
+                            schoolName              : String,
+                            franchiseName           : String,
+                            franchiseId             : String,
+                            franchiseMobileNumber   : String,
+                            studentAddress          : String,
+                            studentCountry          : String,
+                            studentState            : String,
+                            studentCity             : String,
+                            pincode                 : String,
+                            category                : String,
+                            categoryDisabled        : String,
+                            studentEmail            : String,
+                            genderType              : String,
+                            gender 		            : Boolean,
+                        }
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
+                                3. My Order
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+1. Fetch All the orders placed by the students - Compentition
+    
+    Collections : competitionregisterorder
+
+    Method          : GET
+    URL             : /myaccount/competitionorder
+    Input           : 
+                        {
+                            studentId       : String,      
+                        }
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                competitionId           : String,
+                                competitionOriginalFees : String,
+                                transactionId           : number,
+                                paymentDate             : Date
+                            }
+                        ]
+
+2. Fetch All the orders placed by the students - Package
+    
+    Collections : packageordermasters
+
+    Method          : GET
+    URL             : /myaccount/packageorder
+    Input           : 
+                        {
+                            studentId       : String,      
+                        }
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                amount                  : Number,
+                                transactionId           : String,
+                                paymentDate             : Date
+                            }
+                        ]
+
+3. Display Receipt of Order for competition 
+
+    Collections : competitionregisterorder
+
+    Method          : GET
+    URL             : /myaccount/competitionorderreceipt
+    Input           : 
+                        {
+                            competitionId : String,
+                            studentId       : String,      
+                        }
+    Output          :
+                        {
+                            _id                     : String,
+                            receiptType             : "Competition Receipt"
+                            status                  : String
+                            competitionId           : String,
+                            competitionFees         : String,
+                            transactionId           : Number,
+                            billnumbers             : Number
+                            paymentDate             : Date
+                        }
+
+4. Display Receipt of Order for package 
+
+    Collections : packageordermasters
+
+    Method          : GET
+    URL             : /myaccount/packageorderreceipt
+    Input           : 
+                        {
+                            receiptId       : String,
+                            studentId       : String,      
+                        }
+    Output          :
+                        {
+                            _id                     : String,
+                            status                  : String
+                            amount                  : Number,
+                            transactionId           : Number,
+                            billnumbers             : Number
+                            paymentDate             : Date
+                        }
