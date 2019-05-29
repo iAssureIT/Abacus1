@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+
+import PracticeStartExamForDashboard	from './PracticeStartExamForDashboard.js';
+import StudentRegistrationforCompetition	from './StudentRegistrationforCompetition.js';
+
 import '../css/common.css';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -9,9 +13,6 @@ import '../css/common.css';
 
 // import {StudentMaster} from '/imports/student/api/studentMaster.js';
 // import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-// import StudentRegistrationforCompetition from '/imports/student/components/StudentRegistrationforCompetition.jsx';
-// import PracticeStartExamForDashboard from '/imports/studentMainExam/components/PracticeStartExamForDashboard';
-// // import PracticeStartExamForDashboard from '/imports/admin/forms/exam/PracticeStartExamForDashboard';
 // import {PackageManagementMaster} from '/imports/admin/packageManagement/api/packageManagementMaster.js';
 // import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
 // import {PackageQuestionPaperMaster} from '/imports/paymentProcess/api/packageQuestionPaperMaster.js';
@@ -204,7 +205,10 @@ class StudentProfile extends Component{
 							</div>
 						</div>	
 					}
-						
+					<div className="col-lg-5 col-md-4 col-sm-12 col-xs-12 profileSection22 studentdashboardtoppadding">	
+						<StudentRegistrationforCompetition/>
+						<PracticeStartExamForDashboard/>
+					</div>	
 					<div className="col-lg-3 col-md-4 col-sm-12 col-xs-12 ">
 							<div className="profileSection3"></div>
 							<div className="bgmonkey bgmonkeyspace">

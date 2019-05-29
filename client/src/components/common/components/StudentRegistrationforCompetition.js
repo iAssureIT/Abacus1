@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-import Webcam from 'react-webcam';
+import swal from 'sweetalert';
+import $ from "jquery";
+import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+
+// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
+// import Webcam from 'react-webcam';
 import '../css/common.css';
 
 // import {StudentMaster} from '/imports/student/api/studentMaster.js';
@@ -201,10 +205,10 @@ class StudentRegistrationforCompetition extends Component  {
 					<div className="col-lg-12  col-md-12 studProfileTit23">
 						<div className="col-lg-12  col-md-12">
 							<i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp; Competition Details
-						</div>	
+						</div>
 					</div>
 						<div id="multiExamCarousel" className="carousel slide" data-ride="carousel">
-						<a className="col-lg-12 col-md-12 allExamlink" href="/MultipleCompetition" title="Click here to register for competitions"><button className="btn startexambtn1 startmultiexambtn1"><blink>List of competitions</blink></button></a>
+						<Link className="col-lg-12 col-md-12 allExamlink" to="/MultipleComp" title="Click here to register for competitions"><button className="btn startexambtn1 startmultiexambtn1"><blink>List of competitions</blink></button></Link>
 						<div className="crslDiv col-lg-10 col-lg-offset-1">
 						<div className="carousel-inner">
 								{/*this.props.competitionData.length>0 ?
