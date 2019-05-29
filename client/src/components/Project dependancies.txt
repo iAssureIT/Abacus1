@@ -1,5 +1,5 @@
-1.For Bootstrap css---->
-npm install --save bootstrap
+1.For Bootstrap v3.4.1---->
+npm install bootstrap@3
 
 2.For inputMask---->
 npm install react-input-mask --save
@@ -19,3 +19,11 @@ npm install --save jspdf
 7.html2canvas---->
 npm install --save html2canvas
 
+8.ReactHTMLTableToExcel---->
+npm install --save react-html-table-to-excel
+
+9.axios---->
+npm install axios
+
+10.ReactRouterDom---->
+npm install --save react-router-dom

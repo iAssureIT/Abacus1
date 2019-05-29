@@ -3,7 +3,7 @@ import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
 import 'font-awesome/css/font-awesome.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
 
 class Login extends Component {
@@ -52,7 +52,7 @@ class Login extends Component {
           <div className="div2 col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{"height": divHeight}}>
           </div>
         </div>
-        <div className="col-lg-6 offset-lg-2 col-md-6 offset-md-2 col-sm-12 offset-sm-2 formbg1 signupPadding signUpFormWrap loginOesWrap loginforms1" style={{"height": winHeight}}>
+        <div className="col-lg-6 col-lg-offset-2 col-md-6 col-md-offset-2 col-sm-12 col-sm-offset-2 formbg1 signupPadding signUpFormWrap loginOesWrap loginforms1" style={{"height": winHeight}}>
           <div className="divLoginInWrap">
             <form id="login" onSubmit={this.userlogin.bind(this)}>
               <h3 className="signInNameTitle"><span className="bordbt">SIGN IN</span></h3>

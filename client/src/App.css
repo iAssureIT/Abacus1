@@ -13678,7 +13678,9 @@ body {
   width: 100%;
 }
 
-
+.categoryListDataStud{
+  display: none !important;
+}
 
 
 

@@ -5,11 +5,13 @@ const MyExamMaster = require('../models/myexammasters');
 exports.fetch_mycertificates = (req,res,next)=>{
     var competitionId = req.body.competitionId;
     var studentId     = req.body.studentId;
+    console.log('competitionId ',competitionId);
+    console.log('studentId ',studentId);
     MyExamMaster.find({competitionId:competitionId,StudentId:studentId, $and : [{$or : [{rank : "1st"},{rank : "2nd"},{rank:"3rd"},{rank:"Consolation"}]}]})
             .select("fullName rank competitionName examDate")
             .exec()
             .then(instructions =>{
-            //   console.log('packages ',packages);
+              console.log('instructions ',instructions);
                 res.status(200).json(instructions);
             })
             .catch(err =>{

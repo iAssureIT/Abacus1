@@ -30,7 +30,7 @@ Certificate :
 
     Method          : GET
     URL             : /certificates/mycertificates
-    Input           : -NA-
+    Input           : 
                         {
                             competitionId   : String,
                             studentId       : String,
@@ -40,6 +40,9 @@ Certificate :
                             _id             : String,
                             competitionName : String
                         }
+
+    Remark          :   Along with competitionName we must required student name and 
+                        rank
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
                         2. Participation Certificate
