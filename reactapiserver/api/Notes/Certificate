@@ -8,7 +8,7 @@
 
     Method      : GET
     
-    URL         : /exammaster
+    URL         : /exammasters
 
     Input       : - NA -
 
@@ -23,7 +23,7 @@
 
     Method      : GET
     
-    URL         : /myexammaster/:competitionId/:studentId
+    URL         : /myexammasters/:competitionId/:studentId
 
     Input       : - NA -
 
@@ -43,7 +43,7 @@
 
     Method      : GET
     
-    URL         : /exammaster
+    URL         : /exammasters
 
     Input       : - NA -
 
@@ -58,7 +58,7 @@
 
     Method      : GET
     
-    URL         : /myexammaster/participation/:competitionId/:studentId
+    URL         : /myexammasters/participation/:competitionId/:studentId
 
     Input       : - NA -
 

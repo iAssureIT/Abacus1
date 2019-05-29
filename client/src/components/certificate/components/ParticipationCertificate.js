@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import $ from "jquery";
-
-import '../css/CertificateCss.css';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {withTracker} from 'meteor/react-meteor-data';
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import {MyExamMaster} from '/imports/admin/forms/student/api/myExamMaster.js';
 import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
-// import {jsPDF} from 'jspdf';
+
+import '../css/CertificateCss.css';
 
 import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 
 class ParticipationCertificate extends (Component) {
 
@@ -20,7 +19,6 @@ class ParticipationCertificate extends (Component) {
 		this.state = {
 	       facilityPermission : 'waitingforResult',
 	       allCompetitions: [],
-	       allCompetitions1: [],
 	       competitionStatus : true,
 	       examData: '',
 
@@ -29,8 +27,9 @@ class ParticipationCertificate extends (Component) {
 		this.createPDF=this.createPDF.bind(this);
 		this.getCanvas=this.getCanvas.bind(this);
 	}
+
 	componentWillMount(){
- 	axios.get('/competition',)
+ 		axios.get('/exammasters',)
             .then((response)=> {
                 console.log("-------examMaster------>>",response.data);
                 this.setState({
@@ -43,57 +42,35 @@ class ParticipationCertificate extends (Component) {
                 console.log(error);
             });
 	}
- //  	componentWillMount(){
- //  		Meteor.call("isAuthenticated","Certificate","ParticipationCertificate",(err,res)=>{
-	// 		if(err){
-	// 			console.log(err);
-	// 		}else{
-	// 			if(res==true){
-	// 	          this.setState({
-	// 	             facilityPermission : res,
-	// 	          });
-	// 	        }else if(res==false){
-	// 	          this.setState({
-	// 	             facilityPermission : res,
-	// 	          });
-	// 	        }
-	// 		}
-	// 	});
-	// 	Meteor.call("allCompetitions",(err,res)=>{
-	//  		this.setState({
-	//  			allCompetitions : res,
-	//  		});
-	//  	});
-	// }
+  	
+	componentDidMount() {
+		// if ( !$('body').hasClass('adminLte')) {
+		//   var adminLte = document.createElement("script");
+		//   adminLte.type="text/javascript";
+		//   adminLte.src = "/js/adminLte.js";
+		//   $("body").append(adminLte);
+		// }
+	}
 
-	// componentDidMount() {
-	// 	if ( !$('body').hasClass('adminLte')) {
-	// 	  var adminLte = document.createElement("script");
-	// 	  adminLte.type="text/javascript";
-	// 	  adminLte.src = "/js/adminLte.js";
-	// 	  $("body").append(adminLte);
-	// 	}
-	// }
-
-	// componentWillUnmount(){
- //    	$("script[src='/js/adminLte.js']").remove();
- //    	$("link[href='/css/dashboard.css']").remove();
- //  	}
+	componentWillUnmount(){
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
+  	}
 
 	getCompetitionId(s){
 		var competitionId = $("#selectId option:selected").attr("id");
 		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
-			axios.get('/certificates/mycertificates', {
+			axios.get('/myexammasters/participation/XNPme8ttJw3LFBu6z/4GtgsKWATNc5ykYhG', /*{
                 "competitionId": "XNPme8ttJw3LFBu6z",
                 "studentId": "4GtgsKWATNc5ykYhG",
-	            })
+	            }*/)
 	            .then((response)=>{
-	                console.log("-------myExamMaster------>>",response);
+	                console.log("-------myExamMaster------>>",response.data[0]);
 	            	this.setState({
-			 			// allCompetitions1 : response.data
-			 			examData : response.data
+			 			examData : response.data[0],
+			 			competitionStatus : false,
 			 		});
 	                // localStorage.setItem("token",response.data.token);
 	                // localStorage.setState({loggedIn:response.data.token})
@@ -105,11 +82,11 @@ class ParticipationCertificate extends (Component) {
 
 	}
 
-	// // hideBtnShowList(event){
-	// // 	$('.certicateCompWrap').removeClass('addTransitionCCW');
-	// // 	$('.addMoreCerthideBtn').removeClass('addMoreCertBtn');
-	// // 	$('.certicateCompWrap').css('margin-top',0.5% 'position','absolute');
-	// // }
+	hideBtnShowList(event){
+		$('.certicateCompWrap').removeClass('addTransitionCCW');
+		$('.addMoreCerthideBtn').removeClass('addMoreCertBtn');
+		$('.certicateCompWrap').css('margin-top',0.5% 'position','absolute');
+	}
 
 	printDocument(event){
 	    event.preventDefault();
@@ -198,12 +175,12 @@ class ParticipationCertificate extends (Component) {
 												<span className="floating-label floating-label-Date">Select Competition</span>					   								   			
 											</span>
 										</div>
-										<div className="col-lg-12 col-md-12 col-sm-12 addMoreCerthideBtn" /*onClick={this.hideBtnShowList.bind(this)}*/>
+										<div className="col-lg-12 col-md-12 col-sm-12 addMoreCerthideBtn" onClick={this.hideBtnShowList.bind(this)}>
 											<button className="btn btn-primary" >Get more Certificates</button>
 										</div>
 										{this.state.examData ?
-					                  		 /*this.state.examData.answerArray ?
-					                  		 	 this.state.examData.answerArray.length > 0 ?*/
+					                  		 // this.state.examData.answerArray ?
+					                  		 // 	 this.state.examData.answerArray.length > 0 ?
 					                  	 			<div>
 					                  	 				<div id="fader"></div>
 						                 				<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 studCCWrap">
@@ -233,11 +210,11 @@ class ParticipationCertificate extends (Component) {
 																	<p className="certificatePara col-lg-10 col-lg-offset-1 col-md-12 col-sm-4 col-xs-4">This is to certify that</p>
 																</div>
 																<div className="col-lg-12 col-md-12 col-sm-4 col-xs-4 txtAlgnC">
-																	<span className="certificateName col-lg-12 col-md-12 col-sm-4 col-xs-4">Dnyaneshwar Kadam{/*this.state.examData.fullName*/}</span>
+																	<span className="certificateName col-lg-12 col-md-12 col-sm-4 col-xs-4">{this.state.examData.fullName}</span>
 																</div>
 														
 																<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-																	<p className="certifyLastLine">has participated in 6th International ABACUS{/*this.state.examData.competitionName*/} of</p>
+																	<p className="certifyLastLine">has participated in {this.state.examData.competitionName} of</p>
 																</div>
 																<div className="col-lg-8 col-lg-offset-2 col-md-8 col-sm-4 col-xs-12">
 																	<p className="certifyLastTxtLine2">ABACUS and MENTAL ARITHMETIC PROGRAMME</p>
@@ -259,17 +236,16 @@ class ParticipationCertificate extends (Component) {
 													</div>
 											// 	:
 											//     null
-											//     /*<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You have to participate to get the certificate.</div>*/
 											// :
 											// <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You have to participate to get the certificate.</div>
-							    //    		:
-							    //    			!this.state.competitionStatus ?
-							    //    				!this.state.examData ?
-											// 		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
-											// 	:
-											// 	null
+							       		:
+							       			!this.state.competitionStatus ?
+							       				!this.state.examData ?
+													<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
+												:
+												null
 							       			:
-							       				null
+							       			null
 							       		}
 
 									</div>

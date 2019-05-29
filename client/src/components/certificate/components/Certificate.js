@@ -1,30 +1,23 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import $ from "jquery";
+import { render } 			from 'react-dom';
+import $ 					from "jquery";
+import html2canvas 			from 'html2canvas';
+import * as jsPDF 			from 'jspdf';
 
 import '../css/CertificateCss.css';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {withTracker} from 'meteor/react-meteor-data';
-// import {MyExamMaster} from '/imports/admin/forms/student/api/myExamMaster.js';
-import html2canvas from 'html2canvas';
-import * as jsPDF from 'jspdf';
-// import {jspdfDF} from 'jspdf';
 
-import axios from 'axios';
-
+import axios 				from 'axios';
 axios.defaults.baseURL = 'http://localhost:3006';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
 
 class Certificate extends (Component) {
 
 	constructor(props) {
 		super(props);
 		this.state={
-			allCompetitions : [],
-			allCompetitions1 : [],
-			examData : '',
+			allCompetitions  : [],
+			examData 		 : [],
 			competitionStatus: true,
 		}
 		this.printDocument=this.printDocument.bind(this);
@@ -33,9 +26,9 @@ class Certificate extends (Component) {
 	}
 
 	componentWillMount(){
-	 	axios.get('/competition',)
+	 	axios.get('/exammasters',)
             .then((response)=> {
-                console.log("-------examMaster------>>",response);
+                console.log("-------examMaster------>>",response.data);
                 this.setState({
 		 			allCompetitions : response.data
 		 		});
@@ -55,15 +48,15 @@ class Certificate extends (Component) {
 
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
-			axios.get('/certificates/mycertificates', {
-                "competitionId": "XNPme8ttJw3LFBu6z",
-                "studentId": "4GtgsKWATNc5ykYhG",
+			axios.get('/myexammasters/XNPme8ttJw3LFBu6z/4GtgsKWATNc5ykYhG', {
+                // "competitionId": "XNPme8ttJw3LFBu6z",
+                // "studentId": "4GtgsKWATNc5ykYhG",
             })
             .then((response)=>{
-                console.log("-------myExamMaster------>>",response);
+                console.log("-------myExamMaster------>>",response.data[0]);
             	this.setState({
-		 			// allCompetitions1 : response.data
-		 			examData : response.data
+		 			examData : response.data[0],
+		 				competitionStatus : false,
 		 		});
                 // localStorage.setItem("token",response.data.token);
                 // localStorage.setState({loggedIn:response.data.token})
@@ -134,7 +127,7 @@ class Certificate extends (Component) {
    
 	render() {
 				console.log("----->>",this.state.allCompetitions)
-				console.log("--1-->>",this.state.allCompetitions1)
+				console.log("--1-->>",this.state.examData)
        return (
        		<div>
 		        {/* Content Wrapper. Contains page content */}
@@ -161,7 +154,7 @@ class Certificate extends (Component) {
 									<span className="floating-label floating-label-Date">Select Competition</span>					   								   			
 								</span>
 							</div>
-		                  {this.state.examData ?
+		                  {this.state.examData!="" ?
 		                  		 /*this.state.examData.answerArray ?
 		                  		 	 this.state.examData.answerArray.length > 0 ?*/
 		                  		 	 	<div>
@@ -199,18 +192,19 @@ class Certificate extends (Component) {
 													<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														<p className="certificatePara">This is to certify that</p>
 													</div>
+				
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4 txtAlgnC">
-													<span className="certificateName col-lg-12 col-md-12 col-sm-12 col-xs-12 ">{/*this.state.examData.fullName*/}Dnyaneshwar Kadam</span>
+													<span className="certificateName col-lg-12 col-md-12 col-sm-12 col-xs-12 ">{this.state.examData.fullName}</span>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4">
 													<p className="hasLine col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">has secured</p>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4 txtAlgnC">
-													<span className="certificateNameRnk col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">{/*this.state.examData.rank !="Consolation" ? this.state.examData.rank+  " Rank" : this.state.examData.rank*/}3rd Rank </span>
+													<span className="certificateNameRnk col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">{this.state.examData.rank !="Consolation" ? this.state.examData.rank+  " Rank" : this.state.examData.rank} </span>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4">
-													<p className="certifyLastLine col-xl-12 col-lg-12 col-md-12 col-sm-4 col-xs-12">in 6th Abacus International Championship-2019{/*this.state.allCompetitions1*/} of</p>
+													<p className="certifyLastLine col-xl-12 col-lg-12 col-md-12 col-sm-4 col-xs-12">in {this.state.examData.competitionName} of</p>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4">
 													<p className="certifyLastTxtLine col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">ABACUS and MENTAL ARITHMETIC PROGRAMME</p>
@@ -228,20 +222,19 @@ class Certificate extends (Component) {
 							       			</div>
 							       		</div>
 							       		</div>
-							  //      	:
-									//     null
-									//     /*<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You have to participate to get the certificate.</div>*/
-									// :
-									// <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
-					    //    		:
-					    //    			!this.state.competitionStatus ?
-					    //    				!this.state.examData ?
-									// 		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
-									// 	:
-									// 	null
-					       			:
-					       				null		
-					       		}
+							 //       	:
+								// 	    null
+								// :
+								// <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
+				       		:
+				       			!this.state.competitionStatus ?
+				       				!this.state.examData ?
+										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
+									:
+									null
+				       			:
+				       				null		
+				       		}
 					       	</div>
 					    </div>
 					    </div>

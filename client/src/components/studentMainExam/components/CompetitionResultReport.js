@@ -150,8 +150,8 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 	}
 
 	showhideSubCatDetails(event){
-		alert("clicked");
-		$('.categoryListDataStud').css("display", "block !important");
+		
+		$('.categoryListDataStudC').toggleClass('categoryListDataStudCshow');
 	}
 
 // 	currentMonth(){
@@ -507,7 +507,7 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 												<div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
 
 													<span className="helpSecSR" title="Help" onClick={this.showhideSubCatDetails.bind(this)} ><i className="fa fa-question-circle"></i></span>
-													<div className="categoryListDataStud">
+													<div className="categoryListDataStudC">
 														<label>A1/B1/C1/D1</label> : Below 7 year<br/>
 														<label>A2/B2/C2/D2</label> : 7-9 year<br/>
 														<label>A3/B3/C3/D3</label> : 9-11 year<br/>

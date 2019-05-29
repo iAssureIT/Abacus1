@@ -8,17 +8,14 @@
 .examdetail{
 	font-size: 40px;
     font-weight: bold;
-   
 }
 .examdetailsubtitles{
 	font-size: 18px;
     font-weight: bold;
-   
 }
 .examdetailsubtitles1{
 	font-size: 15px;
     font-weight: bold;
-   
 }
 .examdate{
 	color:red;
@@ -337,9 +334,20 @@ padding-left:35px!important;
 .box-body{
     padding-top:30px!important;
 }
-
-
-
+.categoryListDataStud{
+    display: none;
+    box-shadow: 0px 0px 6px #aaa;
+}
+.categoryListDataStudshow{
+    display: block;
+    right: 15px;
+    padding: 6px 15px;
+    box-shadow: 0px 0px 3px;
+    font-family: "Poppins","sans-serif";
+    z-index: 11;
+    background: #fff;
+    position: absolute;
+}
 
 
 
