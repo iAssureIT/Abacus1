@@ -2,19 +2,7 @@ const mongoose	= require("mongoose");
 
 const MyExamMaster = require('../models/myexammasters');
 
-<<<<<<< Updated upstream
-exports.fetch_mycertificates = (req,res,next)=>{
-    var competitionId = req.body.competitionId;
-    var studentId     = req.body.studentId;
-    console.log('competitionId ',competitionId);
-    console.log('studentId ',studentId);
-    MyExamMaster.find({competitionId:competitionId,StudentId:studentId, $and : [{$or : [{rank : "1st"},{rank : "2nd"},{rank:"3rd"},{rank:"Consolation"}]}]})
-            .select("fullName rank competitionName examDate")
-            .exec()
-            .then(instructions =>{
-              console.log('instructions ',instructions);
-                res.status(200).json(instructions);
-=======
+
 exports.fetch_mainexam_certificate = (req,res,next)=>{
     var competitionId = req.params.competitionId;
     var studentId     = req.params.studentId;
@@ -24,7 +12,6 @@ exports.fetch_mainexam_certificate = (req,res,next)=>{
             .then(data =>{
             //   console.log('data ',data);
                 res.status(200).json(data);
->>>>>>> Stashed changes
             })
             .catch(err =>{
                 console.log(err);
