@@ -1,13 +1,14 @@
-Certificate :
-    1. Certificate
-    2. Participation Certificate
+1. Certificate - Completed
+2. Participation Certificate  - Completed
 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                
-                                1. Certificate
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+------------------------------------------------------------------------------------------
+                        1. Certificate
+------------------------------------------------------------------------------------------
+1. Fetch all the Competation Names which are to be display to the Student
 
-1. Fetch All the Certificates which are to be shown to the students - 
+    Method      : GET
     
+<<<<<<< Updated upstream
     Collections : exammaster
 
     Method          : GET
@@ -88,13 +89,67 @@ Certificate :
 
 
 
+=======
+    URL         : /exammaster
+>>>>>>> Stashed changes
 
+    Input       : - NA -
 
+    Output      : [
+                    {
+                        "competitionName": String,
+                        "competitionView": String
+                    }
+                  ]
 
+2. Fetch Main Exam Certificate information if Student has scored 1st, 2nd, 3rd or Consolation 
 
+    Method      : GET
+    
+    URL         : /myexammaster/:competitionId/:studentId
 
+    Input       : - NA -
 
+    Output      : [
+                    {
+                      "fullName": String,
+                      "competitionName": String,
+                      "examDate": Date,
+                      "rank": String
+                    }
+                  ]
+------------------------------------------------------------------------------------------
+                        2. Participation Certificate
+------------------------------------------------------------------------------------------
 
+1. Fetch all the Competation Names which are to be display to the Student
 
+    Method      : GET
+    
+    URL         : /exammaster
 
+    Input       : - NA -
 
+    Output      : [
+                    {
+                        "competitionName": String,
+                        "competitionView": String
+                    }
+                  ]
+
+2. Fetch Participation Certificate if student has given the exam.
+
+    Method      : GET
+    
+    URL         : /myexammaster/participation/:competitionId/:studentId
+
+    Input       : - NA -
+
+    Output      : [
+                    {
+                      "fullName": String,
+                      "competitionName": String,
+                      "examDate": Date,
+                      "rank": String
+                    }
+                  ]

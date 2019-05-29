@@ -2,6 +2,7 @@ const mongoose	= require("mongoose");
 
 const MyExamMaster = require('../models/myexammasters');
 
+<<<<<<< Updated upstream
 exports.fetch_mycertificates = (req,res,next)=>{
     var competitionId = req.body.competitionId;
     var studentId     = req.body.studentId;
@@ -13,24 +14,17 @@ exports.fetch_mycertificates = (req,res,next)=>{
             .then(instructions =>{
               console.log('instructions ',instructions);
                 res.status(200).json(instructions);
-            })
-            .catch(err =>{
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-}
-
-exports.fetch_myparticipationcertificates= (req,res,next)=>{
-    var competitionId = req.body.competitionId;
-    var studentId     = req.body.studentId;
-    MyExamMaster.find({competitionId:competitionId,StudentId:studentId})
+=======
+exports.fetch_mainexam_certificate = (req,res,next)=>{
+    var competitionId = req.params.competitionId;
+    var studentId     = req.params.studentId;
+    MyExamMaster.find({competitionId:competitionId,StudentId:studentId, $and : [{$or : [{rank : "1st"},{rank : "2nd"},{rank:"3rd"},{rank:"Consolation"}]}]})
             .select("fullName rank competitionName examDate")
             .exec()
-            .then(instructions =>{
-            //   console.log('packages ',packages);
-                res.status(200).json(instructions);
+            .then(data =>{
+            //   console.log('data ',data);
+                res.status(200).json(data);
+>>>>>>> Stashed changes
             })
             .catch(err =>{
                 console.log(err);
@@ -40,30 +34,48 @@ exports.fetch_myparticipationcertificates= (req,res,next)=>{
             });
 }
 
-exports.fetch_myexamreport = (req,res,next)=>{
-    var studentId = req.body.studentId;
-    MyExamMaster.find({StudentId:studentId,examStatus:"Completed"})
-                .sort({competitionName:1,examDate:1,category:1,totalQuestion:1,attemptedQues:1,correctAnswer:1,wrongAnswer:1,examSolvedTime:1,totalScore:1})
-                .select("competitionName date category totalQuestion attemptedQues correctAnswer wrongAnswer examSolvedTime totalScore")
-                .exec()
-                .then(myexamreport =>{
-                  console.log('myexamreport ',myexamreport);
-                    res.status(200).json(myexamreport);
-                })
-                .catch(err =>{
-                    console.log(err);
-                    res.status(500).json({
-                        error: err
-                    });
+exports.fetch_participationexam_certificate = (req,res,next) => {
+    var competitionId = req.params.competitionId;
+    var studentId     = req.params.studentId;
+    MyExamMaster.find({competitionId:competitionId,StudentId:studentId})
+            .select("fullName competitionName examDate")
+            .exec()
+            .then(data =>{
+            //   console.log('data ',data);
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
                 });
+            });
 }
 
-exports.fetch_competitionresult = (req,res,next)=>{
-    var categoryName    = req.body.categoryName;
-    var subCategory     = req.body.subCategory;
-    var competitionId   = req.body.competitionId;
-    var startRange      = req.body.startRange;
-    var dataRange       = req.body.dataRange;
+exports.fetch_mainexam_student = (req,res,next) => {
+    var studentId     = req.params.studentId;
+    MyExamMaster.find({StudentId:studentId,examStatus:"Completed"})
+            .select("competitionName examDate category totalQuestion attemptedQues correctAnswer wrongAnswer examSolvedTime totalScore")
+            .exec()
+            .then(data =>{
+            //   console.log('data ',data);
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
+
+///exammasters/:categoryname/:subCategory/:competitionId/:startRange/:dataRange
+exports.fetch_competition_result_view = (req,res,next) =>{
+    var categoryName    = req.params.categoryname;
+    var subCategory     = req.params.subCategory;
+    var competitionId   = req.params.competitionId;
+    var startRange      = parseInt(req.params.startRange);
+    var dataRange       = parseInt(req.params.dataRange);
     
     if(categoryName == "all"){
         MyExamMaster.find({competitionId:competitionId})
@@ -116,5 +128,4 @@ exports.fetch_competitionresult = (req,res,next)=>{
                         });
         }
     }
-
 }

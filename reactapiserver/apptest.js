@@ -5,11 +5,20 @@ const bodyParser = require('body-parser');// this package use to formate json da
 const mongoose = require ('mongoose');
 
 // Routes which should handle requests
-const exammasterRouter 				= require('./api/routes/exammasters');
-const myexammasterRouter			= require('./api/routes/myexammasters');
-const mypracticeexammastersRouter	= require('./api/routes/mypracticeexammasters');
-const categoresmasterRouter			= require('./api/routes/categorymasters');
-const franchisedetailsRouter 		= require('./api/routes/franchisedetails');
+const userRoutes 			= require('./api/routes/users');
+const packageRoutes 		= require('./api/routes/packagemanagementmasters');
+const instructionRoutes 	= require('./api/routes/instructionmasters'); 
+const certificatesRoutes	= require('./api/routes/certificates');
+const myAccountRoutes		= require('./api/routes/myaccount');
+const practiceExamRoutes	= require('./api/routes/practiceexam');
+const mainExamRoutes		= require('./api/routes/mainexam');
+const categoriesRoutes		= require('./api/routes/categories');
+const compentionRoutes		= require('./api/routes/competition');
+const packageQuePapersRoutes= require('./api/routes/packagequestionpapermasters');
+
+//Routes Module Wise
+const practicepackagesRoutes	= require('./api/routes/modulewise/practicepages');
+
 
 mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
@@ -32,12 +41,22 @@ app.use((req, res, next) =>{
 	next();
 });
 
-//URL's collection wise
-app.use("/exammasters", exammasterRouter);
-app.use("/myexammasters",myexammasterRouter);
-app.use("/mypracticeexammasters",mypracticeexammastersRouter);
-app.use("/categories",categoresmasterRouter);
-app.use("/franchisedetails",franchisedetailsRouter);
+//Routes Module Wise
+app.use("/practicepackage",practicepackagesRoutes);
+
+//routes for urls
+app.use("/user", userRoutes);
+app.use("/packages", packageRoutes);
+app.use('/instructions',instructionRoutes);
+app.use('/certificates',certificatesRoutes);
+app.use('/myaccount',myAccountRoutes);
+app.use('/practiseexam',practiceExamRoutes);
+app.use('/mainexam',mainExamRoutes);
+app.use('/categories',categoriesRoutes);
+app.use('/competition',compentionRoutes);
+app.use('/packagequepaper',packageQuePapersRoutes);
+
+
 
 // handle all other request which not found 
 app.use((req, res, next) => {
