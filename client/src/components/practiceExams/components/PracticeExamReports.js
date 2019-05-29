@@ -3,6 +3,11 @@ import {render} from 'react-dom';
 import $ from "jquery";
 import '../css/PracticeExam.css';
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
 // import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -14,6 +19,7 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		  super();
 		    this.state = {
 		       facilityPermission : 'waitingforResult',
+		       practiceExamReport : ''
 		    }
 		}
 	componentDidMount(){
@@ -40,6 +46,23 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		// 		});
 		// 	}
 		// });
+
+			axios.get('/mypracticeexammasters/'+"am4H2NojLxiEKBRPq",)
+            .then((response)=> {
+                // console.log("-------practiceExamReport------>>",response);
+                this.setState({
+		 			practiceExamReport : response.data
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+
+            
   	}
 
 
@@ -100,31 +123,33 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 									            
 									        </tr>
 									    </thead>
-									{/*this.props.practiceExamReport.length!=0 ?*/
+									{this.state.practiceExamReport.length!=0 ?
 									    <tbody className="myAllTable">
-									     	{/*this.props.practiceExamReport.map((Exams,index)=>{*/
-									     	/*return*/ (<tr /*key={index}*/>
+									     	{this.state.practiceExamReport.map((Exams,index)=>{
+									     	return (<tr key={index}>
 									     			<td className="tab-Table"></td>
-									     			<td>{/*Exams.examName*/}</td>
-									     			<td>{/*Exams.date*/}</td>
+									     			<td>{Exams.examName}</td>
+									     			<td>{Exams.date}</td>
 									     			{/*<td>{moment(Exams.createdAt).format('DD/MM/YYYY')}</td>*/}
-									     			<td className="tab-Table">{/*Exams.category*/}</td>
-									     			<td className="tab-Table">{/*Exams.totalQuestion*/}</td>
-									     			<td className="tab-Table">{/*Exams.attemptedQues*/}</td>
-									     			<td className="tab-Table">{/*Exams.correctAnswer*/}</td>
-									     			<td className="tab-Table">{/*Exams.wrongAnswer*/}</td>
-									     			<td className="tab-Table">{/*this.examSolvingTime(Exams.originalTime,Exams.examTime)*/}</td>
-									     			<td className="tab-Table">{/*Exams.totalScore*/}</td>
+									     			<td className="tab-Table">{Exams.category}</td>
+									     			<td className="tab-Table">{Exams.totalQuestion}</td>
+									     			<td className="tab-Table">{Exams.attemptedQues}</td>
+									     			<td className="tab-Table">{Exams.correctAnswer}</td>
+									     			<td className="tab-Table">{Exams.wrongAnswer}</td>
+									     			<td className="tab-Table">{this.examSolvingTime(Exams.originalTime,Exams.examTime)}</td>
+									     			<td className="tab-Table">{Exams.totalScore}</td>
 									     		</tr>)
-									     		// })
+									     		})
+									     	
 									     }
+									     
 									    </tbody>
-									// :
-								 //    	<tbody className="OESDataNotAvailable">
-							  //   			<tr>
-							  //   				<td colSpan="9">"Reports are Not Yet Available."</td>
-							  //   			</tr>
-							  //   		</tbody>
+									:
+								    	<tbody className="OESDataNotAvailable">
+							    			<tr>
+							    				<td colSpan="9">"Reports are Not Yet Available."</td>
+							    			</tr>
+							    		</tbody>
 						    		}
 									</table>
 								</div>

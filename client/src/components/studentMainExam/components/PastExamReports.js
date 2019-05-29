@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import swal from 'sweetalert';
 import $ from "jquery";
+import moment from 'moment';
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 /*import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 import {withTracker} from 'meteor/react-meteor-data';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -32,7 +37,21 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 		//           });
 		//         }
 		// 	}
-		// });
+		// });	axios.get('/myexammasters/'+"LLNtieLsRXXL7RbdJ",)
+
+		axios.get('/myexammasters/'+"DChgFa8uxzWyx92yC",)
+            .then((response)=> {
+                console.log("-------getAllExamReport------>>",response);
+                this.setState({
+		 			getAllExamReport : response.data
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
   	}
 	componentDidMount(){
 		
@@ -109,7 +128,7 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 									     	return <tr key={index}>
 									     			<td className="tab-Table"></td>
 									     			<td>{Exams.competitionName}</td>
-									     			<td>{/*moment(Exams.examDate).format('DD/MM/YYYY')*/}</td>
+									     			<td>{moment(Exams.examDate).format('DD/MM/YYYY')}</td>
 									     			<td className="tab-Table">{Exams.category}</td>
 									     			<td className="tab-Table">{Exams.totalQuestion}</td>
 									     			<td className="tab-Table">{Exams.attemptedQues}</td>
