@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');// this package use to formate json da
 const mongoose = require ('mongoose');
 
 // Routes which should handle requests
+const userRoutes 					= require('./api/routes/users');
 const exammasterRouter 				= require('./api/routes/exammasters');
 const myexammasterRouter			= require('./api/routes/myexammasters');
 const mypracticeexammastersRouter	= require('./api/routes/mypracticeexammasters');
@@ -33,6 +34,7 @@ app.use((req, res, next) =>{
 });
 
 //URL's collection wise
+app.use("/user", userRoutes);
 app.use("/exammasters", exammasterRouter);
 app.use("/myexammasters",myexammasterRouter);
 app.use("/mypracticeexammasters",mypracticeexammastersRouter);
