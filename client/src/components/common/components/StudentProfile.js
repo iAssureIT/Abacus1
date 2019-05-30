@@ -27,14 +27,23 @@ import '../css/common.css';
 
 class StudentProfile extends Component{
 
-	// constructor(){
-	//   super();
-	//     this.state = {
-	//         content         : '',
-	//         loginTime       : '',
-	//     }
-	//     this.handleChange = this.handleChange.bind(this);
-	// }
+	constructor(){
+	  super();
+	    this.state = {
+	        // content         : '',
+	        // loginTime       : '',
+	        loggedIn : true,
+	    }
+
+	    const token = localStorage.getItem("token");
+	    if(token==null){
+	    	this.setState({
+	    		loggedIn : false
+	    	})
+
+	    }
+	    // this.handleChange = this.handleChange.bind(this);
+	}
 	
 	// handleChange(event){
 	//     const target = event.target;
@@ -44,9 +53,11 @@ class StudentProfile extends Component{
 	//     });
  //  	}
 
-	// componentWillMount(){
- //    	$('.sidebar').css({display:'block',background: '#222d32'});
- // 	 }
+	componentWillMount(){
+    	// $('.sidebar').css({display:'block',background: '#222d32'});
+    	console.log("loggedIn",this.state.loggedIn);
+    	 
+ 	 }
 
 	// componentDidMount(){
 	// 	if ( !$('body').hasClass('adminLte')) {

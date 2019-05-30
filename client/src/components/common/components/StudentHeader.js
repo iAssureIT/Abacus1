@@ -2,10 +2,13 @@ import React,{Component} from 'react';
 // import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
-
+import { Redirect,history } from 'react-router-dom'
+// import {  browserHistory } from 'react-router-dom'; 
+import $ from "jquery";
 // import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/common.css';
+import { browserHistory } from 'react-router'
 // import {StudentMaster} from '/imports/student/api/studentMaster.js';
 // import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -15,15 +18,12 @@ import '../css/common.css';
 
 
 class StudentHeader extends (Component){
- //  constructor(props) {
- //   super(props);
- //    this.state = {
- //      subscription :{
- //        "userData" : Meteor.subscribe("userData",Meteor.userId()), 
- //        "studentData" : Meteor.subscribe("singleStudent",Meteor.userId()), 
- //      }
- //    }
- //  }
+  constructor() {
+   super();
+    this.state = {
+      loggedIn: false
+    }
+  }
 
  //  componentDidMount(){
  //    if ( !$('body').hasClass('adminLte')) {
@@ -40,17 +40,24 @@ class StudentHeader extends (Component){
  //  }
 
   
- //  handleClick(e) {
- //      e.preventDefault();
- //       Meteor.call("updateStudentNotificationStatus",(err,res)=>{
- //          if(err){
- //          }else{
+  handleClick(e) {
+      e.preventDefault();
+       // Meteor.call("updateStudentNotificationStatus",(err,res)=>{
+       //    if(err){
+       //    }else{
             
- //          }
- //        });
- //      Meteor.logout();
- //       FlowRouter.go('/');
- // }
+       //    }
+       //  });
+      // Meteor.logout();
+      // FlowRouter.go('/');
+      // browserHistory.replace("/login");
+      // this.props.history.push("/login");
+     // history.push('/login')
+     //  this.setState({
+     //    loggedIn : true
+     //  })
+       
+ }
 
  // currentUser(){
  //    var studentInfo= StudentMaster.findOne({"studentId":Meteor.userId()});
@@ -178,12 +185,19 @@ class StudentHeader extends (Component){
  //      }
  //    }
 
+
+ showSignout(e){
+  e.preventDefault();
+  $('.dropdown-menu').show();
+ }
+
   render(){
+  
     return(
     <div>
       <header className="main-header">
           {/* Logo */}
-          <a href="javascript:void(0)" className="logo navbar-fixed-top">
+          <Link to="javascript:void(0)" className="logo navbar-fixed-top">
             {/* mini logo for sidebar mini 50x50 pixels */}
             <span className="logo-mini">
             <img src="/images/maatslogoSmall.png" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 dashboardLogoOESSmall" />
@@ -195,15 +209,15 @@ class StudentHeader extends (Component){
               </span>
             </Link>
 
-          </a>
+          </Link>
           {/* Header Navbar: style can be found in header.less */}
           <nav className="navbar navbar-static-top noPadCust bgnavbar nav1 studentnavbar navbar-fixed-top">
             {/* Sidebar toggle button*/}
-            <a href="javascript:void(0)" className="sidebar-toggle" data-toggle="push-menu" role="button">
+            <Link to="javascript:void(0)" className="sidebar-toggle" data-toggle="push-menu" role="button">
               <span className="sr-only">
                 Toggle navigation
               </span>
-            </a>
+            </Link>
             <img src="/images/2.png" className="cloud col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
             {/* Navbar Right Menu */}
             <div className="navbar-custom-menu c11">
@@ -267,18 +281,18 @@ class StudentHeader extends (Component){
 
                 </li>*/}
                 <li className="dropdown user c11 user-menu">
-                  <a href="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown">
+                  <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown" onClick={this.showSignout.bind(this)}>
                     <img src=""/*this.studentLoginPhoto()*/ className="user-image"  />
                     <span className="hidden-xs"> {/*this.currentUser()*/} </span>
-                  </a>
+                  </Link>
                   <ul className="dropdown-menu">
                     {/* User image */}
                     <li className="user-header">
                       <img src=""/*this.studentLoginPhoto()*/ className="img-circle" />
                       {/*this.getUploadImgPercentagee()*/}
                       <span>
-                      <a href="javascript:void(0)">
-                      <span className="changeimgwrap">Change</span></a>
+                      <Link to="javascript:void(0)">
+                      <span className="changeimgwrap">Change</span></Link>
                         <input type="file" className="chooseImgArap" accept="file/*" /*onChange={this.uploadStudentImage.bind(this)}*//>
                       </span>
                       
@@ -294,9 +308,9 @@ class StudentHeader extends (Component){
                         {/*this.myProfile()*/}
                       </div>
                       <div className="pull-right">
-                        <a href="javascript:void(0)" className="btn btn-default btn-flat" /*onClick={this.handleClick.bind(this)}*/>
+                        <Link to="javascript:void(0)" className="btn btn-default btn-flat" onClick={this.handleClick.bind(this)}>
                           Sign out
-                        </a>
+                        </Link>
                       </div>
                     </li>
                   </ul>

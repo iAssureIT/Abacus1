@@ -8,11 +8,51 @@ import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
 
+
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+
+
  class SignUp extends Component {
+
+ 	constructor(){
+      super();
+        this.state = {           
+           loggedIn : false,
+           auth: {
+              
+
+
+                        firstname       : "Oshin",
+                        lastname        : "Malviya",
+                        mobNumber       : "7874575845",
+                        email           : "oshin@gmail.com",
+                        password        : "oshin123",
+                        signupPassword  : "oshin123",
+                    
+            }
+        }
+    }
 
  	usersignup(event){
  		event.preventDefault();
-        document.getElementById("signUpBtn").value = 'We are processing. Please Wait...';            
+ console.log("-------this.state.auth------>>",this.state.auth);
+ 		 axios.post('/user/signup',this.state.auth,)
+            .then((response)=> {
+                console.log("-------userData------>>",response);
+                // this.setState({
+                //   practiceExamReport : response.data
+                // });
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+       /* document.getElementById("signUpBtn").value = 'We are processing. Please Wait...';            
 
         const formValues = {
             'firstname' 	  : this.refs.firstname.value,
@@ -51,7 +91,7 @@ import './SignUp.css';
                 showConfirmButton: true,
                 type   : 'error'
                 }); //End of error swal
-            } //End of else
+            } //End of else*/
         
  	}
  	acceptcondition(event){

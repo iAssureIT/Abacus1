@@ -1,15 +1,53 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+// import {browserHistory} from 'react-router-dom';
+import { Redirect } from 'react-router'
 import InputMask from 'react-input-mask';
 
 import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 class Login extends Component {
 
-  userlogin(){
-    
+  constructor(){
+      super();
+        this.state = {           
+           loggedIn : false,
+           auth: {
+                email: 'oshin@gmail.com',
+                password: 'oshin123'
+            }
+        }
+    }
+
+  userlogin(e){
+    e.preventDefault();
+    console.log("in login mode",this.state.auth);
+   
+    // return (
+    //       <Redirect to="/login" />
+    //     );
+    axios.post('/user/login',this.state.auth,)
+            .then((response)=> {
+                console.log("-------userData------>>",response);
+                // this.setState({
+                //   practiceExamReport : response.data
+                // });
+                localStorage.setItem("token",response.data.token);
+                // browserHistory.replace('/');
+                this.props.history.push("/");
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
 
 
   }
