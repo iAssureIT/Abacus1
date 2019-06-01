@@ -116,3 +116,40 @@ exports.fetch_competition_result_view = (req,res,next) =>{
         }
     }
 }
+
+
+exports.search_student_competition_result_view = (req,res,next) =>{
+    var categoryName    = req.params.categoryname;
+    var studenName     = req.params.studentname;
+    var competitionId   = req.params.competitionId;
+    console.log('categoryName -> ',categoryName,' studenName -> ',studenName,' competitionId -> ',competitionId);    
+    if(categoryName == "all"){
+        console.log('category name is all');
+        MyExamMaster.find({competitionId:competitionId,fullName:studenName})
+                    .select("totalMarks StudentId attemptedQues competitionName firstName lastName totalQuestion totalScore examSolvedTime status rank category subCategory studImg")
+                    .exec()
+                    .then(competition =>{
+                        res.status(200).json(competition);
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    });
+    }else{
+        console.log('category name is not all');
+        MyExamMaster.find({competitionId:competitionId,category:categoryName,fullName:studenName})
+                    .select("totalMarks StudentId attemptedQues competitionName firstName lastName totalQuestion totalScore examSolvedTime status rank category subCategory studImg")
+                    .exec()
+                    .then(competition =>{
+                        res.status(200).json(competition);
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    });
+    }
+}

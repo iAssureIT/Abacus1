@@ -3,6 +3,8 @@ const bcrypt	= require("bcrypt");
 const jwt		= require("jsonwebtoken");
 
 const User = require('../models/users');
+const TempmagesMaster = require('../models/tempimages');
+
 
 exports.user_signup = (req,res,next)=>{
 	User.find({emails:{$elemMatch:{address:req.body.email}}})
@@ -147,7 +149,7 @@ exports.users_list = (req,res,next)=>{
 }
 
 exports.user_details = (req, res, next)=>{
-	var sId = req.body.studentId;
+	var sId = req.params.studentId;
 	User.findOne({_id:sId})
 		.select("profile")
 		.exec()
@@ -162,3 +164,70 @@ exports.user_details = (req, res, next)=>{
 			});
 		});
 }
+
+exports.user_profileimg = (req,res,next)=>{
+	console.log('user_profileimg');
+    var studentId = req.params.studentId;
+	TempmagesMaster.findOne({userId:studentId})
+			.select("imagePath")
+		    .exec()
+            .then(data =>{
+				if(!data){
+					User.findOne({_id:studentId})
+						.select("profile.userProfile")
+						.exec()
+						.then(users =>{
+							if(users){
+								console.log('img 1',users);
+								console.log('img 2',users.profile);								
+								console.log('img 3',users.profile.userProfile);
+								var imgdata = {
+									"_id": users._id,
+									"imagePath":users.profile.userProfile,
+								};
+								if(imgdata.imagePath){
+									console.log('imgdata if',imgdata);
+									res.status(200).json(imgdata);
+								}else{
+									console.log('imgdata else',imgdata);
+									res.status(200).json(imgdata);
+								}
+							}
+							
+						})
+						.catch(err =>{
+							console.log(err);
+							res.status(500).json({
+								error: err
+							});
+						});
+				}else{
+					res.status(200).json(data);
+				}
+            })
+            .catch(err =>{
+              console.log(err);
+              res.status(500).json({
+                error: err
+                });
+            });
+}
+
+// exports.user_profileimg = (req,res,next)=>{
+// 	var sId = req.params.studentId;
+// 	User.findOne({_id:sId})
+// 		.select("profile.userProfile")
+// 		.exec()
+// 		.then(users =>{
+// 			console.log('users ',users);
+// 			res.status(200).json(users);
+// 		})
+// 		.catch(err =>{
+// 			console.log(err);
+// 			res.status(500).json({
+// 				error: err
+// 			});
+// 		});
+// }
+
+

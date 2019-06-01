@@ -13,6 +13,8 @@ router.post('/login',UserController.user_login);
 
 router.delete('/:userId', checkAuth, UserController.user_delete);
 
-router.get('/usrinfo', UserController.user_details);
+router.get('/profileimg/:studentId', UserController.user_profileimg);
+
+router.get('/:studentId',UserController.user_details);
 
 module.exports = router;

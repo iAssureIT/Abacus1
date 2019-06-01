@@ -1,6 +1,6 @@
 1. Change Password
-2. Registration Form
-3. My Order
+2. Registration Form 
+3. My Order - Done
 
 ------------------------------------------------------------------------------------------
                         1. Change Password
@@ -9,7 +9,206 @@
 ------------------------------------------------------------------------------------------
                         2. Registration Form
 ------------------------------------------------------------------------------------------
+Note :  updateProfilePermission value can be checked (using 6 query) student.profileEditStatus
+
+1. Get updated status of student
+
+    Method          : GET
+
+    URL             : /studentmaster/:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                competitionId           : String,
+                                competitionOriginalFees : String,
+                                transactionId           : number,
+                                paymentDate             : Date
+                            }
+                        ]
+
+2. Fetch all the categries
+
+    Method          : GET
+
+    URL             : /categories/categoriesname
+
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id             : String,
+                                categoryName    : String
+                            }
+                        ]
+
+3. Fetch only Verified Franchise Basic Information - Name, company Code , ContactNo
+
+
+    Method          : GET
+
+    URL             : /franchisedetails/franchisebasicinfo/:companyId
+
+    Input           : -NA-
+                      
+    Output          :
+                        if verified Franchise then
+                            {
+                                "_id": String,
+                                "franchiseCodeForCompanyId": String,
+                                "franchiseName": String,
+                                "contactNo": String
+                            }
+                        else
+                            franchiseNotFound
+
+4. Fetch Student Image (Need to work)
+
+    Method          : GET
+
+    URL             : /users/profileimg:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        
+5. Fetch Instructions for Student
+
+    Method          : GET
+
+    URL             : /instructions/:instype
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            instruction             : String,
+                        }
+
+6. Fetch Information of student for Registration - Student Master or Users
+
+    Method          : GET
+
+    URL             : /studentmaster/:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            id                      : String,
+                            studentFirstName        : String
+                            studentMiddleName       : String
+                            studentLastName         : String
+                            mobileNumber   	        : String
+                            studentDOB              : String
+                            schoolName              : String
+                            franchiseName           : String
+                            franchiseId             : String
+                            franchiseMobileNumber   : String
+                            studentAddress          : String
+                            studentCountry          : String
+                            studentState            : String
+                            studentCity             : String
+                            pincode                 : String
+                            category                : String
+                            categoryDisabled        : String
+                            studentEmail            : String
+                            genderType              : String
+                            gender 		            : String
+                            updateProfilePermission : String
+                            submitButtonMsg         : String
+                        }
+
+
 
 ------------------------------------------------------------------------------------------
                         3. My Order
 ------------------------------------------------------------------------------------------
+
+1. Fetch All the orders placed by the students - Compentition
+
+    Method          : GET
+
+    URL             : /competitionregisterorder/:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                competitionId           : String,
+                                competitionOriginalFees : String,
+                                transactionId           : number,
+                                paymentDate             : Date
+                            }
+                        ]
+
+2. Display Receipt of Order for competition 
+
+    Method          : GET
+
+    URL             : /competitionregisterorder/:studentId/:competitionId
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            receiptType             : "Competition Receipt"
+                            status                  : String
+                            competitionId           : String,
+                            competitionFees         : String,
+                            transactionId           : Number,
+                            billnumbers             : Number
+                            paymentDate             : Date
+                        }
+
+3. Fetch All the orders placed by the students - Package
+
+    Method          : GET
+
+    URL             : /packageordermasters/:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                receiptType             : "Competition Receipt"
+                                status                  : String
+                                competitionId           : String,
+                                competitionFees         : String,
+                                transactionId           : Number,
+                                billnumbers             : Number
+                                paymentDate             : Date
+                            }
+                        ]
+
+4. Display Receipt of Order for package 
+
+    Method          : GET
+
+    URL             : /packageordermasters/:studentId/:receiptId
+
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id                     : String,
+                                receiptType             : "Competition Receipt"
+                                status                  : String
+                                competitionId           : String,
+                                competitionFees         : String,
+                                transactionId           : Number,
+                                billnumbers             : Number
+                                paymentDate             : Date
+                            }
+                        ]

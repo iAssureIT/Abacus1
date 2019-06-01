@@ -1,6 +1,6 @@
 1. Start Main Exam
 2. Main Exam Reports - Done
-3. Competition Result View 
+3. Competition Result View - Done
 
 ------------------------------------------------------------------------------------------
                         1. Start Main Exam
@@ -147,3 +147,32 @@
                             _id             : String,
                             franchiseName   : String,
                         }
+
+7. Serach Student Name in the competition
+
+    Method          : GET
+
+    URL             : /myexammaster/:categoryname/:studentname/:competitionId
+
+    Input           : -NA-
+                      
+    Output          :
+                        [
+                            {
+                                _id             : String,
+                                totalMarks      : String,
+                                StudentId       : String,
+                                attemptedQues   : Number,
+                                competitionName : String,
+                                firstName       : String,
+                                lastName        : String,
+                                totalQuestion   : Number,
+                                totalScore      : Number,
+                                examSolvedTime  : String,
+                                status          : String,
+                                rank            : String,
+                                category        : String,
+                                subCategory     : String,
+                                studImg         : String
+                            }
+                        ]

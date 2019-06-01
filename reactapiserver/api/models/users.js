@@ -38,7 +38,8 @@ const userSchema = mongoose.Schema({
 		sentEmailOTP 	: Number,
 		receivedEmailOTP : Number,
 		franchiseName 	: String,
-		teacherName 	: String
+		teacherName 	: String,
+		userProfile		: String,
 
 	},
 	roles : [String],

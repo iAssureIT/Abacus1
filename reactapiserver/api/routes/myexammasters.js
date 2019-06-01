@@ -6,6 +6,7 @@ router.get('/:competitionId/:studentId', MyExamMastersController.fetch_mainexam_
 router.get('/participation/:competitionId/:studentId', MyExamMastersController.fetch_participationexam_certificate);
 router.get('/:studentId',MyExamMastersController.fetch_mainexam_student);
 router.get('/:categoryname/:subCategory/:competitionId/:startRange/:dataRange',MyExamMastersController.fetch_competition_result_view);
+router.get('/:categoryname/:studentname/:competitionId',MyExamMastersController.search_student_competition_result_view);
 
 
 module.exports = router;
