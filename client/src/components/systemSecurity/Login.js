@@ -20,8 +20,8 @@ class Login extends Component {
         this.state = {           
            loggedIn : false,
            auth: {
-                email: 'oshin@gmail.com',
-                password: 'oshin123'
+                email     : 'kadamdnyanesh007@gmail.com',
+                password  : 'dnyanesh123'
             }
         }
     }
@@ -40,6 +40,7 @@ class Login extends Component {
                 //   practiceExamReport : response.data
                 // });
                 localStorage.setItem("token",response.data.token);
+                console.log("localStorage =",localStorage);
                 // browserHistory.replace('/');
                 this.props.history.push("/");
                 // direct.setState({loggedIn:response.data.token})

@@ -7,6 +7,11 @@ import StudentRegistrationforCompetition	from './StudentRegistrationforCompetiti
 
 import '../css/common.css';
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
 // // import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -56,6 +61,10 @@ class StudentProfile extends Component{
 	componentWillMount(){
     	// $('.sidebar').css({display:'block',background: '#222d32'});
     	console.log("loggedIn",this.state.loggedIn);
+    	// var token = localstorage.getItem('token');
+    	// console.log("localstorage =",localstorage);
+    	// console.log("token =",token);
+
     	 
  	 }
 

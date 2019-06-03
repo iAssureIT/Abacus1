@@ -14,7 +14,10 @@ import { browserHistory } from 'react-router'
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import SystemWarning    from '/imports/common/SystemWarning.jsx';
 // import { withTracker } from 'meteor/react-meteor-data';
-
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
 class StudentHeader extends (Component){
@@ -25,14 +28,15 @@ class StudentHeader extends (Component){
     }
   }
 
- //  componentDidMount(){
- //    if ( !$('body').hasClass('adminLte')) {
- //      var adminLte = document.createElement("script");
- //      adminLte.type="text/javascript";
- //      adminLte.src = "/js/adminLte.js";
- //      $("body").append(adminLte);
- //    }
- //  }
+  componentDidMount(){
+    // console.log("localstorage",localstorage)
+    // if ( !$('body').hasClass('adminLte')) {
+    //   var adminLte = document.createElement("script");
+    //   adminLte.type="text/javascript";
+    //   adminLte.src = "/js/adminLte.js";
+    //   $("body").append(adminLte);
+    // }
+  }
     
  //  componentWillUnmount(){
  //    $("script[src='/js/adminLte.js']").remove();
@@ -203,7 +207,7 @@ class StudentHeader extends (Component){
             <img src="/images/maatslogoSmall.png" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 dashboardLogoOESSmall" />
             </span>
             {/* logo for regular state and mobile devices */}
-            <Link to="/">
+            <Link to="/dashboard">
               <span className="logo-lg">
                   <img src="/images/maatslogo.png" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 dashboardLogoOES" />
               </span>

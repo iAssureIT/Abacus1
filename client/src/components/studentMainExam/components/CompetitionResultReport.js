@@ -41,7 +41,7 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 	}
 
 	componentDidMount(){
-	 	axios.get('/competition',)
+	 	axios.get('/exammasters',)
             .then((response)=> {
                 console.log("-------examMaster------>>",response.data);
                 this.setState({

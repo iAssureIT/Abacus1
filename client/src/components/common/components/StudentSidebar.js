@@ -21,20 +21,20 @@ class StudentSidebar extends (Component){
   }
 
 componentDidMount(){
-  if ( !$('body').hasClass('adminLte')) {
-    var adminLte = document.createElement("script");
-    adminLte.type="text/javascript";
-    adminLte.src = "/js/adminLte.js";
-    // $("body").append(adminLte);
-  }
+  // if ( !$('body').hasClass('adminLte')) {
+  //   var adminLte = document.createElement("script");
+  //   adminLte.type="text/javascript";
+  //   adminLte.src = "/js/adminLte.js";
+  //   // $("body").append(adminLte);
+  // }
 }
 componentWillMount(){
       $('.sidebar').css({display:'block',background: '#222d32'});
 }
 
 componentWillUnmount(){
-  $("script[src='/js/adminLte.js']").remove();
-  $("link[href='/css/dashboard.css']").remove();
+  // $("script[src='/js/adminLte.js']").remove();
+  // $("link[href='/css/dashboard.css']").remove();
 }
 
 //   removePersistantSessions(){
@@ -115,7 +115,7 @@ componentWillUnmount(){
             
             <ul className="sidebar-menu sidebar-menu1" data-widget="tree">
               <li className=""  onClick={this.clickTree.bind(this)}>
-                <Link to="/" className="active">
+                <Link to="/dashboard" className="active">
                   <i className="fa fa-dashboard" />
                     <span>Dashboard</span>
                 </Link>

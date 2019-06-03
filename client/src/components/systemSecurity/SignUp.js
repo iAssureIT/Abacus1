@@ -26,12 +26,12 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
               
 
 
-                        firstname       : "Oshin",
-                        lastname        : "Malviya",
-                        mobNumber       : "7874575845",
-                        email           : "oshin@gmail.com",
-                        password        : "oshin123",
-                        signupPassword  : "oshin123",
+                        firstname       : "Dnyanesh",
+                        lastname        : "Kadam",
+                        mobNumber       : "9561116995",
+                        email           : "kadamdnyanesh007@gmail.com",
+                        password        : "dnyanesh123",
+                        signupPassword  : "dnyanesh123",
                     
             }
         }
