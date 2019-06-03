@@ -3,7 +3,7 @@ const bcrypt	= require("bcrypt");
 const jwt		= require("jsonwebtoken");
 
 const User = require('../models/users');
-const TempmagesMaster = require('../models/tempimages');
+const TempImg        = require('../models/tempimages');
 
 
 exports.user_signup = (req,res,next)=>{
@@ -168,7 +168,7 @@ exports.user_details = (req, res, next)=>{
 exports.user_profileimg = (req,res,next)=>{
 	console.log('user_profileimg');
     var studentId = req.params.studentId;
-	TempmagesMaster.findOne({userId:studentId})
+	TempImg.findOne({userId:studentId})
 			.select("imagePath")
 		    .exec()
             .then(data =>{
@@ -213,21 +213,103 @@ exports.user_profileimg = (req,res,next)=>{
             });
 }
 
-// exports.user_profileimg = (req,res,next)=>{
-// 	var sId = req.params.studentId;
-// 	User.findOne({_id:sId})
-// 		.select("profile.userProfile")
-// 		.exec()
-// 		.then(users =>{
-// 			console.log('users ',users);
-// 			res.status(200).json(users);
-// 		})
-// 		.catch(err =>{
-// 			console.log(err);
-// 			res.status(500).json({
-// 				error: err
+
+
+// exports.registration = (req,res,next) =>{
+// 	var studentId     = req.body.studentId;
+// 	var studentData   = req.body.studentData;
+// 	var imgSrc        = '';
+// 	TempImg.findOne({userId:studentId})
+// 			.select("imagePath")
+// 			.exec()
+// 			.then(imgData =>{
+// 			  if(imgData){
+// 				TempImg.deleteOne({userId:studentId})
+// 					   .then(img =>{
+// 						 console.log('img ',img);
+// 						User.updateOne( 
+// 							  {_id : studentId},
+// 							  {
+// 								$set:{
+// 								  "profile.userProfile"   : imgData.imagePath,
+// 								}
+// 							  }
+// 							)
+// 							.then(res=>{
+// 							  res.status.json('Img uploaded successfuly');
+// 							})
+// 							.catch(err => {
+// 							  console.log(err);
+// 							  res.status(500).json({
+// 								error: err
+// 							  });
+// 							});
+// 					   })
+// 					   .catch(err => {
+// 						console.log(err);
+// 						res.status(500).json({
+// 						  error: err
+// 						});
+// 					  });
+// 			  }else{
+// 				User.findOne({_id:studentId})
+// 					.select("profile")
+// 					.exec()
+// 					.then(userdata =>{
+// 					  imgSrc = userdata.profile.userProfile;
+// 					  User.update(
+// 							{_id : studentId},
+// 							{
+// 							  $set:{
+// 								  "profile.firstname"   : studFormValues.studentFirstName,
+// 								  "profile.lastname"   : studFormValues.studentLastName,
+// 								  "profile.fullName"    : studFormValues.studentFirstName + ' '+ studFormValues.studentLastName,
+// 								  "profile.mobNumber"   : studFormValues.mobileNumber,     
+// 							  }
+// 							}
+// 						  )
+// 						  .exec()
+// 						  .then(userdata =>{
+// 							res.status.json('Img uploaded successfuly profile');							
+// 						  })
+// 						  .catch(err => {
+// 							console.log(err);
+// 							res.status(500).json({
+// 							  error: err
+// 							});
+// 						  });      
+// 					})
+// 					.catch(err => {
+// 					  console.log(err);
+// 					  res.status(500).json({
+// 						error: err
+// 					  });
+// 					});
+// 			  }
+// 			})
+// 			.catch(err=>{
+// 			  console.log('registration err ',err);
+// 			  res.status(500).json({
+// 				error:err
+// 			  });
 // 			});
-// 		});
-// }
+//   }
+  
+// // exports.user_profileimg = (req,res,next)=>{
+// // 	var sId = req.params.studentId;
+// // 	User.findOne({_id:sId})
+// // 		.select("profile.userProfile")
+// // 		.exec()
+// // 		.then(users =>{
+// // 			console.log('users ',users);
+// // 			res.status(200).json(users);
+// // 		})
+// // 		.catch(err =>{
+// // 			console.log(err);
+// // 			res.status(500).json({
+// // 				error: err
+// // 			});
+// // 		});
+// // }
 
 

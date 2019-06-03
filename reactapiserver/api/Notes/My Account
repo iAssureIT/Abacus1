@@ -1,6 +1,6 @@
 1. Change Password
-2. Registration Form 
-3. My Order - Done
+2. Registration Form - Done
+3. My Order          - Done
 
 ------------------------------------------------------------------------------------------
                         1. Change Password
@@ -94,35 +94,44 @@ Note :  updateProfilePermission value can be checked (using 6 query) student.pro
 
     Method          : GET
 
-    URL             : /studentmaster/:studentId
+    URL             : /registration
 
-    Input           : -NA-
+    Input           : 
+                        {
+                            "studentId"		: String,
+                            "studFormValues": {
+                                "_id"					: String,
+                                "franchiseName"			: String,
+                                "franchiseMobileNumber"	: String,
+                                "studentDOB"			: String,
+                                "companyId"             : String,
+                                "studentFirstName"      : String,
+                                "studentMiddleName"		: String,
+                                "studentLastName"       : String,
+                                "mobileNumber"          : String,
+                                "category"              : String,
+                                "schoolName"			: String,
+                                "studentAddress"		: String,
+                                "studentCountry"		: String,
+                                "studentState"			: String,
+                                "studentCity"			: String,
+                                "pincode"				: String,
+                                "studentEmail"			: String,
+                                "genderType"			: String
+                            }
+                        }
                       
     Output          :
-                        {
-                            id                      : String,
-                            studentFirstName        : String
-                            studentMiddleName       : String
-                            studentLastName         : String
-                            mobileNumber   	        : String
-                            studentDOB              : String
-                            schoolName              : String
-                            franchiseName           : String
-                            franchiseId             : String
-                            franchiseMobileNumber   : String
-                            studentAddress          : String
-                            studentCountry          : String
-                            studentState            : String
-                            studentCity             : String
-                            pincode                 : String
-                            category                : String
-                            categoryDisabled        : String
-                            studentEmail            : String
-                            genderType              : String
-                            gender 		            : String
-                            updateProfilePermission : String
-                            submitButtonMsg         : String
-                        }
+                        if everthing goes well 
+                            "Student updated sucessfully"
+                        if Profile Image is missing
+                            "Please upload profile Image"
+                        if Franchise Details are missing    
+                            "Franchise name and franchise mobile number required"
+                        if calculated age is less than 1 year
+                            "Your age must be 1 year old"
+                        if companyId is not found in the database or the Franchise is not verified
+                            "franchiseUserIdNotFound"
 
 
 

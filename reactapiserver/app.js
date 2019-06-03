@@ -17,6 +17,8 @@ const instructionRoutes 			= require('./api/routes/instructionmasters');
 const studentMasterRoutes			= require('./api/routes/studentmasters');
 const tempImgRouters				= require('./api/routes/tempimages');
 
+const registrationRouters			= require('./api/routes/registration');
+
 mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
 })
@@ -51,6 +53,7 @@ app.use('/instructions',instructionRoutes);
 app.use('/studentmaster',studentMasterRoutes);
 app.use('/tempimg',tempImgRouters);
 
+app.use("/registration",registrationRouters);
 
 // handle all other request which not found 
 app.use((req, res, next) => {

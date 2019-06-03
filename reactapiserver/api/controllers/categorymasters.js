@@ -34,3 +34,28 @@ exports.fetch_categorydetails = (req,res,next)=>{
                 });
             });
 }
+
+exports.fetch_subcategories_according_age = (req,res,next) => {
+  var categoryName = req.params.categoryname;
+  var age          = req.params.age;
+  CategoryMaster.findOne({categoryName:categoryName})
+            .select("categoryName levels")
+            .exec()
+            .then(data =>{
+              if(age<=7){
+                res.status(200).json(data.categoryName+'1');
+              }else if(age>7 && age<=9){
+                res.status(200).json(data.categoryName+'2');
+              }else if(age>9 && age<=11){
+                res.status(200).json(data.categoryName+'3');
+              }else if(age>11){
+                res.status(200).json(data.categoryName+'4');
+              }
+            })
+            .catch(err =>{
+              console.log(err);
+              res.status(500).json({
+                error: err
+                });
+            });
+}

@@ -17,4 +17,7 @@ router.get('/profileimg/:studentId', UserController.user_profileimg);
 
 router.get('/:studentId',UserController.user_details);
 
+// router.patch('/registration',UserController.registration);
+
+
 module.exports = router;

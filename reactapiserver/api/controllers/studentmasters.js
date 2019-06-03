@@ -1,8 +1,7 @@
 const mongoose	= require("mongoose");
 
 const StudentMaster = require('../models/studentmasters');
-const User          = require('../models/users');
-const TempImg        = require('../models/tempimages');
+// const User          = require('../models/users');
 
 exports.studentInfo = (req,res,next)=>{
   var sId = req.params.studentId;
@@ -148,89 +147,10 @@ exports.insert_student_registration = (req,res,next) =>{
       
 }
 
-exports.registration = (req,res,next) =>{
-  var studentId     = req.body.studentId;
-  var studentData   = req.body.studentData;
-  var imgSrc        = '';
-  TempImg.findOne({userId:studentId})
-          .select("imagePath")
-          .exec()
-          .then(imgData =>{
-            if(imgData){
-              console.log('temp file exists',imgData.imagePath);
-              TempImg.deleteOne({userId:studentId})
-                     .then(img =>{
-                       console.log('img ',img);
-                      User.updateOne( 
-                            {_id : studentId},
-                            {
-                              $set:{
-                                "profile.userProfile"   : imgData.imagePath,
-                              }
-                            }
-                          )
-                          .then(res=>{
-                            console.log('img updated');
-                          })
-                          .catch(err => {
-                            console.log(err);
-                            res.status(500).json({
-                              error: err
-                            });
-                          });
-                     })
-                     .catch(err => {
-                      console.log(err);
-                      res.status(500).json({
-                        error: err
-                      });
-                    });
-            }else{
-              console.log('temp file doesnt exists');
-              User.findOne({_id:studentId})
-                  .select("profile")
-                  .exec()
-                  .then(userdata =>{
-                    console.log('userdata ',userdata.profile.userProfile);
-                    imgSrc = userdata.profile.userProfile;
-                    User.update(
-                          {_id : studentId},
-                          {
-                            $set:{
-                                "profile.firstname"   : studFormValues.studentFirstName,
-                                "profile.lastname"   : studFormValues.studentLastName,
-                                "profile.fullName"    : studFormValues.studentFirstName + ' '+ studFormValues.studentLastName,
-                                "profile.mobNumber"   : studFormValues.mobileNumber,     
-                            }
-                          }
-                        )
-                        .exec()
-                        .then(userdata =>{
 
-                        })
-                        .catch(err => {
-                          console.log(err);
-                          res.status(500).json({
-                            error: err
-                          });
-                        });      
-                  })
-                  .catch(err => {
-                    console.log(err);
-                    res.status(500).json({
-                      error: err
-                    });
-                  });
-            }
-          })
-          .catch(err=>{
-            console.log('registration err ',err);
-            res.status(500).json({
-              error:err
-            });
-          });
-
-}
+// exports.studentmaster_registraton = (req,res,next) =>{
+//   var 
+// }
 
 
 
