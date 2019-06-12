@@ -37,15 +37,7 @@ class StudentProfile extends Component{
 	    this.state = {
 	        // content         : '',
 	        // loginTime       : '',
-	        loggedIn : true,
-	    }
-
-	    const token = localStorage.getItem("token");
-	    if(token==null){
-	    	this.setState({
-	    		loggedIn : false
-	    	})
-
+	        loggedIn : false,
 	    }
 	    // this.handleChange = this.handleChange.bind(this);
 	}
@@ -68,7 +60,18 @@ class StudentProfile extends Component{
     	 
  	 }
 
-	// componentDidMount(){
+	componentDidMount(){
+
+		const token = localStorage.getItem("token");
+	    console.log("Dashboard Token = ",token);
+	    if(token!==null){
+	    console.log("********************imin ",token);
+
+	    	this.setState({
+	    		loggedIn : true
+	    	})
+
+	    }
 	// 	if ( !$('body').hasClass('adminLte')) {
 	// 	  var adminLte = document.createElement("script");
 	// 	  adminLte.type="text/javascript";
@@ -122,7 +125,7 @@ class StudentProfile extends Component{
  //        // 	loginTime:new Date().getTime(),
  //        // },()=>{this.countdownTimeStart()})	;		
 			
- //  	}
+  	}
 
  // //  	countdownTimeStart(){
 	// // 	var countDownDate = this.state.loginTime;
@@ -181,6 +184,10 @@ class StudentProfile extends Component{
 					}, 300);
 				}
 				*/
+		{console.log("this.state.loggedIn = ", this.state.loggedIn)}
+		if(this.state.loggedIn===false){
+			return <redirect to="/login"/>
+		}
 		return(
 			<div>
 			{/*<div className="container-fluid cfcustom">

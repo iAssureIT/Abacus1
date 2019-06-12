@@ -24,6 +24,20 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		}
 	componentDidMount(){
 		
+		axios.get('/mypracticeexammasters/'+"am4H2NojLxiEKBRPq",)
+            .then((response)=> {
+                // console.log("-------practiceExamReport------>>",response);
+                this.setState({
+		 			practiceExamReport : response.data
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+            
 		/*if ( !$('body').hasClass('adminLte')) {
 		  var adminLte = document.createElement("script");
 		  adminLte.type="text/javascript";
@@ -46,22 +60,6 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		// 		});
 		// 	}
 		// });
-
-			axios.get('/mypracticeexammasters/'+"am4H2NojLxiEKBRPq",)
-            .then((response)=> {
-                // console.log("-------practiceExamReport------>>",response);
-                this.setState({
-		 			practiceExamReport : response.data
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
-
             
   	}
 

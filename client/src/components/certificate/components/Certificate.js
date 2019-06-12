@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } 			from 'react-dom';
 import $ 					from "jquery";
 import html2canvas 			from 'html2canvas';
 import * as jsPDF 			from 'jspdf';
@@ -26,6 +25,9 @@ class Certificate extends (Component) {
 	}
 
 	componentWillMount(){
+
+	}
+	componentDidMount(){
 	 	axios.get('/exammasters',)
             .then((response)=> {
                 console.log("-------examMaster------>>",response.data);
@@ -87,20 +89,20 @@ class Certificate extends (Component) {
 	createPDF(){
 		alert("Please wait till document download.","success");
 	    var outerInvoiceBlock = $('.bg'),
-	    cache_width = outerInvoiceBlock.width(),
-	    a4  =[8.5,  11];  // for a4 size paper width and height
+	    cache_width = outerInvoiceBlock.width();
+	    // a4  =[8.5,  11];  // for a4 size paper width and height
 	    this.getCanvas(cache_width);
 	}
 
-	getCanvas(){
-		html2canvas($('.bg').get(0)).then( function (canvas) {
-		    const jsPDF = require('jspdf');
-		    var imgData = canvas.toDataURL("image/jpeg", 1.0);
-	        var pdf = new jsPDF('landscape', 'mm', [297, 200]);
-	        pdf.addImage(imgData, 'JPEG', 0, 0, 297, 200);
-	        pdf.save("CompetiotionCertificate.pdf");       
-		});
-	}
+	// getCanvas(){
+	// 	html2canvas($('.bg').get(0)).then( function (canvas) {
+	// 	    const jsPDF = require('jspdf');
+	// 	    var imgData = canvas.toDataURL("image/jpeg", 1.0);
+	//         var pdf = new jsPDF('landscape', 'mm', [297, 200]);
+	//         pdf.addImage(imgData, 'JPEG', 0, 0, 297, 200);
+	//         pdf.save("CompetiotionCertificate.pdf");       
+	// 	});
+	// }
 
 	getCanvas(cachewidth){
     html2canvas($('.bg').get(0)).then( function (canvas) {
@@ -109,7 +111,7 @@ class Certificate extends (Component) {
       if(canvas.width > canvas.height){
          var doc = new jsPDF('landscape','mm','a4',[canvas.width, canvas.height])
       }else{
-        var doc = new jsPDF('p', 'mm','a4',[canvas.height, canvas.width])
+          doc = new jsPDF('p', 'mm','a4',[canvas.height, canvas.width])
       }
           doc.setFontSize(16); 
           var width           = doc.internal.pageSize.getWidth(); 
@@ -154,7 +156,7 @@ class Certificate extends (Component) {
 									<span className="floating-label floating-label-Date">Select Competition</span>					   								   			
 								</span>
 							</div>
-		                  {this.state.examData!="" ?
+		                  {this.state.examData!=="" ?
 		                  		 /*this.state.examData.answerArray ?
 		                  		 	 this.state.examData.answerArray.length > 0 ?*/
 		                  		 	 	<div>
@@ -166,7 +168,7 @@ class Certificate extends (Component) {
 							       			<div className="col-xl-12 col-lg-12 col-md-12 col-sm-4 col-xs-4 certifywrapper">		
 							       				<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4">
 							   						<div className="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-xs-12">
-							       						<img src="/images/logo.png" className="img-responsive certificateLogo" />
+							       						<img src="/images/logo.png" className="img-responsive certificateLogo" alt="Loading..."/>
 							       					</div>
 							       					<div className="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-xs-12">
 								       					<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 row titleCertify">
@@ -185,7 +187,7 @@ class Certificate extends (Component) {
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4 certificateTxtImgWrapper ">
 													<div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-														<img src="/images/certificate.png" className="img-responsive certificateTxtImg" />
+														<img src="/images/certificate.png" className="img-responsive certificateTxtImg" alt="Loading..."/>
 													</div>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4 certificateTxtImgWrapper ">
@@ -201,7 +203,7 @@ class Certificate extends (Component) {
 													<p className="hasLine col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">has secured</p>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4 txtAlgnC">
-													<span className="certificateNameRnk col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">{this.state.examData.rank !="Consolation" ? this.state.examData.rank+  " Rank" : this.state.examData.rank} </span>
+													<span className="certificateNameRnk col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">{this.state.examData.rank !=="Consolation" ? this.state.examData.rank+  " Rank" : this.state.examData.rank} </span>
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-4 col-xs-4">
 													<p className="certifyLastLine col-xl-12 col-lg-12 col-md-12 col-sm-4 col-xs-12">in {this.state.examData.competitionName} of</p>
@@ -211,11 +213,11 @@ class Certificate extends (Component) {
 												</div>
 												<div className="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12  certificateSignWrapper">
 													<div className="col-lg-5 col-xl-5 col-md-5 col-sm-12 col-xs-12">
-														<img src="/images/_ceo_sign.png" className="img-responsive certifySignImg"/>
+														<img src="/images/_ceo_sign.png" className="img-responsive certifySignImg" alt="Loading..."/>
 														<h3 className="ceoTXt">CEO</h3>
 													</div>
 													<div className="col-lg-5 col-xl-5 col-md-5 col-sm-12 col-xs-12">
-														<img src="/images/_director.png" className="img-responsive certifySignImg" />
+														<img src="/images/_director.png" className="img-responsive certifySignImg" alt="Loading..."/>
 														<h3 className="ceoTXt">Director</h3>
 													</div>
 												</div>

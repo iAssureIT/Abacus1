@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import InputMask from 'react-input-mask';
-import swal from 'sweetalert';	
-import $ from "jquery";
-
+import { render } 	from 'react-dom';
+import InputMask 	from 'react-input-mask';
+import swal 		from 'sweetalert';	
+import $ 			from "jquery";
+import ProfilePic   from './ProfilePic.js';
 
 import '../css/MyAccount.css';
+import axios 		from 'axios';
+axios.defaults.baseURL = 'http://localhost:3006';
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 // import {Mongo} 			  from 'meteor/mongo';
 // import {render} 		  from 'react-dom';
 // import { FlowRouter }     from 'meteor/ostrio:flow-router-extra';
@@ -16,7 +21,6 @@ import '../css/MyAccount.css';
 // import {StudentMaster} 	  from '/imports/student/api/studentMaster.js';
 // import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
 // import {TempImage} 		  from '/imports/s3/api/ClientImageCall.js';
-// import InputMask 		  from 'react-input-mask';
 // import {Session} 		  from 'meteor/session';
 // import ProfilePic         from './ProfilePic.jsx';
 class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
@@ -50,7 +54,16 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 	  			franchiseMobileNumber   : '',
 	  			franchiseUserId         : '',
 	  			gender       			: true,
-	  			companyId 				:'',
+	  			companyId 				: '',
+	  			showCategories 			: [],
+	  			TempImages 				: {
+	  									   id: "PsjnfuSGkrxh8caSc",
+								  		   userId: "onM3QMLAdTiGtjGnD",
+								  		   imagePath: "https://s3.ap-south-1.amazonaws.com/onlineexamabacus/ProductImage/6rmpYqGuEos6GeyeX.png", 
+								  		   tempPath: "http://localhost:3004/cdn/storage/ProductImage/6rmpYqGuEos6GeyeX/original/6rmpYqGuEos6GeyeX.png"
+								  		  }
+
+	  									  
 	  			// "subscription"   :{
 			   //      "TempImages" : Meteor.subscribe("loginImgTempImages"),
 			   //    }
@@ -61,6 +74,70 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
 	componentDidMount() {
 
+		axios
+  			.get('/studentmaster/C6hmmC4SZJJ5LeBhZ')
+            .then((response)=>{
+                console.log("-------Response------>>",response.data);
+            	this.setState({
+		 			// studFormValues : response.data[0],
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // localStorage.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+  			.get('/franchisedetails/franchisebasicinfo/7661')
+            .then((response)=>{
+                console.log("-------Response222------>>",response.data);
+            	this.setState({
+		 			// studFormValues : response.data[0],
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // localStorage.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+  			.get('/instructions/Student Registration')
+            .then((response)=>{
+                console.log("-------Response333------>>",response.data);
+            	this.setState({
+		 			// studFormValues : response.data[0],
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // localStorage.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+  			.get('/categories/B10')
+            .then((response)=>{
+                console.log("-------Response111------>>",response.data);
+            	this.setState({
+		 			showCategories : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // localStorage.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+	
+
+
+
+
+
+
+
 //       if ( !$('body').hasClass('adminLte')) {
 //           var adminLte = document.createElement("script");
 //           adminLte.type = "text/javascript";
@@ -69,52 +146,52 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 //           $("body").append(adminLte);
 //         }
      
-//        // $(function() {
-//        //      $( "#my-datepicker" ).datepicker({
-//        //         changeMonth:true,
-//        //         changeYear:true,
-//        //         numberOfMonths:[2,2]
-//        //      });
-//        //   });
-//      var date = new Date();
-//       date.setDate(date.getDate());
-//       $('#my-datepicker').datepicker({ 
-//           startDate: date
-//       });
+       // $(function() {
+       //      $( "#my-datepicker" ).datepicker({
+       //         changeMonth:true,
+       //         changeYear:true,
+       //         numberOfMonths:[2,2]
+       //      });
+       //   });
+     // var date = new Date();
+     //  date.setDate(date.getDate());
+     //  $('#my-datepicker').datepicker({ 
+     //      startDate: date
+     //  });
 
-//     $('.gender').click(function() {
-//     $(this).find('.btn').toggleClass('active');  
-//     if ($(this).find('.btn-primary').length>0) {
-//     	$(this).find('.btn').toggleClass('btn-primary');
-//     }
-//     	$(this).find('.btn').toggleClass('btn-default');
-// 	});
+    $('.gender').click(function() {
+    $(this).find('.btn').toggleClass('active');  
+    if ($(this).find('.btn-primary').length>0) {
+    	$(this).find('.btn').toggleClass('btn-primary');
+    }
+    	$(this).find('.btn').toggleClass('btn-default');
+	});
 
-// $('form').submit(function(){
-// 	// alert($(this["options"]).val());
-//     return false;
-// });
-// console.log("in didi mount",Meteor.userId());
-		// $('.updateaccess').addAttr('disabled');
-		// $(".updateaccess").attr("disabled", true);
-		// Meteor.call("getUpdateStatus",Meteor.userId(),(err,res)=>{
-		//    if(err){
+		$('form').submit(function(){
+			// alert($(this["options"]).val());
+		    return false;
+		});
+		// console.log("in didi mount",Meteor.userId());
+				// $('.updateaccess').addAttr('disabled');
+				// $(".updateaccess").attr("disabled", true);
+				// Meteor.call("getUpdateStatus",Meteor.userId(),(err,res)=>{
+				//    if(err){
 
-		//    }else{ 	
-		//   	if(res){
-		//   		// console.log("res.profileEditStatus",res.profileEditStatus);
-		// 	  	if(res.profileEditStatus=="Active"){
-		// 			this.setState({profileEditStatus : false});
-		// 		}else if(res.profileEditStatus=="Blocked"){
-		// 			this.setState({profileEditStatus : true});
-		// 		}else if(res.profileEditStatus==""){
-		// 			this.setState({profileEditStatus : true});
-		// 		}
-		// 	}
+				//    }else{ 	
+				//   	if(res){
+				//   		// console.log("res.profileEditStatus",res.profileEditStatus);
+				// 	  	if(res.profileEditStatus=="Active"){
+				// 			this.setState({profileEditStatus : false});
+				// 		}else if(res.profileEditStatus=="Blocked"){
+				// 			this.setState({profileEditStatus : true});
+				// 		}else if(res.profileEditStatus==""){
+				// 			this.setState({profileEditStatus : true});
+				// 		}
+				// 	}
 
 
-		//    }
-		// });
+				//    }
+				// });
 	  		var studInstruction = <span>Note: Please contact your franchise to get franchise 4 digit code to complete your registration form.<br/>1) Upload students latest photograph only.<br/>2) Choose Category wisely<br/>3) Category once selected will not be changed at any circumstances.<br/>4) While Registering student have to complete their profile including photo upload & other details within 24 hours. If not done, Student account will be auto deleted.<br/>5) While Registering Parents Official Email ID’s are not allowed. kindly Register with your valid email ID. E.g. Gmail, Yahoomail, Rediffmail,<br/>6) 2 Mbps internet speed is COMPULSORY for practice / Final Exam.</span>
 	  		 		
 	  		this.setState({
@@ -156,50 +233,94 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 	/*
 		show Categories 
 	*/
-	// showCategories(){
-	// 	var categorryHandle = Meteor.subscribe("allCategory").ready();
-	// 		return CategoryMaster.find({}).fetch();	
-	// }
+	showCategories(){
+		// var categorryHandle = Meteor.subscribe("allCategory").ready();
+		// 	return CategoryMaster.find({}).fetch();	
+		
 
-  	// studentRegistration(event){
-  	// 	event.preventDefault();
-  	// 	// if(this.state.profileEditStatus==false){
 
-  	// 	if(this.state.gender=true){
-  	// 		if($("input[name='genderType']:checked").val() == 'on'){
-	  //         var genderType = 'Female';
-	  //       }else{
-	  //         var genderType = 'Male';
-	  //       }
-  	// 	}else{
-  	// 		if($("input[name='genderType']:checked").val() == 'on'){
-	  //         var genderType = 'Male';
-	  //       }else{
-	  //         var genderType = 'Female';
-	  //       }
-  	// 	}
-  		// studFormValues={
-  		// 	_id                		: this.refs._id.value.trim(),
-  		// 	studentFirstName   		: this.refs.studentFirstName.value.trim(),
-  		// 	studentMiddleName  		: this.refs.studentMiddleName.value.trim(),
-  		// 	studentLastName    		: this.refs.studentLastName.value.trim(),
-  		// 	mobileNumber       		: this.refs.mobileNumber.value.trim(),
-  		// 	studentDOB         		: this.refs.studentDOB.value.trim(),
-  		// 	schoolName         		: this.refs.schoolName.value.trim(),
-  		// 	franchiseUserId       	: this.state.franchiseUserId,
-  		// 	companyId   	   		: this.refs.franchiseId.value.trim(),
-  		// 	franchiseName      		: this.refs.franchiseName.value,
-  		// 	franchiseMobileNumber   : this.refs.franchiseMobileNumber.value,
-  		// 	studentAddress 			: this.refs.studentAddress.value.trim(),
-  		// 	studentCountry 			: this.refs.studentCountry.value.trim(),
-  		// 	studentState   			: this.refs.studentState.value.trim(),
-  		// 	studentCity    			: this.refs.studentCity.value.trim(),
-  		// 	pincode        			: this.refs.pincode.value.trim(),
-  		// 	category       			: this.refs.category.value.trim(),
-  		// 	studentEmail   			: this.refs.studentEmail.value.trim(),
-    //       	genderType              : this.state.genderType,  			
-  		// 	// genderType     : $("input[name='genderType']:checked").val(),
-  		// }
+
+
+
+
+
+
+
+
+		
+	}
+
+  	studentRegistration(event){
+  		event.preventDefault();
+  		// if(this.state.profileEditStatus==false){
+
+  		if(this.state.gender=true){
+  			if($("input[name='genderType']:checked").val() == 'on'){
+	          var genderType = 'Female';
+	        }else{
+	          var genderType = 'Male';
+	        }
+  		}else{
+  			if($("input[name='genderType']:checked").val() == 'on'){
+	          var genderType = 'Male';
+	        }else{
+	          var genderType = 'Female';
+	        }
+  		}
+  		var studFormValues={
+  			_id                		: this.refs._id.value.trim(),
+  			studentFirstName   		: this.refs.studentFirstName.value.trim(),
+  			studentMiddleName  		: this.refs.studentMiddleName.value.trim(),
+  			studentLastName    		: this.refs.studentLastName.value.trim(),
+  			mobileNumber       		: this.refs.mobileNumber.value.trim(),
+  			studentDOB         		: this.refs.studentDOB.value.trim(),
+  			schoolName         		: this.refs.schoolName.value.trim(),
+  			franchiseUserId       	: this.state.franchiseUserId,
+  			companyId   	   		: this.refs.franchiseId.value.trim(),
+  			franchiseName      		: this.refs.franchiseName.value,
+  			franchiseMobileNumber   : this.refs.franchiseMobileNumber.value,
+  			studentAddress 			: this.refs.studentAddress.value.trim(),
+  			studentCountry 			: this.refs.studentCountry.value.trim(),
+  			studentState   			: this.refs.studentState.value.trim(),
+  			studentCity    			: this.refs.studentCity.value.trim(),
+  			pincode        			: this.refs.pincode.value.trim(),
+  			category       			: this.refs.category.value.trim(),
+  			studentEmail   			: this.refs.studentEmail.value.trim(),
+          	genderType              : this.state.genderType,  			
+  			// genderType     : $("input[name='genderType']:checked").val(),
+  		}
+
+  		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // 		Meteor.call("getProfilePic",studFormValues._id,(err,res)=>{
 		//   if(err){
 		//   }else{  
@@ -319,7 +440,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		//   }
 	 //  }
 		// });
- //  	}
+  	}
 
  //  	componentWillReceiveProps(nextProps){
  //  		if(nextProps){  
@@ -445,7 +566,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
  //  	}
   	
   	uploadStudentImage(event){
-	    // event.preventDefault();
+	    event.preventDefault();
 	    let self = this;
 	    if (event.currentTarget.files && event.currentTarget.files[0]) {
 		    var file = event.currentTarget.files[0];
@@ -467,31 +588,32 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 	    }
 	  }
 
-	// StudentImage(){
-	// 	var TempIamge = TempImage.findOne({"userId": Meteor.userId()});
-	// 	if(TempIamge){
+	StudentImage(){
+		var TempIamge = this.state.TempImages/*TempImage.findOne({"userId": Meteor.userId()})*/;
+		// console.log("TempIamge =",TempIamge);
+		
+		if(TempIamge){
+			// console.log("TempIamge.tempPath",TempIamge.tempPath);
+			return TempIamge.tempPath;
+			// return TempIamge.imagePath;
+		}else{
+			var userData = "1234"/*Meteor.users.findOne({"_id":Meteor.userId()})*/;
+		    	if(userData){
+			        var profileData = userData.profile;
+				        if(profileData){
+				        	if(profileData.userProfile){
+				            	return profileData.userProfile;
+				        	}else{
+				            	return '../images/addLogo1.png';
+				        	}
+				        }
+			    } else{
+		        	return '../images/addLogo1.png';
+		    	}
+			}
+	}
 
-	// 		console.log("TempIamge.tempPath",TempIamge.tempPath);
-	// 		return TempIamge.tempPath;
-	// 		// return TempIamge.imagePath;
-	// 	}else{
-	// 		 var userData = Meteor.users.findOne({"_id":Meteor.userId()});
-	// 	      if(userData){
-	// 	        var profileData = userData.profile;
-	// 	        if(profileData){
-	// 	          if(profileData.userProfile){
-	// 	            return profileData.userProfile;
-	// 	          }else{
-	// 	            return '../images/addLogo1.png';
-	// 	          }
-	// 	        }
-	// 	      } else{
-	// 	        return '../images/addLogo1.png';
-	// 	      }
-	// 		}
-	// }
-
-	removeStudProfPhoto(){
+	removeStudProfPhoto(event){
 		swal({
 			  title             : 'Are you sure?',
 			  text              : 'You will not be able to recover this Profile Photo!',
@@ -503,81 +625,79 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 			  confirmButtonText : 'Yes, Delete it!',
 			  cancelButtonText  : 'No, Keep it',
 			  closeOnConfirm    : false
-			}, ()=> {
+			// }, ()=> {
 				// Meteor.call("removeprofPhoto",Meteor.userId(),(error,result)=>{
 				// 	if(error){
 
 				// 	}else{
 
-				// 		swal(
-				// 	    'Profile Photo has been Deleted',
-				// 	    '',
-				// 	    'success'
-				// 	  );
+						// swal(
+					 //    'Profile Photo has been Deleted',
+					 //    '',
+					 //    'success'
+					 //  );
 				// 	}
 				// });
-  			
   		});
-		
 	}
 
-	// getUploadServicesPercentage(){
- //    var uploadProgressPercent = Session.get("imageprogress");
- //    if(uploadProgressPercent){
- //        var percentVal = parseInt(uploadProgressPercent);
- //        if(percentVal){            
- //            var styleC = {
- //                width:percentVal + "%",
- //                display:"block",
- //                height:"8px",
- //            }
- //            var styleCBar = {
- //                display:"block",
- //                marginTop:117,
- //                height:"8px",
- //            }
- //        }
- //        if(!percentVal){
- //            var percentVal = 0;
+	getUploadServicesPercentage(){
+    var uploadProgressPercent = 30/*Session.get("imageprogress")*/;
+    if(uploadProgressPercent){
+        var percentVal = parseInt(uploadProgressPercent);
+        if(percentVal){            
+            var styleC = {
+                width:percentVal + "%",
+                display:"block",
+                height:"8px",
+            }
+            var styleCBar = {
+                display:"block",
+                marginTop:117,
+                height:"8px",
+            }
+        }
+        if(!percentVal){
+            var percentVal = 0;
 
- //            var styleC = {
- //                width:0 + "%",
- //                display:"none",
- //                height:"8px",
- //            }
- //            var styleCBar = {
- //                display:"none",
- //                marginTop:117,
- //                height:"8px",
- //            }
+            var styleC = {
+                width:0 + "%",
+                display:"none",
+                height:"8px",
+            }
+            var styleCBar = {
+                display:"none",
+                marginTop:117,
+                height:"8px",
+            }
             
- //        }
- //        if(percentVal == 100){
- //            var percentVal = 0;
+        }
+        if(percentVal == 100){
+            var percentVal = 0;
 
- //            var styleC = {
- //                width:0 + "%",
- //                display:"none",
- //                height:"8px",
- //            }
- //            var styleCBar = {
- //                display:"none",
- //                marginTop:117,
- //                height:"8px",
- //            }
+            var styleC = {
+                width:0 + "%",
+                display:"none",
+                height:"8px",
+            }
+            var styleCBar = {
+                display:"none",
+                marginTop:117,
+                height:"8px",
+            }
            
- //        }
- //        return (
- //            <div>
- //                <div className="progress col-lg-12"  style= {styleCBar}>
- //                    <div className="progress-bar progress-bar-striped active" role="progressbar"
- //                  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
- //                    </div>
- //                </div>
- //            </div>
- //        );
- //      }
-	// }
+        }
+        return (
+            <div>
+                <div className="progress col-lg-12"  style= {styleCBar}>
+                    <div className="progress-bar progress-bar-striped active" role="progressbar"
+                  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
+                    </div>
+                </div>
+            </div>
+        );
+      }
+	}
 
 	showhideCatDetails(event){
 		$('.categoryListDataStud').toggleClass('categoryListDataStudshow');
@@ -624,29 +744,29 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-3 pull-right">
 											
 										    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 photoWrapper1 custPhotoWrap1addstud">
-										    {/*this.StudentImage() ==='../images/addLogo1.png'? <i className="" aria-hidden="true" title="First Add Photo"/>
-										    :*/
+										    {this.StudentImage() ==='../images/addLogo1.png'? <i className="" aria-hidden="true" title="First Add Photo"/>
+										    :
 										    <i className="fa fa-times removeprofPhoto" aria-hidden="true" title="Remove Photo" onClick={this.removeStudProfPhoto.bind(this)}></i>
 											}
 										      <div className="col-lg-12 col-md-12 col-sm-12 ClientImgWrap1 displayBlockOne img-responsive">
 										      	{
-										      	/*this.StudentImage() ==='../images/addLogo1.png' ?  <i className="fa fa-camera fa-2x paddingNoImageUpload col-lg-2 col-md-2 col-sm-2   styleUpload" title="Add Profile Photo">
+										      	this.StudentImage() ==='../images/addLogo1.png' ?  <i className="fa fa-camera fa-2x paddingNoImageUpload col-lg-2 col-md-2 col-sm-2   styleUpload" title="Add Profile Photo">
 										      		<input type="file"  className="col-lg-1 col-md-1 col-sm-1 col-xs-12 browseDoc" accept="image/x-png,image/jpeg,image/pdf,image/jpg" onChange={this.uploadStudentImage.bind(this)}/> </i>
-										        :*/
+										        :
 										        <i className="fa fa-camera fa-2x paddingNoImageUpload col-lg-2  styleUpload" title="Change Profile Photo">
 										          <input type="file"  className="col-lg-1 col-md-1 col-sm-1 col-xs-1 browseDoc" accept="image/x-png,image/jpeg,image/pdf,image/jpg" onChange={this.uploadStudentImage.bind(this)}/>
 										        </i>
 										    	}
 										      </div>
 										      
-										      <img className="col-lg-12 col-md-12 col-sm-12 ClientImgWrap1 displayLogoOne" /*src={this.StudentImage()?this.StudentImage() :"../images/loading.gif"}*//>
-										      {/*this.getUploadServicesPercentage()*/}
+										      <img className="col-lg-12 col-md-12 col-sm-12 ClientImgWrap1 displayLogoOne" src={this.StudentImage()?this.StudentImage() :"../images/loading.gif"}/>
+										      {this.getUploadServicesPercentage()}
 										   
 										    </div>
 
 										</div>
 									</div>
-									{/*<ProfilePic img={this.StudentImage()}/>*/}
+									<ProfilePic img={this.StudentImage()}/>
 								</div>
 				
 								<div className="col-lg-12 col-md-12 col-sm-12">
@@ -799,10 +919,10 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 										 
 											<select type="text" disabled={this.state.profileEditStatus} name="category" ref="category" value={this.state.category} className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" title="Select Category"  value={this.state.category} onChange={this.handleChange} autoComplete="off" required>
 												<option value='' disabled>-- Select Exam Category --</option>
-												{/*this.showCategories().map((categories,index)=>{
+												{/*this.state.showCategories.map((categories,index)=>{
 													return <option key={index}>{categories.categoryName}</option>
-												  })
-												*/}
+												  })*/
+												}
 											</select>		   			
 
 										</span>

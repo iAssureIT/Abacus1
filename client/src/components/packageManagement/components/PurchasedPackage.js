@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import InputMask from 'react-input-mask';
+// import InputMask from 'react-input-mask';
 
 import '../css/PackageList.css';
 import 'font-awesome/css/font-awesome.min.css';

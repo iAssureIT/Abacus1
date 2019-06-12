@@ -42,7 +42,7 @@ router.patch('/', (req,res,next) => {
                                                                                 "profile.mobNumber"     : studFormValues.mobileNumber,
                                                                                 "profile.franchiseName" : studFormValues.franchiseName,
                                                                                 "profile.franchise_id"  : franchise.franchiseCodeForCompanyId,
-                                                                                "profile.userProfile"      : img.imagePath
+                                                                                "profile.userProfile"   : img.imagePath
                                                                             }
                                                                         }
                                                                     )

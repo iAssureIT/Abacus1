@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import swal from 'sweetalert';
 import $ from "jquery";
-import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import Webcam from 'react-webcam';

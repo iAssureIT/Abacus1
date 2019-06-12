@@ -1,0 +1,31 @@
+				
+
+
+Required output:
+				_id              			:
+				studentFirstName 			:
+				studentMiddleName			:
+				studentLastName  			:
+	  			mobileNumber     			:
+	  			studentDOB       			:
+	  			schoolName       			:
+	  			franchiseName    			:
+	  			franchiseCode				:
+	  			franchiseMobileNumber 		:
+	  			franchiseId      			:
+	  			studentAddress   			:
+	  			studentCountry   			:
+	  			studentState     			:
+	  			studentCity      			:
+	  			pincode          			:
+	  			category         			:
+	  			categoryDisabled 			:
+	  			studentEmail     			:
+	  			genderType       			:
+	  			franchiseName          		:
+	  			franchiseUserId       		:
+	  			companyId					:
+			    TempImages 					:
+
+			    upload Image 				:
+			    remove Image 				:

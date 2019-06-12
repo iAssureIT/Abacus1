@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import $ from "jquery";
+// import $ from "jquery";
 
 import '../css/MyAccount.css';
 

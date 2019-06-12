@@ -33,7 +33,7 @@
     
     URL         : /user/login
 
-    Input       : 
+    Input       :
                     {
                         email       : String,
                         password    : String,

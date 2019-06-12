@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -13,9 +13,7 @@ class ResetPassword extends Component {
 
   render(){
     var winHeight = window.innerHeight;
-    console.log("winHeight =",winHeight);
-        var divHeight = winHeight/4.5+'px';
-    console.log("divHeight =",divHeight);
+    var divHeight = winHeight/4.5+'px';
     // console.log('window inner height: ', window.innerHeight);
 
     return(

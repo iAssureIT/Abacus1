@@ -92,7 +92,7 @@ Note :  updateProfilePermission value can be checked (using 6 query) student.pro
 
 6. Fetch Information of student for Registration - Student Master or Users
 
-    Method          : GET
+    Method          : PATCH
 
     URL             : /registration
 

@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
-import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
-import swal from 'sweetalert';
+// import swal from 'sweetalert';
 import $ from "jquery";
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -14,6 +14,7 @@ class StudentSidebar extends (Component){
   constructor() {
    super();
     this.state = {
+      loggedIn : false
       // subscription :{
       //   "userData" : Meteor.subscribe("userData",Meteor.userId()), 
       // }
@@ -21,6 +22,13 @@ class StudentSidebar extends (Component){
   }
 
 componentDidMount(){
+  const token = localStorage.getItem("token");
+    if(token!==null){
+      console.log("Header Token = ",token);
+      this.setState({
+        loggedIn : true
+      })
+    }
   // if ( !$('body').hasClass('adminLte')) {
   //   var adminLte = document.createElement("script");
   //   adminLte.type="text/javascript";
@@ -56,7 +64,7 @@ componentWillUnmount(){
   clickLiTree(event){
     event.preventDefault();
     $(event.target).parent().addClass('activeLi');
-    var checkli = $(event.target).parent().siblings('li').removeClass('activeLi');
+    // var checkli = $(event.target).parent().siblings('li').removeClass('activeLi');
     console.log("I'm In.......");
 }
 
@@ -80,6 +88,10 @@ componentWillUnmount(){
 
 
   render(){
+    {console.log("loggedIn status sidebar = ", this.state.loggedIn)}
+    if(this.state.loggedIn===false){
+      return <redirect to="/login"/>
+    }
     return(
         <aside className="main-sidebar studentSidebar" /*onClick={this.removePersistantSessions.bind(this)}*/>
           <section className="sidebar">

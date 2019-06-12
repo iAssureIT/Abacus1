@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import $ from "jquery";
 import html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
@@ -29,21 +28,24 @@ class ParticipationCertificate extends (Component) {
 	}
 
 	componentWillMount(){
- 		axios.get('/exammasters',)
-            .then((response)=> {
-                console.log("-------examMaster------>>",response.data);
-                this.setState({
-		 			allCompetitions : response.data
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+ 		
 	}
   	
 	componentDidMount() {
+
+	axios.get('/exammasters',)
+        .then((response)=> {
+            console.log("-------examMaster------>>",response.data);
+            this.setState({
+	 			allCompetitions : response.data
+	 		});
+            // localStorage.setItem("token",response.data.token);
+            // direct.setState({loggedIn:response.data.token})
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+            
 		// if ( !$('body').hasClass('adminLte')) {
 		//   var adminLte = document.createElement("script");
 		//   adminLte.type="text/javascript";
@@ -97,33 +99,33 @@ class ParticipationCertificate extends (Component) {
 	createPDF(){
 	    alert("Please wait till document download.","success");	
 	    var outerInvoiceBlock = $('.certificateWrappers'),
-	    cache_width = outerInvoiceBlock.width(),
-	    a4  =[8.5,  11];  // for a4 size paper width and height
+	    cache_width = outerInvoiceBlock.width();
+	    // a4  =[8.5,  11];  // for a4 size paper width and height
 	    this.getCanvas(cache_width);
 	}
 
-	getCanvas(){
-		html2canvas($('.certificateWrappers').get(0)).then( function (canvas) {
-	    var img = canvas.toDataURL("image/png");
-	    const jsPDF = require('jspdf');
-		var   doc = new jsPDF({
-		  			orientation:'landscape',
-		          	unit:'in',
-		          	format:'a4'
-		        });
-				var width = doc.internal.pageSize.width;
-				var height = doc.internal.pageSize.height - 0;
-		        doc.addImage(img, 'JPEG',0.18,1,width,height);
-			    doc.save('ParticipationCertificate.pdf');
-				canvas.save('ParticipationCertificate.pdf');
+	// getCanvas(){
+	// 	html2canvas($('.certificateWrappers').get(0)).then( function (canvas) {
+	//     var img = canvas.toDataURL("image/png");
+	//     const jsPDF = require('jspdf');
+	// 	var   doc = new jsPDF({
+	// 	  			orientation:'landscape',
+	// 	          	unit:'in',
+	// 	          	format:'a4'
+	// 	        });
+	// 			var width = doc.internal.pageSize.width;
+	// 			var height = doc.internal.pageSize.height - 0;
+	// 	        doc.addImage(img, 'JPEG',0.18,1,width,height);
+	// 		    doc.save('ParticipationCertificate.pdf');
+	// 			canvas.save('ParticipationCertificate.pdf');
 			
-		 var imgData = canvas.toDataURL("image/jpeg", 1.0);
-        // var pdf = new jsPDF('landscape', 'mm', [297, 200]);
-        var pdf = new jsPDF('landscape', 'mm', [297, 200]);
-        pdf.addImage(imgData, 'JPEG', 0, 0, 297, 200);
-        pdf.save("ParticipationCertificate.pdf");
-        });
-	}
+	// 	 var imgData = canvas.toDataURL("image/jpeg", 1.0);
+ //        // var pdf = new jsPDF('landscape', 'mm', [297, 200]);
+ //        var pdf = new jsPDF('landscape', 'mm', [297, 200]);
+ //        pdf.addImage(imgData, 'JPEG', 0, 0, 297, 200);
+ //        pdf.save("ParticipationCertificate.pdf");
+ //        });
+	// }
 
 	getCanvas(cachewidth){
     html2canvas($('.certificateWrappers').get(0)).then( function (canvas) {
@@ -132,7 +134,7 @@ class ParticipationCertificate extends (Component) {
       if(canvas.width > canvas.height){
          var doc = new jsPDF('landscape','mm','a4',[canvas.width, canvas.height]);
       }else{
-        var doc = new jsPDF('p', 'mm','a4',[canvas.height, canvas.width]);
+          doc = new jsPDF('p', 'mm','a4',[canvas.height, canvas.width]);
       }
           doc.setFontSize(16); 
           var width           = doc.internal.pageSize.getWidth(); 
@@ -222,11 +224,11 @@ class ParticipationCertificate extends (Component) {
 																<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 																	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 																		<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-																			<img src="/images/_ceo_sign.png" className="img-responsive certifySignImg" />
+																			<img src="/images/_ceo_sign.png" className="img-responsive certifySignImg" alt="Loading..."/>
 																			<h3 className="ceoTXt">CEO</h3>
 																		</div>
 																		<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-																			<img src="/images/_director.png" className="img-responsive certifySignImg" />
+																			<img src="/images/_director.png" className="img-responsive certifySignImg" alt="Loading..."/>
 																			<h3 className="ceoTXt">Director</h3>
 																		</div>
 																	</div>

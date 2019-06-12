@@ -1,25 +1,15 @@
-import React,{Component} from 'react';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import { render } from 'react-dom';
+import React, {Component} from 'react';
+import {browserHistory} from 'react-router';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
-import { Redirect,history } from 'react-router-dom'
-// import {  browserHistory } from 'react-router-dom'; 
+import { Redirect } from 'react-router-dom';
+import { history } from 'react-router-dom';
 import $ from "jquery";
-// import 'font-awesome/css/font-awesome.min.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/common.css';
-import { browserHistory } from 'react-router'
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import SystemWarning    from '/imports/common/SystemWarning.jsx';
-// import { withTracker } from 'meteor/react-meteor-data';
+import SystemWarning    from './SystemWarning.js';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-
 class StudentHeader extends (Component){
   constructor() {
    super();
@@ -29,6 +19,15 @@ class StudentHeader extends (Component){
   }
 
   componentDidMount(){
+    const token = localStorage.getItem("token");
+    if(token!==null){
+      console.log("Header Token = ",token);
+      this.setState({
+        loggedIn : true
+      })
+    }
+
+
     // console.log("localstorage",localstorage)
     // if ( !$('body').hasClass('adminLte')) {
     //   var adminLte = document.createElement("script");
@@ -46,22 +45,14 @@ class StudentHeader extends (Component){
   
   handleClick(e) {
       e.preventDefault();
-       // Meteor.call("updateStudentNotificationStatus",(err,res)=>{
-       //    if(err){
-       //    }else{
-            
-       //    }
-       //  });
-      // Meteor.logout();
-      // FlowRouter.go('/');
+
+      localStorage.removeItem("token");
+      browserHistory.push("/");
+      
       // browserHistory.replace("/login");
       // this.props.history.push("/login");
-     // history.push('/login')
-     //  this.setState({
-     //    loggedIn : true
-     //  })
-       
- }
+      // history.push('/login')
+  }
 
  // currentUser(){
  //    var studentInfo= StudentMaster.findOne({"studentId":Meteor.userId()});
@@ -196,7 +187,11 @@ class StudentHeader extends (Component){
  }
 
   render(){
-  
+    {console.log("loggedIn status header = ", this.state.loggedIn)}
+    if(this.state.loggedIn===false){
+      return <redirect to="/login"/>
+    }else{
+
     return(
     <div>
       <header className="main-header">
@@ -352,5 +347,6 @@ class StudentHeader extends (Component){
         </header>
       </div>
     );
+    }
   }
 }export default StudentHeader;

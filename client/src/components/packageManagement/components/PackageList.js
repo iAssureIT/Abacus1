@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import $ from "jquery";
 
 // import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -10,7 +9,7 @@ import $ from "jquery";
 // import {StudentMaster} from '/imports/student/api/studentMaster.js';
 // import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
 
-var idPackageArray=[];
+// var idPackageArray=[];
 class PackageList extends /*TrackerReact*/(Component)  {
   constructor(props){
     super(props);
@@ -61,7 +60,7 @@ class PackageList extends /*TrackerReact*/(Component)  {
     }
   
     addPackages(event){
-        var packageId = event.target.getAttribute('id');
+        // var packageId = event.target.getAttribute('id');
         // Meteor.call('addPackages',packageId,FlowRouter.getParam("id"),(err,res)=>{
         //   if(err){
         //     console.log("Something went wrong");
