@@ -18,6 +18,9 @@ import './SignUp.css';
     confirmOTP(event){
       console.log('confirm otp');
       event.preventDefault();
+      var url = this.props.match.params;
+      console.log('url = ',url);
+
       // var checkUserExist = FlowRouter.getParam("mailId");
       // var userData = Meteor.users.findOne({"_id":checkUserExist});
       // if(userData){
@@ -122,9 +125,9 @@ import './SignUp.css';
 
     resendOtp(event){
       event.preventDefault();
-      // var element = document.getElementById("resendOtpBtn");
-      // element.classList.add("btn-success");
-      // element.classList.remove("resendOtpColor");
+      var element = document.getElementById("resendOtpBtn");
+      element.classList.add("btn-success");
+      element.classList.remove("resendOtpColor");
       // var checkUserExist = FlowRouter.getParam("mailId");
       // var userData = Meteor.users.findOne({"_id":checkUserExist});
       // if(userData){
@@ -161,16 +164,14 @@ import './SignUp.css';
     }
 
 
-
-
   render(){
     // if(location.pathname=='/forgotOTPVarification/'+FlowRouter.getParam("mailId")){
     //    var mobileEmail = 'Email Id';
     //    var resendOtp ='';
     // }else{
       var resendOtpWrap = "resendOtpWrap resendOtpWrapcss";
-       var mobileEmail = 'Mobile Number';
-       var resendOtp = <span onClick={this.resendOtp.bind(this)}>Resend OTP</span>;
+      var mobileEmail = 'Mobile Number';
+      var resendOtp = <span onClick={this.resendOtp.bind(this)}>Resend OTP</span>;
     // }
 
     var winHeight = window.innerHeight;
@@ -182,7 +183,6 @@ import './SignUp.css';
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <img src="/images/maatslogo.png" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 logoImg" alt="Loading..."/>
           <div className="OESSubTitle2">Abacus Online Exam System</div>
-
           </div>
         </div>
         <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 signUpRighttWrap"  style={{"height": winHeight}}>
@@ -218,7 +218,7 @@ import './SignUp.css';
                   <div className="text-left col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
                     <span>Enter six digit verification code received on <b>Email</b>.<br/></span>
                   </div>
-                  <div className="input-effect input-group veribtm">
+                  <div className="input-effect input-group veribtm1">
                     <input type="text" className="effect-21 form-control loginInputs " ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength="6" pattern="(0|[0-9]*)" required/>
                     <span className="input-group-addon glyphi-custommm"><i className="fa fa-key" aria-hidden="true"></i></span>
                     <span className="focus-border">
@@ -228,7 +228,7 @@ import './SignUp.css';
                   <div className="text-left col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
                     <span>Enter four digit verification code received on <b>Mobile</b>.<br/></span>
                   </div>
-                  <div className="input-effect input-group veribtm">
+                  <div className="input-effect input-group veribtm1">
                     <input type="text" className="effect-21 form-control loginInputs " ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength="4" pattern="(0|[0-9]*)" required/>
                     <span className="input-group-addon glyphi-custommm"><i className="fa fa-key" aria-hidden="true"></i></span>
                     <span className="focus-border">
@@ -252,7 +252,5 @@ import './SignUp.css';
       </div>
     );
   }
-
-
 }
 export default ConfirmOtp;

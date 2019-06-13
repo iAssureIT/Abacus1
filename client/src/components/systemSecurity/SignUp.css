@@ -111,12 +111,15 @@
 .glyphi-custommm{
   border-left: 0px solid; 
 }
-
+.glyphi-custommmLeft{
+  border-left: 1px solid; 
+}
 .UMname{
   margin-bottom: 12px;
-  
 }
-
+.padBoth{
+  padding: 6px 9px;
+}
 .spotylTextbox:focus{
     box-shadow: none;
 }
@@ -575,10 +578,10 @@
   font-family:'Roboto-BoldCondensed';
 }
 .signUpNameTitle{
-    font-size: 20px;
-    margin-top: 15%;
-    margin-bottom: 5%;
-    color: #333333;
+  font-size: 20px;
+  margin-top: 15%;
+  margin-bottom: 5%;
+  color: #333333;
 }
 .resetpwdNameTitle{
   /*margin-bottom: 30px;*/
@@ -590,7 +593,7 @@
 .signInNameTitle{
   font-size: 20px;
   margin-top: 13%;
-  margin-bottom: 20%;
+  margin-bottom: 10%;
   color: #333333;
 }
 .signT{
@@ -890,6 +893,9 @@ a { color: #333; text-decoration: none; }
 .veribtm{
   margin-bottom: 30px;
 }
+.veribtm1{
+  margin-bottom: 15px;
+}
 .veriemail{
   padding-left: 7px;
   padding-right: 18px;
@@ -1086,6 +1092,7 @@ input[type="radio"]:checked:before {
 .pass{
       z-index: 0 !important;
 }
+
 .showPwd{
   display: block;
 }
@@ -1098,9 +1105,28 @@ input[type="radio"]:checked:before {
 .hidePwd1{
   display: block;
 }
+.showPwdC{
+  display: block;
+}
+.hidePwdC{
+  display: none;
+}
+.showPwd1C{
+  display: none;
+}
+.hidePwd1C{
+  display: block;
+}
+
 .marBtm{
   margin-bottom: 20px;
 }
 .marBtm30{
   margin-bottom: 30px;
 }
+/*.showPwd,.hidePwd1C,.hidePwd1,.showPwdC{
+  display: block;
+}
+.hidePwd,.showPwd1C,.showPwd1,.hidePwdC{
+  display: none;
+}*/

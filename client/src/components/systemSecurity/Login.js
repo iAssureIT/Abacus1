@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import { Link} from 'react-router-dom';
 // import {browserHistory} from 'react-router-dom';
 import { Redirect } from 'react-router';
@@ -77,7 +77,6 @@ class Login extends Component {
       $('.hidePwd').toggleClass('hidePwd1');
       return $('.inputTextPass').attr('type', 'password');
   }
-
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
@@ -129,15 +128,10 @@ class Login extends Component {
                   </span>
                 </div>
               </div>
-
-
-
-
-
               <div className="col-lg-12 col-md-12 col-sm-12 marBtm30">
                 <div className="form-group form-group1 fltlft input-group col-lg-12 col-md-12 col-sm-12 inputContent ">     
                   <span className="blocking-span">
-                    <input type="password" className="form-control pass oesSignUpForm confirmbtm inputTextPass" ref="signupConfirmPassword" name="signupConfirmPassword" required/>
+                    <input type="password" className="form-control pass oesSignUpForm confirmbtm inputTextPass" ref="loginpassword" name="loginpassword" required/>
                     <span className="floating-label1 lbfloatpass"><i className="fa fa-lock" aria-hidden="true"></i> Password</span>                 
                   </span>
                 <span className="input-group-addon customCls customCls1 glyphi-custommm">
@@ -149,16 +143,6 @@ class Login extends Component {
                   </span>
                 </div>
               </div>
-              {/*<div className="col-lg-12 col-md-12 col-sm-12">
-                <div className="inputContent ">
-                  <span className="blocking-span">
-                    <input type="password" className={this.state.loginusername?"col-lg-12 col-md-12 col-sm-12 oesSignUpForm tmsLoginTextBox has-content":"col-lg-12 col-md-12 col-sm-12 oesSignUpForm tmsLoginTextBox"} onChange={this.handleChange} ref="loginpassword" id="loginPassword" name="loginPassword" required/>
-                    <span className="floating-label"><i className="fa fa-lock signupIconFont" aria-hidden="true"/> Password</span>   
-                  </span>
-                  <div className="rrnShowHideDiv">
-                  </div>
-                </div>
-              </div>*/}
               <div className="col-lg-12 col-md-12 col-sm-12">
                 <input id="logInBtn" type="submit" className="col-lg-12 col-md-12 col-xs-12 col-sm-12 UMloginbutton hvr-sweep-to-right" value="Login"/>
               </div>

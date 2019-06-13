@@ -205,7 +205,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 						   		<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 inputContent marBtm">
 								    <div className="form-group form-group1 fltlft input-group col-lg-6 col-md-6 col-xs-6 col-sm-6 inputContent">
 							   			<span className="blocking-span">
-											<input type="password" className="form-control pass oesSignUpForm confirmbtm inputTextPass" ref="signupConfirmPassword" name="signupConfirmPassword" required/>
+											<input type="password" className="form-control pass oesSignUpForm confirmbtm inputTextPass" ref="signupPassword" name="signupPassword" required/>
 											<span className="floating-label1 lbfloatpass"><i className="fa fa-lock" aria-hidden="true"></i> Password</span>					   			
 										</span>
 										<span className="input-group-addon customCls customCls1 glyphi-custommm">

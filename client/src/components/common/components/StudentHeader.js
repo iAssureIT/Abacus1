@@ -307,7 +307,7 @@ class StudentHeader extends (Component){
                         {/*this.myProfile()*/}
                       </div>
                       <div className="pull-right">
-                        <Link to="javascript:void(0)" className="btn btn-default btn-flat" onClick={this.handleClick.bind(this)}>
+                        <Link to="/login" className="btn btn-default btn-flat" onClick={this.handleClick.bind(this)}>
                           Sign out
                         </Link>
                       </div>
