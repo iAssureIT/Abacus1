@@ -20,6 +20,7 @@ const notificationmastersRoutes		= require('./api/routes/notificationmasters');
 
 const registrationRouters			= require('./api/routes/registration');
 const purchasedpackageRouters		= require('./api/routes/purchasedpackage');
+const dashboardRouters				= require('./api/routes/dashboard');
 
 mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
@@ -58,6 +59,7 @@ app.use('/notificationmasters',notificationmastersRoutes)
 
 app.use("/registration",registrationRouters);
 app.use("/purchasedpackage",purchasedpackageRouters);
+app.use('/dashaboard',dashboardRouters);
 
 // handle all other request which not found 
 app.use((req, res, next) => {
