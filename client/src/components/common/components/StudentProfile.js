@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
+import TimeAgo from 'react-timeago';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/js/modal.js';
+import 'bootstrap/js/tab.js';
 
 import PracticeStartExamForDashboard	from './PracticeStartExamForDashboard.js';
 import StudentRegistrationforCompetition	from './StudentRegistrationforCompetition.js';
@@ -147,21 +152,21 @@ class StudentProfile extends Component{
 	// // 	}, 60000);
 	// // }
 
- //  	updateStudentNotifctn(){
- //  		 Meteor.call("updateStudentNotificationStatusToRead",(err,res)=>{
- //          if(err){
- //          }else{            
- //          }
- //        });
- //  	}
+  	updateStudentNotifctn(){
+  		 // Meteor.call("updateStudentNotificationStatusToRead",(err,res)=>{
+          // if(err){
+          // }else{            
+          // }
+        // });
+  	}
 
- //  	updateStudentTimeStatus(){
+  	updateStudentTimeStatus(){
  //  		 Meteor.call("updateStudentDownTimeStatusStatusToRead",(err,res)=>{
  //          if(err){
  //          }else{            
  //          }
  //        });
- //  	}
+  	}
   	
  //  	componentWillUnmount(){
  //    	$("script[src='/js/adminLte.js']").remove();
@@ -187,7 +192,7 @@ class StudentProfile extends Component{
 		{console.log("this.state.loggedIn = ", this.state.loggedIn)}
 		if(this.state.loggedIn===false){
 			return <redirect to="/login"/>
-		}
+		}else{
 		return(
 			<div>
 			{/*<div className="container-fluid cfcustom">
@@ -271,13 +276,130 @@ class StudentProfile extends Component{
 									</div>
 								</div>
 
+								<div className="modal fade modalHide" id="showstatus" role="dialog">
+	                                <div className="modal-dialog modal-lg" role="document">
+	                                  <div className="modal-content modalContent col-lg-12 nopad">
+	                                    <div className="modal-header userHeader notesheader">
+			                                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.updateStudentNotifctn.bind(this)}>
+			                                  <span aria-hidden="true">&times;</span>
+			                                </button>
+	                               			<h4 className="modal-title" id="exampleModalLabel">Important Notice</h4>
+	                              		</div>
+	                                    <div className="modal-body">
+	                                        <form className="newTemplateForm" >
+	                                      <div className="row rowPadding">
+	                                        <div className="">
+	                                          <div className="form-group">
+	                                          {/*!this.props.loading1 ?*/
+	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
+	                                        	{
+	                                        		// this.props.Notificationstatus.map((notemsg,index)=>{  
+	                                        		// 	var textcontent = renderHTML(notemsg.content);				                           
+
+	                                        			/*return*/(<ul className="" /*key={index}*/>
+
+										                  <li>
+										                  	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										                  		<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 createdatnotice">
+										                    		<TimeAgo date="2018-04-24T17:12:21.419Z"/*notemsg.createdAt*/ />
+										                    	</div>
+										                  		<div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 createdatnotice notificationWrap">
+																	{/*textcontent*/}On 25th April (Thursday) Exam window will be closed between 10am to 12:00noon.
+										                    	</div>
+										                    </div>
+										                  </li>
+										                 
+										                </ul>
+										              )
+	                                        		})
+												}
+	                                           </div>
+	                                           // :
+	                                           // <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
+	                                           // 		Loading...
+	                                           // </div>
+	                                       }             
+	                                          </div>  
+	                                        </div>
+	                                      </div>
+	                                    </form>
+	                                      </div>
+	                                  	  <div className="modal-footer footerpadding ">
+									        	<button type="button" className="btn btn-default col-lg-1 col-lg-offset-10" data-dismiss="modal" onClick={this.updateStudentNotifctn.bind(this)}>Got it</button>
+									      </div>
+	                                  </div>
+	                                </div>
+	                            </div>
+		                        <div className="modal fade modalHide" id="showNotice" role="dialog">
+	                                <div className="modal-dialog modal-lg" role="document">
+	                                  <div className="modal-content modalContent col-lg-12 nopad showNoticeTop">
+	                                    <div className="modal-header userHeader notesheader">
+			                                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.updateStudentTimeStatus.bind(this)}>
+			                                  <span aria-hidden="true">&times;</span>
+			                                </button>
+	                               			<h4 className="modal-title" id="exampleModalLabel">Important Notice</h4>
+	                              		</div>
+
+	                                    <div className="modal-body">
+	                                    <form className="newTemplateForm">
+	                                      <div className="row rowPadding">
+	                                        <div className="">
+	                                          <div className="form-group">
+	                                          {/*!this.props.loading2 ?*/
+	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+	                                        			<ul className="">
+
+										                  <li>
+										                  	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										                  		<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 createdatnotice">
+										                    		System down{/*this.props.downtimestatus.text*/} 
+										                    	</div>
+										                  		
+										                    	<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 createdatnotice">
+																	On : 24/07/2019{/*this.props.downtimestatus.date*/}
+										                    	</div>
+										                    	<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 createdatnotice">
+																	From : 01:00 pm{/*this.props.downtimestatus.startTime*/} to {/*this.props.downtimestatus.endTime*/}03:00 pm
+										                    	</div>
+										                    </div>
+
+										                  </li>
+										                 
+										                </ul>
+	                                        		
+												
+	                                           </div>
+	                                           /*:
+	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
+	                                           		Loading...
+	                                           </div>*/
+	                                       }             
+	                                          </div>  
+	                                        </div>
+	                                      </div>
+
+	                                    </form>
+
+	                                      </div>
+	                                  	  <div className="modal-footer footerpadding ">
+									        	<button type="button" className="btn btn-default col-lg-1 col-lg-offset-10" data-dismiss="modal" onClick={this.updateStudentTimeStatus.bind(this)}>Got it</button>
+									      </div>
+	                                  </div>
+		                                
+	                                </div>
+	                            </div>
+
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showstatus">After login modal status</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showNotice">After login modal Notice</button>
+
 						</div>
 					</div>
 				  </section>
 				</div>
 			/*</div>
 		</div>*/
-	)}
+	  )}
+	}
 }export default StudentProfile;
 // export default StudentProfileContainer = withTracker(props=>{
 // 	var id = Meteor.userId();

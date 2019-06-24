@@ -1,4 +1,4 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Link} from 'react-router-dom';
 // import {browserHistory} from 'react-router-dom';
 import { Redirect } from 'react-router';
@@ -30,8 +30,8 @@ class Login extends Component {
     componentDidMount(){
       
     }
-  userlogin(e){
-    e.preventDefault();
+  userlogin(event){
+    event.preventDefault();
     console.log("in login mode",this.state.auth);
         var auth= {
           email       : this.refs.loginusername.value,
@@ -40,7 +40,6 @@ class Login extends Component {
 
     axios
       .post('/user/login',auth,)
-
       .then((response)=> {
         console.log("-------userData------>>",response);
         // this.setState({
@@ -80,7 +79,7 @@ class Login extends Component {
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
-        console.log("-------------------------------",this.state.loggedIn)
+      console.log("-------------------------------",this.state.loggedIn)
     
     if(this.state.loggedIn===true){
       return <div></div>

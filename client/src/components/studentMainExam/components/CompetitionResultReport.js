@@ -12,22 +12,24 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 	constructor(){
 		super();
 		this.state ={
-			compStudDataCount : 0,
-			dataRange : 100,
+			compStudDataCount 	: 0,
+			dataRange 			: 100,
 			competitionDeclared : '',
-			limitRange : 100,
-			startRange:0,
-			counter: 1,
-			competitionId : '',
-			categoryName  : 'A',
-			subCategory: 'A1',
-			studentNameCWTM :'',
-			franchiseId:'',
-			franchise:'',
+			limitRange 			: 100,
+			startRange 			: 0,
+			counter 			: 1,
+			competitionId 		: '',
+			categoryName  		: 'A',
+			subCategory 		: 'A1',
+			studentNameCWTM 	: '',
+			franchiseId 		: '',
+			franchise 			: '',
 			allCategoryWiseStudent: [],
-			allCompetitions  : [],
-			allFranchiseData : [],
-			paginationArray  : [],
+			allCompetitions  	: [],
+			allFranchiseData 	: [],
+			paginationArray  	: [],
+			showAllCategories  	: [],
+			signleCategory  	: [],
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.getFranchiseId = this.getFranchiseId.bind(this);
@@ -41,9 +43,10 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 	}
 
 	componentDidMount(){
-	 	axios.get('/exammasters',)
+	 	axios
+	 		.get('/exammasters',)
             .then((response)=> {
-                console.log("-------examMaster------>>",response.data);
+                console.log("-------examMasters------>>",response.data);
                 this.setState({
 		 			allCompetitions : response.data
 		 		});
@@ -53,7 +56,19 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
             .catch(function (error) {
                 console.log(error);
             });
-	
+		axios
+			.get('/categories/categoriesname',)
+            .then((response)=> {
+                console.log("-------Show Category------>>",response.data);
+                this.setState({
+		 			showAllCategories : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
 	// 	Meteor.call("allFranchiseData",(err,res)=>{
 	//  		this.setState({
@@ -72,10 +87,23 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 	    });		
 	}
 
-	// showCategories(){
-	// 	var categorryHandle = Meteor.subscribe("allCategory").ready();
-	// 	return CategoryMaster.find({}).fetch();	
-	// }
+	showCategories(){
+		axios
+			.get('/exammasters/RLAEvWbgMukvxr6aB',)
+            .then((response)=> {
+                console.log("-------Show Category------>>",response.data);
+                this.setState({
+		 			showAllCategories : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+		// var categorryHandle = Meteor.subscribe("allCategory").ready();
+		// return CategoryMaster.find({}).fetch();	
+	}
 
 	getFranchiseId(event){
 		var franchiseId = $("#franchiseId option:selected").attr('id');
@@ -130,23 +158,35 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 		},()=>{/*this.studWiseTestMonthlyData()*/});		
 	}
 
-  	SubCategoryName(event){
-		// var categoryName = this.state.categoryName;
-		// var	signleCategory = CategoryMaster.findOne({"categoryName":categoryName});
-		// if(signleCategory){
-		// 	var subCategoryarray = signleCategory.levels;
-		// 	var subCatarray =[];
-		// 	for(var i=0; i<subCategoryarray.length;i++){
-		// 		var subCat = categoryName+''+parseInt(i+1);
-		// 		var subCat = String(subCat);
-		// 		subCatarray.push(
-		// 			<option key={i}>{subCat}</option>
-		// 			);
-		// 	}
-		// 	return subCatarray;
-		// }else{
-		// 	return [];
-		// }
+  	SubCategoryName(){
+		var categoryName = this.state.categoryName;
+
+		axios
+			.get('/categories/'+categoryName)
+            .then((response)=> {
+                console.log("-------categories------>>",response.data);
+                var	signleCategory = response.data;
+				if(signleCategory){
+					var subCategoryarray = signleCategory.levels;
+					var subCatarray =[];
+					for(var i=0; i<subCategoryarray.length;i++){
+						var subCat = categoryName+''+parseInt(i+1);
+						var subCat = String(subCat);
+
+						subCatarray.push(
+							<option key={i}>{subCat}</option>
+							);
+					}
+                		console.log("subCatarray-->>",subCatarray);
+
+					return subCatarray;
+				}else{
+					return [];
+				}
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 	}
 
 	showhideSubCatDetails(event){
@@ -494,9 +534,9 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 														<select type="text" name="categoryName" ref="categoryName" value={this.state.categoryName} onClick={this.getCategoryName.bind(this)} onChange={this.handleChange} className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" title="Please select Category" required>
 															<option disabled value="">-- Select Category --</option>
 															<option value="all" id="all">ALL</option>
-															{/*this.showCategories().map((categories,index)=>*/
-																/*return*/ (<option /*key={index}*/>{/*categories.categoryName*/}</option>)
-															  /*)*/
+															{this.state.showAllCategories.map((categories,index)=>{
+																return <option key={index}>{categories.categoryName}</option> 
+																})
 															}
 														</select>
 														<span className="floating-label floating-label-Date">Select Category</span>					   								   			

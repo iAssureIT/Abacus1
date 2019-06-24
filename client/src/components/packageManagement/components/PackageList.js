@@ -10,7 +10,7 @@ import $ from "jquery";
 // import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
 
 // var idPackageArray=[];
-class PackageList extends /*TrackerReact*/(Component)  {
+class PackageList extends /*TrackerReact*/Component  {
   constructor(props){
     super(props);
     this.state={
@@ -81,6 +81,7 @@ class PackageList extends /*TrackerReact*/(Component)  {
         // console.log("res",res);
 
         //     if(res=="packagesAdded"){
+                  this.props.history.push('/MyInvoice');
         //         FlowRouter.go("/MyInvoice/"+FlowRouter.getParam("id"));
         //       }else if(res=="notAdded"){
         //         swal("Please Select Package","","warning");
@@ -274,9 +275,9 @@ class PackageList extends /*TrackerReact*/(Component)  {
 //                               Roles.userIsInRole(Meteor.userId(), ['Franchise'])?
 //                                         null
 //                                         :
-//                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 bypackagebtnWrap">
-//                                     <button className="btn bypackagebtn" onClick={this.buyPackages.bind(this)}>Buy Packages</button>
-//                                   </div>
+                                  // <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 bypackagebtnWrap">
+                                  //   <button className="btn bypackagebtn" onClick={this.buyPackages.bind(this)}>Buy Packages</button>
+                                  // </div>
 //                                 }
 
 //                             </div>
@@ -418,9 +419,9 @@ class PackageList extends /*TrackerReact*/(Component)  {
 //                               Roles.userIsInRole(Meteor.userId(), ['Franchise'])?
 //                                         null
 //                                         :
-//                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 bypackagebtnWrap">
-//                                     <button className="btn bypackagebtn" onClick={this.buyPackages.bind(this)}>Buy Packages</button>
-//                                   </div>
+                                  // <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 bypackagebtnWrap">
+                                  //   <button className="btn bypackagebtn" onClick={this.buyPackages.bind(this)}>Buy Packages</button>
+                                  // </div>
 //                                 }
 
 //                             </div>
@@ -433,8 +434,10 @@ class PackageList extends /*TrackerReact*/(Component)  {
 //                             </div>
 //                           </div>
                         }
+
                         </div>
                       </div>
+                      <button className="btn bypackagebtn" onClick={this.buyPackages.bind(this)}>Buy Packages</button>
                     </div>
 //                   </section>
                   }
@@ -442,7 +445,6 @@ class PackageList extends /*TrackerReact*/(Component)  {
             </div>
             </div>
        </section>
-
             </div>
             </div>
 )

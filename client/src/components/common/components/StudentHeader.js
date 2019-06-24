@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {browserHistory} from 'react-router';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
-import { history } from 'react-router-dom';
+import { history } from 'react-router';
 import $ from "jquery";
 import '../css/common.css';
 import SystemWarning    from './SystemWarning.js';
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:3006';
-axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
+// axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 class StudentHeader extends (Component){
   constructor() {
@@ -18,7 +18,7 @@ class StudentHeader extends (Component){
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     const token = localStorage.getItem("token");
     if(token!==null){
       console.log("Header Token = ",token);
@@ -42,18 +42,34 @@ class StudentHeader extends (Component){
  //    $("link[href='/css/dashboard.css']").remove();
  //  }
 
-  
-  handleClick(e) {
-      e.preventDefault();
+  // handleLogout = async event => {
+  //   await Auth.signOut();
 
-      localStorage.removeItem("token");
-      browserHistory.push("/");
+  //   this.userHasAuthenticated(false);
+
+  //   this.props.history.push("/login");
+  // }
+
+  
+  handleClick(event) {
+      event.preventDefault();
+      // this.setState({
+      //   loggedIn : false
+      // })
+      // this.props.history.push("/login");
+      var token = localStorage.removeItem("token");
+      if(token!==null){
+      console.log("Header Token = ",token);
+      this.setState({
+        loggedIn : true
+      })
+      browserHistory.push("/login");
       
       // browserHistory.replace("/login");
       // this.props.history.push("/login");
       // history.push('/login')
+    }
   }
-
  // currentUser(){
  //    var studentInfo= StudentMaster.findOne({"studentId":Meteor.userId()});
     
@@ -307,8 +323,8 @@ class StudentHeader extends (Component){
                         {/*this.myProfile()*/}
                       </div>
                       <div className="pull-right">
-                        <Link to="/login" className="btn btn-default btn-flat" onClick={this.handleClick.bind(this)}>
-                          Sign out
+                        <Link to="/login"><button className="btn btn-default btn-flat" onClick={this.handleClick.bind(this)}>Sign out</button>
+                          
                         </Link>
                       </div>
                     </li>
@@ -319,7 +335,9 @@ class StudentHeader extends (Component){
               </ul>
             </div>
           </nav>
-           <div id="SustemInfoModal" className="modal fade" role="dialog">
+
+
+          <div id="SustemInfoModal" className="modal fade" role="dialog">
             <div className="modal-dialog">           
               <div className="modal-content">
                 <div className="modal-header">
@@ -334,16 +352,15 @@ class StudentHeader extends (Component){
                         <li><h4>System :</h4> <span className="greyText">Windows(Version More than 8)/ Linux/ Mac </span></li>
                         <li><h4>Browser : </h4><span className="greyText">Google Chrome (Version More than 51)/ Linux/ Mac </span></li>
                       </ol>
-
                     </p>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </div>
-
             </div>
           </div>
+
         </header>
       </div>
     );

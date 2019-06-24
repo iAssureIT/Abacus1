@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
+import { Link } from 'react-router-dom';
 import $ from "jquery";
 
 import '../css/MyAccount.css';
@@ -122,7 +122,7 @@ return(
                                 <div className="col-lg-6 col-md-6 col-sm-6">
                                   <div className="col-lg-6 col-md-6 col-sm-6"><h4>Date</h4></div>                                  
                                   <div className="col-lg-6 col-md-6 col-sm-6"> <h4>: 12/05/2019{/*moment(myorder.paymentDate).format('DD/MM/YYYY')*/}</h4></div>                                  
-                                  <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><a href=""/*`payment-success/${myorder.competitionId}`*/>View Receipt </a></h4></div>                                  
+                                  <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><Link to="/payment-success/jhkbrdtgfh"/*`payment-success/${myorder.competitionId}`*/>View Receipt </Link></h4></div>                                  
                                 </div>
                               </div> 
                             </div>)  
@@ -141,7 +141,7 @@ return(
                                     <div className="col-lg-6 col-md-6 col-sm-6">
                                       <div className="col-lg-6 col-md-6 col-sm-6"><h4>Date</h4></div>                                  
                                       <div className="col-lg-6 col-md-6 col-sm-6"> <h4>: 12/05/2019{/*moment(myorder.paymentDate).format('DD/MM/YYYY')*/}</h4></div>                                  
-                                      <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><a href=""/*`packagePayment-success/${myorder._id}`*/ >View Receipt </a></h4></div>                                  
+                                      <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><Link to="/payment-success/jhkbjoljl"/*`packagePayment-success/${myorder._id}`*/ >View Receipt </Link></h4></div>                                  
                             
                                     </div>
                               </div> 
