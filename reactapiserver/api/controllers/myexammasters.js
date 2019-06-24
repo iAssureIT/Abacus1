@@ -155,6 +155,7 @@ exports.search_student_competition_result_view = (req,res,next) =>{
 }
 
 exports.fetch_exam_student_dashboard = (req,res,next) => {
+    console.log('fetch_exam_student_dashboard');
     var studentId     = req.params.studentId;
     MyExamMaster.find({StudentId:studentId})
             .select("competitionName category totalScore")

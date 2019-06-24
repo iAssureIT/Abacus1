@@ -1,7 +1,6 @@
 A. Dashboard
     1. Package Purchased            - Done
-    2. Buy New Package              - Only Link is there
-    3. Competition Details          - Refer StudentRegistrationforCompetition component
+    2. Competition Details          - Refer StudentRegistrationforCompetition component
     3. Free Practice Tests          - Refer PracticeStartExamForDashboard
     4. Reports                      - Done
     5. Notification                 - Done
