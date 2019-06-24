@@ -1,0 +1,112 @@
+1. Package Purchased        - Done
+2. Buy New Package          - 
+3. Free Practice Tests      - 
+4. Reports                  - Done
+5. Notification             - Done
+
+------------------------------------------------------------------------------------------
+                        1. Package Purchased
+------------------------------------------------------------------------------------------
+
+1. List Package Purchased 
+
+    Method          : GET
+
+    URL             :  /packageordermasters/:studentId
+
+    Input           : -NA-
+                      
+    Output          : [
+                        {
+                            _id                        : String,
+                            transactionId              : String,
+                            amount                     : Number,
+                            paymentDate                : Date,
+                            packages                   : [
+                                                            {
+                                                                packageId : String,
+                                                                packageName : String,
+                                                                category : String,
+                                                                subCategory : String,
+                                                                packagePrice : Number,
+                                                                NoOfPracticeTest : Number
+                                                            }
+                                                        ]
+                        }
+                      ]
+
+------------------------------------------------------------------------------------------
+                        2. Package Purchased
+------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------
+                        3. Package Purchased
+------------------------------------------------------------------------------------------
+
+1. List Package Purchased 
+
+    Method          : GET
+
+    URL             :  /packageordermasters/:studentId
+
+    Input           : -NA-
+                      
+    Output          : [
+                        {
+                            _id                        : String,
+                            transactionId              : String,
+                            amount                     : Number,
+                            paymentDate                : Date,
+                            packages                   : [
+                                                            {
+                                                                packageId : String,
+                                                                packageName : String,
+                                                                category : String,
+                                                                subCategory : String,
+                                                                packagePrice : Number,
+                                                                NoOfPracticeTest : Number
+                                                            }
+                                                        ]
+                        }
+                      ]
+
+------------------------------------------------------------------------------------------
+                        4. Report
+------------------------------------------------------------------------------------------
+
+1. Report
+
+    Method          : GET
+
+    URL             :  /dashboard/:studentId
+
+    Input           : -NA-
+                      
+    Output          : [
+                        {
+                            _id                        : String,
+                            competitionName            : String,
+                            category                   : String,
+                            totalScore                 : Number
+                      ]
+
+------------------------------------------------------------------------------------------
+                        5. Notification
+------------------------------------------------------------------------------------------
+
+1. Notice for Student (getNotificationStatus)
+
+    Method          : GET
+
+    URL             :  /notificationmasters/:status
+
+    Input           : -NA-
+                      
+    Output          : [
+                        {
+                            _id         : String,
+                            subject     : String,
+                            content     : String,
+                            status      : String,
+                            createdAt   : Date
+                      ]

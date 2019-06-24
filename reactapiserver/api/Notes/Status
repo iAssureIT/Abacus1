@@ -1,0 +1,26 @@
+A. Dashboard
+    1. Package Purchased            - Done
+    2. Buy New Package              - Only Link is there
+    3. Competition Details          - Refer StudentRegistrationforCompetition component
+    3. Free Practice Tests          - Refer PracticeStartExamForDashboard
+    4. Reports                      - Done
+    5. Notification                 - Done
+B. Main Exam
+    1. Start Main Exam              - YTS
+    2. Main Exam Reports            - Done
+    3. Competition Result View      - Done
+C. Practice Packages
+    1. Purchase New Package         - YTS
+    2. My Package List              - WIP Only startpracticeexam is remaining (Only 20% remaining)
+D. Practice Exam
+    1. Start Free Practice Exam     -
+    2. Start Purchased Exam         - WIP Only startpracticeexam is remaining (Only 20% remaining)
+    3. Practice Exam Reports        - Done
+E. Certificate
+    1. Certificate                  - Done
+    2. Participation Certificate    - Done
+F. My Account
+    1. Change Password              - Done
+    2. Registration Form            - Done
+    3. My Order                     - Done
+G. My Registration                  - Done

@@ -5,7 +5,8 @@ const PackageOrderMaster = require('../models/packageordermasters');
 exports.fetch_mypackageorder = (req,res,next)=>{
     var sId = req.params.studentId;
     PackageOrderMaster.find({buyerId:sId,status:"paid"})
-            .select("transactionId amount paymentDate")
+            .select("transactionId amount paymentDate packages")
+            .sort({paymentDate: -1})
             .exec()
             .then(data =>{
               console.log('data ',data);

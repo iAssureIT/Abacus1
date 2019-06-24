@@ -5,6 +5,62 @@ const jwt		= require("jsonwebtoken");
 const User = require('../models/users');
 const TempImg        = require('../models/tempimages');
 
+exports.change_pwd = (req, res, next)=>{
+	var userID 		= req.body.userID;
+	var currentPwd 	= req.body.currentPwd.split("").reverse().join(""); 
+	var changedpwd	= req.body.changedpwd;
+	User.findOne({_id:userID})
+		.exec()
+		.then(user =>{
+			if(user){
+				if(currentPwd == user.profile.userCode){
+					console.log("Password matched");
+					console.log('changepwd ',changedpwd);
+					bcrypt.hash(changedpwd,10,(err,hash)=>{
+						if(err){
+							console.log('bcrypt',err);
+							return res.status(500).json({
+								error:err
+							});
+						}else{
+							User.updateOne(
+									{_id:userID},
+									{
+										$set:{
+											"services.password.bcrypt" :hash,
+											"profile.userCode"	  : changedpwd.split("").reverse().join("")
+										}
+									}
+								)
+								.then(data =>{
+									if(data){
+										res.status(200).json("Password Changed successfully");
+									}else{
+										res.status(200).json("Something went wrong. Please check the data passed");
+									}
+								})
+								.catch(err =>{
+									console.log('password ',err);
+									res.status(500).json({
+										error: err
+									});
+								});									
+						}			
+					});
+				}else{
+					res.status(200).json("Password does not matched");
+				}
+			}else{
+				res.status(200).json("User Not Found");
+			}
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+}
 
 exports.user_signup = (req,res,next)=>{
 	User.find({emails:{$elemMatch:{address:req.body.email}}})

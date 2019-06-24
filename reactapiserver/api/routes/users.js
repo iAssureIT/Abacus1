@@ -11,6 +11,8 @@ router.post('/signup', UserController.user_signup);
 
 router.post('/login',UserController.user_login);
 
+router.patch('/changepwd',UserController.change_pwd);
+
 router.delete('/:userId', checkAuth, UserController.user_delete);
 
 router.get('/profileimg/:studentId', UserController.user_profileimg);

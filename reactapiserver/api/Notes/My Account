@@ -1,10 +1,26 @@
-1. Change Password
+1. Change Password   - Done
 2. Registration Form - Done
 3. My Order          - Done
 
 ------------------------------------------------------------------------------------------
                         1. Change Password
 ------------------------------------------------------------------------------------------
+
+1. Change Password
+
+    Method          : PATCH
+
+    URL             : /user/changepwd
+
+    Input           : 
+                        {
+                            "userID"    : String,
+                            "currentPwd": String,
+                            "changedpwd": String
+                        }
+                      
+    Output          :
+                        Password Changed successfully
 
 ------------------------------------------------------------------------------------------
                         2. Registration Form

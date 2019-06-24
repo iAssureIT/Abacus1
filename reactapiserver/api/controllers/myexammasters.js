@@ -153,3 +153,20 @@ exports.search_student_competition_result_view = (req,res,next) =>{
                     });
     }
 }
+
+exports.fetch_exam_student_dashboard = (req,res,next) => {
+    var studentId     = req.params.studentId;
+    MyExamMaster.find({StudentId:studentId})
+            .select("competitionName category totalScore")
+            .exec()
+            .then(data =>{
+            //   console.log('data ',data);
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}

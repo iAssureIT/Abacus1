@@ -1,5 +1,5 @@
-1. Start Free Practice Exam
-2. Start Purchased Exam
+1. Start Free Practice Exam -
+2. Start Purchased Exam - WIP Only 
 3. Practice Exam Reports - Done
 
 ------------------------------------------------------------------------------------------
@@ -9,7 +9,83 @@
 ------------------------------------------------------------------------------------------
                         2. Start Purchased Exam
 ------------------------------------------------------------------------------------------
+1. Fetch Instructions for Practice Exam
 
+    Method          : GET
+
+    URL             : /instructions/:instype
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            instruction             : String,
+                        }
+
+2. List All packages purchased 
+
+    Method          : GET
+
+    URL             : /purchasedpackage/:studentID
+
+    Input           : - NA -
+
+    Output          :
+                        if Student Not found
+                            {
+                                message     : Student Not Found,
+                            }
+                        if exam is not completed
+                            {
+                                message     : "Exam Pending",
+                                lastExamId  : String
+                            }
+                        if list of question paper is not found
+                            {
+                                message     : "List of Question Papers not found",
+                                lastExamId  : String
+                            }
+                        if Everthing is ok
+                            {
+                                message         : "Question Papaers found",
+                                lastExamId      : '',
+                                PackageQPMData  : Array,
+                                attemptArray    : Array,
+                                maxAttempt      : Number
+                            }
+
+3. updateQuestionPaperMasterAccordingtoPackages 
+
+    Method          : PATCH
+
+    URL             : /purchasedpackage/updatequespaper
+
+    Input           :
+                        {
+                            studentID       : String,
+                            practiceExamId  : String,
+                            pckgIndex       : String,
+                            btnIndex        : String,
+                            orderId         : String,
+                        }
+
+    Output          :
+                    if updated then "Package Question Paper Master updated"
+                    if not "Something went wrong. Please check the values"
+
+4. StartPracticeExam
+
+    Method          : PATCH
+
+    URL             : /purchasedpackage/:examPaperId/:studentID
+
+    Input           :
+                        {
+                            studentID       : String,
+                        }
+
+    Output          :
 ------------------------------------------------------------------------------------------
                         3. Practice Exam Reports
 ------------------------------------------------------------------------------------------
