@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import $ from "jquery";
-
+import axios from 'axios';
 import '../css/MyAccount.css';
 // import {Session} from 'meteor/session';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -14,77 +14,132 @@ import '../css/MyAccount.css';
 
 class MyOrder extends Component{
 
-// constructor(){
-//   super();
-//     this.state = {
-//         competitionId     : FlowRouter.getParam('compId'),
-//         reciptdata        : "",
-//         facilityPermission : 'waitingforResult',
-//         competitonFee : '',
+constructor(){
+  super();
+    this.state = {
+        competitionId       : /*FlowRouter.getParam('compId')*/"tfygvjhb",
+        reciptdata          : "",
+        facilityPermission  : 'waitingforResult',
+        competitonFee       : "",
+    }
+    this.viewreceipt = this.viewreceipt.bind(this);
+}
 
-//     }
-//     this.viewreceipt = this.viewreceipt.bind(this);
-// }
+componentWillMount(){
+    // Meteor.call("isAuthenticated","MyAccount","MyOrder",(err,res)=>{
+    //   if(err){
+    //     console.log(err);
+    //   }else{
+    //     this.setState({
+    //        facilityPermission : res,
+    //     });
+    //   }
+    // });
+}
 
-// componentWillMount(){
-//     Meteor.call("isAuthenticated","MyAccount","MyOrder",(err,res)=>{
+// compareCompFeeandonlineFee(competitionId,competitonFees){
+//      Session.set("compFee",null);
+//    Meteor.call("getLatestCompetition",competitionId,competitonFees,(err,res)=>{
 //       if(err){
-//         console.log(err);
+//         swal(err);
 //       }else{
-//         this.setState({
-//            facilityPermission : res,
-//         });
+//        Session.set("compFee",res);
 //       }
 //     });
+//    console.log("wow-->",Session.get('compFee'));
+//    return Session.get('compFee');
+   // console.log("competitionId",competitionId);
+   // var isReady = Meteor.subscribe("singleCompetition",competitionId).ready();
+   //   if(isReady){
+   //   var competitionData = ExamMaster.findOne({"_id":competitionId});
+   //    if(competitionData){
+   //       console.log("competitionData",competitionData);
+   //      if(competitionData.competitionFees==competitonFees){
+   //        return competitionData.competitionFees
+   //      }else{
+   //        return competitionData.competitionFees;
+   //      }
+   //    }
+   // }
 // }
 
-// // compareCompFeeandonlineFee(competitionId,competitonFees){
-// //      Session.set("compFee",null);
-// //    Meteor.call("getLatestCompetition",competitionId,competitonFees,(err,res)=>{
-// //       if(err){
-// //         swal(err);
-// //       }else{
-// //        Session.set("compFee",res);
-// //       }
-// //     });
-// //    console.log("wow-->",Session.get('compFee'));
-// //    return Session.get('compFee');
-//    // console.log("competitionId",competitionId);
-//    // var isReady = Meteor.subscribe("singleCompetition",competitionId).ready();
-//    //   if(isReady){
-//    //   var competitionData = ExamMaster.findOne({"_id":competitionId});
-//    //    if(competitionData){
-//    //       console.log("competitionData",competitionData);
-//    //      if(competitionData.competitionFees==competitonFees){
-//    //        return competitionData.competitionFees
-//    //      }else{
-//    //        return competitionData.competitionFees;
-//    //      }
-//    //    }
-//    // }
-// // }
+componentDidMount(){
 
-// componentDidMount(){
-// if ( !$('body').hasClass('adminLte')) {
-//   var adminLte = document.createElement("script");
-//   adminLte.type="text/javascript";
-//   adminLte.src = "/js/adminLte.js";
-//   $("body").append(adminLte);
-// }
-//   }
+    axios
+        .get('/competitionregisterorder/6ceaSCfGQJ7hqxWMt')
+        .then((response)=> {
+            console.log("-------competitionregisterorder------>>",response.data);
+            this.setState({
+              competitionregisterorder : response.data,
+            });
+            // localStorage.setItem("token",response.data.token);
+            // direct.setState({loggedIn:response.data.token})
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
-// componentWillUnmount(){
-//   $("script[src='/js/adminLte.js']").remove();
-//   $("link[href='/css/dashboard.css']").remove();
-// }
+    axios
+        .get('/competitionregisterorder/6ceaSCfGQJ7hqxWMt/wkfPkEbQjsL8Jx4Wf')
+        .then((response)=> {
+            console.log("-------competitionregisterorder------>>",response.data);
+            this.setState({
+              competitionregisterorder : response.data,
+            });
+            // localStorage.setItem("token",response.data.token);
+            // direct.setState({loggedIn:response.data.token})
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
-// viewreceipt(event){
-// var receiptid = $(event.currentTarget).attr('recipt-link');
-// // console.log("receiptid==>>",receiptid);
-// FlowRouter.go('/payment-success/' + receiptid);
-// }
+    axios
+        .get('/packageordermasters/sTkBoMnx3rWyL5GxW')
+        .then((response)=> {
+            console.log("-------packageordermasters------>>",response.data);
+            this.setState({
+              packageordermasters : response.data,
+            });
+            // localStorage.setItem("token",response.data.token);
+            // direct.setState({loggedIn:response.data.token})
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
+    axios
+        .get('/packageordermasters/4hizFniSEzGQSSAqq/nAGwEGQeouxYT9GXu')
+        .then((response)=> {
+            console.log("-------packageordermasters------>>",response.data);
+            this.setState({
+              packageordermasters : response.data,
+            });
+            // localStorage.setItem("token",response.data.token);
+            // direct.setState({loggedIn:response.data.token})
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        
+  // if ( !$('body').hasClass('adminLte')) {
+  //   var adminLte = document.createElement("script");
+  //   adminLte.type="text/javascript";
+  //   adminLte.src = "/js/adminLte.js";
+  //   $("body").append(adminLte);
+  // }
+}
 
+componentWillUnmount(){
+  // $("script[src='/js/adminLte.js']").remove();
+  // $("link[href='/css/dashboard.css']").remove();
+}
+
+viewreceipt(event){
+  var receiptid = $(event.currentTarget).attr('recipt-link');
+  // console.log("receiptid==>>",receiptid);
+  // FlowRouter.go('/payment-success/' + receiptid);
+  this.props.history.push('/payment-success/' + receiptid);
+}
 
 
 render(){

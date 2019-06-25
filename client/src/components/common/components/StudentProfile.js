@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
 import TimeAgo from 'react-timeago';
+import  renderHTML from 'react-render-html';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/modal.js';
@@ -31,7 +32,6 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 // import TimeAgo from 'react-timeago';
 // import ReactQuill from 'react-quill'; 
 // import 'react-quill/dist/quill.snow.css';
-// import  renderHTML from 'react-render-html';
 // import  { Quill, Mixin, Toolbar } from 'react-quill'; 
 
 
@@ -40,9 +40,11 @@ class StudentProfile extends Component{
 	constructor(){
 	  super();
 	    this.state = {
-	        // content         : '',
-	        // loginTime       : '',
-	        loggedIn : false,
+	    	mainExamReport 	 		: [],
+	    	Notificationstatus 	 	: [],
+	        // content          	: '',
+	        // loginTime        	: '',
+	        loggedIn 				: false,
 	    }
 	    // this.handleChange = this.handleChange.bind(this);
 	}
@@ -61,8 +63,19 @@ class StudentProfile extends Component{
     	// var token = localstorage.getItem('token');
     	// console.log("localstorage =",localstorage);
     	// console.log("token =",token);
-
-    	 
+    	axios
+	    	.get('/notificationmasters/cancel')
+            .then((response)=> {
+                console.log("-------Notificationstatus------>>",response.data);
+                this.setState({
+		 			Notificationstatus : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
  	 }
 
 	componentDidMount(){
@@ -77,6 +90,37 @@ class StudentProfile extends Component{
 	    	})
 
 	    }
+
+	    axios
+	    	.get('myexammasters/dashboard/dp9Cz4TrF5sKfv4HJ')
+            .then((response)=> {
+                console.log("-------dashboardReports------>>",response.data);
+                this.setState({
+		 			mainExamReport : response.data
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+	    	.get('/packageordermasters/WyQY35LEFitPcabP6')
+            .then((response)=> {
+                console.log("-------packageordermasters------>>",response.data);
+                this.setState({
+		 			packageordermasters : response.data,
+
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
 	// 	if ( !$('body').hasClass('adminLte')) {
 	// 	  var adminLte = document.createElement("script");
 	// 	  adminLte.type="text/javascript";
@@ -254,23 +298,23 @@ class StudentProfile extends Component{
 										            <th className="col-lg-1 tab-Table pdhead">  Marks </th>
 										        </tr>
 										    </thead>
-										{/*this.props.mainExamReport!=0 ?*/
+										{this.state.mainExamReport!=0 ?
 										    <tbody className="myAllTableReport reportbdscroll">
-										     	{/*this.props.mainExamReport.map((Exams,index)=>*//*{*/
-										     	/*return <tr key={index}>
+										     	{this.state.mainExamReport.map((Exams,index)=>{
+										     	return <tr key={index}>
 										     			<td className="col-lg-5 pdhead tabletxtwrap">{Exams.competitionName}</td>
 										     			<td className="col-lg-1 tab-Table pdhead">{Exams.category}</td>
 										     			<td className="col-lg-1 tab-Table pdhead">{Exams.totalScore}</td>
-										     		</tr>*/
-										     		/*})*/
-										     }
+										     		</tr>
+										     	})
+										    	}
 										    </tbody>
-										// :
-									 //    	<tbody className="OESDataNotAvailable reportbdscroll">
-								  //   			<tr>
-								  //   				<td colSpan="9">"Reports are Not Yet Available."</td>
-								  //   			</tr>
-								  //   		</tbody>
+										:
+									    	<tbody className="OESDataNotAvailable reportbdscroll">
+								    			<tr>
+								    				<td colSpan="9">"Reports are Not Yet Available."</td>
+								    			</tr>
+								    		</tbody>
 							    		}
 										</table>
 									</div>
@@ -293,18 +337,18 @@ class StudentProfile extends Component{
 	                                          {/*!this.props.loading1 ?*/
 	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
 	                                        	{
-	                                        		// this.props.Notificationstatus.map((notemsg,index)=>{  
-	                                        		// 	var textcontent = renderHTML(notemsg.content);				                           
+	                                        		this.state.Notificationstatus.map((notemsg,index)=>{  
+	                                        			var textcontent = renderHTML(notemsg.content);				                           
 
-	                                        			/*return*/(<ul className="" /*key={index}*/>
+	                                        			return(<ul className="" key={index}>
 
 										                  <li>
 										                  	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										                  		<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 createdatnotice">
-										                    		<TimeAgo date="2018-04-24T17:12:21.419Z"/*notemsg.createdAt*/ />
+										                    		<TimeAgo date= {notemsg.createdAt} />
 										                    	</div>
 										                  		<div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 createdatnotice notificationWrap">
-																	{/*textcontent*/}On 25th April (Thursday) Exam window will be closed between 10am to 12:00noon.
+																	{textcontent}
 										                    	</div>
 										                    </div>
 										                  </li>

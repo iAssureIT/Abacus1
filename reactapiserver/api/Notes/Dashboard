@@ -199,6 +199,7 @@
                             competitionName            : String,
                             category                   : String,
                             totalScore                 : Number
+                        }
                       ]
 
 ------------------------------------------------------------------------------------------

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 // import $ from "jquery";
+import axios from 'axios';
+import swal from 'sweetalert';
 
 import '../css/MyAccount.css';
 
 /*import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';*/
 
-
-class StudentResetPassword extends /*TrackerReact*/(Component) {
+class StudentResetPassword extends (Component) {
 	constructor(){
 		  super();
 		    this.state = {
@@ -36,60 +37,62 @@ class StudentResetPassword extends /*TrackerReact*/(Component) {
 	// 		}
 	// 	});
  //  	}
-	// changepassword(event) {
-	//     event.preventDefault();
-	//     var resetPassword   = FlowRouter.getParam("id");
-	//     var oldPassword     = this.refs.oldPassword.value;
-	//     var password        = this.refs.resetPasswordPassword.value;
-	//     var passwordConfirm = this.refs.resetPasswordPasswordConfirm.value;
+	changepassword(event) {
+	    event.preventDefault();
+	    // var resetPassword   = FlowRouter.getParam("id");
+	    var resetPassword 	= this.props.match.params;
+	    var oldPassword     = this.refs.oldPassword.value;
+	    var password        = this.refs.resetPasswordPassword.value;
+	    var passwordConfirm = this.refs.resetPasswordPasswordConfirm.value;
 	   	
- //       if (password === passwordConfirm) {
+		if (password === passwordConfirm) {
 
- //        if(password.length >= 6){  
- //         	  //End of else
-	//        Accounts.changePassword(oldPassword, password, (error, result)=>{ 
-	//         if(error){ 
-	//             swal("Invalid current password.","","warning");
-	//             this.refs.oldPassword.value = '';
-	//         }else{
-	//             // this.props.navigate('DisplayCustomerProfile');
-	//         	swal("Your password has been updated!","","success"); 
-	//         	this.refs.resetPasswordPassword.value = '';
-	//     	    this.refs.resetPasswordPasswordConfirm.value = '';
-	   	         
-	//     	}        
- //    	  });
- //        }else{	
- //          	swal({
-	//             title: "password should be at least 6 characters long",
-	//             text: "Please try again",
-	//             timer: 1700,
-	//             showConfirmButton: false,
-	//             type: "error"
-	//         });
- //      	}
- //       	}else{
- //         swal({
- //            title: 'Passwords does not match',
- //            text: 'Please try again',
- //            showConfirmButton: true,
- //            type: 'error'
- //         }); //End of error swal
- //       }
- //   }
+        	if(password.length >= 6){  
+
+		    axios
+		        .patch('/user/changepwd',{resetPassword,oldPassword,password,passwordConfirm})
+		        .then((response)=> {
+		            console.log("-------changepwd------>>",response.data);
+		            this.setState({
+		              changepwd : response.data,
+		            });
+		           	swal("Your password has been updated!","","success"); 
+		        	this.refs.resetPasswordPassword.value = '';
+		    	    this.refs.resetPasswordPasswordConfirm.value = '';
+		        })
+		        .catch(function (error) {
+		            console.log(error);
+		            swal("Invalid current password.","","warning");
+		            // this.refs.oldPassword.value = '';
+		        });
+
+	        }else{	
+	          	swal({
+		            title: "password should be at least 6 characters long",
+		            text: "Please try again",
+		            timer: 1700,
+		            showConfirmButton: false,
+		            type: "error"
+		        });
+	      	}
+       	}else{
+	        swal({
+	            title: 'Passwords does not match',
+	            text: 'Please try again',
+	            showConfirmButton: true,
+	            type: 'error'
+	        }); //End of error swal
+        }
+   }
 	 
-		
-	
+    handleChange(event){
+	    const target = event.target;
+	    const name   = target.name;
+	    // this.setState({
+	    //   [name] : event.target.value,
+	    // });
+  	}
 
- //   handleChange(event){
- //    const target = event.target;
- //    const name   = target.name;
- //    this.setState({
- //      [name]: event.target.value,
- //    });
- //  }
-
-    
 	render() {
 	 	// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
 			// $('.sidebar').css({display:'block',background: '#222d32'});
@@ -112,12 +115,12 @@ class StudentResetPassword extends /*TrackerReact*/(Component) {
 			            </div>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 onlineCPExamWrap">
-							    <form /*onSubmit={this.changepassword.bind(this)}*/ id="resetPasswordForm" method="post" className="resetpasswordWrapper col-lg-12 col-md-12 col-xs-12 col-sm-12">
+							    <form onSubmit={this.changepassword.bind(this)} id="resetPasswordForm" method="post" className="resetpasswordWrapper col-lg-12 col-md-12 col-xs-12 col-sm-12">
 							    	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 resetPassTitle"></div>
 							    	<div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
 									   <span className="blocking-span">
 									   
-										   <input type="password" className={this.state.oldPassword ? "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12 has-content" : "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12"} ref="oldPassword" name="oldPassword" /*onChange={this.handleChange}*/ id="oldPassword"  required/>
+										   <input type="password" className={this.state.oldPassword ? "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12 has-content" : "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12"} ref="oldPassword" name="oldPassword" onChange={this.handleChange} id="oldPassword"  required/>
 										   
 										   <span className="floating-label" >Current Password</span>
 									   

@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import '../css/Exam.css' ;
 
-export default class CompetitionResultReport extends /*TrackerReact*/(Component) {	
+export default class CompetitionResultReport extends (Component) {	
 	constructor(){
 		super();
 		this.state ={
@@ -174,7 +174,7 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 						var subCat = String(subCat);
 
 						subCatarray.push(
-							<option key={i}>{subCat}</option>
+							"<option key={i}>{subCat}</option>"
 							);
 					}
                 		console.log("subCatarray-->>",subCatarray);
@@ -558,6 +558,7 @@ export default class CompetitionResultReport extends /*TrackerReact*/(Component)
 															<option value="">-- Select Sub Category --</option>
 															<option value="all" id="all">ALL</option>
 															{this.SubCategoryName()}
+
 														</select>
 														<span className="floating-label floating-label-Date">Select Sub Category</span>					   			
 													</span>

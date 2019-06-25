@@ -27,6 +27,7 @@ class Certificate extends (Component) {
 	componentWillMount(){
 
 	}
+	
 	componentDidMount(){
 	 	axios.get('/exammasters',)
             .then((response)=> {
@@ -42,7 +43,6 @@ class Certificate extends (Component) {
             });
 	}
 
-	
 	getCompetitionId(s){
 		console.log('called event');
 		var competitionId = $("#selectId option:selected").attr("id");

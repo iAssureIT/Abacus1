@@ -13540,7 +13540,7 @@ body {
 }
 .content{
 	padding-left: 15px; padding-right: 15px;
-	color:#FFF;
+	/*color:#FFF;*/
 	font-family: 'Open Sans', sans-serif;
 	}
 #logo {

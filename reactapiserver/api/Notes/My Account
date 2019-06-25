@@ -201,7 +201,7 @@ Note :  updateProfilePermission value can be checked (using 6 query) student.pro
     URL             : /packageordermasters/:studentId
 
     Input           : -NA-
-                      
+
     Output          :
                         [
                             {
