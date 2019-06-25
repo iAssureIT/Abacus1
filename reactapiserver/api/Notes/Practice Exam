@@ -5,7 +5,83 @@
 ------------------------------------------------------------------------------------------
                         1. Start Free Practice Exam
 ------------------------------------------------------------------------------------------
+1. Fetch Instructions for Practice Exam
 
+    Method          : GET
+
+    URL             : /instructions/:instype
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            instruction             : String,
+                        }
+
+2. List specify Student all practice exam (getPracticeExamTimeData)
+
+    Method          : GET
+
+    URL             : /mypracticeexammasters/:practiceExamId/:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            examTime                : String,
+                        }
+
+3. Get the last visited question (getLastVisitedQuestion)
+
+    Method          : GET
+
+    URL             : /mypracticeexammasters/:practiceExamId
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            lastVisitedQuestion     : String,
+                            lastVisitedQAnswer      : String,
+                        }
+
+4. Get exam Questions (getExamQuestions)
+
+    Method          : GET
+
+    URL             : /mypracticeexammasters/:practiceExamId/:studentId
+
+    Input           : -NA-
+                      
+    Output          :
+                        {
+                            _id                     : String,
+                            totalQuestion           : String,
+                            answerArray             : String,
+                            totalMarks              : String,
+                            examTime                : String,
+                            examName                : String,
+                        }
+
+5. Update examTime, lastVisitedQuestion,lastVisitedQAnswer 
+
+    Method          : PATCH
+
+    URL             : /mypracticeexammasters
+
+    Input           : 
+                        {
+                            examId      : String,
+                            index       : String,
+                            studAnswer  : String,
+                            examTime    : String
+                        }
+                      
+    Output          :
+                        "Updated succefuly"
 ------------------------------------------------------------------------------------------
                         2. Start Purchased Exam
 ------------------------------------------------------------------------------------------

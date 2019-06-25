@@ -1,13 +1,12 @@
 1. Package Purchased        - Done
-2. Competition Details      - 
-3. Free Practice Tests      - 
+2. Competition Details      - Done
+3. Free Practice Tests      - Done
 4. Reports                  - Done
 5. Notification             - Done
 
 ------------------------------------------------------------------------------------------
                         1. Package Purchased
 ------------------------------------------------------------------------------------------
-
 1. List Package Purchased 
 
     Method          : GET
@@ -36,39 +35,151 @@
                       ]
 
 ------------------------------------------------------------------------------------------
-                        2. Package Purchased
+                        2. Competition Details
 ------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------
-                        3. Package Purchased
-------------------------------------------------------------------------------------------
-
-1. List Package Purchased 
+1. Get Student Details
 
     Method          : GET
 
-    URL             :  /packageordermasters/:studentId
+    URL             :  /studentmaster/details/:studentId
+
+    Input           : -NA-
+                      
+    Output          : {
+                            subCategory : String,
+                      }
+
+2. List of Exams which are to be shown
+
+    Method          : GET
+
+    URL             :  /exammasters/list
 
     Input           : -NA-
                       
     Output          : [
-                        {
-                            _id                        : String,
-                            transactionId              : String,
-                            amount                     : Number,
-                            paymentDate                : Date,
-                            packages                   : [
-                                                            {
-                                                                packageId : String,
-                                                                packageName : String,
-                                                                category : String,
-                                                                subCategory : String,
-                                                                packagePrice : Number,
-                                                                NoOfPracticeTest : Number
-                                                            }
-                                                        ]
-                        }
-                      ]
+                            {
+                                "_id": "4K4kD3ETDpiBkcJ7A",
+                                "competitionName": String,
+                                "competitionDate": Date,
+                                "startTime": String,
+                                "endTime": String,
+                                "competitionFees": String,
+                                "franchiseShare": String,
+                                "maatsShare": Number,
+                                "termsCondition": String,
+                                "createdAt": Date,
+                                "competitionStatus": String,
+                                "competitionExams": [
+                                    {
+                                        "questionPaperId": String,
+                                        "category": String,
+                                        "subCategory": String,
+                                        "paperTitle": String,
+                                        "examDuration": String,
+                                        "totalMarks": String,
+                                        "marksPerQuestion": String,
+                                        "examStatus": String
+                                    }
+                                ],
+                                "competitionView": "Show"
+                            }
+                        ]
+
+3. List Competition Register Order fo student
+
+    Method          : GET
+
+    URL             :  /competitionregisterorder/:studentId/:competitionId
+
+    Input           : -NA-
+                      
+    Output          : {
+                            _id             : String,
+                            competitionName : String,
+                            examDate        : Date,
+                      }
+------------------------------------------------------------------------------------------
+                        3. Free Practice Tests
+------------------------------------------------------------------------------------------
+
+1. Get Student Details
+
+    Method          : GET
+
+    URL             :  /studentmaster/details/:studentId
+
+    Input           : -NA-
+                      
+    Output          : {
+                            _id         : String,
+                            subCategory : String,
+                            studentEmail: String,
+                            category    : String,
+                            status      : String,
+                      }
+
+2. Get data from competition registration order
+
+    Method          : GET
+
+    URL             :  /competitionregisterorder/:studentId
+
+    Input           : -NA-
+                      
+    Output          : [{
+                            _id         : String,
+                            competitionId : String,
+                      }]
+
+3. Get Incomplete exam 
+
+    Method          : GET
+
+    URL             :  /myexammasters/incomplete/:studentId
+
+    Input           : -NA-
+                      
+    Output          : {
+                            _id         : String,
+                            examStatus  : String,
+                      }
+
+4. List all the question paper 
+
+    Method          : GET
+
+    URL             :  /questionpapermasters/:category/:subcategory
+
+    Input           : -NA-
+                      
+    Output          : [{
+                            _id             : String,
+                            quePaperTitle   : String,
+                      }]
+
+5. List all Practice Exams
+
+    Method          : GET
+
+    URL             :  /mypracticeexammasters/:examPaperId/:studentId
+
+    Input           : -NA-
+                      
+    Output          : [{
+                            _id             : String,
+                            examStatus      : String,
+                      }]
+
+6. Find Incomplete Exam of specify student
+
+    Method          : GET
+
+    URL             :  /mypracticeexammasters/incompleteexam/:studentId
+
+    Input           : -NA-
+                      
+    Output          : Complete Document
 
 ------------------------------------------------------------------------------------------
                         4. Report

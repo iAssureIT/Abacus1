@@ -21,6 +21,8 @@ const notificationmastersRoutes		= require('./api/routes/notificationmasters');
 const registrationRouters			= require('./api/routes/registration');
 const purchasedpackageRouters		= require('./api/routes/purchasedpackage');
 const dashboardRouters				= require('./api/routes/dashboard');
+const sturegcompetitionsRouters		= require('./api/routes/studentregistrationforcompetitions');
+const questionpapermastersRouters	= require('./api/routes/questionpapermasters');
 
 mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
@@ -56,10 +58,12 @@ app.use('/instructions',instructionRoutes);
 app.use('/studentmaster',studentMasterRoutes);
 app.use('/tempimg',tempImgRouters);
 app.use('/notificationmasters',notificationmastersRoutes)
+app.use('/questionpapermasters',questionpapermastersRouters);
 
 app.use("/registration",registrationRouters);
 app.use("/purchasedpackage",purchasedpackageRouters);
 app.use('/dashaboard',dashboardRouters);
+app.use('/studentcompetitions',sturegcompetitionsRouters);
 
 // handle all other request which not found 
 app.use((req, res, next) => {

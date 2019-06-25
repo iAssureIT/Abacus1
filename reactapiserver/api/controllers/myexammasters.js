@@ -2,7 +2,39 @@ const mongoose	= require("mongoose");
 
 const MyExamMaster = require('../models/myexammasters');
 
-
+exports.fetch_incomplete_exams = (req,res,next) => {
+    var studentId       = req.params.studentId;
+    MyExamMaster.find({StudentId:studentId,examStatus:"InCompleted"})
+            .select("examStatus")
+            .exec()
+            .then(data =>{
+            //   console.log('data ',data);
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
+exports.fetch_student_incomplete_exams = (req,res,next) => {
+    var studentId       = req.params.studentId;
+    var competitionId   = req.params.competitionId;
+    MyExamMaster.find({StudentId:studentId,competitionId:competitionId,examStatus:"InCompleted"})
+            .select("competitionName examDate")
+            .exec()
+            .then(data =>{
+            //   console.log('data ',data);
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
 exports.fetch_mainexam_certificate = (req,res,next)=>{
     var competitionId = req.params.competitionId;
     var studentId     = req.params.studentId;

@@ -1,6 +1,21 @@
 const mongoose	= require("mongoose");
 const ExamMaster = require('../models/exammasters');
 
+exports.fetch_exam_details = (req,res,next)=>{
+  ExamMaster.find({competitionView:"Show"})
+          .sort( { competitionDate:-1} )
+          .exec()
+          .then(data =>{
+          //   console.log('data ',data);
+            res.status(200).json(data);
+          })
+          .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+              error: err
+              });
+          });
+}
 exports.fetch_all = (req,res,next)=>{
     ExamMaster.find({competitionView:"Show"})
             .sort( { competitionName:1,competitionView:1 } )

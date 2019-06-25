@@ -21,7 +21,6 @@ exports.fetch_mycompetitionorder = (req,res,next)=>{
 }
 
 exports.fetch_mycompetitionorderreceipt = (req,res,next)=>{
-  console.log('In competition Receipt');
   var sId = req.params.studentId;
   var compId = req.params.competitionId;
   CompetitionOrderMaster.findOne({competitionId:compId , studentId:sId,status:"paid"})
