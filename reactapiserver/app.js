@@ -17,6 +17,7 @@ const instructionRoutes 			= require('./api/routes/instructionmasters');
 const studentMasterRoutes			= require('./api/routes/studentmasters');
 const tempImgRouters				= require('./api/routes/tempimages');
 const notificationmastersRoutes		= require('./api/routes/notificationmasters');
+const packagequestionpapermasterRoutes	= require('./api/routes/packagequestionpapermaster');
 
 const registrationRouters			= require('./api/routes/registration');
 const purchasedpackageRouters		= require('./api/routes/purchasedpackage');
@@ -24,7 +25,7 @@ const dashboardRouters				= require('./api/routes/dashboard');
 const sturegcompetitionsRouters		= require('./api/routes/studentregistrationforcompetitions');
 const questionpapermastersRouters	= require('./api/routes/questionpapermasters');
 
-mongoose.connect('mongodb://localhost/onlineExamSystem',{
+mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 	useNewUrlParser: true
 })
 mongoose.promise =global.Promise;
@@ -64,6 +65,7 @@ app.use("/registration",registrationRouters);
 app.use("/purchasedpackage",purchasedpackageRouters);
 app.use('/dashaboard',dashboardRouters);
 app.use('/studentcompetitions',sturegcompetitionsRouters);
+app.use("/packagequestionpapermaster",packagequestionpapermasterRoutes);
 
 // handle all other request which not found 
 app.use((req, res, next) => {

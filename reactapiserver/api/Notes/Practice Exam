@@ -1,6 +1,6 @@
-1. Start Free Practice Exam -
-2. Start Purchased Exam - WIP Only 
-3. Practice Exam Reports - Done
+1. Start Free Practice Exam     - Done
+2. Start Purchased Exam         - WIP
+3. Practice Exam Reports        - Done
 
 ------------------------------------------------------------------------------------------
                         1. Start Free Practice Exam
@@ -66,7 +66,7 @@
                             examName                : String,
                         }
 
-5. Update examTime, lastVisitedQuestion,lastVisitedQAnswer 
+5. updatePracticeExamTimeAndStudenAnswer 
 
     Method          : PATCH
 
@@ -81,7 +81,36 @@
                         }
                       
     Output          :
-                        "Updated succefuly"
+                        if everything goes well then
+                            "Updated successfully"
+                        if answer not update successfully then  
+                            "Something went wrong. 2"
+                        if answer is not found then
+                            "Something went wrong. 1"
+                        if lastVisitedQuestion not update then
+                            "Something went wrong."
+
+6. updateQuestionPaperMasterAccordingtoPackages
+
+    Method          : PATCH
+
+    URL             : /packagequestionpapermaster
+
+    Input           : 
+                        {
+                            quepaperID  : String,
+                            packageID   : String,
+                            index       : Number,
+                            orderId     : String,    
+                            studentID   : String,
+                            todayDate   : String, //convert today date into moment().format("MMM Do YY") format
+                        }
+                      
+    Output          :
+                        if everything goes well then
+                            "Updated successfully"
+                        else
+                            "Something went wrong."
 ------------------------------------------------------------------------------------------
                         2. Start Purchased Exam
 ------------------------------------------------------------------------------------------

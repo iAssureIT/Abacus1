@@ -77,7 +77,6 @@ exports.fetch_practice_exam_student = (req,res,next)=>{
 exports.fetch_practice = (req,res,next)=>{
   var practiceExamId   = req.params.practiceExamId;
   MyPracticeExamMaster.findOne({_id:practiceExamId})
-                      .select("lastVisitedQuestion lastVisitedQAnswer")
                       .exec()
                       .then(data =>{
                       //   console.log('data ',data);
@@ -105,7 +104,55 @@ exports.update_exam_ans = (req,res,next)=>{
                                 )
                       .exec()
                       .then(data =>{
-                        res.status(200).json(data);
+                        if(data.nModified == 1){
+                          MyPracticeExamMaster.findOne({ _id : examId })
+                                              .exec()
+                                              .then(data=>{
+                                                var answerArray = data.answerArray[index];
+                                                if(answerArray.correctAnswer==studAnswer){
+                                                  var answer = 'Correct';
+                                                }else{
+                                                  var answer = "Wrong";
+                                                }
+                                                if(answer){
+                                                  MyPracticeExamMaster.update(
+                                                                              {"_id":examId},
+                                                                              {
+                                                                                $set:{
+                                                                                  ['answerArray.'+index+'.attempted']:"Yes",
+                                                                                  ['answerArray.'+index+'.studentAnswer']:studAnswer,
+                                                                                  ['answerArray.'+index+'.answer']:answer,
+                                                                                  // ['answerArray.'+index+'.lastVisited']:new Date(),
+                                                                                }
+                                                                              })
+                                                                      .exec()
+                                                                      .then(d=>{
+                                                                        if(d.nModified == 1){
+                                                                          res.status(200).json("Updated successfully");                                                
+                                                                        }else{
+                                                                          res.status(200).json("Something went wrong. 2");                        
+                                                                        }
+                                                                      })
+                                                                      .catch(err =>{
+                                                                        console.log(err);
+                                                                        res.status(500).json({
+                                                                          error: err
+                                                                          });
+                                                                      });
+                                                }else{
+                                                  res.status(200).json("Something went wrong. 1");
+                                                }
+                                              })
+                                              .catch(err =>{
+                                                console.log(err);
+                                                res.status(500).json({
+                                                  error: err
+                                                  });
+                                              });                        
+                        }else{
+                          res.status(200).json("Something went wrong.");
+                        }
+                        
                       })
                       .catch(err =>{
                         console.log(err);

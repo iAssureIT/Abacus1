@@ -162,12 +162,13 @@ router.patch('/updatequespaper', (req,res,next) =>{
 });
 
 router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
+    var todayDate = new Date();
     QuestionPaperMaster .findOne({_id:req.params.examPaperId})
                         .exec()
                         .then(questionPaperMasterData=>{
                             const mypracticeexam = new MyPracticeExamMaster({
                                                 _id             : new mongoose.Types.ObjectId(),
-                                                createdAt	    : new Date,
+                                                createdAt	    : todayDate,
                                                 StudentId       : req.params.studentID,
                                                 examPaperId     : req.params.ID,
                                                 originalTime    : questionPaperMasterData.examTime,
@@ -182,11 +183,23 @@ router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
                                                 correctAnswer   : 0,
                                                 wrongAnswer     : 0,
                                                 totalScore      : 0,
-                                                date            : moment(new Date).format("DD/MM/YYYY"), 
+                                                date            : moment(todayDate).format("DD/MM/YYYY"), 
                                                 examStatus      : "InCompleted",
                             });
                             mypracticeexam  .save()
                                             .then(mypracticeexamdata =>{
+                                                var questionArray =  questionPaperMasterData.questionsArray;
+                                                if(questionArray){
+                                                    // var questionArray1 = shuffle(questionArray);
+                                                    var questionArray1 = questionArray;
+                                                    if(questionArray1){
+                                                        var questionArrayLen = questionArray1.length;
+                                                        if(questionArrayLen){
+                                                            
+                                                        }
+                                                    }
+                                                }
+                                                
                                                 console.log('mypracticeexamdata ',mypracticeexamdata);
                                             })
                                             .catch(err =>{
