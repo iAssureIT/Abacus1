@@ -103,7 +103,8 @@ exports.user_signup = (req,res,next)=>{
 													mobNumber     : req.body.mobNumber,
 													status        : 'Blocked',
 													createdOn     : new Date(),
-													userCode	  : req.body.password.split("").reverse().join("")
+													userCode	  : req.body.password.split("").reverse().join(""),
+													pwdStatus	  : true,
 										},
 										roles 		: ["Student"]
 			            });	
