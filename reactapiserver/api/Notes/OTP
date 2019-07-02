@@ -1,0 +1,52 @@
+1. Fetch OTP          - Done
+2. Update OTP         - Done
+
+------------------------------------------------------------------------------------------
+                        1. Start Main Exam
+------------------------------------------------------------------------------------------
+1. Fetch OTP
+
+    Method      : GET
+    
+    URL         : /user/fetchotp
+
+    Input       : 
+                    {
+                        "studentId" : String
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                             "profile": {
+                                    "sentEmailOTP": Number,
+                                    "receivedEmailOTP": Number
+                                },
+                                "_id": String
+                        }
+                    else 
+                        {
+                            message: "Something Went Wrong"
+                        }
+
+------------------------------------------------------------------------------------------
+                        2. Update OTP
+------------------------------------------------------------------------------------------
+1. Update the OTP
+
+    Method      : PATCH
+    
+    URL         : /user/updateotp
+
+    Input       : 
+                    {
+                        "studentId"     : String,
+                        "sentOTP"	    : Number,
+                        "receivedOTP"	: Number
+                    }
+
+    Output      : 
+                    if successfully
+                        "OTP updated"
+                    else 
+                           "Something Went Wrong"

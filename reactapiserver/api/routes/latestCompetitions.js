@@ -4,6 +4,6 @@ const router 	= express.Router();
 
 const LatestCompetitionsController = require('../controllers/latestCompetitions');
 
-router.get('/', LatestCompetitionsController.latestCompetitions);
+router.get('/:student_ID', LatestCompetitionsController.latestCompetitions);
 
 module.exports = router;

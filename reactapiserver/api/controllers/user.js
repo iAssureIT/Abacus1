@@ -153,8 +153,9 @@ exports.user_login = (req,res,next)=>{
 					}
 					);
 					return res.status(200).json({
-						message: 'Auth successful',
-						token: token
+						message		: 'Auth successful',
+						token		: token,
+						user_ID 	: user._id
 					});	
 				}
 				return res.status(401).json({
@@ -269,7 +270,55 @@ exports.user_profileimg = (req,res,next)=>{
             });
 }
 
+exports.fetch_otp = (req,res,next)=>{
+	var sId = req.body.studentId;
+	User.findOne({_id:sId})
+		.select("profile.sentEmailOTP profile.receivedEmailOTP")
+		.exec()
+		.then(users =>{
+			if(users){
+				res.status(200).json(users);
+			}else{
+				res.status(200).json("Something went wrong");
+			}			
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+}
 
+exports.update_otp =(req,res,next) =>{
+	console.log('update otp');
+	var sId 		= req.body.studentId;
+	var sentOTP		= req.body.sentOTP;
+	var receivedOTP = req.body.receivedOTP;
+	User.updateOne(
+					{_id:sId},
+					{
+						$set:{
+							"profile.sentEmailOTP"		: sentOTP,
+							"profile.receivedEmailOTP"	: receivedOTP
+						}
+					}
+				)
+		.exec()
+		.then(users =>{
+			if(users.nModified == 1){
+				res.status(200).json("OPT updated");
+			}else{
+				res.status(200).json("Something went wrong");
+			}			
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+}
 
 // exports.registration = (req,res,next) =>{
 // 	var studentId     = req.body.studentId;
