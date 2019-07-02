@@ -41,7 +41,7 @@
 
     Method          : GET
 
-    URL             :  /studentmaster/details/:studentId
+    URL             :  /studentmaster/details/:student_ID
 
     Input           : -NA-
                       
@@ -107,7 +107,7 @@
 
     Method          : GET
 
-    URL             :  /studentmaster/details/:studentId
+    URL             :  /studentmaster/details/:student_ID
 
     Input           : -NA-
                       

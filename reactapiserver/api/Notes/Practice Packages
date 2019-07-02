@@ -1,9 +1,280 @@
-1. Purchase New Package
-2. My Package List - WIP
+1. Purchase New Package     - WIP
+2. My Package List          - WIP
 
 ------------------------------------------------------------------------------------------
                             1. Purchase New Package
 ------------------------------------------------------------------------------------------
+1. List all the Packages
+
+    Method      : GET
+    
+    URL         : /packagemanagementmasters
+
+    Input       : - NA -
+
+    Output      : [
+                    {
+                        "_id"                   : String,
+                        "packageName"           : String,
+                        "categoryName"          : String,
+                        "subCategory"           : String,
+                        "NoOfPracticeTest"      : Number,
+                        "AttemptOfPracticeTest" : Number,
+                        "PackagePrice"          : Number,
+                        "Description"           : String
+                    }
+                  ]
+
+/*Start APIs related to addPackages*/
+2. Find PackageOrderMaster
+
+    Method      : GET
+    
+    URL         : /packageordermasters/updatepackage/:ID/:packageId
+
+    Input       : - NA -
+
+    Output      : 
+                    {
+                        "_id"               : String,
+                        "buyerId"           : String,
+                        "studentName"       : String,
+                        "franchiseId"       : String,
+                        "status"            : String,
+                        "packages": [
+                            {
+                                "packageId"         : String,
+                                "packageName"       : String,
+                                "category"          : String,
+                                "subCategory"       : String,
+                                "packagePrice"      : Number,
+                                "NoOfPracticeTest"  : Number
+                            }
+                        ],
+                        "invoiceId"         : Number,
+                        "packageStatus"     : String,
+                        "amount"            : Number,
+                        "transactionId"     : String,
+                        "billnumbers"       : Number,
+                        "paymentDate"       : Number
+                    }
+
+3. Find Student details
+
+    Method      : GET
+    
+    URL         : /studentmaster/details/:student_ID
+
+    Input       : - NA -
+
+    Output      : 
+                    {
+                        "_id"                   : String,
+                        "studentFirstName"      : String,
+                        "studentMiddleName"     : String,
+                        "studentLastName"       : String,
+                        "studentFullName"       : String,
+                        "mobileNumber"          : String,
+                        "studentDOB"            : String,
+                        "schoolName"            : String,
+                        "franchiseName"         : String,
+                        "franchiseMobileNumber" : String,
+                        "studentAddress"        : String,
+                        "studentCountry"        : String,
+                        "studentState"          : String,
+                        "studentCity"           : String,
+                        "pincode"               : String,
+                        "category"              : String,
+                        "subCategory"           : String,
+                        "studentEmail"          : String,
+                        "genderType"            : String,
+                        "status"                : String
+                    }
+
+4. Update packageordermasters remove packageId
+
+    Method      : PATCH
+    
+    URL         : /packageordermasters/updatepackageid/:ID/:packageId
+
+    Input       : - NA -
+
+    Output      : 
+                    if packages are removed then 
+                        "Package Order Updated"
+                    else
+                        "Something Went wrong"
+
+5. Insert Package Order Master
+
+    Method      : POST
+    
+    URL         : /packageordermasters
+
+    Input       : 
+                    {
+                        'buyerId'       : String,
+                        'studentName'   : String,
+                        'franchiseId'   : String,
+                        'status'        : String,
+                        'packageStatus' : String,
+                    }
+
+    Output      : 
+                    if packages are removed then 
+                        "Package Order Inserted"
+                    else
+                        "Something Went wrong"
+
+5. Fetch Package from Package Management Master
+
+    Method      : GET
+    
+    URL         : /packagemanagementmasters/:packageID
+
+    Input       : - NA -
+
+    Output      : 
+                    {
+                        "_id"                   : String,
+                        "packageName"           : String,
+                        "categoryName"          : String,
+                        "subCategory"           : String,
+                        "NoOfPracticeTest"      : Number,
+                        "AttemptOfPracticeTest" : String,
+                        "PackagePrice"          : Number,
+                        "practicePaperID": [
+                            {
+                                "paperID": String
+                            }
+                        ],
+                        "Description"           : String,
+                        "createdAt"             : Date,
+                        "packageStatus"         : String
+                    }
+
+6. Push or PUll packages from Package Order Master
+
+    Method      : PATCH
+    
+    URL         : /packageordermasters/:action/:packageID
+
+    Note        : action can be either add or remove. In case of remove Input is not required
+
+    Input       : 
+                    {
+                        packageName             : String,
+                        category                : String,
+                        subCategory             : String,
+                        packagePrice            : String,
+                        NoOfPracticeTest        : String,
+                    }
+
+    Output      : 
+                    if add then
+                        if added successfully
+                            "Package added successfully"
+                        else    
+                            "Something went wrong"
+                    if remove then  
+                        if removed successfully
+                            "Package removed successfully"
+                        else    
+                            "Something went wrong"
+                    else
+                        "Invalid action option"
+
+/*End of APIs related to addPackages*/
+7. checkPackagesAdded : Check if packages are added or not. Same can be used for componentDidUpdate function
+
+    Method      : GET
+    
+    URL         : /packageordermasters/:ID
+
+    Input       : - NA -
+
+    Output      : 
+                    if packages are added then 
+                        "packagesAdded"
+                    else
+                        "notAdded"
+
+/*Code releted to Invoice*/
+8. Get Student Name
+
+    Method      : GET
+    
+    URL         : /studentmaster/details/:studentId
+
+    Input       : - NA -
+
+    Output      : 
+                    {
+                        studentFullName             : String,
+                    }
+9. Show Invoice (MyInvoiceContainer)
+
+    Method      : GET
+    
+    URL         : /packageordermasters/invoice/:invoice_ID
+
+    Input       : - NA -
+
+    Output      : 
+                    {
+                        orderMasterData     : 
+                                                {
+                                                   "_id"            : String,
+                                                    "buyerId"       : String,
+                                                    "studentName"   : String,
+                                                    "franchiseId"   : String,
+                                                    "status"        : String,
+                                                    "packages"      : [
+                                                                            {
+                                                                                "packageId"         : String,
+                                                                                "packageName"       : String,
+                                                                                "category"          : String,
+                                                                                "subCategory"       : String,
+                                                                                "packagePrice"      : Number,
+                                                                                "NoOfPracticeTest"  : Number
+                                                                            }
+                                                                        ],
+                                                    "invoiceId"     : Number,
+                                                    "packageStatus" : String,
+                                                    "amount"        : Number,
+                                                    "transactionId" : String,
+                                                    "billnumbers"   : Number,
+                                                    "paymentDate"   : Date 
+                                                },
+                        packageTotal        : Number
+                    }
+
+
+10. paymentGatewayforPackageBuy 
+    
+    Note : Need to test
+
+    Method      : POST
+    
+    URL         : /quickwalletmasters/payment
+
+    Input       : 
+                    {
+                        "mobileNumber"  : String,
+                        "packageTotal"  : NUmber
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message         : "Payment successfully",
+                            paymentUrl      : String,
+                        }
+                    else 
+                        {
+                            message         : "Payment failed",
+                            paymentUrl      : null,
+                        }
 
 ------------------------------------------------------------------------------------------
                             2. My Package List

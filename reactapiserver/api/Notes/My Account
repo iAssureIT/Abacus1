@@ -31,7 +31,7 @@ Note :  updateProfilePermission value can be checked (using 6 query) student.pro
 
     Method          : GET
 
-    URL             : /studentmaster/:studentId
+    URL             : /studentmaster/sinfo/:studentId
 
     Input           : -NA-
                       

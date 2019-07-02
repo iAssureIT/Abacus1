@@ -6,6 +6,7 @@ router.get('/dashboard/:studentId',MyExamMastersController.fetch_exam_student_da
 router.get('/participation/:competitionId/:studentId', MyExamMastersController.fetch_participationexam_certificate);
 router.get('/dashboard/:studentId/:competitionId',MyExamMastersController.fetch_student_incomplete_exams);
 router.get('/incomplete/:studentId',MyExamMastersController.fetch_incomplete_exams);
+router.get('/completeexam/:ID',MyExamMastersController.update_myexammaster);
 router.get('/:competitionId/:studentId', MyExamMastersController.fetch_mainexam_certificate);
 router.get('/:studentId',MyExamMastersController.fetch_mainexam_student);
 router.get('/:categoryname/:subCategory/:competitionId/:startRange/:dataRange',MyExamMastersController.fetch_competition_result_view);

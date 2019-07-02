@@ -149,7 +149,6 @@ exports.fetch_competition_result_view = (req,res,next) =>{
     }
 }
 
-
 exports.search_student_competition_result_view = (req,res,next) =>{
     var categoryName    = req.params.categoryname;
     var studenName     = req.params.studentname;
@@ -202,4 +201,29 @@ exports.fetch_exam_student_dashboard = (req,res,next) => {
                     error: err
                 });
             });
+}
+
+exports.update_myexammaster = (req,res,next) =>{
+    MyExamMaster.update(
+                            {_id : req.params.ID},
+                            {
+                                $set:{
+                                    "examStatus":"Completed",
+                                }
+                            }
+                        )
+                .exec()
+                .then(data =>{
+                    if(data.nModified == 1){
+                        res.status(200).json({message: "Exam Completed"});
+                    }else{
+                        res.status(200).json({message: "Something Went Wrong"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
 }

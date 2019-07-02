@@ -1,12 +1,12 @@
 const mongoose	= require("mongoose");
 
 const StudentMaster = require('../models/studentmasters');
-// const User          = require('../models/users');
+const User          = require('../models/users');
 
 exports.fetch_student = (req,res,next)=>{
-  var sId = req.params.studentId;
+  var sId = req.params.student_ID;
     StudentMaster.findOne({studentId:sId})
-            .select("subCategory studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus status competitionPaymentStatus")
+            .select("subCategory studentFirstName studentMiddleName studentLastName studentFullName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus status competitionPaymentStatus")
 		        .exec()
             .then(data =>{
               res.status(200).json(data);

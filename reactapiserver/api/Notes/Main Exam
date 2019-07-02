@@ -1,11 +1,45 @@
-1. Start Main Exam
-2. Main Exam Reports - Done
-3. Competition Result View - Done
+1. Start Main Exam          - WIP
+2. Main Exam Reports        - Done
+3. Competition Result View  - Done
 
 ------------------------------------------------------------------------------------------
                         1. Start Main Exam
 ------------------------------------------------------------------------------------------
+1. List all the Exams
 
+    Method      : GET
+    
+    URL         : /myexammasters/completeexam/:ID
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            message: "Exam Completed"
+                        }
+                    else 
+                        {
+                            message: "Something Went Wrong"
+                        }
+2. StartExamCategoryWise : Need to understand
+3. ExamFinished 
+
+    Method      : PATCH
+    
+    URL         : /myexammasters/completeexam/:ID
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            message: "Exam Completed"
+                        }
+                    else 
+                        {
+                            message: "Something Went Wrong"
+                        }
 ------------------------------------------------------------------------------------------
                         2. Main Exam Reports
 ------------------------------------------------------------------------------------------

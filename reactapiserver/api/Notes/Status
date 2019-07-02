@@ -5,15 +5,15 @@ A. Dashboard
     4. Reports                      - Done
     5. Notification                 - Done
 B. Main Exam
-    1. Start Main Exam              - YTS
+    1. Start Main Exam              - WIP (StartExamCategoryWise, container data)
     2. Main Exam Reports            - Done
     3. Competition Result View      - Done
 C. Practice Packages
-    1. Purchase New Package         - YTS
-    2. My Package List              - WIP
+    1. Purchase New Package         - Done (payment gateway need to be test)
+    2. My Package List              - WIP (StartPracticeExam is pending)
 D. Practice Exam
     1. Start Free Practice Exam     - Done
-    2. Start Purchased Exam         - WIP
+    2. Start Purchased Exam         - WIP (StartPracticeExam is pending)
     3. Practice Exam Reports        - Done
 E. Certificate
     1. Certificate                  - Done
