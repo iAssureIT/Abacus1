@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import { Link} from 'react-router-dom';
-// import {browserHistory} from 'react-router-dom';
-import { Redirect } from 'react-router';
-import swal from 'sweetalert';
-import $ from "jquery";
-
+import { Link}              from 'react-router-dom';
+// import {browserHistory}     from 'react-router-dom';
+import { Redirect }         from 'react-router';
+import swal                 from 'sweetalert';
+import $                    from "jquery";
+import axios                from 'axios';
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
-
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 class Login extends Component {
 
@@ -49,14 +44,20 @@ class Login extends Component {
         localStorage.setItem("token",response.data.token);
         console.log("localStorage =",localStorage);
         // browserHistory.replace('/');
-        this.props.history.push("/dashboard");
+        // this.props.history.push("/dashboard");
         // direct.setState({loggedIn:response.data.token})
         if(localStorage==null){
           swal("Invalid Email or Password","Please Enter valid email and password","warning");
         }else{
-          this.setState({
-              loggedIn  :   true
-          })
+           
+            this.setState({
+              loggedIn : true,
+            },()=>{
+              // this.props.systemlogin(false);
+            })
+            // browserHistory.push("/login");
+            this.props.history.push("/dashboard");
+        
         }
       })
       .catch(function (error) {
@@ -79,11 +80,11 @@ class Login extends Component {
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
-      console.log("-------------------------------",this.state.loggedIn)
+      console.log("-------------------------------",this.props.systemlogin);
     
-    if(this.state.loggedIn===true){
-      return <div></div>
-    }
+    // if(this.state.loggedIn===true){
+    //   return <div></div>
+    // }
 
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 signUpWrapper">
@@ -134,8 +135,8 @@ class Login extends Component {
                     <span className="floating-label1 lbfloatpass"><i className="fa fa-lock" aria-hidden="true"></i> Password</span>                 
                   </span>
                 <span className="input-group-addon customCls customCls1 glyphi-custommm">
-                  <i className="fa fa-eye Pass showPwd" aria-hidden="true" onClick={this.showSignPass.bind(this)}></i>
-                  <i className="fa fa-eye-slash Pass hidePwd" aria-hidden="true" onClick={this.hideSignPass.bind(this)}></i>
+                  <i className="fa fa-eye-slash Pass showPwd" aria-hidden="true" onClick={this.showSignPass.bind(this)}></i>
+                  <i className="fa fa-eye Pass hidePwd" aria-hidden="true" onClick={this.hideSignPass.bind(this)}></i>
                 </span>
                   <span className="focus-border">
                     <i></i>

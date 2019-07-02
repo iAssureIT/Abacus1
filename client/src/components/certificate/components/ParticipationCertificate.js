@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import $ from "jquery";
-import html2canvas from 'html2canvas';
-import * as jsPDF from 'jspdf';
+import $ 					from "jquery";
+import html2canvas 			from 'html2canvas';
+import * as jsPDF 			from 'jspdf';
+import axios 				from 'axios';
 
 import '../css/CertificateCss.css';
-
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
 
 class ParticipationCertificate extends (Component) {
 

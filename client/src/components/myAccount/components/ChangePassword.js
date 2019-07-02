@@ -17,8 +17,8 @@ class StudentResetPassword extends (Component) {
 		    	 resetPasswordPasswordConfirm : "",
 		       	 facilityPermission : 'waitingforResult',
 		    }
-		    // this.handleChange = this.handleChange.bind(this);
-		}
+		// this.handleChange = this.handleChange.bind(this);
+	}
 
 	// componentWillMount(){
  //  		 Meteor.call("isAuthenticated","MyAccount","ChangePassword",(err,res)=>{
@@ -45,12 +45,21 @@ class StudentResetPassword extends (Component) {
 	    var password        = this.refs.resetPasswordPassword.value;
 	    var passwordConfirm = this.refs.resetPasswordPasswordConfirm.value;
 	   	
+	   	var inpFields = {
+					   	// resetPassword 	: this.props.match.params,
+					    // oldPassword     : this.refs.oldPassword.value,
+					    userID    		: "E6BRdJtHMF9a6p7KF",
+					    password        : this.refs.resetPasswordPassword.value,
+					    passwordConfirm : this.refs.resetPasswordPasswordConfirm.value,
+					    // header 			: Access-Control-Allow-Origin
+						}
+
 		if (password === passwordConfirm) {
 
         	if(password.length >= 6){  
 
 		    axios
-		        .patch('/user/changepwd',{resetPassword,oldPassword,password,passwordConfirm})
+		        .patch('/user/changepwd',inpFields)
 		        .then((response)=> {
 		            console.log("-------changepwd------>>",response.data);
 		            this.setState({
@@ -111,44 +120,33 @@ class StudentResetPassword extends (Component) {
 	                <div className="box">
 	                  <div className="box-header with-border boxMinHeight">
 	                  	<div className="box-header with-border">
-			            <h3 className="box-title">Change Password</h3>
+			            	<h3 className="box-title">Change Password</h3>
 			            </div>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 onlineCPExamWrap">
 							    <form onSubmit={this.changepassword.bind(this)} id="resetPasswordForm" method="post" className="resetpasswordWrapper col-lg-12 col-md-12 col-xs-12 col-sm-12">
 							    	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 resetPassTitle"></div>
 							    	<div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
-									   <span className="blocking-span">
-									   
+									    <span className="blocking-span">
 										   <input type="password" className={this.state.oldPassword ? "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12 has-content" : "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12"} ref="oldPassword" name="oldPassword" onChange={this.handleChange} id="oldPassword"  required/>
-										   
 										   <span className="floating-label" >Current Password</span>
-									   
-									   </span>
-								    </div>
-							        <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
-									   	 <span className="blocking-span">
-									   
-										   <input type="password" className={this.state.resetPasswordPassword ? "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12 has-content" : "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12"} ref="resetPasswordPassword" onChange={this.handleChange} name="resetPasswordPassword" id="resetPasswordPassword"  required/>
-										   
-										    <span className="floating-label">New Password</span>
-									  
 									    </span>
 								    </div>
-
+							        <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
+									   	<span className="blocking-span">
+										   <input type="password" className={this.state.resetPasswordPassword ? "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12 has-content" : "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12"} ref="resetPasswordPassword" onChange={this.handleChange} name="resetPasswordPassword" id="resetPasswordPassword"  required/>
+										   <span className="floating-label">New Password</span>
+									    </span>
+								    </div>
 								    <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12">
 									    <span className="blocking-span">
-									   
 										   <input type="password" className={this.state.resetPasswordPasswordConfirm ? "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12 has-content" : "UMnameOEs inputText col-lg-12 col-md-12 col-sm-12"} ref="resetPasswordPasswordConfirm" onChange={this.handleChange} name="resetPasswordPasswordConfirm" id="resetPasswordPasswordConfirm"  required/>
-										   
 										   <span className="floating-label">Confirm New password</span>
-									  
-									   </span>
+									    </span>
 								    </div>
-
-							       <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
+							        <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
 								    	<button  className="col-lg-12 col-md-4 col-xs-12 col-sm-12  col-xs-12 btn-submit resetpassBtn UMloginbutton hvr-sweep-to-right" type="submit" value="Change Password"> Change Password &nbsp; 
-								    	<span><i className="fa fa-rocket" aria-hidden="true"></i></span> 
+								    		<span><i className="fa fa-rocket" aria-hidden="true"></i></span> 
 								    	</button>
 						   			</div>	
 							    </form>

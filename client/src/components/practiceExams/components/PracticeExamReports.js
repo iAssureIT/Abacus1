@@ -1,12 +1,8 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import $ from "jquery";
+import React, {Component} 	from 'react';
+import {render} 			from 'react-dom';
+import $ 					from "jquery";
+import axios 				from 'axios';
 import '../css/PracticeExam.css';
-
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';

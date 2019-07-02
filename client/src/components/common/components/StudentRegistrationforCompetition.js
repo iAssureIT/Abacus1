@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import swal from 'sweetalert';
-import $ from "jquery";
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import {render} 			from 'react-dom';
+import swal 				from 'sweetalert';
+import $ 					from "jquery";
+import { Link } 			from 'react-router-dom';
+import axios 				from 'axios';
+import moment from 'moment';
+
+import '../css/common.css';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import Webcam from 'react-webcam';
-import '../css/common.css';
 
 // import {StudentMaster} from '/imports/student/api/studentMaster.js';
 // import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
@@ -21,9 +24,56 @@ import '../css/common.css';
 
 
 class StudentRegistrationforCompetition extends Component  {
-	
+
+	constructor(){
+	  super();
+	    this.state = {
+	    	'defaultTime'			: '00:15',
+			'defaultBtnTime'		: '00:15',
+			showButton 				: true,
+			showstartbtn 			: true,
+			todayDate 				: moment().format('DD/MM/YYYY'),
+			facilityPermission 		: 'waitingforResult',
+	    	studentmasterdetails 	: [],
+	    	competitionData 	 	: [],
+	    }
+	}
 	componentDidMount(){
-		
+
+		axios
+	    	.get('/studentmaster/details/WyQY35LEFitPcabP6')
+            .then((response)=> {
+                console.log("-------studentmasterdetails------>>",response.data);
+                this.setState({
+		 			studentmasterdetails : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+	    	.get('/exammasters/list')
+            .then((response)=> {
+                console.log("-------exammasters------>>",response.data);
+                this.setState({
+		 			competitionData : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+			})
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+
+
+
+
+
 	// `	// if ( !$('body').hasClass('adminLte')) {
 	// 		//   var adminLte = document.createElement("script");
 	// 		//   adminLte.type="text/javascript";
@@ -35,17 +85,6 @@ class StudentRegistrationforCompetition extends Component  {
     	// $("script[src='/js/adminLte.js']").remove();
     	// $("link[href='/css/dashboard.css']").remove();
   	}
-
-	constructor(props){
-		super(props);
-		this.state={
-			'defaultTime':'00:15',
-			'defaultBtnTime':'00:15',
-			showButton:true,
-			showstartbtn: true,
-			facilityPermission : 'waitingforResult',
-		}
-	}
 
 	componentWillMount(){
   // 		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{
@@ -95,8 +134,8 @@ class StudentRegistrationforCompetition extends Component  {
 	}
 
 	gotoPreviousMainExam(event){
-		// var id = $(event.target).attr('id');
-		// var compId = $(event.target).attr('data-text');
+		var id = $(event.target).attr('id');
+		var compId = $(event.target).attr('data-text');
 		// navigator.getMedia = ( 
 		// // navigator.getUserMedia || // use the proper vendor prefix
   //       navigator.webkitGetUserMedia ||
@@ -138,62 +177,54 @@ class StudentRegistrationforCompetition extends Component  {
 		});
 	}
 
-	// this function is assuming due to bab internet or internet is not available this function will execute
+// this function is assuming due to bab internet or internet is not available this function will execute
 	tryLoadingAgain(){
-		// examTime = this.state.defaultTime;
-		// var LoadingInterval = setInterval(function() {
+		var examTime = this.state.defaultTime;
+		var LoadingInterval = setInterval(function() {
 		
-		// if(examTime){
-		//   var timer = examTime.split(':');
-		//   var minutes = parseInt(timer[0], 10);
-		//   var seconds = parseInt(timer[1], 10);
-		//   --seconds;
-		//   minutes = (seconds < 0) ? --minutes : minutes;
-		//   if (minutes < 0){
-		//   	clearInterval(LoadingInterval);
-		// 	$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
-
-		//   }else{
-		//   	 seconds = (seconds < 0) ? 59 : seconds;
-		// 	  seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-		// 	  minutes = (minutes < 10) ?  minutes : minutes;
-		// 	 $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
-		// 	  examTime = minutes + ':' + seconds;
-		// 	}
-		// }
-
-		// }, 1000);
-		
+			if(examTime){
+			  	var timer = examTime.split(':');
+			  	var minutes = parseInt(timer[0], 10);
+			  	var seconds = parseInt(timer[1], 10);
+			  	--seconds;
+			  	minutes = (seconds < 0) ? --minutes : minutes;
+			  	if(minutes < 0){
+				  	clearInterval(LoadingInterval);
+					$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
+				}else{
+				  	seconds = (seconds < 0) ? 59 : seconds;
+					seconds = (seconds < 10) ? '0' + seconds : seconds;
+					minutes = (minutes < 10) ?  minutes : minutes;
+					$('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
+					examTime = minutes + ':' + seconds;
+				}
+			}
+		}, 1000);
 	}
 
-	// this function is assuming due to bab internet or internet is not available this function will execute
+// this function is assuming due to bab internet or internet is not available this function will execute
 	tryLoadingAgainforBtn(){
-		// examTime = this.state.defaultBtnTime;
-		// var LoadingInterval = setInterval(function() {
+		var examTime = this.state.defaultBtnTime;
+		var LoadingInterval = setInterval(function() {
 		
-		// if(examTime){
-		//   var timer = examTime.split(':');
-		//   var minutes = parseInt(timer[0], 10);
-		//   var seconds = parseInt(timer[1], 10);
-		//   --seconds;
-		//   minutes = (seconds < 0) ? --minutes : minutes;
-		//   if (minutes < 0){
-		//   	clearInterval(LoadingInterval);
-		// 	$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
-
-		//   }else{
-		//   	 seconds = (seconds < 0) ? 59 : seconds;
-		// 	  seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-		// 	  minutes = (minutes < 10) ?  minutes : minutes;
-		// 	 $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
-		// 	  examTime = minutes + ':' + seconds;
-		// 	}
-		// }
-
-		// }, 1000);
-		
+			if(examTime){
+			  	var timer = examTime.split(':');
+			  	var minutes = parseInt(timer[0], 10);
+			  	var seconds = parseInt(timer[1], 10);
+			  	--seconds;
+			  	minutes = (seconds < 0) ? --minutes : minutes;
+			  	if (minutes < 0){
+				  	clearInterval(LoadingInterval);
+					$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
+			  	}else{
+				  	seconds = (seconds < 0) ? 59 : seconds;
+					seconds = (seconds < 10) ? '0' + seconds : seconds;
+				  	minutes = (minutes < 10) ?  minutes : minutes;
+				 	$('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
+				 	examTime = minutes + ':' + seconds;
+				}
+			}
+		}, 1000);
 	}
 
 	
@@ -207,95 +238,89 @@ class StudentRegistrationforCompetition extends Component  {
 							<i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp; Competition Details
 						</div>
 					</div>
-						<div id="multiExamCarousel" className="carousel slide" data-ride="carousel">
+					<div id="multiExamCarousel" className="carousel slide" data-ride="carousel">
 						<Link className="col-lg-12 col-md-12 allExamlink" to="/MultipleComp" title="Click here to register for competitions"><button className="btn startexambtn1 startmultiexambtn1"><blink>List of competitions</blink></button></Link>
 						<div className="crslDiv col-lg-10 col-lg-offset-1">
-						<div className="carousel-inner">
-								{/*this.props.competitionData.length>0 ?
-									this.props.competitionData.map((competitionInfo,index)=>{										
-										return(*/											
-										// <div className={index==0?"item active":"item"}  key={index}>
-										// 	<div className="fontstyle examtitlecolor">{competitionInfo.competitionName}</div>
-										// 	<div className="fontstyle">On</div>
-										// 	<div className="fontstyle">{competitionInfo.EXAMDate}</div>
-										// 	<div className="fontstyle">{competitionInfo.startTime} To {competitionInfo.endTime}</div>
-										// 	{competitionInfo.studentPaymentStatus=="paid"?												            				
-										// 		this.props.todayDate < competitionInfo.examDate ?
-										// 			<div className="fontstyle" >												
-										// 				<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
-										// 			</div>
-										// 		:
-										// 		!competitionInfo.lastInCompExamIdStatus?
-										// 			competitionInfo.examDataStatus=="Completed"?
-										// 				<div className="fontstyle" >												
-										// 					<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												
-										// 				</div>
-										// 			:
-										// 			competitionInfo.competitionStatus=="start"?
-										// 						competitionInfo.examStartStatus=="start"?
-										// 							<div className="fontstyle" >
-										// 								<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1 startmultiexambtn">Start Exam </button></a>
-										// 							</div>
-										// 							:	
-										// 							<div className="fontstyle" >
-										// 								<div className="fontstyle">Your exam not started yet.</div>															
-										// 							</div>
-										// 					:
-										// 					this.props.todayDate>competitionInfo.examDate?
-										// 						competitionInfo.examDataStatus=="Completed"?
-										// 							<div className="fontstyle" >												
-										// 								<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												
-										// 							</div>
-										// 							:
-										// 							<div className="fontstyle" >												
-										// 								<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
-										// 							</div>
-
-										// 						:
-										// 						<div className="fontstyle" >																	
-										// 								<div className="fontstyle">Competition not started yet</div>																	
-										// 						</div>
-										// 		:
-
-										// 			competitionInfo.examDataStatus=="InComplete"?
-										// 						this.state.showButton ?
-										// 						<div className="fontstyle" >
-										// 							<a> <button type="submit"  className="btn startexambtn1 startmultiexambtn" data-text={competitionInfo._id} id={competitionInfo.examId} onClick={this.gotoPreviousMainExam.bind(this)}>Continue Exam </button></a>
-										// 							{/*<a> <button type="submit"  className="btn startexambtn1 startmultiexambtn" id={competitionInfo.examId} onClick={this.MainExamComplete.bind(this)}>Discontinue Exam </button></a>*/}
-										// 						</div> 
-
-											// 			:
-											// 			<div className="fontstyle" >
-											// 				<div className="fontstyle">Loading please wait...</div>
-											// 			</div>
-											// 		:
-											// 		<div className="fontstyle" >												
-											// 				<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												
-											// 		</div>
-
-											// :
-											// 	competitionInfo.timeStatus=="valid" && competitionInfo.examYear=="NotAccept" ?
-											// 		<div className="fontstyle" >									
-											// 			<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
-											// 		</div>
-											// 		:														            			
-											// 		competitionInfo.timeStatus=="invalid"  || competitionInfo.examYear=="NotAccept"?
-											// 			<div className="fontstyle" >
-											// 				<div className="fontstyle">Competition has finished</div>
-											// 			</div>
-											// 		:						            					            			
-											// 		<div className="fontstyle" >									
-											// 			<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
-											// 		</div>
-											// }
-
-								// 		</div>)										
-								// 		})
-
-								// 	:
-								// 	<div className="fontstyle" >	
-					   //  				<div>"Competition will coming soon"</div>
-					   //  			</div>
+							<div className="carousel-inner">
+								{this.state.competitionData.length>0 ?
+									this.state.competitionData.map((competitionInfo,index)=>{										
+										return(											
+										<div className={index==0?"item active":"item"}  key={index}>
+											<div className="fontstyle examtitlecolor">{competitionInfo.competitionName}</div>
+											<div className="fontstyle">On</div>
+											<div className="fontstyle">{competitionInfo.EXAMDate}</div>
+											<div className="fontstyle">{competitionInfo.startTime} To {competitionInfo.endTime}</div>
+												{competitionInfo.studentPaymentStatus=="paid"?												            				
+													this.state.todayDate < competitionInfo.examDate ?
+														<div className="fontstyle" >												
+															<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
+														</div>
+													:
+														!competitionInfo.lastInCompExamIdStatus?
+															competitionInfo.examDataStatus=="Completed"?
+																<div className="fontstyle" >												
+																	<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												
+																</div>
+															:
+																competitionInfo.competitionStatus=="start"?
+																	competitionInfo.examStartStatus=="start"?
+																		<div className="fontstyle" >
+																			<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1 startmultiexambtn">Start Exam </button></a>
+																		</div>
+																	:	
+																		<div className="fontstyle" >
+																			<div className="fontstyle">Your exam not started yet.</div>															
+																		</div>
+																:
+																	this.props.todayDate>competitionInfo.examDate?
+																		competitionInfo.examDataStatus=="Completed"?
+																			<div className="fontstyle" >												
+																				<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												
+																			</div>
+																		:
+																			<div className="fontstyle" >												
+																				<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
+																			</div>
+																	:
+																		<div className="fontstyle" >																	
+																			<div className="fontstyle">Competition not started yet</div>																	
+																		</div>
+														:
+															competitionInfo.examDataStatus=="InComplete"?
+																this.state.showButton ?
+																	<div className="fontstyle" >
+																		<a> <button type="submit"  className="btn startexambtn1 startmultiexambtn" data-text={competitionInfo._id} id={competitionInfo.examId} onClick={this.gotoPreviousMainExam.bind(this)}>Continue Exam </button></a>
+																		{/*<a> <button type="submit"  className="btn startexambtn1 startmultiexambtn" id={competitionInfo.examId} onClick={this.MainExamComplete.bind(this)}>Discontinue Exam </button></a>*/}
+																	</div> 
+																:
+																	<div className="fontstyle" >
+																		<div className="fontstyle">Loading please wait...</div>
+																	</div>
+															:
+																<div className="fontstyle" >												
+																		<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												
+																</div>
+												:
+													competitionInfo.timeStatus=="valid" && competitionInfo.examYear=="NotAccept" ?
+														<div className="fontstyle" >									
+															<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
+														</div>
+													:														            			
+														competitionInfo.timeStatus=="invalid"  || competitionInfo.examYear=="NotAccept"?
+															<div className="fontstyle" >
+																<div className="fontstyle">Competition has finished</div>
+															</div>
+														:						            					            			
+															<div className="fontstyle" >									
+																<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
+															</div>
+												}
+										</div>)										
+										})
+								:
+									<div className="fontstyle" >	
+					    				<div>"Competition will coming soon"</div>
+					    			</div>
 								}
 							</div>
 						</div>

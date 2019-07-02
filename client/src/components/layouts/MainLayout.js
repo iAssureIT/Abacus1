@@ -1,5 +1,5 @@
-import React ,{ Component }	from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React ,{ Component }		from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 /***************************Temparary files******************************/
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,16 +9,14 @@ import StudentHeader			from '../../components/common/components/StudentHeader.js
 import StudentSidebar			from '../../components/common/components/StudentSidebar.js';
 import Footer					from '../../components/common/components/Footer.js';
 import PageNotFound				from '../../components/common/components/PageNotFound.js';
-/***************************Temparary files******************************/
-// Section: 1 - SystemSecurity ******************************************************
+// Section: 1 - SystemSecurity *************************************************************
 import Login 					from '../../components/systemSecurity/Login.js';
 import ConfirmOtp  				from '../../components/systemSecurity/ConfirmOtp.js';
 import ForgotPassword 			from '../../components/systemSecurity/ForgotPassword.js';
 import ResetPassword 			from '../../components/systemSecurity/ResetPassword.js';
 import SignUp 					from '../../components/systemSecurity/SignUp.js';
 import VerifyAccount 			from '../../components/systemSecurity/VerifyAccount.js';
-
-// Section: 2 - MainExam ***************************************************
+// Section: 2 - MainExam ********************************************************************
 import MultipleCompetition 		from '../../components/studentMainExam/components/MultipleCompetition.js';
 import PastExamReports 			from '../../components/studentMainExam/components/PastExamReports.js';
 import CompetitionResultReport 	from '../../components/studentMainExam/components/CompetitionResultReport.js';
@@ -44,63 +42,85 @@ class MainLayout extends Component{
   constructor(props) {
     super();
     this.state = {
-        loggedIn : false,
+    	loggedIn : false,
+    	logout 	 : true
     }
+    this.updateState = this.updateState.bind(this);
+    console.log("in constructor");
   }
    
   componentDidMount(){
     var token = localStorage.getItem("token");
-      if(token!==null){
-      console.log("Header Token = ",token);
+      if(token!=null){
+      console.log("in componentDidMount");
       this.setState({
-        loggedIn : true
+        loggedIn : true,
+        logout   : false
       })
-      // browserHistory.push("/login");
-      // this.props.history.push("/login");
+    //   // browserHistory.push("/login");
+    //   // this.props.history.push("/login");
     }
   }
 
+  updateState(data){
+    this.setState({
+      // "loggedIn" : false,
+      "logout": data,
+    },()=>{
+    	if (this.state.logout) {
+    		this.setState({
+    			"loggedIn" : false
+    		})
+    	}else{
+    		this.setState({
+    			"loggedIn" : true
+    		})
+    	}
+    })
+  }
+
   render(){
-    {console.log("loggedIn status layput = ", this.state.loggedIn)}
-    if(this.state.loggedIn===true){
+    // console.log("loggedIn status layput = ", this.state.loggedIn);
+    console.log("local stoarage = ",localStorage.getItem("token"));
+   if(localStorage.getItem("token")){
       return(
   		<Router>
 		    <Switch>
 		  		<div className="hold-transition skin-blue sidebar-mini">
 				    <div className="wrapper">
-				        <StudentHeader/>
+				        <StudentHeader systemlogout={this.updateState}/>
 				        <div className="container-fluid">
 					        <div className="row">
 					            <StudentSidebar/>
-					            <div className="container-fluid main-container nullPadding">
-					              	<div className="col-lg-10 marg-left nullPadding">
-					              	<Switch>
-								  		<Route path="/dashboard" 		exact strict component={ StudentProfile } />
-								  		
-								  		<Route path="/PurchasedPkg" 	exact strict component={ PurchasedPackage } />
-								  		<Route path="/PackageList" 		exact strict component={ PackageList } />
+						            <div className="container-fluid main-container nullPadding">
+						              	<div className="col-lg-10 marg-left nullPadding">
+							              	<Switch>
+										  		<Route path="/dashboard" 		exact strict component={ StudentProfile } />
+										  		
+										  		<Route path="/PurchasedPkg" 	exact strict component={ PurchasedPackage } />
+										  		<Route path="/PackageList" 		exact strict component={ PackageList } />
 
-								  		<Route path="/StartPracticeExam"exact strict component={ StartPracticeExam } />
-								  		<Route path="/PractExamReports" exact strict component={ PracticeExamReports } />
-								  		
-								  		<Route path="/Certificate" 		exact strict component={ Certificate } />
-								  		<Route path="/ParticipCert" 	exact strict component={ ParticipationCertificate } />
+										  		<Route path="/StartPracticeExam"exact strict component={ StartPracticeExam } />
+										  		<Route path="/PractExamReports" exact strict component={ PracticeExamReports } />
+										  		
+										  		<Route path="/Certificate" 		exact strict component={ Certificate } />
+										  		<Route path="/ParticipCert" 	exact strict component={ ParticipationCertificate } />
 
-								  		<Route path="/StudResetPwd" 	exact strict component={ StudentResetPassword } />
-								  		<Route path="/MyOrder" 			exact strict component={ MyOrder } />
-								  		<Route path="/CreateStudReg"	exact strict component={ CreateStudentRegistration } />
+										  		<Route path="/StudResetPwd" 	exact strict component={ StudentResetPassword } />
+										  		<Route path="/MyOrder" 			exact strict component={ MyOrder } />
+										  		<Route path="/CreateStudReg"	exact strict component={ CreateStudentRegistration } />
 
-								  		<Route path="/MultipleComp"		exact strict component={ MultipleCompetition } />
-								  		<Route path="/PastExamReports"	exact strict component={ PastExamReports } />
-								  		<Route path="/CompResultReport"	exact strict component={ CompetitionResultReport } />
-								  		
-								  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
-								  		<Route path="/MyInvoice"		exact strict component={ MyInvoice } />
-								  		
-					  					<Route component={ PageNotFound } />
-					              	</Switch>
-									</div>
-					            </div>
+										  		<Route path="/MultipleComp"		exact strict component={ MultipleCompetition } />
+										  		<Route path="/PastExamReports"	exact strict component={ PastExamReports } />
+										  		<Route path="/CompResultReport"	exact strict component={ CompetitionResultReport } />
+										  		
+										  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
+										  		<Route path="/MyInvoice"		exact strict component={ MyInvoice } />
+										  		
+							  					<Route component={ PageNotFound } />
+							              	</Switch>
+										</div>
+						            </div>
 					            <Footer/>
 					        </div>
 				        </div>
@@ -114,7 +134,7 @@ class MainLayout extends Component{
 			<Router>
 			  	<Switch>
 			  		<div>
-					    <Route path="/" 				exact strict component={ Login } />
+					   	<Route path="/" 				exact strict component={ Login } />
 					    <Route path="/login" 			exact strict component={ Login } />
 				  		<Route path="/signup" 			exact strict component={ SignUp } />
 				  		<Route path="/forgot-pwd" 		exact strict component={ ForgotPassword } />

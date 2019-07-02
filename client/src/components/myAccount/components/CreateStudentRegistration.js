@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { render } 	from 'react-dom';
-import InputMask 	from 'react-input-mask';
-import swal 		from 'sweetalert';	
-import $ 			from "jquery";
-import ProfilePic   from './ProfilePic.js';
-
+import { render } 			from 'react-dom';
+import InputMask 			from 'react-input-mask';
+import swal 				from 'sweetalert';	
+import $ 					from "jquery";
+import ProfilePic   		from './ProfilePic.js';
+import axios 				from 'axios';
 import '../css/MyAccount.css';
-import axios 		from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // import {Mongo} 			  from 'meteor/mongo';
 // import {render} 		  from 'react-dom';
