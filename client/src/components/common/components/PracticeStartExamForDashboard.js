@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import axios from 'axios';
 import swal from 'sweetalert';
 import $ from "jquery";
 import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
-
 
 // import {withTracker} from 'meteor/react-meteor-data';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -22,13 +22,84 @@ class PracticeStartExamForDashboard extends Component {
 		this.state = ({
 			showButton:true,
 			showstartExamBtn : true,
-			'defaultBtnTime': '00:05',
+			'defaultBtnTime' : '00:05',
+			practiceQPData 	 : [],
+			freeExamStatus 	 : [],
 		});
-	
-
 	}
+
 	componentDidMount(){
-		
+
+        axios
+	    	.get('/competitionregisterorder/bzdaMLD9Mf8YxR7TM')
+            .then((response)=> {
+                console.log("-------competitionregisterorder222------>>",response.data);
+                this.setState({
+		 			practiceQPData1 : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+	    	.get('/myexammasters/incomplete/cgTpRuSjgRt7GnLr5')
+            .then((response)=> {
+                console.log("-------myexammasters333------>>",response.data);
+                this.setState({
+		 			Notificationstatus : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+	    	.get('/questionpapermasters/A/A2')
+            .then((response)=> {
+                console.log("-------questionpapermasters444------>>",response.data);
+                this.setState({
+		 			practiceQPData : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+	    	.get('/mypracticeexammasters/vh5EWGeJf34k54XjF/uKRhdd7qS6ctjgK6s')
+            .then((response)=> {
+                console.log("-------mypracticeexammasters555------>>",response.data);
+                this.setState({
+		 			freeExamStatus : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios
+	    	.get('/mypracticeexammasters/incompleteexam/rRDPwPwKJrCRtyY9X')
+            .then((response)=> {
+                console.log("-------mypracticeexammasters666------>>",response.data);
+                this.setState({
+		 			Notificationstatus : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
 		// if ( !$('body').hasClass('adminLte')) {
 		//   var adminLte = document.createElement("script");
 		//   adminLte.type="text/javascript";
@@ -53,52 +124,43 @@ class PracticeStartExamForDashboard extends Component {
 		                 	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								
 								<form>
-									<div className="col-lg-11 col-md-11 col-lg-offset-1 col-md-offset-1 col-sm-12 col-xs-12 IagreeExamWrap">
+									<div className="col-lg-11 col-md-11 col-lg-offset-1 col-md-offset-1 col-sm-12 col-xs-12 IagreeExamWrapC">
 										
 										<div className="col-lg-12 ">
 											<div className="col-lg-12 partitionline">
 												<div className="col-lg-12  col-md-12 studProfileTit21">
 												<i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp; Free Practice Tests
 												</div>
-												{/*<h4  className="col-lg-9 practicetesttitle fontstyle leftpaddingNone">Free Practice Tests</h4>*/}
 											</div>
 										</div>
 
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examTable">
 						              		
 											    <div className="pEListTable pEListTableScroll">
-											    	{/*this.props.practiceQPData.length>0?*/
-											    		// this.props.practiceQPData.map((questionPaper,index)=>{
-												    	/*return*/ (<ul className="col-lg-12 freePPaper" /*key={index}*/>													    			
-													    			<li className="testtitle testtitlepadding col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;Avengers infinity-war{/*questionPaper.quePaperTitle*/}</li>	
+											    {/*console.log("this.state.practiceQPData",this.state.practiceQPData)*/}
+											    	{this.state.practiceQPData.length>0?								
+											    		this.state.practiceQPData.map((questionPaper,index)=>{
+												    	return (<ul className="col-lg-12 freePPaper" key={index}>													    			
+													    			<li className="testtitle testtitlepadding col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>	
 
-
-													    			{/*questionPaper.freeExamStatus=="Completed"?*/
-													    // 				<a href="/PracticeExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li>	</a>
-													    // 				:
-													    				<Link to="/StartPracticeExam"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" /*value={questionPaper._id}*/ title="Click here to start exam">Start</button></li>	</Link>
+													    			{questionPaper.freeExamStatus=="Completed"?
+													    				<Link to="/PracticeExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li></Link>
+													    				:
+													    				<Link to="/StartPracticeExam"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li></Link>
 													    			}
-													     			{/*<a href={`/practiceExam/${questionPaper._id}`}><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li>	</a>*/}
 													     		</ul>)
-											    		// })
-											    		// :
-											    		// <div className="col-lg-12 practicetesttitle1 fontstyle">Free Practice Tests Will be available after registering for competition </div>
+											    		})
+											    		:
+											    		<div className="col-lg-12 practicetesttitle1 fontstyle">Free Practice Tests Will be available after registering for competition </div>
 											    	}
 											    </div>
-											    
-											
 										</div>
 									</div>
 								</form>
 							</div>
-						 
-						  
-						  
 						  </div>
-						
 						</div>
 					  </div>
-					
 				  </section>
 				</div>
 			</div>

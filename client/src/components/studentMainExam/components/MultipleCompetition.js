@@ -23,19 +23,6 @@ import $ from "jquery";
 
 
 class MultipleCompetition extends /*TrackerReact*/(Component)  {
-	componentDidMount(){
-		
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
-	}
-	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
-  	}
 
 	constructor(props){
 		super(props);
@@ -47,7 +34,6 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			facilityPermission : 'waitingforResult',
 			competitionData: competitionData,
 		}
-
 		var competitionData={
 							    "_id" : "deQigRo3gDgikQXjY",
 							    "competitionName" : "TodayComp",
@@ -76,6 +62,19 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 							    "result" : "Declared"
 							}
 	}
+	componentDidMount(){
+		
+		// if ( !$('body').hasClass('adminLte')) {
+		//   var adminLte = document.createElement("script");
+		//   adminLte.type="text/javascript";
+		//   adminLte.src = "/js/adminLte.js";
+		//   $("body").append(adminLte);
+		// }
+	}
+	componentWillUnmount(){
+    	$("script[src='/js/adminLte.js']").remove();
+    	$("link[href='/css/dashboard.css']").remove();
+  	}
 
 	// componentWillMount(){
  //  		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{

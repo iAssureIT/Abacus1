@@ -1,24 +1,24 @@
-A. Dashboard
+A. Dashboard----------------------------------------------------------------------------
     1. Package Purchased            - Done
     2. Competition Details          - Done
     3. Free Practice Tests          - Done
     4. Reports                      - Done
     5. Notification                 - Done
-B. Main Exam
+B. Main Exam----------------------------------------------------------------------------
     1. Start Main Exam              - WIP (StartExamCategoryWise, container data)
     2. Main Exam Reports            - Done
     3. Competition Result View      - Done
-C. Practice Packages
+C. Practice Packages--------------------------------------------------------------------
     1. Purchase New Package         - Done (payment gateway need to be test)
     2. My Package List              - WIP (StartPracticeExam is pending)
-D. Practice Exam
+D. Practice Exam------------------------------------------------------------------------
     1. Start Free Practice Exam     - Done
     2. Start Purchased Exam         - WIP (StartPracticeExam is pending)
     3. Practice Exam Reports        - Done
-E. Certificate
+E. Certificate--------------------------------------------------------------------------
     1. Certificate                  - Done
     2. Participation Certificate    - Done
-F. My Account
+F. My Account---------------------------------------------------------------------------
     1. Change Password              - Done
     2. Registration Form            - Done
     3. My Order                     - Done

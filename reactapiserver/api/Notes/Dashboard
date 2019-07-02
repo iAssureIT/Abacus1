@@ -86,11 +86,11 @@
                             }
                         ]
 
-3. List Competition Register Order fo student
+3. List Competition Register Order fo student (Not working)
 
     Method          : GET
 
-    URL             :  /competitionregisterorder/:studentId/:competitionId
+    URL             : /competitionregisterorder/:studentId/:competitionId
 
     Input           : -NA-
                       
@@ -107,7 +107,7 @@
 
     Method          : GET
 
-    URL             :  /studentmaster/details/:student_ID
+    URL             : /studentmaster/details/:student_ID
 
     Input           : -NA-
                       
@@ -119,7 +119,7 @@
                             status      : String,
                       }
 
-2. Get data from competition registration order
+2. Get data from competition registration order (Not working)
 
     Method          : GET
 
@@ -132,7 +132,7 @@
                             competitionId : String,
                       }]
 
-3. Get Incomplete exam 
+3. Get Incomplete exam (Not working)
 
     Method          : GET
 

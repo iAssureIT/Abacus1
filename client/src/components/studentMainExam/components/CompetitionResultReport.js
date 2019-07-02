@@ -12,30 +12,30 @@ export default class CompetitionResultReport extends (Component) {
 	constructor(){
 		super();
 		this.state ={
-			compStudDataCount 	: 0,
-			dataRange 			: 100,
-			competitionDeclared : '',
-			limitRange 			: 100,
-			startRange 			: 0,
-			counter 			: 1,
-			competitionId 		: '',
-			categoryName  		: 'A',
-			subCategory 		: 'A1',
-			studentNameCWTM 	: '',
-			franchiseId 		: '',
-			franchise 			: '',
-			allCategoryWiseStudent: [],
-			allCompetitions  	: [],
-			allFranchiseData 	: [],
-			paginationArray  	: [],
-			showAllCategories  	: [],
-			signleCategory  	: [],
+			compStudDataCount 		: 0,
+			dataRange 				: 100,
+			competitionDeclared 	: '',
+			limitRange 				: 100,
+			startRange 				: 0,
+			counter 				: 1,
+			competitionId 			: '',
+			categoryName  			: 'ALL',
+			subCategory 			: 'A1',
+			studentNameCWTM 		: '',
+			franchiseId 			: '',
+			franchise 				: '',
+			allCategoryWiseStudent	: [],
+			allCompetitions  		: [],
+			allFranchiseData 		: [],
+			paginationArray  		: [],
+			showAllCategories  		: [],
+			singleCategory  		: [],
 		}
-		this.handleChange = this.handleChange.bind(this);
-		this.getFranchiseId = this.getFranchiseId.bind(this);
+		this.handleChange 	  = this.handleChange.bind(this);
+		this.getFranchiseId   = this.getFranchiseId.bind(this);
 		this.getSWTMTextValue = this.getSWTMTextValue.bind(this);
-		this.showGridView = this.showGridView.bind(this);
-		this.showListView = this.showListView.bind(this);
+		this.showGridView 	  = this.showGridView.bind(this);
+		this.showListView 	  = this.showListView.bind(this);
 	}
 
 	componentWillMount(){
@@ -138,15 +138,32 @@ export default class CompetitionResultReport extends (Component) {
 		this.setState({
 			competitionId : competitionId,
 		},()=>{/*this.studWiseTestMonthlyData()*/});
-
 	}
 
   	getCategoryName(event){
-		var categorySubName = $(event.target).val();
+		var categoryName = $(event.target).val();
 		this.setState({
-			categoryName : categorySubName,
-		},()=>{/*this.studWiseTestMonthlyData()*/});
-		
+			categoryName : categoryName,
+		});
+		axios
+			.get('/categories/'+categoryName)
+            .then((response)=> {
+                var	totalSubCatg = response.data.levels.length;
+                console.log("totalSubCatg = ",totalSubCatg);
+				if(totalSubCatg > 0){
+					var subCatarray =[];
+					for(var i=1; i<=totalSubCatg;i++){
+						var subCat = categoryName+i;
+						subCatarray.push(subCat);
+					}
+					this.setState({
+						subCatarray : subCatarray,
+					});
+				}
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 	}
 
 	getSubCategoryName(event){
@@ -158,40 +175,34 @@ export default class CompetitionResultReport extends (Component) {
 		},()=>{/*this.studWiseTestMonthlyData()*/});		
 	}
 
-  	SubCategoryName(){
-		var categoryName = this.state.categoryName;
-
-		axios
-			.get('/categories/'+categoryName)
-            .then((response)=> {
-                console.log("-------categories------>>",response.data);
-                var	signleCategory = response.data;
-				if(signleCategory){
-					var subCategoryarray = signleCategory.levels;
-					var subCatarray =[];
-					for(var i=0; i<subCategoryarray.length;i++){
-						var subCat = categoryName+''+parseInt(i+1);
-						var subCat = String(subCat);
-
-						subCatarray.push(
-							"<option key={i}>{subCat}</option>"
-							);
-					}
-                		console.log("subCatarray-->>",subCatarray);
-
-					return subCatarray;
-				}else{
-					return [];
-				}
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+	showhideSubCatDetails(event){		
+		$('.categoryListDataStudC').toggleClass('categoryListDataStudCshow');
 	}
 
-	showhideSubCatDetails(event){
-		
-		$('.categoryListDataStudC').toggleClass('categoryListDataStudCshow');
+	getSWTMTextValue(event){
+		var studentName= $('.SearchStudentCWTMName').val();
+		if(studentName){
+			var RegExpBuildValue = this.buildRegExp(studentName);
+			this.setState({
+				studentNameCWTM : RegExpBuildValue,
+			},()=>{this.studWiseTestMonthlyData()});
+		}else{
+			this.setState({
+				studentNameCWTM : '',
+			},()=>{this.studWiseTestMonthlyData()});
+		}
+	}
+
+	showGridView(){
+		$('#gridView').show();
+		$('#listView').hide();
+		$('#test-table-xls-button').hide();
+
+	}
+	showListView(){
+		$('#listView').show();
+		$('#test-table-xls-button').show();
+		$('#gridView').hide();
 	}
 
 // 	currentMonth(){
@@ -272,29 +283,15 @@ export default class CompetitionResultReport extends (Component) {
 // 			}
 // 	}
 
-// 	buildRegExp(searchText) {
-// 	   var words = searchText.trim().split(/[ \-\:]+/);
-// 	   var exps = _.map(words, function(word) {
-// 	      return "(?=.*" + word + ")";
-// 	   });
+	// buildRegExp(searchText) {
+	//    var words = searchText.trim().split(/[ \-\:]+/);
+	//    var exps = _.map(words, function(word) {
+	//       return "(?=.*" + word + ")";
+	//    });
 
-// 	   var fullExp = exps.join('') + ".+";
-// 	   return new RegExp(fullExp, "i");
-// 	}
-
-	getSWTMTextValue(event){
-		var studentName= $('.SearchStudentCWTMName').val();
-		if(studentName){
-			var RegExpBuildValue = this.buildRegExp(studentName);
-			this.setState({
-				studentNameCWTM : RegExpBuildValue,
-			},()=>{this.studWiseTestMonthlyData()});
-		}else{
-			this.setState({
-				studentNameCWTM : '',
-			},()=>{this.studWiseTestMonthlyData()});
-		}
-	}
+	//    var fullExp = exps.join('') + ".+";
+	//    return new RegExp(fullExp, "i");
+	// }
 
 // 	getFranchiseName(studentId){
 // 		var postHandle = Meteor.subscribe("LoginInStudent",studentId).ready();
@@ -307,28 +304,28 @@ export default class CompetitionResultReport extends (Component) {
 // 	}
 
 // 	//----------- pagination number click function  --------------------//
-// 	getQuestionStartEndNum(event){
-// 		var limitRange = $(event.target).attr('id');
-// 		// console.log("limitRange ----> ",limitRange);
-// 		limitRange     = parseInt(limitRange);
-// 		var startRange = limitRange - this.state.dataRange;
-// 		$('.page-link').removeClass('active');
-// 		var counter = $(event.target).text();
-// 		Session.set('pageNumber',counter);
+	getQuestionStartEndNum(event){
+		var limitRange = $(event.target).attr('id');
+		// console.log("limitRange ----> ",limitRange);
+		limitRange     = parseInt(limitRange);
+		var startRange = limitRange - this.state.dataRange;
+		$('.page-link').removeClass('active');
+		var counter = $(event.target).text();
+		// Session.set('pageNumber',counter);
 
-// 		$(".liNext").css("cursor","pointer");
-// 			if(Session.get("questionCount")==counter){
-// 			$(".liNext").css("cursor","not-allowed");
-// 		}
-// 		this.setState({
-// 			startRange : startRange,
-// 			counter    : counter,
-// 		},()=>{this.studWiseTestMonthlyData()});
+		$(".liNext").css("cursor","pointer");
+			// if(Session.get("questionCount")==counter){
+			$(".liNext").css("cursor","not-allowed");
+		// }
+		this.setState({
+			startRange : startRange,
+			counter    : counter,
+		},()=>{this.studWiseTestMonthlyData()});
 		
 			
-// 	}
+	}
 
-// //------------------------ this function call when click on next arrow --------------//
+// //------------------ this function call when click on next arrow ------------------//
 // 	nextPagee(event){
 // 		// console.log("this.state.counter",this.state.counter);
 // 		var counter = this.state.counter;
@@ -382,44 +379,46 @@ export default class CompetitionResultReport extends (Component) {
 // 		// }
 // 	}
 // //------- create pagination for table --------------// 
-// 	paginationFunction(event){
+	paginationFunction(event){
 
-// 		Meteor.call('getcompetitionwiseStudCount',this.state.competitionId,this.state.categoryName,this.state.subCategory,(err,res)=>{
-// 			if(err){}else{
+		// Meteor.call('getcompetitionwiseStudCount',this.state.competitionId,this.state.categoryName,this.state.subCategory,(err,res)=>{
+			// if(err){
+
+			// 	}else{
 				
-// 				if(res[0]=="getCount"){
-// 					this.setState({
-// 						compStudDataCount : res[1],
-// 					});
+			// 	if(res[0]=="getCount"){
+			// 		this.setState({
+			// 			compStudDataCount : res[1],
+			// 		});
 
-// 					const maxRowsPerPage = this.state.limitRange;
-// 					var compStudDataCount = this.state.compStudDataCount;
-// 					// console.log("compStudDataCount",compStudDataCount);
-// 					var paginationNum = parseInt(compStudDataCount)/maxRowsPerPage;
-// 					var pageCount = Math.ceil(paginationNum);
-// 					Session.set("questionCount",pageCount);
-// 					paginationArray = [];
-// 					// paginationArray.push(
-// 					// 		<li  key={-1} className="page-item"><a className="page-link liNext" onClick={this.previousPage.bind(this)}><i className="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-// 					// 	);
-// 					for (var i=1; i<=pageCount;i++){
-// 						var countNum = maxRowsPerPage * i;
-// 						paginationArray.push(
-// 							<li key={i} className="page-item" title={"Click to jump on "+i+ " page"}><a className={"page-link pagination"+i} id={countNum} onClick={this.getQuestionStartEndNum.bind(this)}>{i}</a></li>
-// 						);
-// 					}
-// 					if(pageCount>=1){
-// 						// paginationArray.push(
-// 						// 	<li  key={-2} className="page-item"><a className="page-link liNext" onClick={this.nextPagee.bind(this)}><i className="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-// 						// );
-// 						this.setState({
-// 							paginationArray : paginationArray,
-// 						});
-// 					}
-// 				}
-// 			}
-// 		});
-// 	}
+			// 		const maxRowsPerPage = this.state.limitRange;
+			// 		var compStudDataCount = this.state.compStudDataCount;
+			// 		// console.log("compStudDataCount",compStudDataCount);
+			// 		var paginationNum = parseInt(compStudDataCount)/maxRowsPerPage;
+			// 		var pageCount = Math.ceil(paginationNum);
+			// 		Session.set("questionCount",pageCount);
+			// 		paginationArray = [];
+			// 		// paginationArray.push(
+			// 		// 		<li  key={-1} className="page-item"><a className="page-link liNext" onClick={this.previousPage.bind(this)}><i className="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+			// 		// 	);
+			// 		for (var i=1; i<=pageCount;i++){
+			// 			var countNum = maxRowsPerPage * i;
+			// 			paginationArray.push(
+			// 				<li key={i} className="page-item" title={"Click to jump on "+i+ " page"}><a className={"page-link pagination"+i} id={countNum} onClick={this.getQuestionStartEndNum.bind(this)}>{i}</a></li>
+			// 			);
+			// 		}
+			// 		if(pageCount>=1){
+			// 			// paginationArray.push(
+			// 			// 	<li  key={-2} className="page-item"><a className="page-link liNext" onClick={this.nextPagee.bind(this)}><i className="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+			// 			// );
+			// 			this.setState({
+			// 				paginationArray : paginationArray,
+			// 			});
+			// 		}
+			// 	}
+			// }
+		// });
+	}
 
 // 	componentDidUpdate(){
 // 		$('.page-link').removeClass("active");
@@ -472,20 +471,8 @@ export default class CompetitionResultReport extends (Component) {
 // 		});
 // 	}
 
-	showGridView(){
-		$('#gridView').show();
-		$('#listView').hide();
-		$('#test-table-xls-button').hide();
-
-	}
-	showListView(){
-		$('#listView').show();
-		$('#test-table-xls-button').show();
-		$('#gridView').hide();
-	}
-
 	render() {
-		
+		const subCatgArray = this.state.subCatarray;
 	       return (
 	       		<div>
 		        {/* Content Wrapper. Contains page content */}
@@ -505,9 +492,6 @@ export default class CompetitionResultReport extends (Component) {
 					        </div>
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamReportTable">
-			
-									
-									
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 topSpace">
 											<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 selectCatSubCatListt paddingleftzero tableAlignment">
 
@@ -532,7 +516,7 @@ export default class CompetitionResultReport extends (Component) {
 
 													<span className="blocking-span"> 
 														<select type="text" name="categoryName" ref="categoryName" value={this.state.categoryName} onClick={this.getCategoryName.bind(this)} onChange={this.handleChange} className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" title="Please select Category" required>
-															<option disabled value="">-- Select Category --</option>
+															<option value="">-- Select Category --</option>
 															<option value="all" id="all">ALL</option>
 															{this.state.showAllCategories.map((categories,index)=>{
 																return <option key={index}>{categories.categoryName}</option> 
@@ -542,10 +526,7 @@ export default class CompetitionResultReport extends (Component) {
 														<span className="floating-label floating-label-Date">Select Category</span>					   								   			
 													</span>
 												</div>
-
-
 												<div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-
 													<span className="helpSecSR" title="Help" onClick={this.showhideSubCatDetails.bind(this)} ><i className="fa fa-question-circle"></i></span>
 													<div className="categoryListDataStudC">
 														<label>A1/B1/C1/D1</label> : Below 7 year<br/>
@@ -557,24 +538,20 @@ export default class CompetitionResultReport extends (Component) {
 														<select type="text" name="subCategory" ref="subCategory" value={this.state.subCategory} onClick={this.getSubCategoryName.bind(this)}className="form-control subCatTab col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" onChange={this.handleChange.bind(this)} required>
 															<option value="">-- Select Sub Category --</option>
 															<option value="all" id="all">ALL</option>
-															{this.SubCategoryName()}
-
+															{subCatgArray ? subCatgArray.map((subcat,index) =>{ 
+																return (<option key={index}> {subcat} </option>);
+															 }) : '<option> No Data </option>' }
 														</select>
 														<span className="floating-label floating-label-Date">Select Sub Category</span>					   			
 													</span>
 												</div>
-
-
 												<div className="col-lg-4  col-md-4 col-sm-4 col-xs-12 bottomSpace paddingrightzero">
-
 										       		<span className="blocking-span">
 										           		<input type="text" name="search" placeholder="Search Student Name" className="col-lg-12 col-sm-12 SearchExam SearchStudentCWTMName inputTextSearch" onInput={this.getSWTMTextValue.bind(this)} required/>
-										  
 										       		</span>
 										        </div>
 											</div>
 										</div>
-								   
 								    <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
 								    	<div className="btn btn-primary col-lg-2" onClick={this.showGridView.bind(this)}>Grid View</div>
 								    	<div className="btn btn-primary col-lg-2 leftSpace" onClick={this.showListView.bind(this)}>List View</div>
@@ -733,3 +710,7 @@ export default class CompetitionResultReport extends (Component) {
 	} 
 
 }
+
+
+
+

@@ -1,22 +1,15 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
-import TimeAgo from 'react-timeago';
-import  renderHTML from 'react-render-html';
-
+import React, {Component} 					from 'react';
+import {render} 							from 'react-dom';
+import {Link} 								from 'react-router-dom';
+import TimeAgo 								from 'react-timeago';
+import renderHTML 							from 'react-render-html';
+import PracticeStartExamForDashboard		from './PracticeStartExamForDashboard.js';
+import StudentRegistrationforCompetition	from './StudentRegistrationforCompetition.js';
+import axios 								from 'axios';
+import '../css/common.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/modal.js';
 import 'bootstrap/js/tab.js';
-
-import PracticeStartExamForDashboard	from './PracticeStartExamForDashboard.js';
-import StudentRegistrationforCompetition	from './StudentRegistrationforCompetition.js';
-
-import '../css/common.css';
-
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
@@ -42,6 +35,8 @@ class StudentProfile extends Component{
 	    this.state = {
 	    	mainExamReport 	 		: [],
 	    	Notificationstatus 	 	: [],
+	    	packageordermasters	 	: [],
+	    	packageData 			: [],
 	        // content          	: '',
 	        // loginTime        	: '',
 	        loggedIn 				: false,
@@ -76,7 +71,7 @@ class StudentProfile extends Component{
             .catch(function (error) {
                 console.log(error);
             });
- 	 }
+ 	}
 
 	componentDidMount(){
 
@@ -104,14 +99,13 @@ class StudentProfile extends Component{
             .catch(function (error) {
                 console.log(error);
             });
-
+/****************************************package 1 column******************************************/
         axios
-	    	.get('/packageordermasters/WyQY35LEFitPcabP6')
+	    	.get('/packageordermasters/E6BRdJtHMF9a6p7KF')
             .then((response)=> {
                 console.log("-------packageordermasters------>>",response.data);
                 this.setState({
 		 			packageordermasters : response.data,
-
 		 		});
                 // localStorage.setItem("token",response.data.token);
                 // direct.setState({loggedIn:response.data.token})
@@ -120,6 +114,20 @@ class StudentProfile extends Component{
                 console.log(error);
             });
 
+        axios
+	    	.get('/packagemanagementmasters/WyQY35LEFitPcabP6')
+            .then((response)=> {
+                console.log("-------packageData------>>",response.data);
+                this.setState({
+		 			packageData : response.data,
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+/*******************************************************************************************/
 
 	// 	if ( !$('body').hasClass('adminLte')) {
 	// 	  var adminLte = document.createElement("script");
@@ -245,42 +253,98 @@ class StudentProfile extends Component{
 				    {/*<h1>Start Purchased Practice Exam</h1>*/}
 				    
 				  {/*</section>*/}
-		          <section className={"content viewContent bgmyprofile"/*+bgimg*/}>
-		           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-					{/*this.props.packageOrderData.length>0?*/
-						<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSection12">									
-							<div className="col-lg-10 col-lg-offset-1 zeropadding">
-								<div className="col-lg-10 col-lg-offset-1 ">
-									<div className="examlinks1 col-lg-12 pckgtitle1">
-										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 floatLeft nullPadding">Package Purchased</div> 											
-										<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 floatLeft nullPadding"><blink><Link to="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 pdcls" title="Click here to buy more packages">&nbsp; Buy New Packages</Link></blink></div>											
-									</div>
-								</div>
-								<div className="col-lg-10 col-lg-offset-1 scrollbar">
-										{/*this.props.packageOrderData.map((data1,index)=>*//*{*/
-											/*return (
-												<div key={index}>
-													{
-
-														// data1.packages?
-														// data1.packages.map((data2,index2)=>{
+		          	<section className={"content viewContent bgmyprofile"/*+bgimg*/}>
+		           		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+							{this.state.packageordermasters.length>0?
+								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSection12">									
+									<div className="col-lg-10 col-lg-offset-1 zeropadding">
+										<div className="col-lg-10 col-lg-offset-1 ">
+											<div className="examlinks1 col-lg-12 pckgtitle1">
+												<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 nullPadding">Package Purchased</div> 											
+												<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 nullPadding"><blink><a href="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 pdcls" title="Click here to buy more packages">&nbsp; Buy New Packages</a></blink></div>											
+											</div>
+										</div>
+										<div className="col-lg-10 col-lg-offset-1 scrollbar">
+											{this.state.packageordermasters.map((data1,index)=>{
+												return (
+													<div key={index}>
+														{data1.packages?
+															data1.packages.map((data2,index2)=>{
 															return (<div className="col-lg-6 col-md-6 col-sm-12 outerboxpadding" key={index2}><div className="smallboxpckg1" > 
 																    	<div className="col-lg-12 col-md-12 smallfont paddingnone">{data2.packageName}</div>
 																    		<a className="startlink" title="Click here to start exam" href={`/startPurchasedPracticeExam/${data2.packageId}`}>Start</a>
 																		</div>
 															    	</div>
 															    	);
-															// })
-															// :
-															// <div>Packages Not Available</div>
-													
-												}
-											    </div>);*/
-										/*})*/}
+															})
+															:
+															<div>Packages Not Available</div>
+														}
+													</div>);
+												})
+											}
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>	
-					}
+								:
+								this.state.packageData.length>0?
+								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSection12">
+									<div className="col-lg-10 col-lg-offset-1 ">
+										<div className="examlinks1 col-lg-12 pckgtitle1 boldfont"><div className="col-lg-6 col-md-6 col-xs-6 col-sm-6 nullPadding">Total Packages Available : {this.props.totalPackagesCount?this.props.totalPackagesCount:null}</div>
+											<div className="col-lg-6 col-md-6 col-xs-6 col-sm-6 nullPadding"><a href="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 " title="Click here to purchase packages"><blink>&nbsp; View & Buy Packages</blink></a></div>
+										</div>
+									</div>
+									<div className="col-lg-10 col-lg-offset-1 zeropadding">
+										<div className="col-lg-12 boxlistpadding">
+											{this.state.packageData.map((data,index)=>{
+								    			return data? 
+								    				<div className="col-lg-6 col-md-6 col-sm-12 outerboxpadding" key={index}>
+									    				<div className="col-lg-12 col-md-12 col-sm-12 smallboxpckg" > 
+												    		<div className=" smallfont">{data.packageName}</div>
+												    		
+												    		<div className=" smallfont"> Attempt  : {data.AttemptOfPracticeTest} </div>
+												    		<div className=" smallfont"> Rs. : {data.PackagePrice} </div>
+												    		<div className=" smallfont"> Practice Test : {data.NoOfPracticeTest} </div>
+												    		<div className="smallfont">
+														        <label title="Click here to see description" className="docLabel docLabelhover" data-toggle="modal" data-target={'#'+index}>Description</label>
+														    </div>
+												    	</div>
+												    	<div id={index} className="modal fade" role="dialog">
+													        <div className="modal-dialog">
+														        <div className="modal-content documentModal dashboardPckgDesc">
+														            <div className="modal-header">
+														              	<button type="button" className="close" data-dismiss="modal">&times;</button>
+														                <h4 className="modal-title">Package Name : {data.packageName}</h4>
+														            </div>
+														            <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
+														              	<div className=" modalbodyHeight col-lg-12 col-md-12 col-sm-12 col-xs-12">
+														                	<h5 className="modal-title">Description :</h5>
+															                {/*data.Description.length>0?
+															                  <p className="docImageView packageDescPara">{data.Description}</p>
+															                  :
+															                  <p className="docImageView packageDescParaRed">Description not added for this package.</p>
+															                */}
+														              	</div>
+														            </div>  
+														            <div className="modal-footer"></div>
+														        </div>
+													        </div>
+													    </div>
+											    	</div>
+											    :null
+										    })
+											}
+										</div>
+									</div>
+								</div>
+								: 
+								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSection12">
+									<div className="col-lg-10 col-lg-offset-1 ">
+										<div className="examlinks1 col-lg-12 pckgtitle1 boldfont">Packages Not Added
+										</div>
+									</div>
+								</div>
+							}
 					<div className="col-lg-5 col-md-4 col-sm-12 col-xs-12 profileSection22 studentdashboardtoppadding">	
 						<StudentRegistrationforCompetition/>
 						<PracticeStartExamForDashboard/>

@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import {browserHistory} from 'react-router';
-import { BrowserRouter as Router,Link,Route,Switch } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
-import { history } from 'react-router';
-import $ from "jquery";
+import {browserHistory}   from 'react-router';
+import { Link }           from 'react-router-dom';
+import { withRouter }     from 'react-router-dom';
+import { Redirect }       from 'react-router-dom';
+import { history }        from 'react-router';
+import $                  from "jquery";
+import SystemWarning      from './SystemWarning.js';
+import axios              from 'axios';
 import '../css/common.css';
-import SystemWarning    from './SystemWarning.js';
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 class StudentHeader extends (Component){
   constructor() {
    super();
@@ -41,35 +40,55 @@ class StudentHeader extends (Component){
  //    $("script[src='/js/adminLte.js']").remove();
  //    $("link[href='/css/dashboard.css']").remove();
  //  }
+  
 
-  // handleLogout = async event => {
+
+
+
+  // handleClick(event) {
+  //     event.preventDefault();
+  //     // this.setState({
+  //     //   loggedIn : false
+  //     // })
+  //     // this.props.history.push("/login");
+  //     var token = localStorage.removeItem("token");
+  //     if(token!==null){
+  //     console.log("Header Token = ",token);
+  //     this.setState({
+  //       loggedIn : true
+  //     })
+  //     browserHistory.push("/login");
+      
+  //     // browserHistory.replace("/login");
+  //     // this.props.history.push("/login");
+  //     // history.push('/login')
+  //   }
+  // }
+    // handleLogout = async event => {
   //   await Auth.signOut();
 
   //   this.userHasAuthenticated(false);
 
   //   this.props.history.push("/login");
   // }
-
-  
-  handleClick(event) {
-      event.preventDefault();
-      // this.setState({
-      //   loggedIn : false
-      // })
-      // this.props.history.push("/login");
-      var token = localStorage.removeItem("token");
+  logout(){
+    var token = localStorage.removeItem("token");
       if(token!==null){
       console.log("Header Token = ",token);
       this.setState({
-        loggedIn : true
+        loggedIn : false,
+        
+      },()=>{
+        this.props.systemlogout(true)
       })
-      browserHistory.push("/login");
-      
-      // browserHistory.replace("/login");
-      // this.props.history.push("/login");
-      // history.push('/login')
+      // browserHistory.push("/login");
+      this.props.history.push("/");
     }
   }
+
+
+
+
  // currentUser(){
  //    var studentInfo= StudentMaster.findOne({"studentId":Meteor.userId()});
     
@@ -323,7 +342,7 @@ class StudentHeader extends (Component){
                         {/*this.myProfile()*/}
                       </div>
                       <div className="pull-right">
-                        <Link to="/login"><button className="btn btn-default btn-flat" onClick={this.handleClick.bind(this)}>Sign out</button>
+                        <Link to="/login"><button className="btn btn-default btn-flat" onClick={this.logout.bind(this)}>Sign out</button>
                           
                         </Link>
                       </div>
@@ -366,4 +385,4 @@ class StudentHeader extends (Component){
     );
     }
   }
-}export default StudentHeader;
+}export default withRouter(StudentHeader);

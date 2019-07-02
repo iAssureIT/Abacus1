@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import swal from 'sweetalert';
-import $ from "jquery";
-import moment from 'moment';
-import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3006';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+import React, {Component} 	from 'react';
+import {render} 			from 'react-dom';
+import swal 				from 'sweetalert';
+import $ 					from "jquery";
+import moment 				from 'moment';
+import axios 				from 'axios';
+
 /*import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 import {withTracker} from 'meteor/react-meteor-data';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -39,7 +37,7 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 		// 	}
 		// });	axios.get('/myexammasters/'+"LLNtieLsRXXL7RbdJ",)
 
-		axios.get('/myexammasters/'+"DChgFa8uxzWyx92yC",)
+		axios.get('/myexammasters/'+"E6BRdJtHMF9a6p7KF",)
             .then((response)=> {
                 console.log("-------getAllExamReport------>>",response);
                 this.setState({

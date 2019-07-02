@@ -77,8 +77,8 @@ class ResetPassword extends Component {
                     <span className="input-group-addon addons glyphi-custommmLeft" id="basic-addon1"><i className="fa fa-lock" aria-hidden="true"></i></span>
                     <input type="password" className="form-control loginInputs inputTextPass" ref="resetPassword" name="resetPassword" placeholder="New Password" aria-label="Password" aria-describedby="basic-addon1" title="Password should be at least 6 characters long!" pattern=".{6,}" required/>
                     <span className="input-group-addon addons glyphi-custommm padBoth" id="basic-addon1">
-                      <i className="fa fa-eye Pass showPwd" aria-hidden="true" onClick={this.showSignPass.bind(this)}></i>
-                      <i className="fa fa-eye-slash Pass hidePwd" aria-hidden="true" onClick={this.hideSignPass.bind(this)}></i>
+                      <i className="fa fa-eye-slash Pass showPwd" aria-hidden="true" onClick={this.showSignPass.bind(this)}></i>
+                      <i className="fa fa-eye Pass hidePwd" aria-hidden="true" onClick={this.hideSignPass.bind(this)}></i>
                     </span>
                   </div>
                 </div>
@@ -87,8 +87,8 @@ class ResetPassword extends Component {
                     <span className="input-group-addon addons glyphi-custommmLeft" id="basic-addon1"><i className="fa fa-lock" aria-hidden="true"></i></span>
                     <input type="password" className="form-control loginInputs inputTextPassC" ref="resetPasswordConfirm" name="resetPasswordConfirm" placeholder="Confirm New Password" aria-label="Confirm Password" aria-describedby="basic-addon1" title="Password should be at least 6 characters long!" pattern=".{6,}" required/>
                     <span className="input-group-addon addons glyphi-custommm padBoth" id="basic-addon1">
-                      <i className="fa fa-eye Pass showPwdC" aria-hidden="true" onClick={this.showSignPassC.bind(this)}></i>
-                      <i className="fa fa-eye-slash Pass hidePwdC" aria-hidden="true" onClick={this.hideSignPassC.bind(this)}></i>
+                      <i className="fa fa-eye-slash Pass showPwdC" aria-hidden="true" onClick={this.showSignPassC.bind(this)}></i>
+                      <i className="fa fa-eye Pass hidePwdC" aria-hidden="true" onClick={this.hideSignPassC.bind(this)}></i>
                     </span>
                   </div>
                 </div>
