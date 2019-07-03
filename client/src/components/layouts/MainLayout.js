@@ -25,6 +25,7 @@ import PackageList				from '../../components/packageManagement/components/Packag
 import PurchasedPackage 		from '../../components/packageManagement/components/PurchasedPackage.js';
 // Section: 4 - PracticeExam**********************************************************
 import StartPracticeExam 		from '../../components/practiceExams/components/StartPracticeExam.js';
+import PracticeStartExam 		from '../../components/practiceExams/components/PracticeStartExam.js';
 import PracticeExamReports 		from '../../components/practiceExams/components/PracticeExamReports.js';
 // Section: 5 - Certificate**********************************************************
 import Certificate 				from '../../components/certificate/components/Certificate.js';
@@ -101,6 +102,7 @@ class MainLayout extends Component{
 										  		<Route path="/PackageList" 		exact strict component={ PackageList } />
 
 										  		<Route path="/StartPracticeExam"exact strict component={ StartPracticeExam } />
+										  		<Route path="/PracticeStartExam"exact strict component={ PracticeStartExam } />
 										  		<Route path="/PractExamReports" exact strict component={ PracticeExamReports } />
 										  		
 										  		<Route path="/Certificate" 		exact strict component={ Certificate } />

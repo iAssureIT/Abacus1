@@ -111,6 +111,19 @@
                             "Updated successfully"
                         else
                             "Something went wrong."
+
+7. List all the question paper 
+
+    Method          : GET
+
+    URL             :  /questionpapermasters/:category/:subcategory
+
+    Input           : -NA-
+                      
+    Output          : [{
+                            _id             : String,
+                            quePaperTitle   : String,
+                      }]
 ------------------------------------------------------------------------------------------
                         2. Start Purchased Exam
 ------------------------------------------------------------------------------------------

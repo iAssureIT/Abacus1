@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import $ from "jquery";
+import React, {Component} 	from 'react';
+import $ 					from "jquery";
+import axios 				from 'axios';
+
 import '../css/PracticeExam.css';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -94,7 +95,17 @@ class StartPracticeExam extends /*TrackerReact*/(Component)  {
 		// 		}
 
 		// 	}
-		// });		
+		// });	
+
+		axios
+			.get('/mypracticeexammasters/:practiceExamId/:studentId')
+			.then((response)=>{
+
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+
 
 		// Meteor.call("getExamQuestions",FlowRouter.getParam('id'),(err,res)=>{
 		// 	if(err){
@@ -309,10 +320,7 @@ class StartPracticeExam extends /*TrackerReact*/(Component)  {
 				            <div className="row">
 				                <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 				            <div>
-				              
-
 				            <div><br/>
-
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 colpadding">
 									<div className="col-lg-12 col-md-12 examDetailsWrap marginAuto">
 									    <div className="col-lg-3 col-md-3"></div>

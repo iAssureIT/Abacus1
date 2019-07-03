@@ -112,9 +112,9 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 									            <th className="col-lg-2 tab-Table"> Total Ques  </th>
 									            <th className="col-lg-3 tab-Table"> Attempted Ques </th>
 									            <th className="col-lg-3 tab-Table"> Correct Ans </th>
-									            <th className="col-lg-3 tab-Table">  Wrong Ans</th>
-									            <th className="col-lg-3 tab-Table">  Time (mm:ss)</th>
-									            <th className="col-lg-3 tab-Table">  Total Score </th>
+									            <th className="col-lg-3 tab-Table"> Wrong Ans</th>
+									            <th className="col-lg-3 tab-Table"> Time (mm:ss)</th>
+									            <th className="col-lg-3 tab-Table"> Total Score </th>
 									            
 									        </tr>
 									    </thead>

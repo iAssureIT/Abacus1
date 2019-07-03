@@ -12,7 +12,7 @@ class Certificate extends (Component) {
 		super(props);
 		this.state={
 			allCompetitions  : [],
-			examData 		 : [],
+			examData 		 : '',
 			competitionStatus: true,
 		}
 		this.printDocument=this.printDocument.bind(this);
@@ -25,14 +25,13 @@ class Certificate extends (Component) {
 	}
 	
 	componentDidMount(){
-	 	axios.get('/exammasters',)
+	 	axios
+	 		.get('/exammasters')
             .then((response)=> {
                 console.log("-------examMaster------>>",response.data);
                 this.setState({
 		 			allCompetitions : response.data
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
@@ -40,38 +39,27 @@ class Certificate extends (Component) {
 	}
 
 	getCompetitionId(s){
-		console.log('called event');
-		var competitionId = $("#selectId option:selected").attr("id");
-		if(competitionId){
+		// var studentId = localStorage.getItem("studentId");
+  //       this.setState({
+  //       	studentId:response.data.id
+  //       })
 
+		var competitionId = $("#selectId option:selected").attr("id");
+		console.log('competitionId= ',competitionId);
+
+		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
-			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
-			axios.get('/myexammasters/XNPme8ttJw3LFBu6z/4GtgsKWATNc5ykYhG', {
-                // "competitionId": "XNPme8ttJw3LFBu6z",
-                // "studentId": "4GtgsKWATNc5ykYhG",
-            })
+			axios.get('/myexammasters/'+competitionId+'/E6BRdJtHMF9a6p7KF')
             .then((response)=>{
                 console.log("-------myExamMaster------>>",response.data[0]);
             	this.setState({
 		 			examData : response.data[0],
-		 				competitionStatus : false,
+		 			competitionStatus : false,
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // localStorage.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
             });
-			// Meteor.call("competitionWiseRankCertificate",competitionId,Meteor.userId(),(err,res)=>{
-			// 	if(err){
-			// 		console.log(err);
-			// 	}else{
-			// 		this.setState({
-			// 			examData : res,
-			// 			competitionStatus : false,
-			// 		});
-			// 	}
-			// });
 		}
 
 	}
@@ -89,16 +77,6 @@ class Certificate extends (Component) {
 	    // a4  =[8.5,  11];  // for a4 size paper width and height
 	    this.getCanvas(cache_width);
 	}
-
-	// getCanvas(){
-	// 	html2canvas($('.bg').get(0)).then( function (canvas) {
-	// 	    const jsPDF = require('jspdf');
-	// 	    var imgData = canvas.toDataURL("image/jpeg", 1.0);
-	//         var pdf = new jsPDF('landscape', 'mm', [297, 200]);
-	//         pdf.addImage(imgData, 'JPEG', 0, 0, 297, 200);
-	//         pdf.save("CompetiotionCertificate.pdf");       
-	// 	});
-	// }
 
 	getCanvas(cachewidth){
     html2canvas($('.bg').get(0)).then( function (canvas) {
@@ -152,12 +130,12 @@ class Certificate extends (Component) {
 									<span className="floating-label floating-label-Date">Select Competition</span>					   								   			
 								</span>
 							</div>
-		                  {this.state.examData!=="" ?
+		                {this.state.examData ?
 		                  		 /*this.state.examData.answerArray ?
-		                  		 	 this.state.examData.answerArray.length > 0 ?*/
+		                  		 	this.state.examData.answerArray.length > 0 ?*/
 		                  		 	 	<div>
 		                  		 	 	<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-											{/*<button className="faEvent btn pull-right" title="Click to print certificate" onClick={this.getPrint.bind(this)}><i className="fa fa-print fa-2x" aria-hidden="true"></i></button>*/}
+											{/*	<button className="faEvent btn pull-right" title="Click to print certificate" onClick={this.getPrint.bind(this)}><i className="fa fa-print fa-2x" aria-hidden="true"></i></button>*/}
 				                			<button className="faEvent btn pull-right certDlSRank" title="Click to dowload certificate PDF" onClick={this.printDocument.bind(this)}><i className="fa fa-download fa-2x" aria-hidden="true"></i></button>
 				                		</div>
 							       		<div className="bg col-xl-12 col-lg-12 col-md-8 col-sm-12 col-xs-12 ">
@@ -220,23 +198,22 @@ class Certificate extends (Component) {
 							       			</div>
 							       		</div>
 							       		</div>
-							 //       	:
-								// 	    null
+							      //  	:
+									    // null
 								// :
-								// <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
+									// <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
 				       		:
 				       			!this.state.competitionStatus ?
 				       				!this.state.examData ?
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
 									:
-									null
+										null
 				       			:
-				       				null		
+				       				null
 				       		}
 					       	</div>
 					    </div>
-					    </div>
-					   
+					</div>
 				</div>
 				</section>
 				</div>

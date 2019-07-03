@@ -210,7 +210,7 @@ componentWillUnmount(){
                 <ul className="treeview-menu treeview-menu1">
 
                   <li onClick={this.clickLiTree.bind(this)}>
-                    <Link to="/StartPracticeExam">
+                    <Link to="/PracticeStartExam">
                       <i className="fa fa-circle-o" /> Start Free Practice Exam 
                     </Link>
                   </li>

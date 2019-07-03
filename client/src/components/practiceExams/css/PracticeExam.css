@@ -11,12 +11,10 @@
 	font-size:14px;
 	margin-top: 5px!important;
     margin-bottom: 5px!important;
-
 }
 .leftpaddingNone{
 	padding-left:0!important;
 }
-
 .practicetesttitle1{
 	color:#333!important;
 	font-size:14px;
@@ -24,13 +22,10 @@
     margin-bottom: 5px!important;
     padding-left:40px;
 }
-
 .bluetext{
 	color:#1d109d;
 	font-weight: bold;
-
 }
-
 .bullet{
 	color:#333!important;
 	font-size:10px!important;
@@ -62,7 +57,6 @@
 .examlinks1{
 	margin-top: 60px;
 	text-align: center;
-	
 }
 .leftmarginexam{
 	margin-left:10px;
@@ -92,7 +86,6 @@
 	border:1px solid #7a7a7a;
 	box-shadow: 0px 5px 10px 2px;
     padding: 20px;
-
 }
 .modalExamContent{
 	width: 60%;
@@ -103,17 +96,6 @@
 .createExambox{
 	height:15px;
 }
-
-/*.freeTestList{
-	height:30px!important;
-
-.freeTestList{
-	height:30px;
-
-}
-.freeTestList1{
-	height:30px!important;
-}*/
 .studProfileTit23{
     font-size: 16px;
     padding: 0px;
@@ -123,7 +105,6 @@
     font-family: 'Roboto-Regular';
     color: #333;
 }
-
 .purchasedlabel{
 	font-size:14px!important;
 }
@@ -185,4 +166,14 @@
 }
 .itemCustomT{
 	transition: transform .3s ease-in-out !important;
+}
+
+/**************************For PracticeStartExam.js***********************/
+.qpRow{
+    padding: 10px;
+}
+.qpTestTitle{
+    font-size: 18px;
+    font-family: "Poppins","sans-serif";
+    color:#333!important;
 }

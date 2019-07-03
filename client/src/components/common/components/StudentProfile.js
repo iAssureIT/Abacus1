@@ -101,7 +101,7 @@ class StudentProfile extends Component{
             });
 /****************************************package 1 column******************************************/
         axios
-	    	.get('/packageordermasters/E6BRdJtHMF9a6p7KF')
+	    	.get('/packageordermasters/WyQY35LEFitPcabP5')
             .then((response)=> {
                 console.log("-------packageordermasters------>>",response.data);
                 this.setState({
@@ -115,7 +115,7 @@ class StudentProfile extends Component{
             });
 
         axios
-	    	.get('/packagemanagementmasters/WyQY35LEFitPcabP6')
+	    	.get('/packagemanagementmasters')
             .then((response)=> {
                 console.log("-------packageData------>>",response.data);
                 this.setState({
@@ -280,18 +280,18 @@ class StudentProfile extends Component{
 															:
 															<div>Packages Not Available</div>
 														}
-													</div>);
+													</div>)
 												})
 											}
 										</div>
 									</div>
 								</div>
-								:
+							:
 								this.state.packageData.length>0?
 								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSection12">
 									<div className="col-lg-10 col-lg-offset-1 ">
 										<div className="examlinks1 col-lg-12 pckgtitle1 boldfont"><div className="col-lg-6 col-md-6 col-xs-6 col-sm-6 nullPadding">Total Packages Available : {this.props.totalPackagesCount?this.props.totalPackagesCount:null}</div>
-											<div className="col-lg-6 col-md-6 col-xs-6 col-sm-6 nullPadding"><a href="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 " title="Click here to purchase packages"><blink>&nbsp; View & Buy Packages</blink></a></div>
+											<div className="col-lg-6 col-md-6 col-xs-6 col-sm-6 nullPadding"><a href="/PackageList" className="testtitle1 examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 " title="Click here to purchase packages"><blink>&nbsp; View & Buy Packages</blink></a></div>
 										</div>
 									</div>
 									<div className="col-lg-10 col-lg-offset-1 zeropadding">
@@ -319,11 +319,11 @@ class StudentProfile extends Component{
 														            <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														              	<div className=" modalbodyHeight col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														                	<h5 className="modal-title">Description :</h5>
-															                {/*data.Description.length>0?
+															                {data.Description.length>0?
 															                  <p className="docImageView packageDescPara">{data.Description}</p>
-															                  :
+															                :
 															                  <p className="docImageView packageDescParaRed">Description not added for this package.</p>
-															                */}
+															                }
 														              	</div>
 														            </div>  
 														            <div className="modal-footer"></div>

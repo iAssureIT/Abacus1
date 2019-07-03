@@ -11,10 +11,10 @@ class ParticipationCertificate extends (Component) {
 	constructor(props) {
 		super(props);
 		this.state = {
-	       facilityPermission : 'waitingforResult',
-	       allCompetitions: [],
-	       competitionStatus : true,
-	       examData: '',
+	       facilityPermission 	: 'waitingforResult',
+	       allCompetitions 		: [],
+	       competitionStatus 	: true,
+	       examData 			: '',
 
 	    }
 		this.printDocument=this.printDocument.bind(this);
@@ -55,28 +55,30 @@ class ParticipationCertificate extends (Component) {
   	}
 
 	getCompetitionId(s){
+		// var studentId = localStorage.getItem("studentId");
+  //       this.setState({
+  //       	studentId:response.data.id
+  //       })
+
 		var competitionId = $("#selectId option:selected").attr("id");
+		console.log('competitionId= ',competitionId);
+		
 		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
-			axios.get('/myexammasters/participation/XNPme8ttJw3LFBu6z/4GtgsKWATNc5ykYhG', /*{
-                "competitionId": "XNPme8ttJw3LFBu6z",
-                "studentId": "4GtgsKWATNc5ykYhG",
-	            }*/)
+			axios
+				.get('/myexammasters/participation/'+competitionId+'/E6BRdJtHMF9a6p7KF')
 	            .then((response)=>{
 	                console.log("-------myExamMaster------>>",response.data[0]);
 	            	this.setState({
 			 			examData : response.data[0],
 			 			competitionStatus : false,
 			 		});
-	                // localStorage.setItem("token",response.data.token);
-	                // localStorage.setState({loggedIn:response.data.token})
 	            })
 	            .catch(function (error) {
 	                console.log(error);
 	            });
 		}
-
 	}
 
 	hideBtnShowList(event){
@@ -240,9 +242,9 @@ class ParticipationCertificate extends (Component) {
 							       				!this.state.examData ?
 													<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You are not eligible to get the certificate.</div>
 												:
-												null
+													null
 							       			:
-							       			null
+							       				null
 							       		}
 
 									</div>

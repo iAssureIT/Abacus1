@@ -246,7 +246,7 @@ class StudentRegistrationforCompetition extends Component  {
 									this.state.competitionData.map((competitionInfo,index)=>{										
 										return(											
 										<div className={index==0?"item active":"item"}  key={index}>
-											<div className="fontstyle examtitlecolor">{competitionInfo.competitionName}</div>
+											<div className="fontstyle examtitlecolor"><b>{competitionInfo.competitionName}</b></div>
 											<div className="fontstyle">On</div>
 											<div className="fontstyle">{competitionInfo.EXAMDate}</div>
 											<div className="fontstyle">{competitionInfo.startTime} To {competitionInfo.endTime}</div>
