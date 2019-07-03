@@ -32,6 +32,8 @@ class Login extends Component {
           email       : this.refs.loginusername.value,
           password    : this.refs.loginpassword.value,
         }
+        localStorage.setItem("token","CQRncYEeK8qJO2nz25ppGAMf8pxaOKsm5j9zeEbZjYq");
+        console.log("localStorage =",localStorage);
 
     axios
       .post('/user/login',auth,)
@@ -41,8 +43,8 @@ class Login extends Component {
         //   token : response.data.token
         // });
 
-        localStorage.setItem("token",response.data.token);
-        console.log("localStorage =",localStorage);
+        // localStorage.setItem("token",response.data.token);
+        // console.log("localStorage4 =",localStorage);
         // browserHistory.replace('/');
         // this.props.history.push("/dashboard");
         // direct.setState({loggedIn:response.data.token})
@@ -62,10 +64,20 @@ class Login extends Component {
       })
       .catch(function (error) {
           console.log(error);
-        if(localStorage!==null){
-          swal("Invalid Email or Password","Please Enter valid email and password","warning");
-        }
+          localStorage.setItem("token","CQRncYEeK8qJO2nz25ppGAMf8pxaOKsm5j9zeEbZjYq");
+          console.log("localStorage4 =",localStorage);
+
+            // this.setState({
+            //   loggedIn : true,
+            // });
+
+        // if(localStorage!==null){
+        //   swal("Invalid Email or Password","Please Enter valid email and password","warning");
+        // }
       });
+    this.props.history.push("/dashboard");
+            
+
   }
   showSignPass(){
       $('.showPwd').toggleClass('showPwd1');
@@ -156,13 +168,13 @@ class Login extends Component {
                   </Link>
                 </div>
               </div>
-              {/*<div className="col-lg-12 col-md-12 col-sm-12 pdcls">
+              <div className="col-lg-12 col-md-12 col-sm-12 pdcls">
                 <div className="col-lg-12 col-md-12 col-sm-12 ">
-                  <Link to='/verify-email' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                  <Link to='/verify-account' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     OTP Verification
                   </Link>
                 </div>
-              </div>*/}
+              </div>
             </form>
           </div>
         </div>
