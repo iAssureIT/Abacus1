@@ -28,8 +28,8 @@ const sturegcompetitionsRouters		= require('./api/routes/studentregistrationforc
 const questionpapermastersRouters	= require('./api/routes/questionpapermasters');
 const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
 
-// mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
-mongoose.connect('mongodb://localhost/onlineExamSystem',{
+mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
+// mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
 })
 mongoose.promise =global.Promise;
@@ -40,16 +40,16 @@ app.use(bodyParser.urlencoded({extended: false}));// urlencode true and false si
 app.use(bodyParser.json());// it show json data in good manner
 
 app.use((req, res, next) =>{
-	res.header("Access-Control-Allow-origin : *"); // use API from anywhere insted of * we use domain
-	res.header("Access-Control-Allow-Headers : Origin, X-requested-With, Content-Type, Accept,  z-key");
+	res.header("Access-Control-Allow-origin", "*"); // use API from anywhere insted of * we use domain
+	res.header("Access-Control-Allow-Headers" , "Origin, X-Requested-With, Content-Type, Accept,  z-key");
 	// req.header('Access-Control-Allow-Methods : PATCH, PUT, POST, DELETE, GET, OPTIONS');
 	// res.writeHead(200, headers);
 	if (req.method === 'OPTIONS') {
-		req.header('Access-Control-Allow-Methods : PATCH, PUT, POST, DELETE, GET, OPTIONS');
+		console.log('options');
+		req.header('Access-Control-Allow-Methods" , "PATCH, PUT, POST, DELETE, GET, OPTIONS');
 		return res.status(200).json({});
-	}else{
-		console.log('no options');
 	}
+		console.log('no options');
 	next();
 });
 

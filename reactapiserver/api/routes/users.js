@@ -13,6 +13,8 @@ router.post('/login',UserController.user_login);
 
 router.patch('/changepwd',UserController.change_pwd);
 
+router.patch('/changepwdall',UserController.change_all_student_pwd);
+
 router.get('/fetchopt',UserController.fetch_otp);
 
 router.patch('/updateotp',UserController.update_otp);

@@ -332,101 +332,59 @@ exports.update_otp =(req,res,next) =>{
 		});
 }
 
-// exports.registration = (req,res,next) =>{
-// 	var studentId     = req.body.studentId;
-// 	var studentData   = req.body.studentData;
-// 	var imgSrc        = '';
-// 	TempImg.findOne({userId:studentId})
-// 			.select("imagePath")
-// 			.exec()
-// 			.then(imgData =>{
-// 			  if(imgData){
-// 				TempImg.deleteOne({userId:studentId})
-// 					   .then(img =>{
-// 						 console.log('img ',img);
-// 						User.updateOne( 
-// 							  {_id : studentId},
-// 							  {
-// 								$set:{
-// 								  "profile.userProfile"   : imgData.imagePath,
-// 								}
-// 							  }
-// 							)
-// 							.then(res=>{
-// 							  res.status.json('Img uploaded successfuly');
-// 							})
-// 							.catch(err => {
-// 							  console.log(err);
-// 							  res.status(500).json({
-// 								error: err
-// 							  });
-// 							});
-// 					   })
-// 					   .catch(err => {
-// 						console.log(err);
-// 						res.status(500).json({
-// 						  error: err
-// 						});
-// 					  });
-// 			  }else{
-// 				User.findOne({_id:studentId})
-// 					.select("profile")
-// 					.exec()
-// 					.then(userdata =>{
-// 					  imgSrc = userdata.profile.userProfile;
-// 					  User.update(
-// 							{_id : studentId},
-// 							{
-// 							  $set:{
-// 								  "profile.firstname"   : studFormValues.studentFirstName,
-// 								  "profile.lastname"   : studFormValues.studentLastName,
-// 								  "profile.fullName"    : studFormValues.studentFirstName + ' '+ studFormValues.studentLastName,
-// 								  "profile.mobNumber"   : studFormValues.mobileNumber,     
-// 							  }
-// 							}
-// 						  )
-// 						  .exec()
-// 						  .then(userdata =>{
-// 							res.status.json('Img uploaded successfuly profile');							
-// 						  })
-// 						  .catch(err => {
-// 							console.log(err);
-// 							res.status(500).json({
-// 							  error: err
-// 							});
-// 						  });      
-// 					})
-// 					.catch(err => {
-// 					  console.log(err);
-// 					  res.status(500).json({
-// 						error: err
-// 					  });
-// 					});
-// 			  }
-// 			})
-// 			.catch(err=>{
-// 			  console.log('registration err ',err);
-// 			  res.status(500).json({
-// 				error:err
-// 			  });
-// 			});
-//   }
-  
-// // exports.user_profileimg = (req,res,next)=>{
-// // 	var sId = req.params.studentId;
-// // 	User.findOne({_id:sId})
-// // 		.select("profile.userProfile")
-// // 		.exec()
-// // 		.then(users =>{
-// // 			console.log('users ',users);
-// // 			res.status(200).json(users);
-// // 		})
-// // 		.catch(err =>{
-// // 			console.log(err);
-// // 			res.status(500).json({
-// // 				error: err
-// // 			});
-// // 		});
-// // }
+exports.change_all_student_pwd = (req, res, next)=>{
+	var changedpwd	= 'Test';	
+	User.find({})
+		.exec()
+		.then(user =>{
+			if(user){
+				var index = 0;
+				user.map((usr,index)=>{
+					bcrypt.hash(changedpwd,10,(err,hash)=>{
+						if(err){
+							console.log('bcrypt',err);
+							return res.status(500).json({
+								error:err
+							});
+						}else{
+							User.updateOne(
+									{_id:usr._id, roles : "Student"},
+									{
+										$set:{
+											"services.password.bcrypt" :hash,
+											"profile.userCode"	  : changedpwd.split("").reverse().join("")
+										}
+									}
+								)
+								.then(data =>{
+									// if(data){
+									// 	res.status(200).json("Password Changed successfully");
+									// }else{
+									// 	res.status(200).json("Something went wrong. Please check the data passed");
+									// }
+								})
+								.catch(err =>{
+									console.log('password ',err);
+									res.status(500).json({
+										error: err
+									});
+								});									
+						}			
+					});
+				});
+				if(user.length >= index ){
+					res.status(200).json("Password of all the users are changed.")
+				}
+			}else{
+				res.status(200).json("User Not Found");
+			}
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+}
 
 
