@@ -27,6 +27,7 @@ const dashboardRouters				= require('./api/routes/dashboard');
 const sturegcompetitionsRouters		= require('./api/routes/studentregistrationforcompetitions');
 const questionpapermastersRouters	= require('./api/routes/questionpapermasters');
 const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
+const startexamcategorywiseRouters	= require('./api/routes/startexamcategorywise');
 
 mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 // mongoose.connect('mongodb://localhost/onlineExamSystem',{
@@ -102,6 +103,7 @@ app.use('/dashaboard',dashboardRouters);
 app.use('/studentcompetitions',sturegcompetitionsRouters);
 app.use("/packagequestionpapermaster",packagequestionpapermasterRoutes);
 app.use("/latestcompetitions",latestCompetitionsRouters);
+app.use("/startexamcategorywise",startexamcategorywiseRouters);
 
 // handle all other request which not found 
 app.use((req, res, next) => {

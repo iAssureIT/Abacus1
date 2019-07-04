@@ -23,6 +23,29 @@
                             message: "Something Went Wrong"
                         }
 2. StartExamCategoryWise : Need to understand
+
+    Method      : PATCH
+    
+    URL         : /startexamcategorywise/:compId/:studentID
+
+    Input       : - NA -
+
+    Output      : 
+                    If Exam created
+                    {
+                        message : "Exam Created"
+                        ID      : String,
+                    }
+                    If exam paper not created properly
+                    {
+                        message : "Exam Questions not updated properly"
+                        ID      : String,
+                    }
+                    If exam not found
+                    {
+                        message : "Somthing went wrong. Exam Not Created"
+                    }
+                    
 3. ExamFinished 
 
     Method      : PATCH

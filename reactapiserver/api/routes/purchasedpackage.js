@@ -1,5 +1,5 @@
 
-/*Need to work */
+
 const express 	= require("express");
 const router 	= express.Router();
 const mongoose	= require("mongoose");
@@ -233,7 +233,7 @@ router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
                                                                 if(mypracticeexam.answerArray.length == tempQueArray.length){
                                                                     res.status(200).json({message:"Practice Exam Created",ID : mypracticeexamdata._id})
                                                                 }else{
-                                                                    res.status(409).json({message:"Practice Exam Questions not updated properly"})
+                                                                    res.status(409).json({message:"Practice Exam Questions not updated properly",ID : mypracticeexamdata._id})
                                                                 }
                                                             }else{
                                                                 res.status(409).json({message:"Somthing went wrong. Practice Exam Not Created"})
