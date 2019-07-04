@@ -22,11 +22,19 @@ const mypracticeexammastersSchema = mongoose.Schema({
     examStatus : String,
     answerArray : [ 
         {
-            questionNumber : String,
-            studentAnswer : String,
-            answer : String,
-            dummyId : String,
-            indicatorClass : String
+            questionId          : String,
+            question            : String,
+            A                   : String,
+            B                   : String,
+            C                   : String,
+            D                   : String,
+            correctAnswer       : String,
+            attempted           : String,
+            questionNumber      : String,
+            studentAnswer       : String,
+            answer              : String,
+            dummyId             : String,
+            indicatorClass      : String
         }
     ]
 });

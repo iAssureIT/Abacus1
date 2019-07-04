@@ -1,3 +1,66 @@
+1. Verification Using Mobile Number     -
+2. Verification Using Email ID          - 
+
+------------------------------------------------------------------------------------------
+                        1. Verification Using Mobile Number
+------------------------------------------------------------------------------------------
+1. Check if Valid Mobile Number or not
+
+    Method      : GET
+    
+    URL         : /user/mobileverification
+
+    Input       : 
+                    {
+                        "mobileNumber" : String
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message: "Mobile Verified and OTP Set and Send" 
+                        }
+                    else 
+                        {
+                            message: "Mobile Number not found"
+                        }
+
+------------------------------------------------------------------------------------------
+                        2. Verification Using Email ID
+------------------------------------------------------------------------------------------
+1. Check if Valid Email ID or not
+
+    Method      : GET
+    
+    URL         : /user/emailverification
+
+    Input       : 
+                    {
+                        "emailID" : String
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                             "profile": {
+                                    "sentEmailOTP": Number,
+                                    "receivedEmailOTP": Number
+                                },
+                                "_id": String
+                        }
+                    else 
+                        {
+                            message: "Something Went Wrong"
+                        }
+
+
+
+
+
+
+
+
+
 1. Fetch OTP          - Done
 2. Update OTP         - Done
 

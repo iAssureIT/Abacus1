@@ -1,5 +1,5 @@
 1. Start Free Practice Exam     - Done
-2. Start Purchased Exam         - WIP
+2. Start Purchased Exam         - Done
 3. Practice Exam Reports        - Done
 
 ------------------------------------------------------------------------------------------
@@ -196,14 +196,25 @@
 
     Method          : PATCH
 
-    URL             : /purchasedpackage/:examPaperId/:studentID
+    URL             : /purchasedpackage/startpracticeexam/:examPaperId/:studentID
 
-    Input           :
-                        {
-                            studentID       : String,
-                        }
-
+    Input           : - NA -
+                        
     Output          :
+                        If Exam created
+                        {
+                            message : "Practice Exam Created"
+                            ID      : String,
+                        }
+                        If exam paper not created properly
+                        {
+                            message : "Practice Exam Questions not updated properly"
+                            ID      : String,
+                        }
+                        If exam not found
+                        {
+                            message : "Somthing went wrong. Practice Exam Not Created"
+                        }
 ------------------------------------------------------------------------------------------
                         3. Practice Exam Reports
 ------------------------------------------------------------------------------------------

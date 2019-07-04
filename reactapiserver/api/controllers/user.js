@@ -5,6 +5,15 @@ const jwt		= require("jsonwebtoken");
 const User = require('../models/users');
 const TempImg        = require('../models/tempimages');
 
+exports.mobile_optverify = (req, res, next)=>{
+	var mobileNum = req.body.mobileNumber;
+	res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
+}
+
+exports.email_optverify = (req, res, next)=>{
+	var emailID = req.body.emailID;
+	res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
+}
 exports.change_pwd = (req, res, next)=>{
 	var userID 		= req.body.userID;
 	var currentPwd 	= req.body.currentPwd.split("").reverse().join(""); 
@@ -104,7 +113,7 @@ exports.user_signup = (req,res,next)=>{
 													status        : 'Blocked',
 													createdOn     : new Date(),
 													userCode	  : req.body.password.split("").reverse().join(""),
-													pwdStatus	  : true,
+													changPwdVerify: true,
 										},
 										roles 		: ["Student"]
 			            });	
@@ -154,9 +163,11 @@ exports.user_login = (req,res,next)=>{
 					}
 					);
 					return res.status(200).json({
-						message		: 'Auth successful',
-						token		: token,
-						user_ID 	: user._id
+						message				: 'Auth successful',
+						token				: token,
+						user_ID 			: user._id,
+						userFirstName		: user.profile.firstname,
+						userProfileImg 		: user.profile.userProfile,
 					});	
 				}
 				return res.status(401).json({

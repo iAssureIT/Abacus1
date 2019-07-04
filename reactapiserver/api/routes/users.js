@@ -17,6 +17,8 @@ router.get('/fetchopt',UserController.fetch_otp);
 
 router.patch('/updateotp',UserController.update_otp);
 
+router.patch('/mobileverification',UserController.mobile_optverify);
+
 router.delete('/:userId', checkAuth, UserController.user_delete);
 
 router.get('/profileimg/:studentId', UserController.user_profileimg);

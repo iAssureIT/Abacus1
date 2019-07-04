@@ -40,11 +40,13 @@ const userSchema = mongoose.Schema({
 		franchiseName 	: String,
 		teacherName 	: String,
 		userProfile		: String,
-
+		changPwdVerify	: Boolean // If TRUE : user is created by API or else by Meteor React
 	},
 	roles : [String],
 	heartbeat : Date
 });
+
+
 
 module.exports = mongoose.model('users',userSchema);
 

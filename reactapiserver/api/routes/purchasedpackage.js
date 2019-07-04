@@ -2,6 +2,8 @@
 /*Need to work */
 const express 	= require("express");
 const router 	= express.Router();
+const mongoose	= require("mongoose");
+var moment = require('moment');
 
 const StudentMaster                 = require('../models/studentmasters'); 
 const MyPracticeExamMaster          = require('../models/mypracticeexammasters');
@@ -176,75 +178,78 @@ router.patch('/updatequespaper', (req,res,next) =>{
 });
 
 router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
-    console.log('start practice exam');
     var todayDate = new Date();
     QuestionPaperMaster .findOne({_id:req.params.examPaperId})
                         .exec()
                         .then(questionPaperMasterData=>{
-                            var questionArray =  questionPaperMasterData.questionsArray;
-                            if(questionArray){
-                                var questionArray1 = shuffle(questionArray);
-                                // var questionArray1 = questionArray;
-                                var tempQueArray = [];
-                                for(i = 0 ; i < questionArray1.length ;i++){
-                                    tempQueArray.push({
-                                        'questionNumber'  : i,
-                                        'questionId'      : questionArray1[i].questionId,
-                                        'question'        : questionArray1[i].question,
-                                        'A'               : questionArray1[i].A,
-                                        'B'               : questionArray1[i].B,
-                                        'C'               : questionArray1[i].C,
-                                        'D'               : questionArray1[i].D,
-                                        'correctAnswer'   : questionArray1[i].correctAnswer,
-                                        'attempted'       :'no',
-                                        'studentAnswer'  : '',
-                                        'answer'         : '',
-                                        'dummyId'        : '',
-                                        'indicatorClass' : '',
-                                    });
-                                }
-                                if(tempQueArray.length == questionArray1.length){
-                                    const mypracticeexam = new MyPracticeExamMaster({
-                                                                                        _id             : new mongoose.Types.ObjectId(),
-                                                                                        createdAt	    : todayDate,
-                                                                                        StudentId       : req.params.studentID,
-                                                                                        examPaperId     : req.params.examPaperId,
-                                                                                        originalTime    : questionPaperMasterData.examTime,
-                                                                                        examTime        : questionPaperMasterData.examTime,
-                                                                                        examName        : questionPaperMasterData.quePaperTitle,
-                                                                                        category        : questionPaperMasterData.category,
-                                                                                        marksPerQues    : questionPaperMasterData.marksPerQues,
-                                                                                        totalQuestion   : (questionPaperMasterData.questionsArray).length,
-                                                                                        examType        : questionPaperMasterData.examType,
-                                                                                        totalMarks      : questionPaperMasterData.totalMarks,
-                                                                                        attemptedQues   : 0,
-                                                                                        correctAnswer   : 0,
-                                                                                        wrongAnswer     : 0,
-                                                                                        totalScore      : 0,
-                                                                                        date            : moment(todayDate).format("DD/MM/YYYY"), 
-                                                                                        examStatus      : "InCompleted",
-                                                                                        answerArray     : tempQueArray
-                                                                                    });
-                                    mypracticeexam  .save()
-                                                    .then(mypracticeexamdata =>{
-                                                        if(mypracticeexam){
-                                                            if(mypracticeexam.answerArray.length == tempQueArray.length){
-                                                                res.status(200).json({message:"Practice Exam Created",ID : mypracticeexamdata._id})
+                            if(questionPaperMasterData){
+                                var questionArray =  questionPaperMasterData.questionsArray;
+                                if(questionArray){
+                                    var questionArray1 = shuffle(questionArray);
+                                    // var questionArray1 = questionArray;
+                                    var tempQueArray = [];
+                                    for(i = 0 ; i < questionArray1.length ;i++){
+                                        tempQueArray.push({
+                                            'questionNumber'  : i,
+                                            'questionId'      : questionArray1[i].questionId,
+                                            'question'        : questionArray1[i].question,
+                                            'A'               : questionArray1[i].A,
+                                            'B'               : questionArray1[i].B,
+                                            'C'               : questionArray1[i].C,
+                                            'D'               : questionArray1[i].D,
+                                            'correctAnswer'   : questionArray1[i].correctAnswer,
+                                            'attempted'       :'no',
+                                            'studentAnswer'  : '',
+                                            'answer'         : '',
+                                            'dummyId'        : '',
+                                            'indicatorClass' : '',
+                                        });
+                                    }
+                                    if(tempQueArray.length == questionArray1.length){
+                                        const mypracticeexam = new MyPracticeExamMaster({
+                                                                                            _id             : new mongoose.Types.ObjectId(),
+                                                                                            createdAt	    : todayDate,
+                                                                                            StudentId       : req.params.studentID,
+                                                                                            examPaperId     : req.params.examPaperId,
+                                                                                            originalTime    : questionPaperMasterData.examTime,
+                                                                                            examTime        : questionPaperMasterData.examTime,
+                                                                                            examName        : questionPaperMasterData.quePaperTitle,
+                                                                                            category        : questionPaperMasterData.category,
+                                                                                            marksPerQues    : questionPaperMasterData.marksPerQues,
+                                                                                            totalQuestion   : (questionPaperMasterData.questionsArray).length,
+                                                                                            examType        : questionPaperMasterData.examType,
+                                                                                            totalMarks      : questionPaperMasterData.totalMarks,
+                                                                                            attemptedQues   : 0,
+                                                                                            correctAnswer   : 0,
+                                                                                            wrongAnswer     : 0,
+                                                                                            totalScore      : 0,
+                                                                                            date            : moment(todayDate).format("DD/MM/YYYY"), 
+                                                                                            examStatus      : "InCompleted",
+                                                                                            answerArray     : tempQueArray
+                                                                                        });
+                                        mypracticeexam  .save()
+                                                        .then(mypracticeexamdata =>{
+                                                            if(mypracticeexam){
+                                                                if(mypracticeexam.answerArray.length == tempQueArray.length){
+                                                                    res.status(200).json({message:"Practice Exam Created",ID : mypracticeexamdata._id})
+                                                                }else{
+                                                                    res.status(409).json({message:"Practice Exam Questions not updated properly"})
+                                                                }
                                                             }else{
-                                                                res.status(409).json({message:"Practice Exam Questions not updated properly"})
+                                                                res.status(409).json({message:"Somthing went wrong. Practice Exam Not Created"})
                                                             }
-                                                        }else{
-                                                            res.status(409).json({message:"Somthing went wrong. Practice Exam Not Created"})
-                                                        }
-                                                                            
-                                                    })
-                                                    .catch(err =>{
-                                                        console.log(err);
-                                                        res.status(500).json({
-                                                            error: err
+                                                                                
+                                                        })
+                                                        .catch(err =>{
+                                                            console.log(err);
+                                                            res.status(500).json({
+                                                                error: err
+                                                            });
                                                         });
-                                                    });
+                                    }
                                 }
+                            }else{
+                                res.status(409).json({message:"Exam Paper not found"})
                             }
                             
                         })
