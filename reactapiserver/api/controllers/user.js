@@ -156,7 +156,8 @@ exports.user_login = (req,res,next)=>{
 				if(result){
 					const token = jwt.sign({
 						email 	: req.body.email,
-						userId	: mongoose.Types.ObjectId(user._id) ,
+						// userId	: mongoose.Types.ObjectId(user._id) ,
+						userId	: user._id ,
 					},process.env.JWT_KEY,
 					{
 						expiresIn: "1h"
