@@ -1,31 +1,18 @@
 
 import React, {Component} from 'react';
-import {render} from 'react-dom';
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 import Webcam from 'react-webcam';
 
-import {withTracker} from 'meteor/react-meteor-data';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
-import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-import {StudentMaster} from '/imports/student/api/studentMaster.js';
-import CompetitionDetailsforPayment from '/imports/student/components/CompetitionDetailsforPayment.jsx'; 
-import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
+// import {withTracker} from 'meteor/react-meteor-data';
+// import TrackerReact from 'meteor/ultimatejs:tracker-react';
+// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
+// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
+// import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
+// import {StudentMaster} from '/imports/student/api/studentMaster.js';
+// import CompetitionDetailsforPayment from '/imports/student/components/CompetitionDetailsforPayment.jsx'; 
+// import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
 
-class IAgreeAndStartExam extends TrackerReact(Component)  {
-	componentDidMount(){
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
-	}
-	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
-  	}
+class IAgreeAndStartExam extends (Component)  {
+
 	constructor(props){
 		super(props);
 		this.state={
@@ -36,22 +23,36 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
 			facilityPermission : 'waitingforResult',
 		}
 	}
+	
+	componentDidMount(){
+		// if ( !$('body').hasClass('adminLte')) {
+		//   var adminLte = document.createElement("script");
+		//   adminLte.type="text/javascript";
+		//   adminLte.src = "/js/adminLte.js";
+		//   $("body").append(adminLte);
+		// }
+	}
+	componentWillUnmount(){
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
+  	}
+	
 	componentWillMount(){
-  		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{
-			if(err){
-				console.log(err);
-			}else{
-				if(res==true){
-		          this.setState({
-		             facilityPermission : res,
-		          });
-		        }else if(res==false){
-		          this.setState({
-		             facilityPermission : res,
-		          });
-		        }
-			}
-		});
+  // 		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{
+		// 	if(err){
+		// 		console.log(err);
+		// 	}else{
+		// 		if(res==true){
+		//           this.setState({
+		//              facilityPermission : res,
+		//           });
+		//         }else if(res==false){
+		//           this.setState({
+		//              facilityPermission : res,
+		//           });
+		//         }
+		// 	}
+		// });
   	}
 
 	startExam(event){
@@ -65,24 +66,24 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
-		  // console.log("webcam is available");
-		  Meteor.call("StartExamCategoryWise",FlowRouter.getParam('competitionId'),(error,result)=>{
-			if(error){
-				swal(error);
-			}else{
-				var id = result;
-				// console.log("id",id);
-				if(id){
-					// Meteor.call("updateMyExamFee",id); 
-					// location.reload();
-					FlowRouter.go('/startExam/'+id);
-				}else{
-					$('.startExamBtn').css('display','block');
-					$('.wrProcessing').css('display','none');
-					swal("Please start exam again","This is happened due to bad internet connection","warning");
-				}
-			}
-		});
+		  console.log("webcam is available");
+		//   Meteor.call("StartExamCategoryWise",FlowRouter.getParam('competitionId'),(error,result)=>{
+		// 	if(error){
+		// 		swal(error);
+		// 	}else{
+		// 		var id = result;
+		// 		// console.log("id",id);
+		// 		if(id){
+		// 			// Meteor.call("updateMyExamFee",id); 
+		// 			// location.reload();
+		// 			FlowRouter.go('/startExam/'+id);
+		// 		}else{
+		// 			$('.startExamBtn').css('display','block');
+		// 			$('.wrProcessing').css('display','none');
+		// 			swal("Please start exam again","This is happened due to bad internet connection","warning");
+		// 		}
+		// 	}
+		// });
 
 		}, function() {
 			$('.startExamBtn').css('display','Block');
@@ -103,10 +104,10 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
-		  // console.log("webcam is available");
-		  FlowRouter.go("/startExam/"+id);
+		  console.log("webcam is available");
+		  // FlowRouter.go("/startExam/"+id);
 		  }, function() {
-		  	FlowRouter.go('/iAgreeAndStartExam');
+		  	// FlowRouter.go('/iAgreeAndStartExam');
 		    swal("As per our rule, you will be not allowed to attempt exam without camera","","warning");
 		});
 		// FlowRouter.go("/startExam/"+id);
@@ -125,18 +126,17 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
 			  cancelButtonText   : 'No',
 			  closeOnConfirm     : false
 			}, function() {
-			Meteor.call("ExamFinished",id,(error,result)=>{
-				if(error){
+			// Meteor.call("ExamFinished",id,(error,result)=>{
+			// 	if(error){
 
-				}else{
-					FlowRouter.go("/iAgreeAndStartExam");
-					Meteor.call("removeTempCurMEStudData");
-				}
-			});
+			// 	}else{
+			// 		FlowRouter.go("/iAgreeAndStartExam");
+			// 		Meteor.call("removeTempCurMEStudData");
+			// 	}
+			// });
 
 		});
 	}
-
 	// this function is assuming due to bab internet or internet is not available this function will execute
 	tryLoadingAgain(){
 		 examTime = this.state.defaultTime;
@@ -161,11 +161,8 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
 			  examTime = minutes + ':' + seconds;
 			}
 		}
-
 		}, 1000);
-		
 	}
-
 	// this function is assuming due to bab internet or internet is not available this function will execute
 	tryLoadingAgainforBtn(){
 		 examTime = this.state.defaultBtnTime;
@@ -300,8 +297,7 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
 					</div>
 				);
 			}
-
-			 }else if (this.state.facilityPermission == false ){
+			}else if (this.state.facilityPermission == false ){
 			  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
 		  }else if(this.state.facilityPermission == "waitingforResult"){
 		  	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
@@ -310,29 +306,28 @@ class IAgreeAndStartExam extends TrackerReact(Component)  {
 		  }else{ 
 		  return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
 		}
-
-
 	}
 }
-export default IAgreeAndStartExamContainer = withTracker(props=>{
-	clearInterval(Session.get("MainExaminterval"));
-	var PostHandle      = Meteor.subscribe("singleCompetition",FlowRouter.getParam('competitionId'));
-	var loading         = !PostHandle.ready();
-	var competitionData = ExamMaster.findOne({"_id":FlowRouter.getParam('competitionId')})||{};
-	var PostHandleCROrder = Meteor.subscribe("latestCRONewSingle",competitionData._id);
-	var loadingCRO        = !PostHandleCROrder.ready();
-	var isStudentRegisterForComp = CompetitionRegisterOrder.findOne({"studentId":Meteor.userId(),"competitionId":competitionData._id,"status":"paid"},{sort:{"paymentDate":-1}})||{};
-	if(isStudentRegisterForComp){
-		var PostHandleMyExam = Meteor.subscribe("showSinglePaperNewStudentwise",isStudentRegisterForComp.competitionId);
-		var loadingMyExam    = !PostHandleMyExam.ready();
-	}
-	return {
-		loadingCRO,
-		loadingMyExam,
-		// LoadingTest,
-		// loadingTest2,
-		competitionData,
-		loading,
-	}
+export default IAgreeAndStartExam;
+// export default IAgreeAndStartExamContainer = withTracker(props=>{
+// 	clearInterval(Session.get("MainExaminterval"));
+// 	var PostHandle      = Meteor.subscribe("singleCompetition",FlowRouter.getParam('competitionId'));
+// 	var loading         = !PostHandle.ready();
+// 	var competitionData = ExamMaster.findOne({"_id":FlowRouter.getParam('competitionId')})||{};
+// 	var PostHandleCROrder = Meteor.subscribe("latestCRONewSingle",competitionData._id);
+// 	var loadingCRO        = !PostHandleCROrder.ready();
+// 	var isStudentRegisterForComp = CompetitionRegisterOrder.findOne({"studentId":Meteor.userId(),"competitionId":competitionData._id,"status":"paid"},{sort:{"paymentDate":-1}})||{};
+// 	if(isStudentRegisterForComp){
+// 		var PostHandleMyExam = Meteor.subscribe("showSinglePaperNewStudentwise",isStudentRegisterForComp.competitionId);
+// 		var loadingMyExam    = !PostHandleMyExam.ready();
+// 	}
+// 	return {
+// 		loadingCRO,
+// 		loadingMyExam,
+// 		// LoadingTest,
+// 		// loadingTest2,
+// 		competitionData,
+// 		loading,
+// 	}
 
-})(IAgreeAndStartExam);
+// })(IAgreeAndStartExam);

@@ -30,11 +30,12 @@ import PracticeExamReports 		from '../../components/practiceExams/components/Pra
 // Section: 5 - Certificate**********************************************************
 import Certificate 				from '../../components/certificate/components/Certificate.js';
 import ParticipationCertificate from '../../components/certificate/components/ParticipationCertificate.js';
-// Section: 6 - MyAccount ***********************************************************
+// Section: 6 - MyAccounCompetitionDetailsforPaymentt ***********************************************************
 import StudentResetPassword 	from '../../components/myAccount/components/ChangePassword.js';
 import CreateStudentRegistration from '../../components/myAccount/components/CreateStudentRegistration.js';
 import MyOrder 					from '../../components/myAccount/components/MyOrders.js';
 import PaymentReceipt 			from '../../components/myAccount/components/PaymentReceipt.js';
+import CompetitionDetailsforPayment from '../../components/myAccount/components/CompetitionDetailsforPayment.js';
 // Section: 7 - paymentProcess ***********************************************************
 import MyInvoice 				from '../../components/paymentProcess/components/MyInvoice.js';
 
@@ -50,7 +51,7 @@ class MainLayout extends Component{
     console.log("in constructor");
   }
    
-  componentDidMount(){
+  componentWillMount(){
     var token = localStorage.getItem("token");
       if(token!=null){
       console.log("in componentDidMount");
@@ -61,7 +62,7 @@ class MainLayout extends Component{
     //   // browserHistory.push("/login");
     //   // this.props.history.push("/login");
     }
-  }
+	}
 
   updateState(data){
     this.setState({
@@ -80,6 +81,8 @@ class MainLayout extends Component{
     })
   }
 
+
+
   render(){
     // console.log("loggedIn status layput = ", this.state.loggedIn);
     console.log("local stoarage = ",localStorage.getItem("token"));
@@ -96,7 +99,7 @@ class MainLayout extends Component{
 						            <div className="container-fluid main-container nullPadding">
 						              	<div className="col-lg-10 marg-left nullPadding">
 							              	<Switch>
-										  		<Route path="/dashboard" 		exact strict component={ StudentProfile } />
+										  		<Route path="/dashboard" 		exact strict component={ StudentProfile }/>
 										  		
 										  		<Route path="/PurchasedPkg" 	exact strict component={ PurchasedPackage } />
 										  		<Route path="/PackageList" 		exact strict component={ PackageList } />
@@ -115,6 +118,7 @@ class MainLayout extends Component{
 										  		<Route path="/MultipleComp"		exact strict component={ MultipleCompetition } />
 										  		<Route path="/PastExamReports"	exact strict component={ PastExamReports } />
 										  		<Route path="/CompResultReport"	exact strict component={ CompetitionResultReport } />
+										  		<Route path="/CompetitionDetailsforPayment/:compId"	exact strict component={ CompetitionDetailsforPayment } />
 										  		
 										  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
 										  		<Route path="/MyInvoice"		exact strict component={ MyInvoice } />

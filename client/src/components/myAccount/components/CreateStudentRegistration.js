@@ -50,6 +50,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 	  			franchiseMobileNumber   : '',
 	  			franchiseUserId         : '',
 	  			gender       			: true,
+	  			instruction				: '',
 	  			companyId 				: '',
 	  			showCategories 			: [],
 	  			TempImages 				: {
@@ -70,6 +71,18 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
 	componentDidMount() {
 
+
+		axios
+			.get('/instructions/Student Registration')
+			.then((response)=>{
+				this.setState({
+					instruction :response.data[0].instruction
+				});
+			})
+			.catch(function(error){
+
+			})
+
 		axios
   			.get('/studentmaster/C6hmmC4SZJJ5LeBhZ')
             .then((response)=>{
@@ -88,20 +101,6 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
   			.get('/franchisedetails/franchisebasicinfo/7661')
             .then((response)=>{
                 console.log("-------Response222------>>",response.data);
-            	this.setState({
-		 			// studFormValues : response.data[0],
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // localStorage.setState({loggedIn:response.data.token})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios
-  			.get('/instructions/Student Registration')
-            .then((response)=>{
-                console.log("-------Response333------>>",response.data);
             	this.setState({
 		 			// studFormValues : response.data[0],
 		 		});
@@ -188,11 +187,6 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
 				//    }
 				// });
-	  		var studInstruction = <span>Note: Please contact your franchise to get franchise 4 digit code to complete your registration form.<br/>1) Upload students latest photograph only.<br/>2) Choose Category wisely<br/>3) Category once selected will not be changed at any circumstances.<br/>4) While Registering student have to complete their profile including photo upload & other details within 24 hours. If not done, Student account will be auto deleted.<br/>5) While Registering Parents Official Email ID’s are not allowed. kindly Register with your valid email ID. E.g. Gmail, Yahoomail, Rediffmail,<br/>6) 2 Mbps internet speed is COMPULSORY for practice / Final Exam.</span>
-	  		 		
-	  		this.setState({
-		             studInstruction : studInstruction,
-		          });
 
   	}
 
@@ -733,8 +727,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 										</div>
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 instructionWrap dispIn-Blk">
-										{/*this.props.studInstruction.instruction*/}
-										{this.state.studInstruction}
+										{this.state.instruction}
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 imageSize1 dispIn-Blk">
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-3 pull-right">

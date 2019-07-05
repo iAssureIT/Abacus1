@@ -1,27 +1,23 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-import {withTracker} from 'meteor/react-meteor-data';
-import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
-// import {ExamMaster} from '/imports/admin/forms/exam/api/examMaster.js';
-import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
-import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
+
+// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
+// import {StudentMaster} from '/imports/student/api/studentMaster.js';
+// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
 
 class CompetitionDetailsforPayment extends Component{
 
 	componentDidMount(){
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
+		// if ( !$('body').hasClass('adminLte')) {
+		//   var adminLte = document.createElement("script");
+		//   adminLte.type="text/javascript";
+		//   adminLte.src = "/js/adminLte.js";
+		//   $("body").append(adminLte);
+		// }
   	}
 
   	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
   	}
 
   	confirmPayment(event){
@@ -29,23 +25,23 @@ class CompetitionDetailsforPayment extends Component{
   		var competitionFees = this.refs.competitionFees.value;
   		var comp_id 		= this.refs.comp_id.value;
   		var QPId 			= this.refs.QPId.value;
-  		Meteor.call("paymentGatewayforCompetition",competitionFees,comp_id,QPId,
-  					(err,rslt)=>{
-  						if(err){
-  							// console.log(err);
-  						}else{
-  							if(rslt){
-  							console.log(rslt);
+  		// Meteor.call("paymentGatewayforCompetition",competitionFees,comp_id,QPId,
+  		// 			(err,rslt)=>{
+  		// 				if(err){
+  		// 					// console.log(err);
+  		// 				}else{
+  		// 					if(rslt){
+  		// 					console.log(rslt);
 
-                                window.location = rslt;
-  							}
-  						}
-  					}
-  		);
+    //                             window.location = rslt;
+  		// 					}
+  		// 				}
+  		// 			}
+  		// );
   	}
 
 	render(){
-		if(!this.props.loading && !this.props.loadingComp) {
+		// if(!this.props.loading && !this.props.loadingComp) {
 		return(
 			<div>
 		        {/* Content Wrapper. Contains page content */}
@@ -74,7 +70,6 @@ class CompetitionDetailsforPayment extends Component{
 			       					<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 										
 				       					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rfoac">
-				       						{/*<img src="/images/logo.png" className="img-responsive examlogo" />*/}
 				       						<h4 className="abacussubtitle blue">{this.props.competitionData.competitionName}</h4>
 				       					</div>
 
@@ -85,8 +80,9 @@ class CompetitionDetailsforPayment extends Component{
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles examtitles">Exam Date &nbsp;&nbsp;&nbsp;: &nbsp;{this.props.dateformat}</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
-											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles examtitles">Exam Time &nbsp;&nbsp;&nbsp;: &nbsp;{this.props.competitionData.startTime} TO &nbsp;
-										{this.props.competitionData.endTime}</div>
+											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles examtitles">
+											Exam Time &nbsp;&nbsp;&nbsp;: &nbsp;{this.props.competitionData.startTime} TO &nbsp; {this.props.competitionData.endTime}
+											</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Category &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{this.props.CompetitionExamData.category}</div>
@@ -112,7 +108,7 @@ class CompetitionDetailsforPayment extends Component{
 									</div>
 								</div>
 							:
-								<div className="nopadLeft text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 noEarning MarginBottom20 noDataInvoiceList">Competition not created for your category({this.props.studentMasterData.category}/{this.props.studentMasterData.subCategory}).</div>
+								<div className="nopadLeft text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 noEarning MarginBottom20 noDataInvoiceList">Competition not created for your category({/*this.props.studentMasterData.category*/}/{/*this.props.studentMasterData.subCategory*/}).</div>
 
 							}
 						 </div>
@@ -125,40 +121,41 @@ class CompetitionDetailsforPayment extends Component{
 				</div>
 			</div>
 			);
-		}else{
-			return(
-				<div>Loading... Please wait</div>
-			);
-		}
+		// }else{
+		// 	return(
+		// 		<div>Loading... Please wait</div>
+		// 	);
+		// }
 	}
 }
-export default CompetitionDetailsContainer = withTracker(props=>{
-	const postHandle 	= Meteor.subscribe("LoginInStudent",Meteor.userId());
-	const loading 		= !postHandle.ready();
-	var studentMasterData = StudentMaster.findOne({"studentId":Meteor.userId()});
+export default CompetitionDetailsforPayment;
+// export default CompetitionDetailsContainer = withTracker(props=>{
+// 	const postHandle 	= Meteor.subscribe("LoginInStudent",Meteor.userId());
+// 	const loading 		= !postHandle.ready();
+// 	var studentMasterData = StudentMaster.findOne({"studentId":Meteor.userId()});
 	
 
-	var compId 			= FlowRouter.getParam('compId');
-	var postHandleComp 	= Meteor.subscribe("singleCompetition",compId);
-	var loadingComp    	= !postHandleComp.ready();
-	var competitionData = ExamMaster.findOne({"_id":compId})||{};
+// 	var compId 			= FlowRouter.getParam('compId');
+// 	var postHandleComp 	= Meteor.subscribe("singleCompetition",compId);
+// 	var loadingComp    	= !postHandleComp.ready();
+// 	var competitionData = ExamMaster.findOne({"_id":compId})||{};
 
 	
-	var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
-	if(competitionData){
-		var CompetitionExamData = competitionData.competitionExams;
-		// console.log("CompetitionExamData",CompetitionExamData);
-		}
-		if(CompetitionExamData){
-			var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
-			 CompetitionExamData = competitionData.competitionExams[arrIndex];
+// 	var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
+// 	if(competitionData){
+// 		var CompetitionExamData = competitionData.competitionExams;
+// 		// console.log("CompetitionExamData",CompetitionExamData);
+// 		}
+// 		if(CompetitionExamData){
+// 			var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
+// 			 CompetitionExamData = competitionData.competitionExams[arrIndex];
 
-	}
-	return{
-		loading,
-		competitionData,
-		CompetitionExamData,
-		dateformat,
-		studentMasterData
-	}
-})(CompetitionDetailsforPayment);
+// 	}
+// 	return{
+// 		loading,
+// 		competitionData,
+// 		CompetitionExamData,
+// 		dateformat,
+// 		studentMasterData
+// 	}
+// })(CompetitionDetailsforPayment);

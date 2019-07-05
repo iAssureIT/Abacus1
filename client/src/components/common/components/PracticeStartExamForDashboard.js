@@ -25,13 +25,21 @@ class PracticeStartExamForDashboard extends Component {
 			'defaultBtnTime' : '00:05',
 			practiceQPData 	 : [],
 			freeExamStatus 	 : [],
+			studentID 		 : '',
+			myArray 		 : [],
+			myArray1 		 : []
 		});
 	}
 
 	componentDidMount(){
 
+		const studentID = 'uKRhdd7qS6ctjgK6s'/*localStorage.getItem("user_ID");*/
+	    	this.setState({
+	    		studentID 	: studentID
+	    	})
+
         axios
-	    	.get('/competitionregisterorder/bzdaMLD9Mf8YxR7TM')
+	    	.get('/competitionregisterorder/'+studentID /*bzdaMLD9Mf8YxR7TM*/)
             .then((response)=> {
                 console.log("-------competitionregisterorder222------>>",response.data);
                 this.setState({
@@ -45,7 +53,7 @@ class PracticeStartExamForDashboard extends Component {
             });
 
         axios
-	    	.get('/myexammasters/incomplete/cgTpRuSjgRt7GnLr5')
+	    	.get('/myexammasters/incomplete/'+studentID /*cgTpRuSjgRt7GnLr5*/)
             .then((response)=> {
                 console.log("-------myexammasters333------>>",response.data);
                 this.setState({
@@ -59,35 +67,63 @@ class PracticeStartExamForDashboard extends Component {
             });
 
         axios
-	    	.get('/questionpapermasters/A/A2')
+	    	.get('/studentmaster/details/'+studentID /*WyQY35LEFitPcabP6*/)
             .then((response)=> {
-                console.log("-------questionpapermasters444------>>",response.data);
-                this.setState({
-		 			practiceQPData : response.data,
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
-            })
+                console.log("-----Category/subCategory------>>",response.data.category+'/'+response.data.subCategory);          
+
+	        axios
+		    	.get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
+	            .then((response)=> {
+	                console.log("-------questionpapermasters444------>>",response.data);
+                	console.log("-------this.state.practiceQPData._id------>>",response.data[0]._id);
+
+	                this.setState({
+			 			practiceQPData : response.data,
+			 		});
+		            for(var i=0;response.data.length>i;i++){
+				        console.log("-----"+i+"------>>")
+			        axios
+					    .get('/mypracticeexammasters/'+response.data[i]._id+/*vh5EWGeJf34k54XjF*/'/'+studentID /*uKRhdd7qS6ctjgK6s*/)
+			            .then((response)=> {
+			                console.log("-------mypracticeexammasters"+i+"------>>",response.data);
+			                
+			                var newStateArray = [];
+			                if(response.data.length>0){
+				                var count = 0;
+				                for (var j = 0; j < response.data.length; j++) {
+				                	if(response.data[j].examStatus=='Completed'){
+				                		count++;
+				                	}
+				                }
+				                if(count==response.data.length){
+							 			var status = 'Completed'
+				                }else{
+							 			var status =  'Incomplete'
+				                }
+			                }else{
+						 			var status =  'Incomplete'
+			                }
+			                newStateArray.push(status);
+							this.setState({
+								myArray: newStateArray
+							});
+			        	console.log('myArray = ',newStateArray);
+
+			            })
+			            .catch(function (error) {
+			                console.log(error);
+			            });
+			        }
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	        })
             .catch(function (error) {
                 console.log(error);
             });
-
         axios
-	    	.get('/mypracticeexammasters/vh5EWGeJf34k54XjF/uKRhdd7qS6ctjgK6s')
-            .then((response)=> {
-                console.log("-------mypracticeexammasters555------>>",response.data);
-                this.setState({
-		 			freeExamStatus : response.data,
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios
-	    	.get('/mypracticeexammasters/incompleteexam/rRDPwPwKJrCRtyY9X')
+	    	.get('/mypracticeexammasters/incompleteexam/'+studentID /*rRDPwPwKJrCRtyY9X*/)
             .then((response)=> {
                 console.log("-------mypracticeexammasters666------>>",response.data);
                 this.setState({
@@ -113,6 +149,8 @@ class PracticeStartExamForDashboard extends Component {
   	}
 	
 	render(){ 
+// console.log('myArray111 = ',this.state.myArray);
+
 		// if(!this.props.loadingTest5){
 		return(
 			<div className="col-lg-12">
@@ -141,10 +179,10 @@ class PracticeStartExamForDashboard extends Component {
 											    	{this.state.practiceQPData.length>0?								
 											    		this.state.practiceQPData.map((questionPaper,index)=>{
 												    	return (<ul className="col-lg-12 freePPaper" key={index}>													    			
-													    			<li className="testtitle testtitlepadding col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>	
-
-													    			{questionPaper.freeExamStatus=="Completed"?
-													    				<Link to="/PracticeExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li></Link>
+													    			<li className="testtitle testtitlepadding col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>
+													    			{
+													    				this.state.myArray=="Completed"?
+													    				<Link to="/PractExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li></Link>
 													    				:
 													    				<Link to="/StartPracticeExam"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li></Link>
 													    			}

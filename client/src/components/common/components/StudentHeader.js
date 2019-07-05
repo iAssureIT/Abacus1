@@ -13,16 +13,19 @@ class StudentHeader extends (Component){
   constructor() {
    super();
     this.state = {
-      loggedIn: false
+      loggedIn    : false,
+      studentName : ''
     }
   }
 
   componentWillMount(){
     const token = localStorage.getItem("token");
+    const studentName = localStorage.getItem("userFirstName");
     if(token!==null){
-      console.log("Header Token = ",token);
+      // console.log("Header Token = ",token);
       this.setState({
-        loggedIn : true
+        loggedIn : true,
+        studentName : studentName
       })
     }
 
@@ -73,44 +76,18 @@ class StudentHeader extends (Component){
   // }
   logout(){
     var token = localStorage.removeItem("token");
-      if(token!==null){
-      console.log("Header Token = ",token);
-      this.setState({
-        loggedIn : false,
-        
-      },()=>{
-        this.props.systemlogout(true)
-      })
-      // browserHistory.push("/login");
-      this.props.history.push("/");
-    }
+    localStorage.clear();    
+      // if(token !== null){
+        console.log("Header Token = ",token);
+        this.setState({
+          loggedIn : false,          
+        },()=>{
+          this.props.systemlogout(true)
+        })
+        // browserHistory.push("/login");
+        this.props.history.push("/");
+      // }
   }
-
-
-
-
- // currentUser(){
- //    var studentInfo= StudentMaster.findOne({"studentId":Meteor.userId()});
-    
- //    if(studentInfo && studentInfo._id){
- //      return studentInfo.studentFirstName
- //    }else{
- //      var LoginUserData = Meteor.users.findOne({"_id":Meteor.userId()});
- //        if(LoginUserData){
- //          var profile = LoginUserData.profile;
- //          if(profile){
- //            var firstName = profile.firstname;
- //            if(firstName){
- //              return firstName;
- //            }else{
- //              return 'Student';
- //            }
- //          }
-        
- //      }
- //    }
-
- //    }
 
  //  studentLogin(){
  //    if(Roles.userIsInRole(Meteor.userId(), ['Student'])) {
@@ -125,21 +102,21 @@ class StudentHeader extends (Component){
  //    }
  //  }
 
- //  studentLoginPhoto(){
- //      var userData = Meteor.users.findOne({"_id":Meteor.userId()});
- //      if(userData){
- //        var profileData = userData.profile;
- //        if(profileData){
- //          if(profileData.userProfile){
- //            return profileData.userProfile;
- //          }else{
- //            return '/images/user.png';
- //          }
- //        }
- //      } else{
- //        return '/images/user.png';
- //      }
- //  }
+  studentLoginPhoto(){
+      // var userData = Meteor.users.findOne({"_id":Meteor.userId()});
+      // if(userData){
+      //   var profileData = userData.profile;
+      //   if(profileData){
+      //     if(profileData.userProfile){
+      //       return profileData.userProfile;
+      //     }else{
+      //       return '/images/user.png';
+      //     }
+      //   }
+      // } else{
+        return '/images/user.png';
+      // }
+  }
 
  //  getUploadImgPercentagee(){
  //    var uploadProgressPercent = Session.get("imageprogresss");
@@ -191,16 +168,6 @@ class StudentHeader extends (Component){
  //        );
  //      }
  //  }
-
- //  myProfile(){
- //    if(Roles.userIsInRole(Meteor.userId(), ['Student'])){
- //      return <a href="/studentRegistration" className="btn btn-default btn-flat">My Registration</a>
- //    }else{
- //      {/*<a href={`/admin/editProfile/${Meteor.userId()}`} className="btn btn-default btn-flat">My Profile</a>*/}
- //      return '';
- //    }
- //  }
-
   
 
  //  uploadStudentImage(event){
@@ -216,10 +183,10 @@ class StudentHeader extends (Component){
  //    }
 
 
- showSignout(e){
-  e.preventDefault();
-  $('.dropdown-menu').show();
- }
+     showSignout(e){
+      e.preventDefault();
+      $('.dropdown-menu').toggle();
+     }
 
   render(){
     {console.log("loggedIn status header = ", this.state.loggedIn)}
@@ -314,41 +281,41 @@ class StudentHeader extends (Component){
                 }
 
                 </li>*/}
-                <li className="dropdown user c11 user-menu">
+                <li className="dropdown user c11 user-menu" data-dismiss="modal">
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown" onClick={this.showSignout.bind(this)}>
-                    <img src=""/*this.studentLoginPhoto()*/ className="user-image"  />
-                    <span className="hidden-xs"> {/*this.currentUser()*/} </span>
+                    <img src={this.studentLoginPhoto()} className="user-image"  />
+                    <span className="hidden-xs"> {this.state.studentName} </span>
                   </Link>
                   <ul className="dropdown-menu">
                     {/* User image */}
                     <li className="user-header">
-                      <img src=""/*this.studentLoginPhoto()*/ className="img-circle" />
+                      <img src={this.studentLoginPhoto()} className="img-circle" />
                       {/*this.getUploadImgPercentagee()*/}
                       <span>
                       <Link to="javascript:void(0)">
-                      <span className="changeimgwrap">Change</span></Link>
+                        <span className="changeimgwrap">Change</span>
+                      </Link>
                         <input type="file" className="chooseImgArap" accept="file/*" /*onChange={this.uploadStudentImage.bind(this)}*//>
                       </span>
-                      
-                      <p>
-                        {/*this.currentUser()*/}
-                      </p>
+                      <p>{this.state.studentName}</p>
                     </li>
                     {/* Menu Body */}
                     
                     {/* Menu Footer*/}
                     <li className="user-footer">
                       <div className="pull-left">
-                        {/*this.myProfile()*/}
+                        <Link to="/CreateStudReg" className="btn btn-default btn-flat">My Registration</Link>
                       </div>
                       <div className="pull-right">
-                        <Link to="/login"><button className="btn btn-default btn-flat" onClick={this.logout.bind(this)}>Sign out</button>
-                          
+                        <Link to="/login">
+                          <button className="btn btn-default btn-flat" onClick={this.logout.bind(this)}>Sign out</button>
                         </Link>
                       </div>
                     </li>
                   </ul>
                 </li>
+
+
                 {/* Control Sidebar Toggle Button */}
                 {/*this.studentLogin()*/}
               </ul>

@@ -105,31 +105,32 @@ class StudentRegistrationforCompetition extends Component  {
   	}
 
 	startExam(event){
-		// event.preventDefault();
-		// navigator.getMedia = ( 
-		// // navigator.getUserMedia || // use the proper vendor prefix
-  //       navigator.webkitGetUserMedia ||
-  //       navigator.mozGetUserMedia ||
-  //       navigator.msGetUserMedia);
-		// navigator.getMedia({video: true}, function() {
-		//   // console.log("webcam is available");
+		event.preventDefault();
+		navigator.getMedia = ( 
+		// navigator.getUserMedia || // use the proper vendor prefix
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
+		navigator.getMedia({video: true}, function() {
+		  console.log("webcam is available");
 		//   Meteor.call("StartExamCategoryWise",(error,result)=>{
 		// 	if(error){
 		// 		swal(error);
 		// 	}else{
 		// 		var id = result;
 		// 		// console.log("id",id);
-		// 		if(id){
-		// 			FlowRouter.go('/startExam/'+id);
-		// 		}else{
-		// 			swal("Please start exam again","This is happened due to bad internet connection","warning");
-		// 		}
+				// if(id){
+					// FlowRouter.go('/startExam/'+id);
+					// this.props.history.push('/startExam/E6BRdJtHMF9a6p7KF'/*+id*/);
+				// }else{
+				// 	swal("Please start exam again","This is happened due to bad internet connection","warning");
+				// }
 		// 	}
 		// });
 
-		// }, function() {
-		//     swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
-		// });
+		}, function() {
+		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
+		});
 		
 	}
 
@@ -243,7 +244,9 @@ class StudentRegistrationforCompetition extends Component  {
 						<div className="crslDiv col-lg-10 col-lg-offset-1">
 							<div className="carousel-inner">
 								{this.state.competitionData.length>0 ?
-									this.state.competitionData.map((competitionInfo,index)=>{										
+									this.state.competitionData.map((competitionInfo,index)=>{	
+		console.log("competitionInfo.timeStatus= ",competitionInfo.timeStatus,"competitionInfo.examYear= ",competitionInfo.examYear)
+
 										return(											
 										<div className={index==0?"item active":"item"}  key={index}>
 											<div className="fontstyle examtitlecolor"><b>{competitionInfo.competitionName}</b></div>
@@ -303,7 +306,7 @@ class StudentRegistrationforCompetition extends Component  {
 												:
 													competitionInfo.timeStatus=="valid" && competitionInfo.examYear=="NotAccept" ?
 														<div className="fontstyle" >									
-															<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
+															<a href={`/CompetitionDetailsforPayment/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
 														</div>
 													:														            			
 														competitionInfo.timeStatus=="invalid"  || competitionInfo.examYear=="NotAccept"?
@@ -312,7 +315,7 @@ class StudentRegistrationforCompetition extends Component  {
 															</div>
 														:						            					            			
 															<div className="fontstyle" >									
-																<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
+																<a href={`/CompetitionDetailsforPayment/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
 															</div>
 												}
 										</div>)										

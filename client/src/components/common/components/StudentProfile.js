@@ -6,6 +6,8 @@ import renderHTML 							from 'react-render-html';
 import PracticeStartExamForDashboard		from './PracticeStartExamForDashboard.js';
 import StudentRegistrationforCompetition	from './StudentRegistrationforCompetition.js';
 import axios 								from 'axios';
+import $									from 'jquery';
+
 import '../css/common.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/modal.js';
@@ -37,10 +39,15 @@ class StudentProfile extends Component{
 	    	Notificationstatus 	 	: [],
 	    	packageordermasters	 	: [],
 	    	packageData 			: [],
+	    	studentID 				: '',
 	        // content          	: '',
 	        // loginTime        	: '',
 	        loggedIn 				: false,
+
 	    }
+
+    	// console.log("constructor loggedIn = ",this.state.loggedIn);
+  
 	    // this.handleChange = this.handleChange.bind(this);
 	}
 	
@@ -65,8 +72,36 @@ class StudentProfile extends Component{
                 this.setState({
 		 			Notificationstatus : response.data,
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
+
+          		var resArray = response.data;        	
+          
+	          	if(resArray.length>0 && resArray[0]._id){
+                console.log("-------in if------>>");
+				$('#showstatus').css('display','block');
+				$('#showstatus').css('overflow-y','auto');
+    	 		$('#showstatus').addClass('fade in');
+		   //        	if(studData){
+					// 	if(studData.notificationStatus=="Unread"){
+					// 		Meteor.setTimeout(function() {
+						    // $('#showstatus').show();
+					// 		}, 300);
+					// 	}else{
+					// 		Meteor.setTimeout(function() {
+					// 	    $('#showstatus').modal('hide');
+					// 		}, 300);
+					// 	}
+					// }	
+
+	          	}
+	          	else{
+                console.log("-------in else------>>");
+
+						// Meteor.setTimeout(function() {
+					    	// $('#showstatus').hide();
+						// }, 300);
+
+				}
+
             })
             .catch(function (error) {
                 console.log(error);
@@ -76,18 +111,18 @@ class StudentProfile extends Component{
 	componentDidMount(){
 
 		const token = localStorage.getItem("token");
-	    console.log("Dashboard Token = ",token);
+		const studentID = 'E6BRdJtHMF9a6p7KF'/*localStorage.getItem("user_ID");*/
+	    // console.log("Dashboard Token = ",token);
 	    if(token!==null){
-	    console.log("********************imin ",token);
-
+	    console.log("Token Received");
 	    	this.setState({
-	    		loggedIn : true
+	    		loggedIn 	: true,
+	    		studentID 	: studentID
 	    	})
-
 	    }
 
 	    axios
-	    	.get('myexammasters/dashboard/dp9Cz4TrF5sKfv4HJ')
+	    	.get('myexammasters/dashboard/'+studentID)
             .then((response)=> {
                 console.log("-------dashboardReports------>>",response.data);
                 this.setState({
@@ -99,9 +134,10 @@ class StudentProfile extends Component{
             .catch(function (error) {
                 console.log(error);
             });
+
 /****************************************package 1 column******************************************/
         axios
-	    	.get('/packageordermasters/WyQY35LEFitPcabP5')
+	    	.get('/packageordermasters/'+studentID/*WyQY35LEFitPcabP5*/)
             .then((response)=> {
                 console.log("-------packageordermasters------>>",response.data);
                 this.setState({
@@ -136,16 +172,6 @@ class StudentProfile extends Component{
 	// 	  $("body").append(adminLte);
 	// 	}
 	// 	var studData = StudentMaster.findOne({"studentId":Meteor.userId()});
-
-
-	// 	// console.log("navigator.appName------>",navigator.appName);
-	// 	// console.log("navigator.appCodeName------>",navigator.appCodeName);
-	// 	// console.log("navigator.platform------>",navigator.platform);
-
-	// 	// console.log("navigator.window------>",window.navigator);
-	// 	// Meteor.setTimeout(function() {
-	// 	// 				    $('#showNotice').modal('show');
-	// 	// 					}, 300);
 
 	// 	 Meteor.call("getNotificationStatus",(err,res)=>{
  //          if(err){ 
@@ -205,6 +231,8 @@ class StudentProfile extends Component{
 	// // }
 
   	updateStudentNotifctn(){
+  		$('#showstatus').css('display','none');
+    	  $('#showstatus').removeClass('fade in');
   		 // Meteor.call("updateStudentNotificationStatusToRead",(err,res)=>{
           // if(err){
           // }else{            
@@ -213,6 +241,8 @@ class StudentProfile extends Component{
   	}
 
   	updateStudentTimeStatus(){
+  		$('#showNotice').css('display','none');
+    	  $('#showNotice').removeClass('fade in');
  //  		 Meteor.call("updateStudentDownTimeStatusStatusToRead",(err,res)=>{
  //          if(err){
  //          }else{            

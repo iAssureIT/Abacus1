@@ -14,17 +14,16 @@ class Login extends Component {
   constructor(){
       super();
         this.state = {           
-           loggedIn : false,
-
-           auth: {
+            loggedIn : false,
+            auth: {
                 email           : '',
                 password        : '',
             }
         }
-    }
-    componentDidMount(){
-      
-    }
+  }
+  componentDidMount(){
+    
+  }
   userlogin(event){
     event.preventDefault();
     console.log("in login mode",this.state.auth);
@@ -32,19 +31,18 @@ class Login extends Component {
           email       : this.refs.loginusername.value,
           password    : this.refs.loginpassword.value,
         }
-        localStorage.setItem("token","CQRncYEeK8qJO2nz25ppGAMf8pxaOKsm5j9zeEbZjYq");
-        console.log("localStorage =",localStorage);
 
     axios
       .post('/user/login',auth,)
       .then((response)=> {
         console.log("-------userData------>>",response);
-        // this.setState({
-        //   token : response.data.token
-        // });
+        // userFirstName: "Dnyaneshwar"
+        // user_ID: "5d0a2bfd84f7f33c69e3868d"
+        localStorage.setItem("token",response.data.token);
+        localStorage.setItem("userFirstName",response.data.userFirstName);
+        localStorage.setItem("user_ID",response.data.user_ID);
 
-        // localStorage.setItem("token",response.data.token);
-        // console.log("localStorage4 =",localStorage);
+        console.log("localStorage =",localStorage);
         // browserHistory.replace('/');
         // this.props.history.push("/dashboard");
         // direct.setState({loggedIn:response.data.token})
@@ -55,29 +53,17 @@ class Login extends Component {
             this.setState({
               loggedIn : true,
             },()=>{
-              // this.props.systemlogin(false);
-            })
-            // browserHistory.push("/login");
-            this.props.history.push("/dashboard");
-        
+              console.log("loggedIn state = ", this.state.loggedIn);
+              this.props.history.push("/dashboard");
+            })        
         }
       })
       .catch(function (error) {
           console.log(error);
-          localStorage.setItem("token","CQRncYEeK8qJO2nz25ppGAMf8pxaOKsm5j9zeEbZjYq");
-          console.log("localStorage4 =",localStorage);
-
-            // this.setState({
-            //   loggedIn : true,
-            // });
-
-        // if(localStorage!==null){
-        //   swal("Invalid Email or Password","Please Enter valid email and password","warning");
-        // }
+        if(localStorage!==null){
+          swal("Invalid Email or Password","Please Enter valid email and password","warning");
+        }
       });
-    this.props.history.push("/dashboard");
-            
-
   }
   showSignPass(){
       $('.showPwd').toggleClass('showPwd1');
@@ -168,13 +154,13 @@ class Login extends Component {
                   </Link>
                 </div>
               </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 pdcls">
+              {/*<div className="col-lg-12 col-md-12 col-sm-12 pdcls">
                 <div className="col-lg-12 col-md-12 col-sm-12 ">
-                  <Link to='/verify-account' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                  <Link to='/verify-email' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     OTP Verification
                   </Link>
                 </div>
-              </div>
+              </div>*/}
             </form>
           </div>
         </div>
