@@ -36,15 +36,7 @@ Note :  updateProfilePermission value can be checked (using 6 query) student.pro
     Input           : -NA-
                       
     Output          :
-                        [
-                            {
-                                _id                     : String,
-                                competitionId           : String,
-                                competitionOriginalFees : String,
-                                transactionId           : number,
-                                paymentDate             : Date
-                            }
-                        ]
+                        Need to check
 
 2. Fetch all the categries
 

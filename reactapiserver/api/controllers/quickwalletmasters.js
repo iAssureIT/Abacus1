@@ -1,6 +1,7 @@
 const mongoose	= require("mongoose");
 
-const QuickWalletMasters = require('../models/quickwalletmasters');
+const QuickWalletMasters        = require('../models/quickwalletmasters');
+const StudentMaster             = require('../models/studentmasters');
 
 exports.fetch_details = (req,res,next)=>{
     QuickWalletMasters.find()
@@ -62,4 +63,8 @@ exports.makepayment = (req,res,next) =>{
                             });
                         });
 
+}
+
+exports.paymentGatewayforCompetition = (req,res,next) => {
+    StudentMaster
 }

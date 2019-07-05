@@ -57,7 +57,7 @@ exports.fetch_participationexam_certificate = (req,res,next) => {
     var competitionId = req.params.competitionId;
     var studentId     = req.params.studentId;
     MyExamMaster.find({competitionId:competitionId,StudentId:studentId})
-            .select("fullName competitionName examDate")
+            .select("fullName competitionName examDate examSolvingTime")
             .exec()
             .then(data =>{
             //   console.log('data ',data);
@@ -218,6 +218,173 @@ exports.update_myexammaster = (req,res,next) =>{
                         res.status(200).json({message: "Exam Completed"});
                     }else{
                         res.status(200).json({message: "Something Went Wrong"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
+
+exports.getMainExamQuestions = (req,res,next) =>{
+    MyExamMaster.findOne({_id:req.params.competitionId,StudentId: req.params.studentId,examType:"Final Exam"})
+                .exec()
+                .then(postData=>{
+                    if(postData){
+                        var questionArrayFromTC = postData.answerArray;
+                        if(questionArrayFromTC){
+                            questionArrayFromTC.push({'finishText' : 'You are about to finish the Exam.', 
+                                            'finishSubtext': 'Please click on below button to finish the Exam.',
+                                            'finish_button': 'Finish The  Exam' });
+                            var dataObject = {
+                                "noOfQuestion": questionArrayFromTC.length-1,
+                                "totalMarks": postData.totalMarks,
+                                "questionArrayFromTC": questionArrayFromTC,
+                            }
+                            if(dataObject){
+                                res.status(200).json(dataObject);
+                            }else{
+                                res.status(409).json({message:"Something went wrong"});    
+                            }
+                        }else{
+                            res.status(409).json({message:"Question's Answer not found"});
+                        }
+                    }else{
+                        res.status(409).json({message:"Exam Not found"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
+
+exports.getmainexamlastvisitedquestion = (req,res,next)=>{
+    MyExamMaster.findOne({"_id":req.params.competitionId})
+                .select("lastVisitedQuestion lastVisitedQAnswer")
+                .exec()
+                .then(studentAnserSheet=>{
+                    if(studentAnserSheet){
+                        res.status(200).json(studentAnserSheet);
+                    }else{
+                        res.status(200).json({message:"Exam not found"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
+
+exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
+    var answer = "";
+    MyExamMaster.findOne({"_id":req.body.examId})
+                .exec()
+                .then(examAnswerData=>{
+                    if(examAnswerData){
+                        if(req.body.studAnswer == examAnswerData.answerArray[index]){
+                            answer = 'Correct';
+                        }else{
+                            answer = 'Wrong';
+                        }
+                        if(answer != ""){
+                            MyExamMaster.update(
+                                            {"_id":req.body.examId},
+                                            {
+                                                $set:{
+                                                    'examSolvingTime'                       : req.body.examTime,
+                                                    'lastVisitedQuestion'                   : parseInt(req.body.index),
+                                                    'lastVisitedQAnswer'                    : req.body.studAnswer,
+                                                    ['answerArray.'+index+'.attempted']     : "Yes",
+                                                    ['answerArray.'+index+'.studentAnswer'] : req.body.studAnswer,
+                                                    ['answerArray.'+index+'.answer']        : req.body.answer,
+                                                }
+                                            }
+                                        )
+                                        .exec()
+                                        .then(data=>{
+                                            if(data.nModified == 1){
+                                                res.status(200).json({message:"Answer updated"})
+                                            }else{
+                                                res.status(409).json({message:"Something Went wrong."});                                                
+                                            }
+                                        })
+                                        .catch(err =>{
+                                            console.log(err);
+                                            res.status(500).json({
+                                                error: err
+                                            });
+                                        });                        
+                        }
+                    }else{
+                        res.status(409).json({message:"Something Went wrong."});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
+
+exports.getAlreadySolvedQuesAns = (req,res,next) =>{
+    MyExamMaster.findOne({"_id":req.params.examId})
+                .exec()
+                .then(answerData=>{
+                    var answerDataArray = answerData.answerArray[req.params.index];	
+                    if(answerDataArray){
+                        var data =  ['getStudAns',answerDataArray.studentAnswer];
+                        if(data){
+                            res.status(200).json(data);
+                        }else{
+                            res.status(409).json({message:"Something went wrong"});    
+                        }
+                    }else{
+                        res.status(409).json({message:"Exam not found"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
+
+exports.ExamMarksUpdate = (req,res,next) =>{
+    MyExamMaster.findOne({"_id":req.params.examId})
+                .exec()
+                .then(myExamMasterData=>{
+                    if(myExamMasterData){
+                        var answeArrayLen = myExamMasterData.answerArray.length;
+                        var correctAnswer = myExamMasterData.answerArray.filter(function(mapData){
+                                        return mapData.answer === "Correct";
+                                    }).length;
+
+                        var wrongAnswer  = myExamMasterData.answerArray.filter(function(mapData){
+                                            return mapData.answer === "Wrong";
+                                        }).length;
+
+                        var attepmted  = myExamMasterData.answerArray.filter(function(mapData){
+                                            return mapData.attempted === "Yes";
+                                        }).length;
+                        var totalScore = parseInt(correctAnswer ) * parseInt(myExamMasterData.marksPerQuestion);
+                        var m1 = myExamMasterData.examTime;
+                        var m2 = req.params.examSolvingTime;
+                        if(m1 && m2){
+                            //Need to under standed                           
+                        }else{
+                            res.status(409).json({message:"It seams there is some isssue with Time"});    
+                        }
+                    }else{
+                        res.status(409).json({message:"Exam Not Found"});
                     }
                 })
                 .catch(err =>{

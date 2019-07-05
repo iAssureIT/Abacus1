@@ -5,4 +5,6 @@ const NotificationMastersController         = require('../controllers/notificati
 
 router.get('/:status', NotificationMastersController.fetch_notificationmasters);
 
+
+
 module.exports = router;

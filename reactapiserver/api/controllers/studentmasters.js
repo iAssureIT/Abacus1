@@ -2,11 +2,13 @@ const mongoose	= require("mongoose");
 
 const StudentMaster = require('../models/studentmasters');
 const User          = require('../models/users');
+const Notification  = require('../models/notificationmasters');
+const SiteDowntime  = require('../models/siteshutdowntimes');
 
 exports.fetch_student = (req,res,next)=>{
   var sId = req.params.student_ID;
     StudentMaster.findOne({studentId:sId})
-            .select("subCategory studentFirstName studentMiddleName studentLastName studentFullName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus status competitionPaymentStatus")
+            .select("subCategory studentFirstName studentMiddleName studentLastName studentFullName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus status competitionPaymentStatus notificationStatus downTimeStatus")
 		        .exec()
             .then(data =>{
               res.status(200).json(data);
@@ -22,7 +24,7 @@ exports.studentInfo = (req,res,next)=>{
   var sId = req.params.studentId;
   console.log('studentInfo sId',sId);
   StudentMaster.findOne({studentId:sId})
-               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus")
+               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus")
                .exec()
                .then(student =>{
                  if(student){
@@ -162,6 +164,132 @@ exports.insert_student_registration = (req,res,next) =>{
       
 }
 
+exports.update_notificationStatus = (req,res,next) =>{
+  switch(req.params.statustype){
+    case 'notificationstatus' :
+      StudentMaster .update(
+                          {_id:req.params.studentId},
+                          {
+                            $set:{
+                              'notificationStatus' : req.params.status
+                            }
+                          }
+                    )
+                    .exec()
+                    .then(data=>{
+                      if(data.nModified == 1){
+                        res.status(409).json({message:"Status Updated"})
+                      }else{
+                        res.status(409).json({message:"Something went wrong"})
+                      }
+                    })
+                    .catch(err => {
+                      console.log(err);
+                      res.status(500).json({
+                        error: err
+                      });
+                    });
+      break;
+    case 'downtimestatus'     :
+      StudentMaster .update(
+                          {_id:req.params.studentId},
+                          {
+                            $set:{
+                              'downTimeStatus' : req.params.status
+                            }
+                          }
+                    )
+                    .exec()
+                    .then(data=>{
+                      if(data.nModified == 1){
+                        res.status(409).json({message:"Status Updated"})
+                      }else{
+                        res.status(409).json({message:"Something went wrong"})
+                      }
+                    })
+                    .catch(err => {
+                      console.log(err);
+                      res.status(500).json({
+                        error: err
+                      });
+                    });
+      break;
+    default                   :
+      res.status(409).json({message:"Invalid statustype"})
+  }
+  
+
+}
+
+exports.fetch_notification_student = (req,res,next) =>{
+  StudentMaster.findOne({_id:req.params.studentId})
+               .select("notificationStatus downTimeStatus")
+               .exec()
+               .then(student=>{
+                 if(student.notificationStatus == 'Unread'){
+                  Notification.find({status : "Broadcast"})
+                              .exec()
+                              .then(notification=>{
+                                if(student.downTimeStatus == 'Unread'){
+                                  SiteDowntime.find({})
+                                              .exec()
+                                              .then(downtime=>{
+                                                res.status(200).json({
+                                                  notificationStatus : notification,
+                                                  downtimestatue : downtime
+                                                });
+                                              })
+                                              .catch(err => {
+                                                console.log(err);
+                                                res.status(500).json({
+                                                  error: err
+                                                });
+                                              });
+                                 }else{
+                                  res.status(200).json({
+                                    notificationStatus : notification,
+                                    downtimestatue : []
+                                  });
+                                 }
+                              })
+                              .catch(err => {
+                                console.log(err);
+                                res.status(500).json({
+                                  error: err
+                                });
+                              });               
+                 }else{
+                  if(student.downTimeStatus == 'Unread'){
+                    SiteDowntime.find({})
+                                .exec()
+                                .then(downtime=>{
+                                  res.status(200).json({
+                                    notificationStatus : notification,
+                                    downtimestatue : downtime
+                                  });
+                                })
+                                .catch(err => {
+                                  console.log(err);
+                                  res.status(500).json({
+                                    error: err
+                                  });
+                                });
+                   }else{
+                    res.status(200).json({
+                      notificationStatus : notification,
+                      downtimestatue : []
+                    });
+                   }
+                 }
+               })
+               .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                  error: err
+                });
+              });
+
+}
 
 // exports.studentmaster_registraton = (req,res,next) =>{
 //   var 

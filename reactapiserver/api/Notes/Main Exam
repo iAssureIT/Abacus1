@@ -63,6 +63,210 @@
                         {
                             message: "Something Went Wrong"
                         }
+
+/*Start Exam links API*/
+4. getExamTimeData
+
+    Method      : GET
+    
+    URL         : /myexammasters/participation/:competitionId/:studentId
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            fullname            : String,
+                            competitionName     : String,
+                            examSolvingTime     : String,
+                            examDate            : String,
+                        }
+                    else 
+                        {
+                            message: "Something Went Wrong"
+                        }
+5. getMainExamQuestions
+
+    Method      : GET
+    
+    URL         : /myexammasters/getmainexamquestions/:competitionId/:studentId
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            noOfQuestion        : Number,
+                            totalMarks          : Number,
+                            questionArrayFromTC : [{String:String}],
+                        }
+                    else 
+                        {
+                            message: "Something Went Wrong"
+                        }
+
+6. getMainExamLastVisitedQuestion
+
+    Method      : GET
+    
+    URL         : /myexammasters/getmainexamlastvisitedquestion/:competitionId/:studentId
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            lastVisitedQuestion : Number,
+                            lastVisitedQAnswer  : Number,
+                        }
+                    else 
+                        {
+                            message: "Exam not found"
+                        }
+
+7. updateExamTimeAndStudenAnswer
+
+    Method      : PATCH
+    
+    URL         : /myexammasters/updateexamtimeAndstudenanswer
+
+    Input       : 
+                    {
+                        examId          : String,
+                        index           : String,
+                        studAnswer      : String,
+                        examTime        : String,
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Answer updated,
+                        }
+                    else 
+                        {
+                            message: "Something went wrong"
+                        }
+
+8. getAlreadySolvedQuesAns
+
+    Method      : PATCH
+    
+    URL         : /myexammasters/getalreadysolvedquesans/:examId/:index
+
+    Input       : 
+                    {
+                        examId          : String,
+                        index           : String,
+                        studAnswer      : String,
+                        examTime        : String,
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Answer updated,
+                        }
+                    else 
+                        {
+                            message: "Something went wrong"
+                        }
+
+9. getAlreadySolvedQuesAns
+
+    Method      : PATCH
+    
+    URL         : /myexammasters/getalreadysolvedquesans/:examId/:index
+
+    Input       : 
+                    {
+                        examId          : String,
+                        index           : String,
+                        studAnswer      : String,
+                        examTime        : String,
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Answer updated,
+                        }
+                    else 
+                        {
+                            message: "Something went wrong"
+                        }
+
+10. ExamMarksUpdate (//Need to under standed)
+
+    Method      : PATCH
+    
+    URL         : /myexammasters/exammarksupdate/:examId/:examsolvingtime
+
+    Input       : 
+                    {
+                        examId          : String,
+                        index           : String,
+                        studAnswer      : String,
+                        examTime        : String,
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Answer updated,
+                        }
+                    else 
+                        {
+                            message: "Something went wrong"
+                        }
+
+13. Query fetching data to shown on /competitionData/:competitionID
+
+    Method      : GET
+    
+    URL         : /exammasters/exampurchase/:competitionId/:studentId
+
+    Input       : 
+                    {
+                        examId          : String,
+                        index           : String,
+                        studAnswer      : String,
+                        examTime        : String,
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Answer updated,
+                        }
+                    else 
+                        {
+                            message: "Something went wrong"
+                        }
+
+12. paymentGatewayforCompetition
+
+    Method      : POST
+    
+    URL         : /quickwalletmasters/exampurchase
+
+    Input       : 
+                    {
+                        examId          : String,
+                        index           : String,
+                        studAnswer      : String,
+                        examTime        : String,
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Answer updated,
+                        }
+                    else 
+                        {
+                            message: "Something went wrong"
+                        }
 ------------------------------------------------------------------------------------------
                         2. Main Exam Reports
 ------------------------------------------------------------------------------------------

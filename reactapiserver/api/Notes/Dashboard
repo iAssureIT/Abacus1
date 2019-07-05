@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 1. Package Purchased        - Done
 2. Competition Details      - Done
 3. Free Practice Tests      - Done
@@ -211,9 +210,26 @@
 
     Method          : GET
 
-    URL             :  /notificationmasters/:status
+    URL             :  /studentmasters/notifyndowntime/:studentId
 
     Input           : -NA-
+                      
+    Output          : 
+                        {
+                            notificationStatus  : [],
+                            downtimestatue      : []
+                        }
+
+2. Update Notification status of Student
+
+    Method          : PATCH
+
+    URL             :  /studentmasters/update/notifyndowntime/:studentId/:statustype/:status
+
+    Note            : statustype : notificationstatus or downtimestatus
+                      status     : Read or Unread
+
+    Input           : - NA -
                       
     Output          : [
                         {
@@ -223,10 +239,3 @@
                             status      : String,
                             createdAt   : Date
                       ]
-=======
-1. Package Purchased
-2. Buy New Packages
-3. Competition Details
-4. Free Practice Tests
-5. Reports
->>>>>>> Stashed changes
