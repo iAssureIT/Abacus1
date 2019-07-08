@@ -147,27 +147,21 @@ exports.user_login = (req,res,next)=>{
 	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
 		.then(user => {
-			console.log(user , user);
 			if(user){
 				var pwd = user.services.password.bcrypt;
 				if(pwd){
-					console.log('pwd bcrypt : ',pwd);
-					console.log('password : ',req.body.password);
 					bcrypt.compare(req.body.password,pwd,(err,result)=>{
 						if(err){
-							console.log('bcrypt failed');
 							return res.status(401).json({
 								message: 'Bcrypt Auth failed'
 							});		
 						}
 						if(result){
-							console.log('login result');
-							console.log('key ',process.env.JWT_KEY);
 							const token = jwt.sign({
 								email 	: req.body.email,
 								// userId	: mongoose.Types.ObjectId(user._id) ,
 								userId	: user._id ,
-							},"secret",
+							},global.JWT_KEY,
 							{
 								expiresIn: "1h"
 							}

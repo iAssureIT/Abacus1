@@ -4,6 +4,7 @@ const morgan = require('morgan');// morgan call next function if problem occure
 const bodyParser = require('body-parser');// this package use to formate json data 
 const mongoose = require ('mongoose');
 
+global.JWT_KEY = "secret";
 // Routes which should handle requests
 const userRoutes 					= require('./api/routes/users');
 const exammasterRouter 				= require('./api/routes/exammasters');
