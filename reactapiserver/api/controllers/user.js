@@ -149,8 +149,9 @@ exports.user_login = (req,res,next)=>{
 			var pwd = user.services.password.bcrypt;
 			bcrypt.compare(req.body.password.bcrypt,pwd,(err,result)=>{
 				if(err){
+					console.log('bcrypt failed');
 					return res.status(401).json({
-						message: 'Auth failed'
+						message: 'Bcrypt Auth failed'
 					});		
 				}
 				if(result){
@@ -172,7 +173,7 @@ exports.user_login = (req,res,next)=>{
 					});	
 				}
 				return res.status(401).json({
-					message: 'Auth failed'
+					message: 'Error and Result Auth failed'
 				});
 			})
 		})
