@@ -181,6 +181,8 @@ exports.user_login = (req,res,next)=>{
 							message: 'Error and Result Auth failed'
 						});
 					})
+				}else{
+					res.status(409).status({message:"Password not found"});	
 				}
 				
 			}else{
