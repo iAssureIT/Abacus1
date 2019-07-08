@@ -44,10 +44,10 @@ app.use((req, res, next) =>{
 	res.header("Access-Control-Allow-origin", "*"); // use API from anywhere insted of * we use domain
 	res.header("Access-Control-Allow-Headers" , "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 	// req.header("Access-Control-Allow-Methods" , "PATCH, PUT, POST, DELETE, GET, OPTIONS");
-	res.writeHead(200, headers);
+	// res.writeHead(200, headers);
 	if (req.method === 'OPTIONS') {
 		console.log('options');
-		res.header("Access-Control-Allow-Headers" , "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+		// res.header("Access-Control-Allow-Headers" , "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 		req.header("Access-Control-Allow-Methods" , "PATCH, PUT, POST, DELETE, GET, OPTIONS");
 		return res.status(200).json({});
 	}
