@@ -31,39 +31,56 @@ class Login extends Component {
           email       : this.refs.loginusername.value,
           password    : this.refs.loginpassword.value,
         }
+/**************************************Alternate*******************************************/
+      axios
+        .post('/user/login',auth)
+        .then((response)=> {
+          console.log("-------userData------>>",response);
+          // userFirstName: "Dnyaneshwar"
+          // user_ID: "5d0a2bfd84f7f33c69e3868d"
+          localStorage.setItem("token",response.data.token);
+          localStorage.setItem("userFirstName",response.data.userFirstName);
+          localStorage.setItem("user_ID",response.data.user_ID);
 
-    axios
-      .post('/user/login',auth,)
-      .then((response)=> {
-        console.log("-------userData------>>",response);
-        // userFirstName: "Dnyaneshwar"
-        // user_ID: "5d0a2bfd84f7f33c69e3868d"
-        localStorage.setItem("token",response.data.token);
-        localStorage.setItem("userFirstName",response.data.userFirstName);
-        localStorage.setItem("user_ID",response.data.user_ID);
-
-        console.log("localStorage =",localStorage);
-        // browserHistory.replace('/');
-        // this.props.history.push("/dashboard");
-        // direct.setState({loggedIn:response.data.token})
-        if(localStorage==null){
-          swal("Invalid Email or Password","Please Enter valid email and password","warning");
-        }else{
-           
+          console.log("localStorage =",localStorage);
+          if(localStorage==null){
+            swal("Invalid Email or Password","Please Enter valid email and password","warning");
+          }else{
             this.setState({
               loggedIn : true,
             },()=>{
               console.log("loggedIn state = ", this.state.loggedIn);
               this.props.history.push("/dashboard");
             })        
-        }
-      })
-      .catch(function (error) {
+          }
+        })
+        .catch(function (error){
           console.log(error);
-        if(localStorage!==null){
-          swal("Invalid Email or Password","Please Enter valid email and password","warning");
-        }
-      });
+          if(localStorage!==null){
+            swal("Invalid Email or Password","Please Enter valid email and password","warning");
+          }
+        });
+
+/**************************************Alternate*******************************************/
+// axios
+//         .post('/user/login',auth)
+//         .then((response)=> {
+         
+//         })
+//         .catch(function (error) {
+//             console.log(error);
+//            // console.log("-------userData------>>",response);
+//            var response="tfcyhgvhujbkhuibuygvjb";
+//           // userFirstName: "Dnyaneshwar"
+//           // user_ID: "5d0a2bfd84f7f33c69e3868d"
+//           localStorage.setItem("token",response);
+//           console.log("localStorage =",localStorage);
+
+//             this.props.history.push("/dashboard");
+          
+//         });
+/**************************************Alternate*******************************************/
+
   }
   showSignPass(){
       $('.showPwd').toggleClass('showPwd1');
@@ -169,3 +186,7 @@ class Login extends Component {
   }
 }
 export default Login;
+
+
+
+

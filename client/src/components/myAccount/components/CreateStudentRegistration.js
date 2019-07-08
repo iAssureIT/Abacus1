@@ -23,32 +23,13 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 	constructor(props){
 		super(props);
 		this.state={
-				_id              		: '',
-				studentFirstName 		: '',
-				studentMiddleName		: '',
-				studentLastName  		: '',
-	  			mobileNumber     		: '',
-	  			studentDOB       		: '',
-	  			schoolName       		: '',
-	  			franchiseName    		: '',
+	  			studentInfo 	        : [],
+	  			franchisedetails        : [],
+	  			category 	 			: '',
 	  			franchiseCode 	 		: '',
-	  			franchiseMobileNumber 	: '',
-	  			franchiseId      		: '',
 	  			franchise_Id	 		: '',
-	  			studentAddress   		: '',
-	  			studentCountry   		: '',
-	  			studentState     		: '',
-	  			studentCity      		: '',
-	  			pincode          		: '',
-	  			category         		: '',
 	  			categoryDisabled 		: '',
-	  			studentEmail     		: '',
-	  			genderType       		: '',
-	  			profileEditStatus		: false,
 	  			facilityPermission 		: 'waitingforResult',
-	  			franchiseName           : '',
-	  			franchiseMobileNumber   : '',
-	  			franchiseUserId         : '',
 	  			gender       			: true,
 	  			instruction				: '',
 	  			companyId 				: '',
@@ -60,17 +41,19 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 								  		   tempPath: "http://localhost:3004/cdn/storage/ProductImage/6rmpYqGuEos6GeyeX/original/6rmpYqGuEos6GeyeX.png"
 								  		  }
 
+				// downTimeStatus: "Unread"
+				// notificationStatus: "Unread"
 	  									  
 	  			// "subscription"   :{
 			   //      "TempImages" : Meteor.subscribe("loginImgTempImages"),
 			   //    }
 		}
 		this.handleChange = this.handleChange.bind(this);
+		this.showCategories = this.showCategories.bind(this);
 		// this.getFranchiseId = this.getFranchiseId.bind(this);
 	}
 
 	componentDidMount() {
-
 
 		axios
 			.get('/instructions/Student Registration')
@@ -84,14 +67,13 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 			})
 
 		axios
-  			.get('/studentmaster/C6hmmC4SZJJ5LeBhZ')
+  			.get('/studentmaster/sinfo/E6BRdJtHMF9a6p7KF')
             .then((response)=>{
-                console.log("-------Response------>>",response.data);
+                console.log("-------studentInfo------>>",response.data);
             	this.setState({
-		 			// studFormValues : response.data[0],
+		 			studentInfo : response.data,
+		 			category 	: response.data.category,
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // localStorage.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
@@ -100,38 +82,26 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
         axios
   			.get('/franchisedetails/franchisebasicinfo/7661')
             .then((response)=>{
-                console.log("-------Response222------>>",response.data);
+                console.log("-------franchisedetails------>>",response.data);
             	this.setState({
-		 			// studFormValues : response.data[0],
+		 			franchisedetails : response.data,
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // localStorage.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
             });
 
-        axios
-  			.get('/categories/B10')
-            .then((response)=>{
-                console.log("-------Response111------>>",response.data);
-            	this.setState({
-		 			showCategories : response.data,
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // localStorage.setState({loggedIn:response.data.token})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-	
-
-
-
-
-
-
+     //    axios
+  			// .get('/categories/B10')
+     //        .then((response)=>{
+     //            console.log("-------showCategories------>>",response.data);
+     //        	this.setState({
+		 		// 	// showCategories : response.data,
+		 		// });
+     //        })
+     //        .catch(function (error) {
+     //            console.log(error);
+     //        });
 
 //       if ( !$('body').hasClass('adminLte')) {
 //           var adminLte = document.createElement("script");
@@ -187,7 +157,12 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
 				//    }
 				// });
+				
 
+  	}
+
+  	componentWillMount(){
+  		this.showCategories();
   	}
 
   // 	componentWillMount(){
@@ -224,25 +199,30 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		show Categories 
 	*/
 	showCategories(){
-		// var categorryHandle = Meteor.subscribe("allCategory").ready();
-		// 	return CategoryMaster.find({}).fetch();	
-		
-
-
-
-
-
-
-
-
-
-
-		
+        axios
+  			.get('/categories/categoriesname')
+            .then((response)=>{
+                console.log("-------showCategories--will---->>",response.data);
+                // var catName=[];
+                // catName.push({
+                // 	"categoryName":response.data.categoryName}
+                // 	);
+                // if(response.data){
+                	this.setState({
+			 			showCategories : response.data,
+			 		});
+                // }
+            	
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 	}
 
   	studentRegistration(event){
   		event.preventDefault();
   		// if(this.state.profileEditStatus==false){
+        console.log("-------im inside------>>");
 
   		if(this.state.gender=true){
   			if($("input[name='genderType']:checked").val() == 'on'){
@@ -276,13 +256,21 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
   			pincode        			: this.refs.pincode.value.trim(),
   			category       			: this.refs.category.value.trim(),
   			studentEmail   			: this.refs.studentEmail.value.trim(),
-          	genderType              : this.state.genderType,  			
-  			// genderType     : $("input[name='genderType']:checked").val(),
+          	// genderType              : this.state.studentInfo.genderType,  			
+  			genderType     			: $("input[name='genderType']:checked").val(),
   		}
 
-  		
-
-
+  		axios
+  			.patch('/registration')
+            .then((response)=>{
+                console.log("-------patch---->>",response.data);
+                	this.setState({
+			 			// registration : response.data,
+			 		});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
 
 
@@ -700,7 +688,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		// 	 if(this.state.studentDOB){
 		//         var studentBirthDate = moment(this.state.studentDOB).format("MM/DD/YYYY");
 		//       }
-		      
+		    console.log("this.state.showCategories render= ",this.state.showCategories);
 	
 		return(
 			<div>
@@ -717,7 +705,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		                <div className="box">
 		                  <div className="box-header with-border boxMinHeight">
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<form /*onSubmit={this.studentRegistration.bind(this)}*/>
+								<form onSubmit={this.studentRegistration.bind(this)}>
 								<div className="col-lg-12 col-md-12 col-sm-12">
 									<div className="col-lg-12 col-md-12 col-sm-12 studHeadingWrappp">
 										<div className="studHeadingWrap col-lg-6 col-md-6 col-xs-6 col-sm-6 dispIn-Blk"> Instructions</div>
@@ -762,28 +750,27 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 								<div className="col-lg-12 col-md-12 col-sm-12 studPerInfoWrap studHeadingWrap">Personal Information</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="studentFirstName" ref="studentFirstName" value={this.state.studentFirstName} onChange={this.handleChange}  className={this.state.studentFirstName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content updateaccess" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
+											<input type="text" name="studentFirstName" ref="studentFirstName" value={this.state.studentInfo.studentFirstName} onChange={this.handleChange}  className={this.state.studentInfo.studentFirstName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content updateaccess" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
 											<span className="floating-label">First Name<label className="requiredsign astrix">*</label></span>					   			
 										</span>
 										<input type="hidden" name="_id" ref="_id" value={this.state._id}/>
 									</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="studentMiddleName" ref="studentMiddleName" value={this.state.studentMiddleName} onChange={this.handleChange}  className={this.state.studentMiddleName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off"/>
+											<input type="text" name="studentMiddleName" ref="studentMiddleName" value={this.state.studentInfo.studentMiddleName} onChange={this.handleChange}  className={this.state.studentInfo.studentMiddleName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off"/>
 											<span className="floating-label">Middle Name</span>					   			
 										</span>
 									</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="studentLastName" ref="studentLastName" value={this.state.studentLastName} onChange={this.handleChange}  className={this.state.studentLastName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off" />
+											<input type="text" name="studentLastName" ref="studentLastName" value={this.state.studentInfo.studentLastName} onChange={this.handleChange}  className={this.state.studentInfo.studentLastName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off" />
 											<span className=" floating-label">Last Name{/*<label className="requiredsign">*</label>*/}</span>					   			
 										</span>
 									</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-										<span className="defaultLabelOes defaultLabelOesE ">Date of Birth<label className="requiredsign">*</label></span>	
-											{/*<input type="text" name="studentDOB" ref="studentDOB" value={this.state.studentDOB}  onChange={this.handleChange} id="my-datepicker" className={this.state.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" readOnly required/>*/}
-											<input type="text" name="studentDOB" ref="studentDOB" value=""/*studentBirthDate*/ onChange={this.handleChange} id="my-datepicker"   data-provide="datepicker" className={this.state.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" readOnly required/>                 
+										<span className="defaultLabelOes defaultLabelOesE ">Date of Birth<label className="requiredsign">*</label></span>
+											<input type="text" name="studentDOB" ref="studentDOB" value={this.state.studentInfo.studentDOB} onChange={this.handleChange} id="my-datepicker"   data-provide="datepicker" className={this.state.studentInfo.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" readOnly required/>                 
 														   			
 										</span>
 									</div>
@@ -794,7 +781,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
 									<div className="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="schoolName" ref="schoolName" value={this.state.schoolName} onChange={this.handleChange} title="Enter School Name"  className={this.state.schoolName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
+											<input type="text" name="schoolName" ref="schoolName" value={this.state.studentInfo.schoolName} onChange={this.handleChange} title="Enter School Name"  className={this.state.studentInfo.schoolName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
 											<span className="floating-label">School Name <label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
@@ -805,11 +792,11 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 									    <div className="col-lg-12 col-md-12 col-sm-6 col-xs-12">
 											<div className="switch-field ">
 											    <div className="col-lg-6 col-md-12 col-sm-6 col-xs-12 payrecreg">
-												    <input type="radio"  id="switch_left" name="genderType" value="Female" checked={this.state.genderType === 'Female'} onChange={this.handleChange.bind(this)} />
+												    <input type="radio"  id="switch_left" name="genderType" value="Female" checked={this.state.studentInfo.genderType === 'Female'} onChange={this.handleChange.bind(this)} />
 												    <label htmlFor="switch_left">Female</label>
 												</div>
 											    <div className="col-lg-6 col-md-12 col-sm-6 col-xs-12 payrecreg">
-												    <input type="radio"  id="switch_right" name="genderType" value="Male" checked={this.state.genderType === 'Male'} onChange={this.handleChange.bind(this)} />
+												    <input type="radio"  id="switch_right" name="genderType" value="Male" checked={this.state.studentInfo.genderType === 'Male'} onChange={this.handleChange.bind(this)} />
 												    <label htmlFor="switch_right">Male</label>
 												</div>
 										    </div>
@@ -822,9 +809,9 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 									          
 
 												<div className="switch-field ">
-											      <input type="radio"  id="switch_left" name="genderType" value="Female" checked={this.state.genderType === 'Female'} onChange={this.handleChange.bind(this)} />
+											      <input type="radio"  id="switch_left" name="genderType" value="Female" checked={this.state.studentInfo.genderType === 'Female'} onChange={this.handleChange.bind(this)} />
 											      <label htmlFor="switch_left">Female</label>
-											      <input type="radio"  id="switch_right" name="genderType" value="Male" checked={this.state.genderType === 'Male'} onChange={this.handleChange.bind(this)} />
+											      <input type="radio"  id="switch_right" name="genderType" value="Male" checked={this.state.studentInfo.genderType === 'Male'} onChange={this.handleChange.bind(this)} />
 											      <label htmlFor="switch_right">Male</label>
 											    </div>
 									        </div>
@@ -836,7 +823,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 									<div className="col-lg-12 col-md-12 col-sm-12 studPerInfoWrap studHeadingWrap">Contact Details</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-											<InputMask mask="9999-999-999" maskChar=" " disabled={this.state.profileEditStatus} name="mobileNumber" ref="mobileNumber" value={this.state.mobileNumber} onChange={this.handleChange} className={this.state.mobileNumber ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="^(0|[0-9-+]*)$" title="Enter Numbers!" autoComplete="off" required/>
+											<InputMask mask="9999-999-999" maskChar=" " disabled={this.state.studentInfo.profileEditStatus} name="mobileNumber" ref="mobileNumber" value={this.state.studentInfo.mobileNumber} onChange={this.handleChange} className={this.state.studentInfo.mobileNumber ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="^(0|[0-9-+]*)$" title="Enter Numbers!" autoComplete="off" required/>
 											<span className=" floating-label">Mobile Number<label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
@@ -844,28 +831,28 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="defaultLabelOes defaultLabelOesE col-lg-12 col-ms-12 col-sm-12 col-xs-12 pdcls">Email</span>	
 										<span className="blocking-span"> 
-											<input type="email" name="studentEmail" disabled={this.state.profileEditStatus} ref="studentEmail" value={this.state.studentEmail} onChange={this.handleChange} className={this.state.studentEmail ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"}  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$"  required/>
+											<input type="email" name="studentEmail" disabled={this.state.studentInfo.profileEditStatus} ref="studentEmail" value={this.state.studentInfo.studentEmail} onChange={this.handleChange} className={this.state.studentInfo.studentEmail ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"}  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$"  required/>
 															   			
 										</span>
 									</div>
 
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="studentAddress"  ref="studentAddress" value={this.state.studentAddress} onChange={this.handleChange} title="Enter Address" className={this.state.studentAddress ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
+											<input type="text" name="studentAddress"  ref="studentAddress" value={this.state.studentInfo.studentAddress} onChange={this.handleChange} title="Enter Address" className={this.state.studentInfo.studentAddress ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
 											<span className="floating-label">Student Address<label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
 
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="studentCountry"  ref="studentCountry" value={this.state.studentCountry} onChange={this.handleChange} className={this.state.studentCountry ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"}pattern="[a-zA-Z][a-zA-Z ]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
+											<input type="text" name="studentCountry"  ref="studentCountry" value={this.state.studentInfo.studentCountry} onChange={this.handleChange} className={this.state.studentInfo.studentCountry ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"}pattern="[a-zA-Z][a-zA-Z ]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
 											<span className="floating-label">Country<label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
 
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
-											<input type="text" name="studentState"  ref="studentState" value={this.state.studentState} onChange={this.handleChange} className={this.state.studentState ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z][a-zA-Z ]+" title="Select State" autoComplete="off" required/>
+											<input type="text" name="studentState"  ref="studentState" value={this.state.studentInfo.studentState} onChange={this.handleChange} className={this.state.studentInfo.studentState ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z][a-zA-Z ]+" title="Select State" autoComplete="off" required/>
 											<span className="floating-label">State<label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
@@ -873,13 +860,13 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
 										<span className="blocking-span"> 
-											<input type="text" name="studentCity"  ref="studentCity" value={this.state.studentCity} onChange={this.handleChange} className={this.state.studentCity ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z][a-zA-Z ]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
+											<input type="text" name="studentCity"  ref="studentCity" value={this.state.studentInfo.studentCity} onChange={this.handleChange} className={this.state.studentInfo.studentCity ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z][a-zA-Z ]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
 											<span className="floating-label">City<label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
 										<span className="blocking-span"> 
-											<InputMask mask="999-999"  maskChar=" " name="pincode" ref="pincode" value={this.state.pincode} onChange={this.handleChange} className={this.state.pincode ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"}  pattern="^(0|[0-9-]*)$" title="Enter Numbers!" autoComplete="off" required/>
+											<InputMask mask="999-999"  maskChar=" " name="pincode" ref="pincode" value={this.state.studentInfo.pincode} onChange={this.handleChange} className={this.state.studentInfo.pincode ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"}  pattern="^(0|[0-9-]*)$" title="Enter Numbers!" autoComplete="off" required/>
 											<span className="floating-label">Pincode<label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
@@ -905,31 +892,29 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 												<label>D</label> : Without Instrument & Multiplication Sum<br/>
 											</div>					   			
 										<span className="blocking-span"> 
-										 
-											<select type="text" disabled={this.state.profileEditStatus} name="category" ref="category" value={this.state.category} className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" title="Select Category"  value={this.state.category} onChange={this.handleChange} autoComplete="off" required>
+											<select type="text" disabled={this.state./*studentInfo.*/profileEditStatus} name="category" ref="category" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" title="Select Category"  value={this.state.category} onChange={this.handleChange} autoComplete="off" required>
 												<option value='' disabled>-- Select Exam Category --</option>
-												{/*this.state.showCategories.map((categories,index)=>{
+												{this.state.showCategories.map((categories,index)=>{
 													return <option key={index}>{categories.categoryName}</option>
-												  })*/
+												  })
 												}
-											</select>		   			
-
+											</select>
 										</span>
 									</div>
 
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examCatWrap">
-									{/*!this.props.studentData.companyId ? 
+									{!this.state.studentInfo.franchiseId ? 
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="blocking-span"> 
-												<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.franchiseId} onBlur={this.getFranchiseId}  title="Enter FranchiseId" onChange={this.handleChange}  className={this.state.franchiseId ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
+												<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.studentInfo.franchiseId} onBlur={this.getFranchiseId}  title="Enter FranchiseId" onChange={this.handleChange}  className={this.state.studentInfo.franchiseId ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
 												<span className="col-lg-12 col-md-12 col-sm-12 floating-label pdcls">Franchise Id</span>					   			
 											</span>
 										</div>
-										:*/
+										:
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="defaultLabelOes defaultLabelOesE">Franchise Id<label className="requiredsign">*</label></span>	
 											<span className="blocking-span"> 
-												{<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.franchiseId}  onChange={this.handleChange} title="can't change franchise Id"  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" readOnly required/>}
+												{<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.studentInfo.franchiseId}  onChange={this.handleChange} title="can't change franchise Id"  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" readOnly required/>}
 															   			
 											</span>
 										</div>
@@ -938,15 +923,14 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="defaultLabelOes defaultLabelOesE col-lg-12 col-md-12 col-sm-12 col-xs-12 pdcls">Franchise Name</span>	
 											<span className="blocking-span"> 
-												{<input type="text" name="franchiseName" ref="franchiseName" value={this.state.franchiseName}  onChange={this.handleChange}  title="You can't change franchise name" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}
+												{<input type="text" name="franchiseName" ref="franchiseName" value={this.state.studentInfo.franchiseName}  onChange={this.handleChange}  title="You can't change franchise name" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}
 												
 											</span>
 										</div>
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="defaultLabelOes defaultLabelOesE col-lg-12 col-md-12 col-sm-12 col-xs-12 pdcls">Franchise Mobile</span>	
 											<span className="blocking-span"> 
-												{<input type="text" name="franchiseMobileNumber" ref="franchiseMobileNumber" value={this.state.franchiseMobileNumber}  title="You can't change franchise mobile no." onChange={this.handleChange}  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}
-															   			
+												{<input type="text" name="franchiseMobileNumber" ref="franchiseMobileNumber" value={this.state.studentInfo.franchiseMobileNumber}  title="You can't change franchise mobile no." onChange={this.handleChange}  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}		   			
 											</span>
 										</div>
 									
