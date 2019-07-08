@@ -248,24 +248,23 @@
 
     Method      : POST
     
-    URL         : /quickwalletmasters/exampurchase
+    URL         : /quickwalletmasters/exampurchase/:studentId
 
     Input       : 
                     {
-                        examId          : String,
-                        index           : String,
-                        studAnswer      : String,
-                        examTime        : String,
+                        studentId          : String,
+                        competitionId      : String,
+                        compFees          : String,
                     }
 
     Output      : 
                     if successfully
                         {
-                            message : "Answer updated,
+                            paymentUrl 
                         }
                     else 
                         {
-                            message: "Something went wrong"
+                            false
                         }
 ------------------------------------------------------------------------------------------
                         2. Main Exam Reports
