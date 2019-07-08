@@ -162,6 +162,7 @@ exports.user_login = (req,res,next)=>{
 						}
 						if(result){
 							console.log('login result');
+							console.log('key ',process.env.JWT_KEY);
 							const token = jwt.sign({
 								email 	: req.body.email,
 								// userId	: mongoose.Types.ObjectId(user._id) ,
