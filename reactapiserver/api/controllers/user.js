@@ -143,10 +143,12 @@ exports.user_signup = (req,res,next)=>{
 }; 
 
 exports.user_login = (req,res,next)=>{
+	console.log('login');
 	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
 		.then(user => {
-			if(user && user.services && user.services.password && user.services.password.bcrypt){
+			console.log(user , user);
+			if(user){
 				var pwd = user.services.password.bcrypt;
 				if(pwd){
 					console.log('pwd bcrypt : ',pwd);
@@ -184,7 +186,6 @@ exports.user_login = (req,res,next)=>{
 				}else{
 					res.status(409).status({message:"Password not found"});	
 				}
-				
 			}else{
 				res.status(409).status({message:"User Not found"});
 			}
