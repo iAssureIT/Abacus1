@@ -167,7 +167,7 @@ exports.user_login = (req,res,next)=>{
 								email 	: req.body.email,
 								// userId	: mongoose.Types.ObjectId(user._id) ,
 								userId	: user._id ,
-							},process.env.JWT_KEY,
+							},"secret",
 							{
 								expiresIn: "1h"
 							}
