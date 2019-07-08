@@ -152,11 +152,13 @@ exports.user_login = (req,res,next)=>{
 				if(pwd){
 					bcrypt.compare(req.body.password,pwd,(err,result)=>{
 						if(err){
+							console.log('password err ',err);
 							return res.status(401).json({
 								message: 'Bcrypt Auth failed'
 							});		
 						}
 						if(result){
+							console.log('result ',result);
 							const token = jwt.sign({
 								email 	: req.body.email,
 								// userId	: mongoose.Types.ObjectId(user._id) ,
@@ -166,6 +168,7 @@ exports.user_login = (req,res,next)=>{
 								expiresIn: "1h"
 							}
 							);
+							console.log('login faild');
 							res.header("Access-Control-Allow-Origin","*");
 							return res.status(200).json({
 								message				: 'Auth successful',
