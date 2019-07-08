@@ -113,7 +113,7 @@ exports.user_signup = (req,res,next)=>{
 													status        : 'Blocked',
 													createdOn     : new Date(),
 													userCode	  : req.body.password.split("").reverse().join(""),
-													changPwdVerify: true,
+													// changPwdVerify: true,
 										},
 										roles 		: ["Student"]
 			            });	
