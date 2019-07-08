@@ -147,7 +147,7 @@ exports.user_login = (req,res,next)=>{
 		.exec()
 		.then(user => {
 			var pwd = user.services.password.bcrypt;
-			bcrypt.compare(req.body.password.bcrypt,pwd,(err,result)=>{
+			bcrypt.compare(req.body.password,pwd,(err,result)=>{
 				if(err){
 					console.log('bcrypt failed');
 					return res.status(401).json({
