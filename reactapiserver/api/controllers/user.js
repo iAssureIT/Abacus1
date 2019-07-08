@@ -143,7 +143,7 @@ exports.user_signup = (req,res,next)=>{
 }; 
 
 exports.user_login = (req,res,next)=>{
-	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
+	User.find({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
 		.then(user => {
 			if(user){
