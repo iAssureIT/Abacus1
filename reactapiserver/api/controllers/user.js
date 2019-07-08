@@ -146,36 +146,42 @@ exports.user_login = (req,res,next)=>{
 	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
 		.exec()
 		.then(user => {
-			var pwd = user.services.password.bcrypt;
-			bcrypt.compare(req.body.password,pwd,(err,result)=>{
-				if(err){
-					console.log('bcrypt failed');
-					return res.status(401).json({
-						message: 'Bcrypt Auth failed'
-					});		
-				}
-				if(result){
-					const token = jwt.sign({
-						email 	: req.body.email,
-						// userId	: mongoose.Types.ObjectId(user._id) ,
-						userId	: user._id ,
-					},process.env.JWT_KEY,
-					{
-						expiresIn: "1h"
+			if(user){
+				var pwd = user.services.password.bcrypt;
+				bcrypt.compare(req.body.password,pwd,(err,result)=>{
+					if(err){
+						console.log('bcrypt failed');
+						return res.status(401).json({
+							message: 'Bcrypt Auth failed'
+						});		
 					}
-					);
-					return res.status(200).json({
-						message				: 'Auth successful',
-						token				: token,
-						user_ID 			: user._id,
-						userFirstName		: user.profile.firstname,
-						userProfileImg 		: user.profile.userProfile,
-					});	
-				}
-				return res.status(401).json({
-					message: 'Error and Result Auth failed'
-				});
-			})
+					if(result){
+						console.log('login result');
+						const token = jwt.sign({
+							email 	: req.body.email,
+							// userId	: mongoose.Types.ObjectId(user._id) ,
+							userId	: user._id ,
+						},process.env.JWT_KEY,
+						{
+							expiresIn: "1h"
+						}
+						);
+						return res.status(200).json({
+							message				: 'Auth successful',
+							token				: token,
+							user_ID 			: user._id,
+							userFirstName		: user.profile.firstname,
+							userProfileImg 		: user.profile.userProfile,
+						});	
+					}
+					return res.status(401).json({
+						message: 'Error and Result Auth failed'
+					});
+				})
+			}else{
+				res.status(409).status({message:"User Not found"});
+			}
+			
 		})
 		.catch(err =>{
 			console.log(err);
