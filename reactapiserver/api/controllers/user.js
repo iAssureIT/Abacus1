@@ -179,6 +179,7 @@ exports.user_login = (req,res,next)=>{
 								userProfileImg 		: user.profile.userProfile,
 							});	
 						}
+						console.log({message:"Neither err nor result"});
 						return res.status(401).json({
 							message: 'Error and Result Auth failed'
 						});
