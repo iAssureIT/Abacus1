@@ -17,7 +17,7 @@ class StudentResetPassword extends (Component) {
 		    	 resetPasswordPasswordConfirm : "",
 		       	 facilityPermission : 'waitingforResult',
 		    }
-		// this.handleChange = this.handleChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	// componentWillMount(){
@@ -97,9 +97,9 @@ class StudentResetPassword extends (Component) {
     handleChange(event){
 	    const target = event.target;
 	    const name   = target.name;
-	    // this.setState({
-	    //   [name] : event.target.value,
-	    // });
+	    this.setState({
+	      [name] : event.target.value,
+	    });
   	}
 
 	render() {

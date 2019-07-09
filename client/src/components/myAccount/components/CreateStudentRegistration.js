@@ -5,6 +5,7 @@ import swal 				from 'sweetalert';
 import $ 					from "jquery";
 import ProfilePic   		from './ProfilePic.js';
 import axios 				from 'axios';
+import moment				from 'moment';
 import '../css/MyAccount.css';
 
 // import {Mongo} 			  from 'meteor/mongo';
@@ -33,6 +34,9 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 	  			gender       			: true,
 	  			instruction				: '',
 	  			companyId 				: '',
+	  			franchiseName 			: '',
+	  			contactNo 				: '',
+	  			franchiseUserId 		: '',
 	  			showCategories 			: [],
 	  			TempImages 				: {
 	  									   id: "PsjnfuSGkrxh8caSc",
@@ -50,7 +54,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.showCategories = this.showCategories.bind(this);
-		// this.getFranchiseId = this.getFranchiseId.bind(this);
+		this.getFranchiseId = this.getFranchiseId.bind(this);
 	}
 
 	componentDidMount() {
@@ -63,28 +67,23 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 				});
 			})
 			.catch(function(error){
-
+				console.log(error);
 			})
 
+    	const studentID = "E6BRdJtHMF9a6p7KF";
+			console.log("studentID**",studentID);
+
 		axios
-  			.get('/studentmaster/sinfo/E6BRdJtHMF9a6p7KF')
+  			.get('/studentmaster/sinfo/'+studentID)
             .then((response)=>{
                 console.log("-------studentInfo------>>",response.data);
             	this.setState({
-		 			studentInfo : response.data,
-		 			category 	: response.data.category,
-		 		});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios
-  			.get('/franchisedetails/franchisebasicinfo/7661')
-            .then((response)=>{
-                console.log("-------franchisedetails------>>",response.data);
-            	this.setState({
-		 			franchisedetails : response.data,
+		 			studentInfo 	: response.data,
+		 			category 		: response.data.category,
+		 			companyId 		: response.data.companyId,
+		 			franchiseUserId : response.data.franchiseId,
+		  			franchiseName 	: response.data.franchiseName,
+		  			contactNo 		: response.data.franchiseMobileNumber,
 		 		});
             })
             .catch(function (error) {
@@ -163,9 +162,6 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 
   	componentWillMount(){
   		this.showCategories();
-  	}
-
-  // 	componentWillMount(){
   // 		 Meteor.call("isAuthenticated","MyAccount","RegistrationForm",(err,res)=>{
 		// 	if(err){
 		// 		console.log(err);
@@ -181,7 +177,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		//         }
 		// 	}
 		// });
-  // 	}
+  	}
 
 	// componentWillUnmount(){
  //    	$("script[src='/js/adminLte.js']").remove();
@@ -203,16 +199,9 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
   			.get('/categories/categoriesname')
             .then((response)=>{
                 console.log("-------showCategories--will---->>",response.data);
-                // var catName=[];
-                // catName.push({
-                // 	"categoryName":response.data.categoryName}
-                // 	);
-                // if(response.data){
                 	this.setState({
 			 			showCategories : response.data,
 			 		});
-                // }
-            	
             })
             .catch(function (error) {
                 console.log(error);
@@ -222,7 +211,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
   	studentRegistration(event){
   		event.preventDefault();
   		// if(this.state.profileEditStatus==false){
-        console.log("-------im inside------>>");
+        console.log("-------im inside patch method------>>");
 
   		if(this.state.gender=true){
   			if($("input[name='genderType']:checked").val() == 'on'){
@@ -260,8 +249,48 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
   			genderType     			: $("input[name='genderType']:checked").val(),
   		}
 
+  			var _id                		= this.refs._id.value.trim();
+  			var studentFirstName   		= this.refs.studentFirstName.value.trim();
+  			var studentMiddleName  		= this.refs.studentMiddleName.value.trim();
+  			var studentLastName    		= this.refs.studentLastName.value.trim();
+  			var mobileNumber       		= this.refs.mobileNumber.value.trim();
+  			var studentDOB         		= this.refs.studentDOB.value.trim();
+  			var schoolName         		= this.refs.schoolName.value.trim();
+  			var franchiseUserId       	= this.state.franchiseUserId;
+  			var companyId   	   		= this.refs.franchiseId.value.trim();
+  			var franchiseName      		= this.refs.franchiseName.value;
+  			var franchiseMobileNumber  	= this.refs.franchiseMobileNumber.value.trim();
+  			var studentAddress 			= this.refs.studentAddress.value.trim();
+  			var studentCountry 			= this.refs.studentCountry.value.trim();
+  			var studentState   			= this.refs.studentState.value.trim();
+  			var studentCity    			= this.refs.studentCity.value.trim();
+  			var pincode        			= this.refs.pincode.value.trim();
+  			var category       			= this.refs.category.value.trim();
+  			var studentEmail   			= this.refs.studentEmail.value.trim();
+  			var genderType     			= $("input[name='genderType']:checked").val();
+  		
+			console.log(_id               )  			
+			console.log(studentFirstName  )
+  			console.log(studentMiddleName )
+  			console.log(studentLastName   )
+  			console.log(mobileNumber      )
+  			console.log(studentDOB        )
+  			console.log(schoolName        )
+  			console.log(franchiseUserId   )
+  			console.log(companyId   	  )
+  			console.log(franchiseName     )
+  			console.log(franchiseMobileNumber)
+  			console.log(studentAddress 			)
+  			console.log(studentCountry 			)
+  			console.log(studentState   			)
+  			console.log(studentCity    			)
+  			console.log(pincode        			)
+  			console.log(category       			)
+  			console.log(studentEmail   			)
+  			console.log(genderType     			)
+  		
   		axios
-  			.patch('/registration')
+  			.patch('/registration',studFormValues)
             .then((response)=>{
                 console.log("-------patch---->>",response.data);
                 	this.setState({
@@ -271,32 +300,6 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
             .catch(function (error) {
                 console.log(error);
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   // 		Meteor.call("getProfilePic",studFormValues._id,(err,res)=>{
@@ -514,34 +517,23 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		});
   	}
 
- //  	getFranchiseId(e){
- //  		var companyID= $('#franchiseId').val();
- //  		this.setState({FranchiseId : companyID});
- //  		if(companyID){
-	//   		Meteor.call("searchFranchiseData",parseInt(companyID),(err,res)=>{
-	//   			if(err){
-	//   				swal("somthing went wrong","","warning");
-	//   			}else{
-	//   				if(res=="franchiseNotFound"){
-	// 			 		Bert.alert("Franchise does not exist. please enter correct franchise id","danger");
-	// 			 		this.setState({
-	// 	  					franchiseName       : '',
-	// 	  					franchiseMobileNumber     : '',
-	// 	  					franchiseUserId : '',
-	// 	  				});
-	//   				}else{
-	// 	  				this.setState({
-	// 	  					franchiseUserId : res.franchiseCodeForCompanyId,
-	// 	  					franchiseName               : res.franchiseName,
-	// 	  					franchiseMobileNumber     : res.contactNo,
-	// 	  				});
-	//   				}
-	//   			}
-	//   		});
- //  		}else{
- //  			getFranchiseId();
- //  		}
- //  	}
+  	getFranchiseId(e){
+  		var companyId= $('#franchiseId').val();
+  		this.setState({FranchiseId : companyId});
+  		axios
+  			.get('/franchisedetails/franchisebasicinfo/'+companyId)
+            .then((response)=>{
+                console.log("-------franchisedetails------>>",response.data);
+            	this.setState({
+		  			franchiseUserId 		: response.data.franchiseCodeForCompanyId,
+		  			franchiseName 			: response.data.franchiseName,
+		  			contactNo 				: response.data.contactNo,
+		 		});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+  	}
   	
   	uploadStudentImage(event){
 	    event.preventDefault();
@@ -552,15 +544,15 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		      	   var fileName  = file.name; 
 		      	 	console.log("fileName--------------->",fileName);
 		      	     var ext       = fileName.split('.').pop();  
-	                  	if(ext=="jpg" || ext=="png" || ext=="jpeg"){    
-	          //               if (file) {   
-		        	// 			addStudentProfileImage(file,self);
-			     			// }else{           
-			             			 swal("File not uploaded","Something went wrong","error");  
-			                     // }     
+	                  	if(ext=="jpg" || ext=="png" || ext=="jpeg" || ext=="JPG" || ext=="PNG" || ext=="JPEG"){    
+	                        if (file) { 
+		        				// addStudentProfileImage(file,self);
+			     			}else{          
+			             		swal("File not uploaded","Something went wrong","error");  
+			                }     
 	                   	}else{ 
-	                       swal("Please upload file","Only Upload  images format (jpg,png,jpeg)","error");   
-	                    } 
+	                       swal("Please upload file","Only Upload  images format (jpg,png,jpeg)","warning");   
+	                    }
 		    	}
 
 	    }
@@ -575,7 +567,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 			return TempIamge.tempPath;
 			// return TempIamge.imagePath;
 		}else{
-			var userData = "1234"/*Meteor.users.findOne({"_id":Meteor.userId()})*/;
+			var userData = "E6BRdJtHMF9a6p7KF"/*Meteor.users.findOne({"_id":Meteor.userId()})*/;
 		    	if(userData){
 			        var profileData = userData.profile;
 				        if(profileData){
@@ -685,10 +677,11 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
 		// 	$('.sidebar').css({display:'block',background: '#222d32'});
 			
-		// 	 if(this.state.studentDOB){
-		//         var studentBirthDate = moment(this.state.studentDOB).format("MM/DD/YYYY");
-		//       }
-		    console.log("this.state.showCategories render= ",this.state.showCategories);
+			 if(this.state.studentInfo.studentDOB){
+		console.log("studentInfo.studentDOB= ",this.state.studentInfo.studentDOB);
+
+		        var studentBirthDate = moment(this.state.studentInfo.studentDOB).format("DD/MM/YYYY");
+		      }
 	
 		return(
 			<div>
@@ -753,7 +746,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 											<input type="text" name="studentFirstName" ref="studentFirstName" value={this.state.studentInfo.studentFirstName} onChange={this.handleChange}  className={this.state.studentInfo.studentFirstName ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content updateaccess" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} pattern="[a-zA-Z]+" title="Only Alphabets Are Allowed!" autoComplete="off" required/>
 											<span className="floating-label">First Name<label className="requiredsign astrix">*</label></span>					   			
 										</span>
-										<input type="hidden" name="_id" ref="_id" value={this.state._id}/>
+										<input type="hidden" name="_id" ref="_id" value={this.state.studentInfo._id}/>
 									</div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
@@ -770,8 +763,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
 										<span className="defaultLabelOes defaultLabelOesE ">Date of Birth<label className="requiredsign">*</label></span>
-											<input type="text" name="studentDOB" ref="studentDOB" value={this.state.studentInfo.studentDOB} onChange={this.handleChange} id="my-datepicker"   data-provide="datepicker" className={this.state.studentInfo.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" readOnly required/>                 
-														   			
+											<input type="text" id="my-datepicker" data-provide="datepicker" name="studentDOB" ref="studentDOB" value={studentBirthDate} onChange={this.handleChange} className={this.state.studentInfo.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" readOnly required/>		   			
 										</span>
 									</div>
 									
@@ -892,7 +884,7 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 												<label>D</label> : Without Instrument & Multiplication Sum<br/>
 											</div>					   			
 										<span className="blocking-span"> 
-											<select type="text" disabled={this.state./*studentInfo.*/profileEditStatus} name="category" ref="category" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" title="Select Category"  value={this.state.category} onChange={this.handleChange} autoComplete="off" required>
+											<select type="text" disabled={this.state.studentInfo.profileEditStatus} name="category" ref="category" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" title="Select Category"  value={this.state.category} onChange={this.handleChange} autoComplete="off" required>
 												<option value='' disabled>-- Select Exam Category --</option>
 												{this.state.showCategories.map((categories,index)=>{
 													return <option key={index}>{categories.categoryName}</option>
@@ -903,10 +895,10 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 									</div>
 
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examCatWrap">
-									{!this.state.studentInfo.franchiseId ? 
+									{!this.state.companyId ? 
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="blocking-span"> 
-												<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.studentInfo.franchiseId} onBlur={this.getFranchiseId}  title="Enter FranchiseId" onChange={this.handleChange}  className={this.state.studentInfo.franchiseId ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
+												<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" onBlur={this.getFranchiseId}  title="Enter FranchiseId" onChange={this.handleChange}  className={this.state.franchiseId ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" required/>
 												<span className="col-lg-12 col-md-12 col-sm-12 floating-label pdcls">Franchise Id</span>					   			
 											</span>
 										</div>
@@ -914,23 +906,20 @@ class CreateStudentRegistration extends /*TrackerReact*/(Component)  {
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="defaultLabelOes defaultLabelOesE">Franchise Id<label className="requiredsign">*</label></span>	
 											<span className="blocking-span"> 
-												{<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.studentInfo.franchiseId}  onChange={this.handleChange} title="can't change franchise Id"  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" readOnly required/>}
-															   			
+												{<input type="text" name="franchiseId" ref="franchiseId" id="franchiseId" value={this.state.companyId} onChange={this.handleChange} title="can't change franchise Id"  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" readOnly required/>}	   			
 											</span>
 										</div>
-										
 									}
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="defaultLabelOes defaultLabelOesE col-lg-12 col-md-12 col-sm-12 col-xs-12 pdcls">Franchise Name</span>	
 											<span className="blocking-span"> 
-												{<input type="text" name="franchiseName" ref="franchiseName" value={this.state.studentInfo.franchiseName}  onChange={this.handleChange}  title="You can't change franchise name" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}
-												
+												{<input type="text" name="franchiseName" ref="franchiseName" value={this.state.franchiseName}  onChange={this.handleChange}  title="You can't change franchise name" className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}
 											</span>
 										</div>
 										<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 											<span className="defaultLabelOes defaultLabelOesE col-lg-12 col-md-12 col-sm-12 col-xs-12 pdcls">Franchise Mobile</span>	
 											<span className="blocking-span"> 
-												{<input type="text" name="franchiseMobileNumber" ref="franchiseMobileNumber" value={this.state.studentInfo.franchiseMobileNumber}  title="You can't change franchise mobile no." onChange={this.handleChange}  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}		   			
+												{<input type="text" name="franchiseMobileNumber" ref="franchiseMobileNumber" value={this.state.contactNo}  title="You can't change franchise mobile no." onChange={this.handleChange}  className="form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" readOnly required/>}		   			
 											</span>
 										</div>
 									
