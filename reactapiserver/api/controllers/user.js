@@ -15,6 +15,7 @@ exports.email_optverify = (req, res, next)=>{
 	res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
 }
 exports.change_pwd = (req, res, next)=>{
+	console.log('change_pwd');
 	var userID 		= req.body.userID;
 	var currentPwd 	= req.body.currentPwd.split("").reverse().join(""); 
 	var changedpwd	= req.body.changedpwd;
