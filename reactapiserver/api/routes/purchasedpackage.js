@@ -83,13 +83,15 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
                                                                                         var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
+                                                                                        console.log('1. PackageManagementMasterData',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData)
                                                                                         {
-                                                                                            console.log('PackageManagementMasterData',PackageManagementMasterData);
+                                                                                            console.log('2. PackageManagementMasterData',PackageManagementMasterData);
 
                                                                                             PackageQPMData[i].AttemptOfPracticeTest = PackageManagementMasterData.AttemptOfPracticeTest;
                                                                                             attemptArray.push(parseInt(PackageManagementMasterData.AttemptOfPracticeTest));
-                                                                                        }                                      
+                                                                                        }                   
+                                                                                        console.log('3. PackageManagementMasterData',PackageManagementMasterData);                   
                                                                                     }
                                                                                 }
                                                                                 if(i > PackageQPMData.length && attemptArray.length > 0){
