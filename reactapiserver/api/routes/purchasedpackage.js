@@ -87,7 +87,7 @@ router.get('/:studentID', (req,res,next) => {
                                                                                                         attemptArray.push(parseInt(response.AttemptOfPracticeTest));
                                                                                                     })
                                                                                                     .catch(function(err){
-                                                                                                        res.status(404).json({message:"Something went wrong"})
+                                                                                                        return res.status(404).json({message:"Something went wrong ",err})
                                                                                                     })
                                                                                         }
                                                                                     }
