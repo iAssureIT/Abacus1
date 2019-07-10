@@ -70,8 +70,14 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
                                                                                         var PackageManagementMasterData = {
-                                                                                            method  : 'GET',
-                                                                                            uri     : "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+                                                                                            "method"  : 'GET',
+                                                                                            "uri"     : "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+                                                                                            "json"    : true,
+                                                                                            "headers": {
+                                                                                                "Authorization": "Bearer " + null,
+                                                                                                "User-Agent": "My little demo app"
+                                                                                              }
+
                                                                                         };
                                                                                         console.log('PackageManagementMasterData ',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData){
