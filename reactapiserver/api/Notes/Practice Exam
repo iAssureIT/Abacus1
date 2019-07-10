@@ -155,7 +155,7 @@
 
     Method          : GET
 
-    URL             :  /questionpapermasters/:studentId
+    URL             :  /packagequestionpapermaster/:studentId
 
     Input           : -NA-
                      
