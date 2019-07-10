@@ -56,6 +56,7 @@ router.get('/:studentID', (req,res,next) => {
                                                                               if(PackageQPMData && PackageQPMData.length > 0){
                                                                                 for(i = 0; i < PackageQPMData.length; i++){
                                                                                     var packageID  = PackageQPMData[i].packageId;
+                                                                                    console.log('packageID ',packageID);
                                                                                     if(packageID){
                                                                                         PackageManagementMaster .findOne({_id:packageID})
                                                                                                                     .select("AttemptOfPracticeTest")
