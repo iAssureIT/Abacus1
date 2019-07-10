@@ -22,6 +22,7 @@ PackageManagementMasterFunction = function(packageID){
                                 console.log(pckMgmt.AttemptOfPracticeTest);
                                 data = pckMgmt.AttemptOfPracticeTest;
                                 console.log('inner data ',data);
+                                return data;
                             }
                         })
                         .catch(err =>{
@@ -30,10 +31,10 @@ PackageManagementMasterFunction = function(packageID){
                                 error: err
                             });
                         });
-    if(data){
-        console.log('data ',data);
-        return data;
-    }
+    // if(data){
+    //     console.log('data ',data);
+    //     return data;
+    // }
 }
 
 shuffle = function(array) {
