@@ -13,28 +13,14 @@ const PackageQuestionPaperMaster    = require('../models/packagequestionpapermas
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
 PackageManagementMasterFunction = function(packageID){
-    var data =  false;
-    PackageManagementMaster .findOne({_id:packageID})
-                        .select("AttemptOfPracticeTest")
-                        .exec()
-                        .then(pckMgmt=>{
-                            if(pckMgmt){
-                                console.log(pckMgmt.AttemptOfPracticeTest);
-                                data = pckMgmt.AttemptOfPracticeTest;
-                                console.log('inner data ',data);
-                                return data;
-                            }
-                        })
-                        .catch(err =>{
-                            console.log(err);
-                            res.status(500).json({
-                                error: err
-                            });
-                        });
-    // if(data){
-    //     console.log('data ',data);
-    //     return data;
-    // }
+    return request({
+        "method":"GET", 
+        "uri": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+        "json": true,
+        "headers": {
+        "User-Agent": "My little demo app"
+        }
+    });
 }
 
 shuffle = function(array) {
@@ -82,14 +68,7 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     var packageID  = PackageQPMData[i].packageId;
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
-                                                                                        var PackageManagementMasterData = request({
-                                                                                            "method":"GET", 
-                                                                                            "uri": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
-                                                                                            "json": true,
-                                                                                            "headers": {
-                                                                                            "User-Agent": "My little demo app"
-                                                                                            }
-                                                                                        });
+                                                                                        var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
                                                                                         console.log('1. PackageManagementMasterData',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData)
                                                                                         {
