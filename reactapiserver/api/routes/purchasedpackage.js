@@ -17,7 +17,9 @@ PackageManagementMasterFunction = function(packageID){
                         .select("AttemptOfPracticeTest")
                         .exec()
                         .then(pckMgmt=>{
-                            return pckMgmt.AttemptOfPracticeTest;
+                            if(pckMgmt){
+                                return pckMgmt.AttemptOfPracticeTest;
+                            }
                         })
                         .catch(err =>{
                             console.log(err);
