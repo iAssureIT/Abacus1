@@ -73,6 +73,7 @@ router.get('/:studentID', (req,res,next) => {
                                                                                             method  : 'GET',
                                                                                             uri     : "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
                                                                                         };
+                                                                                        console.log('PackageManagementMasterData ',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData){
                                                                                             request(PackageManagementMasterData)
                                                                                                     .then(function(response){
