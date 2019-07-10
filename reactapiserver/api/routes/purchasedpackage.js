@@ -69,15 +69,20 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     var packageID  = PackageQPMData[i].packageId;
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
-                                                                                        var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
-                                                                                        // console.log('1. PackageManagementMasterData',PackageManagementMasterData);
-                                                                                        if(PackageManagementMasterData)
-                                                                                        {
-                                                                                            // console.log('2. PackageManagementMasterData',PackageManagementMasterData);
-
-                                                                                            PackageQPMData[i].AttemptOfPracticeTest = PackageManagementMasterData.AttemptOfPracticeTest;
-                                                                                            attemptArray.push(parseInt(PackageManagementMasterData.AttemptOfPracticeTest));
-                                                                                        }                                      
+                                                                                        var PackageManagementMasterData = {
+                                                                                            method  : 'GET',
+                                                                                            uri     : "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+                                                                                        };
+                                                                                        if(PackageManagementMasterData){
+                                                                                            request(PackageManagementMasterData)
+                                                                                                    .then(function(response){
+                                                                                                        PackageQPMData[i].AttemptOfPracticeTest = response.AttemptOfPracticeTest;
+                                                                                                        attemptArray.push(parseInt(response.AttemptOfPracticeTest));
+                                                                                                    })
+                                                                                                    .catch(function(err){
+                                                                                                        res.status(404).json({message:"Something went wrong"})
+                                                                                                    })
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                                 if(i > PackageQPMData.length && attemptArray.length > 0){
