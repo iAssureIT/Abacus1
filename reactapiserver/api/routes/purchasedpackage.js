@@ -12,6 +12,21 @@ const PackageManagementMaster       = require('../models/packagemanagementmaster
 const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
+PackageManagementMasterFunction = function(packageID){
+    PackageManagementMaster .findOne({_id:packageID})
+                        .select("AttemptOfPracticeTest")
+                        .exec()
+                        .then(pckMgmt=>{
+                            return pckMgmt.AttemptOfPracticeTest;
+                        })
+                        .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });
+}
+
 shuffle = function(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	// While there remain elements to shuffle...
@@ -58,19 +73,12 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     var packageID  = PackageQPMData[i].packageId;
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
-                                                                                        PackageManagementMaster .findOne({_id:packageID})
-                                                                                                                    .select("AttemptOfPracticeTest")
-                                                                                                                    .exec()
-                                                                                                                    .then(pckMgmt=>{
-                                                                                                                        PackageQPMData[i].AttemptOfPracticeTest = parseInt(pckMgmt.AttemptOfPracticeTest);
-                                                                                                                        attemptArray.push(parseInt(pckMgmt.AttemptOfPracticeTest));
-                                                                                                                    })
-                                                                                                                    .catch(err =>{
-                                                                                                                        console.log(err);
-                                                                                                                        res.status(500).json({
-                                                                                                                            error: err
-                                                                                                                        });
-                                                                                                                    });                                      
+                                                                                        var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
+                                                                                        if(PackageManagementMasterData)
+                                                                                        {
+                                                                                            PackageQPMData[i].AttemptOfPracticeTest = PackageManagementMasterData.AttemptOfPracticeTest;
+                                                                                            attemptArray.push(parseInt(PackageManagementMasterData.AttemptOfPracticeTest));
+                                                                                        }                                      
                                                                                     }
                                                                                 }
                                                                                 if(i > PackageQPMData.length && attemptArray.length > 0){
