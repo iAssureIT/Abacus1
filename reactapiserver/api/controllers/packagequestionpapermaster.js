@@ -10,7 +10,7 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
     var orderId     = req.body.orderId;
     var studentID   = req.body.studentID;
     var todayDate   = req.body.todayDate;
-    var questionPaperDetails    = {};
+    var questionPaperDetails    = {}; 
     PackageQuestionPaperMaster  .findOne({"questionPaper_id":qpid,"buyerId":studentID,"packageId":packageID,order_id:orderId})
 		                        .exec()
                                 .then(questionPaperDetails1 =>{
@@ -61,4 +61,20 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                     });
                                 });
     
+}
+
+exports.fetch_student_pkgquemaster = (req,res,next)=>{
+    PackageQuestionPaperMaster  .find({buyerId:req.params.studentID})
+                                .exec()
+                                .then(data =>{
+                                    //   console.log('data ',data);
+                                    res.status(200).json(data);
+                                })
+                                .catch(err =>{
+                                    console.log(err);
+                                    res.status(500).json({
+                                            error: err
+                                        });
+                                });
+
 }

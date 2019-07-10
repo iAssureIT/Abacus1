@@ -12,17 +12,17 @@ const PackageManagementMaster       = require('../models/packagemanagementmaster
 const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
-PackageManagementMasterFunction = function(packageID){
-    var data =  request({
-        "method":"GET", 
-        "url": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
-        "json": true,
-        "headers": {
-        "User-Agent": "My little demo app"
-        }
-    });
-    console.log('data ',data);
-}
+// PackageManagementMasterFunction = function(packageID){
+//     var data =  request({
+//         "method":"GET", 
+//         "url": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+//         "json": true,
+//         "headers": {
+//         "User-Agent": "My little demo app"
+//         }
+//     });
+//     console.log('data ',data);
+// }
 
 shuffle = function(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
@@ -38,6 +38,7 @@ shuffle = function(array) {
 	}
 	return array;
 }
+// Not working
 router.get('/:studentID', (req,res,next) => {
     var attemptArray = [];
     var blankCount=[];
@@ -164,15 +165,15 @@ router.get('/:studentID', (req,res,next) => {
 });
 
 router.patch('/updatequespaper', (req,res,next) =>{
-    PackageQuestionPaperMaster  .findOne({questionPaper_id:practiceExamId,buyerId:StudentId,packageId : pckgIndex ,order_id:orderId})
+    PackageQuestionPaperMaster  .findOne({questionPaper_id:req.body.practiceExamId,buyerId:req.body.studentId,packageId : req.body.pckgIndex ,order_id:req.body.orderId})
                                 .exec()
                                 .then(questionPaperDetails=>{
                                     PackageQuestionPaperMaster  .updateOne(
-                                                                    {_id:questionPaperDetails._id,order_id:orderId,packageId:pckgIndex,buyerId:studentID,questionPaper_id:practiceExamId},
+                                                                    {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentID,questionPaper_id:req.body.practiceExamId},
                                                                     {
                                                                         $set:{
-                                                                            ["noOfAttempts."+BtnIndex+".status"]:true,
-                                                                            ["noOfAttempts."+BtnIndex+".attemptedAt"]:moment().format("MMM Do YY"),
+                                                                            ["noOfAttempts."+req.body.btnIndex+".status"]:true,
+                                                                            ["noOfAttempts."+req.body.btnIndex+".attemptedAt"]:moment().format("MMM Do YY"),
                                                                         }
                                                                     }
                                                                 )

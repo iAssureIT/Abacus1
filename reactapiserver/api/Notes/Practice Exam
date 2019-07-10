@@ -140,7 +140,38 @@
                             _id                     : String,
                             instruction             : String,
                         }
-check
+
+2. Find Incomplete Exam of specify student
+
+    Method          : GET
+
+    URL             :  /mypracticeexammasters/incompleteexam/:studentId
+
+    Input           : -NA-
+                     
+    Output          : Complete Document
+
+3. Get all the Package Question Paper Master
+
+    Method          : GET
+
+    URL             :  /questionpapermasters/:studentId
+
+    Input           : -NA-
+                     
+    Output          : Complete Document
+
+4. Get Number of attempt of practice exam
+
+    Method          : GET
+
+    URL             :  /packagemanagementmasters/attemptOfpracticetest/:packageID
+
+    Input           : -NA-
+                     
+    Output          : {AttemptOfPracticeTest: String}
+
+Not working
 2. List All packages purchased 
 
     Method          : GET
