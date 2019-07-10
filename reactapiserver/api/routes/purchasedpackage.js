@@ -26,7 +26,7 @@ shuffle = function(array) {
 	}
 	return array;
 }
-router.patch('/:studentID', (req,res,next) => {
+router.get('/:studentID', (req,res,next) => {
     var attemptArray = [];
     var blankCount=[];
     StudentMaster.findOne({studentId:req.params.studentID})

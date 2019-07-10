@@ -140,7 +140,7 @@
                             _id                     : String,
                             instruction             : String,
                         }
-
+check
 2. List All packages purchased 
 
     Method          : GET
