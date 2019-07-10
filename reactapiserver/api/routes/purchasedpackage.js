@@ -19,7 +19,7 @@ PackageManagementMasterFunction = function(packageID){
                         .then(pckMgmt=>{
                             if(pckMgmt){
                                 console.log(pckMgmt.AttemptOfPracticeTest);
-                                return pckMgmt.AttemptOfPracticeTest;
+                                res.status(200).json(pckMgmt.AttemptOfPracticeTest);
                             }
                         })
                         .catch(err =>{
@@ -78,6 +78,8 @@ router.get('/:studentID', (req,res,next) => {
                                                                                         var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
                                                                                         if(PackageManagementMasterData)
                                                                                         {
+                                                                                            console.log('PackageManagementMasterData',PackageManagementMasterData);
+
                                                                                             PackageQPMData[i].AttemptOfPracticeTest = PackageManagementMasterData.AttemptOfPracticeTest;
                                                                                             attemptArray.push(parseInt(PackageManagementMasterData.AttemptOfPracticeTest));
                                                                                         }                                      
