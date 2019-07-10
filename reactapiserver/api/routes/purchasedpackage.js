@@ -15,7 +15,7 @@ const QuestionPaperMaster           = require('../models/questionpapermasters');
 PackageManagementMasterFunction = function(packageID){
     return request({
         "method":"GET", 
-        "uri": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+        "url": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
         "json": true,
         "headers": {
         "User-Agent": "My little demo app"
