@@ -13,13 +13,14 @@ const PackageQuestionPaperMaster    = require('../models/packagequestionpapermas
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
 PackageManagementMasterFunction = function(packageID){
-    var data = PackageManagementMaster .findOne({_id:packageID})
+    var data =  false;
+    PackageManagementMaster .findOne({_id:packageID})
                         .select("AttemptOfPracticeTest")
                         .exec()
                         .then(pckMgmt=>{
                             if(pckMgmt){
                                 console.log(pckMgmt.AttemptOfPracticeTest);
-                                return(pckMgmt.AttemptOfPracticeTest);
+                                data = pckMgmt.AttemptOfPracticeTest;
                             }
                         })
                         .catch(err =>{
