@@ -22,7 +22,7 @@
                         {
                             message: "Something Went Wrong"
                         }
-2. StartExamCategoryWise : Need to understand
+2. StartExamCategoryWise :
 
     Method      : PATCH
     

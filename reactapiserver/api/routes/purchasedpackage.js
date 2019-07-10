@@ -34,7 +34,7 @@ router.get('/:studentID', (req,res,next) => {
                  .exec()
                  .then(student=>{
                      if(student){
-                        MyPracticeExamMaster.findOne({StudentId:studentID,examStatus:"InCompleted"})
+                        MyPracticeExamMaster.findOne({StudentId:req.params.studentID,examStatus:"InCompleted"})
                                           .select("_id")
                                           .exec()
                                           .then(myexam=>{
