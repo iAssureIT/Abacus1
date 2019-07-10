@@ -21,6 +21,7 @@ PackageManagementMasterFunction = function(packageID){
                             if(pckMgmt){
                                 console.log(pckMgmt.AttemptOfPracticeTest);
                                 data = pckMgmt.AttemptOfPracticeTest;
+                                console.log('inner data ',data);
                             }
                         })
                         .catch(err =>{
