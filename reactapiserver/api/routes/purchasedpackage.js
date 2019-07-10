@@ -13,7 +13,7 @@ const PackageQuestionPaperMaster    = require('../models/packagequestionpapermas
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
 PackageManagementMasterFunction = function(packageID){
-    PackageManagementMaster .findOne({_id:packageID})
+    var data = PackageManagementMaster .findOne({_id:packageID})
                         .select("AttemptOfPracticeTest")
                         .exec()
                         .then(pckMgmt=>{
@@ -28,6 +28,10 @@ PackageManagementMasterFunction = function(packageID){
                                 error: err
                             });
                         });
+    if(data){
+        console.log('data ',data);
+        return data;
+    }
 }
 
 shuffle = function(array) {
