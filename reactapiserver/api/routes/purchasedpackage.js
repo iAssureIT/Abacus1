@@ -56,19 +56,21 @@ router.get('/:studentID', (req,res,next) => {
                                                                               if(PackageQPMData && PackageQPMData.length > 0){
                                                                                 for(i = 0; i < PackageQPMData.length; i++){
                                                                                     var packageID  = PackageQPMData[i].packageId;
-                                                                                    PackageManagementMaster .findOne({_id:packageID})
-                                                                                                                .select("AttemptOfPracticeTest")
-                                                                                                                .exec()
-                                                                                                                .then(pckMgmt=>{
-                                                                                                                    PackageQPMData[i].AttemptOfPracticeTest = parseInt(pckMgmt.AttemptOfPracticeTest);
-                                                                                                                    attemptArray.push(parseInt(pckMgmt.AttemptOfPracticeTest));
-                                                                                                                })
-                                                                                                                .catch(err =>{
-                                                                                                                    console.log(err);
-                                                                                                                    res.status(500).json({
-                                                                                                                        error: err
-                                                                                                                    });
-                                                                                                                });                                      
+                                                                                    if(packageID){
+                                                                                        PackageManagementMaster .findOne({_id:packageID})
+                                                                                                                    .select("AttemptOfPracticeTest")
+                                                                                                                    .exec()
+                                                                                                                    .then(pckMgmt=>{
+                                                                                                                        PackageQPMData[i].AttemptOfPracticeTest = parseInt(pckMgmt.AttemptOfPracticeTest);
+                                                                                                                        attemptArray.push(parseInt(pckMgmt.AttemptOfPracticeTest));
+                                                                                                                    })
+                                                                                                                    .catch(err =>{
+                                                                                                                        console.log(err);
+                                                                                                                        res.status(500).json({
+                                                                                                                            error: err
+                                                                                                                        });
+                                                                                                                    });                                      
+                                                                                    }
                                                                                 }
                                                                                 if(i > PackageQPMData.length && attemptArray.length > 0){
                                                                                     var  sorted = attemptArray.slice().sort(function(a, b) {
