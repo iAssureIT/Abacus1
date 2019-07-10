@@ -45,7 +45,7 @@ router.get('/:studentID', (req,res,next) => {
                                                     lastExamId  : myexam._id
                                                 });
                                             }else{
-                                                PackageQuestionPaperMaster.find({buyerId:studentID})
+                                                PackageQuestionPaperMaster.find({buyerId:req.params.studentID})
                                                                           .exec()
                                                                           .then(quespaper=>{
                                                                               var PackageQPMData = quespaper;
