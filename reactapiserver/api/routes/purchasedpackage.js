@@ -13,30 +13,30 @@ const PackageManagementMaster       = require('../models/packagemanagementmaster
 const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
-PackageManagementMasterFunction = function(packageID){
-    var data =  false;
-    PackageManagementMaster .findOne({_id:packageID})
-                        .select("AttemptOfPracticeTest")
-                        .exec()
-                        .then(pckMgmt=>{
-                            if(pckMgmt){
-                                console.log(pckMgmt.AttemptOfPracticeTest);
-                                data = pckMgmt.AttemptOfPracticeTest;
-                                console.log('inner data ',data);
-                                return data;
-                            }
-                        })
-                        .catch(err =>{
-                            console.log(err);
-                            res.status(500).json({
-                                error: err
-                            });
-                        });
-    // if(data){
-    //     console.log('data ',data);
-    //     return data;
-    // }
-}
+// PackageManagementMasterFunction = function(packageID){
+//     var data =  false;
+//     PackageManagementMaster .findOne({_id:packageID})
+//                         .select("AttemptOfPracticeTest")
+//                         .exec()
+//                         .then(pckMgmt=>{
+//                             if(pckMgmt){
+//                                 console.log(pckMgmt.AttemptOfPracticeTest);
+//                                 data = pckMgmt.AttemptOfPracticeTest;
+//                                 console.log('inner data ',data);
+//                                 return data;
+//                             }
+//                         })
+//                         .catch(err =>{
+//                             console.log(err);
+//                             res.status(500).json({
+//                                 error: err
+//                             });
+//                         });
+//     // if(data){
+//     //     console.log('data ',data);
+//     //     return data;
+//     // }
+// }
 
 shuffle = function(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
@@ -90,7 +90,7 @@ router.get('/:studentID', (req,res,next) => {
                                                                                                                                     "headers": {
                                                                                                                                     "User-Agent": "My little demo app"
                                                                                                                                     }
-                                                                                                                                }).then(console.log, console.log);;
+                                                                                                                                }).then(PackageManagementMasterData, PackageManagementMasterData);;
                                                                                         console.log('1. PackageManagementMasterData',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData)
                                                                                         {
