@@ -82,7 +82,14 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     var packageID  = PackageQPMData[i].packageId;
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
-                                                                                        var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
+                                                                                        var PackageManagementMasterData = request({
+                                                                                                                                    "method":"GET", 
+                                                                                                                                    "uri": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
+                                                                                                                                    "json": true,
+                                                                                                                                    "headers": {
+                                                                                                                                    "User-Agent": "My little demo app"
+                                                                                                                                    }
+                                                                                                                                }).then(console.log, console.log);;
                                                                                         console.log('1. PackageManagementMasterData',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData)
                                                                                         {
