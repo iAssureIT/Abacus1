@@ -19,7 +19,7 @@ PackageManagementMasterFunction = function(packageID){
                         .then(pckMgmt=>{
                             if(pckMgmt){
                                 console.log(pckMgmt.AttemptOfPracticeTest);
-                                res.status(200).json(pckMgmt.AttemptOfPracticeTest);
+                                return(pckMgmt.AttemptOfPracticeTest);
                             }
                         })
                         .catch(err =>{
