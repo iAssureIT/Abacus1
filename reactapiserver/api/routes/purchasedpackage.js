@@ -13,7 +13,7 @@ const PackageQuestionPaperMaster    = require('../models/packagequestionpapermas
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
 PackageManagementMasterFunction = function(packageID){
-    return request({
+    var data =  request({
         "method":"GET", 
         "url": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
         "json": true,
@@ -21,6 +21,7 @@ PackageManagementMasterFunction = function(packageID){
         "User-Agent": "My little demo app"
         }
     });
+    console.log('data ',data);
 }
 
 shuffle = function(array) {
@@ -69,10 +70,10 @@ router.get('/:studentID', (req,res,next) => {
                                                                                     console.log('packageID ',packageID);
                                                                                     if(packageID){
                                                                                         var PackageManagementMasterData = PackageManagementMasterFunction(packageID);
-                                                                                        console.log('1. PackageManagementMasterData',PackageManagementMasterData);
+                                                                                        // console.log('1. PackageManagementMasterData',PackageManagementMasterData);
                                                                                         if(PackageManagementMasterData)
                                                                                         {
-                                                                                            console.log('2. PackageManagementMasterData',PackageManagementMasterData);
+                                                                                            // console.log('2. PackageManagementMasterData',PackageManagementMasterData);
 
                                                                                             PackageQPMData[i].AttemptOfPracticeTest = PackageManagementMasterData.AttemptOfPracticeTest;
                                                                                             attemptArray.push(parseInt(PackageManagementMasterData.AttemptOfPracticeTest));
