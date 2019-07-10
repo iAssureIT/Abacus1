@@ -18,6 +18,7 @@ PackageManagementMasterFunction = function(packageID){
                         .exec()
                         .then(pckMgmt=>{
                             if(pckMgmt){
+                                console.log(pckMgmt.AttemptOfPracticeTest);
                                 return pckMgmt.AttemptOfPracticeTest;
                             }
                         })
@@ -47,7 +48,6 @@ router.get('/:studentID', (req,res,next) => {
     var attemptArray = [];
     var blankCount=[];
     StudentMaster.findOne({studentId:req.params.studentID})
-                 .select("category")
                  .exec()
                  .then(student=>{
                      if(student){
