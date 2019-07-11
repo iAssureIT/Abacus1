@@ -252,6 +252,7 @@ router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
                                                                                         });
                                         mypracticeexam  .save()
                                                         .then(mypracticeexamdata =>{
+                                                            res.header("Access-Control-Allow-Origin","*");
                                                             if(mypracticeexam){
                                                                 if(mypracticeexam.answerArray.length == tempQueArray.length){
                                                                     res.status(200).json({message:"Practice Exam Created",ID : mypracticeexamdata._id})
