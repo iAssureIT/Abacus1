@@ -200,7 +200,7 @@ router.patch('/updatequespaper', (req,res,next) =>{
                                 });              
 });
 
-router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
+router.post('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
     var todayDate = new Date();
     QuestionPaperMaster .findOne({_id:req.params.examPaperId})
                         .exec()
@@ -231,7 +231,7 @@ router.patch('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
                                     if(tempQueArray.length == questionArray1.length){
                                         const mypracticeexam = new MyPracticeExamMaster({
                                                                                             _id             : new mongoose.Types.ObjectId(),
-                                                                                            createdAt	    : todayDate,
+                                                                                            createdAt	      : todayDate,
                                                                                             StudentId       : req.params.studentID,
                                                                                             examPaperId     : req.params.examPaperId,
                                                                                             originalTime    : questionPaperMasterData.examTime,

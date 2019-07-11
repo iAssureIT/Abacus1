@@ -225,7 +225,7 @@ Not working
 
 4. StartPracticeExam
 
-    Method          : PATCH
+    Method          : POST
 
     URL             : /purchasedpackage/startpracticeexam/:examPaperId/:studentID
 
