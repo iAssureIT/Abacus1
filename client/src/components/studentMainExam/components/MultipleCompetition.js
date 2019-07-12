@@ -15,7 +15,13 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			showButton:true,
 			showstartbtn: true,
 			facilityPermission : 'waitingforResult',
-			competitionData: competitionData,
+			competitionData: [{
+				competitionName : '',
+				competitionDate : '',
+				startTime : '',
+				endTime : '',
+				status : 'status'
+			}],
 		}
 		var competitionData={
 							    "_id" : "deQigRo3gDgikQXjY",
@@ -46,17 +52,16 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 							}
 	}
 	componentDidMount(){
-		console.log('data from myexammasters');
 		axios
-			.get('/myexammasters')
+			.get('/exammasters/listmainexam')
 			.then((response)=>{
 				console.log('response ',response.data);
-				// this.setState({
-				// 	instruction :response.data[0].instruction
-				// });
+				this.setState({
+					competitionData : response.data	
+				})
 			})
 			.catch(function(error){
-				console.log(error);
+				console.log("error",error);
 			})
 	}
 	componentWillUnmount(){
@@ -233,90 +238,14 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 											    <tbody >
 											     	{this.state.competitionData.map((competitionInfo,index)=>{
 											     		// console.log("competitionInfo---->",competitionInfo.viewStatus);
-											     if(competitionInfo.competitionView=="Show"){
 											    return (<tr key={index}>
 											     			<td>{index+1}</td>
 											     			<td>{competitionInfo.competitionName}</td>
-											     			<td>{competitionInfo.EXAMDate}</td>
-											     			<td>{competitionInfo.startTime}- {competitionInfo.endTime}</td>											     			
-											     						{competitionInfo.studentPaymentStatus=="paid" ?												            				
-												            					this.props.todayDate < competitionInfo.examDate ?
-																					<td >												
-																						<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
-																					</td>
-																				:
-																				
-																				!competitionInfo.lastInCompExamIdStatus?
-																					competitionInfo.examDataStatus=="Completed"?
-																						<td >												
-																							<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
-																						</td>
-																					:
-																					competitionInfo.competitionStatus=="start"?
-																								competitionInfo.examStartStatus=="start"?
-																									<td >
-																										<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1">Start Exam </button></a>
-																									</td>
-																									:	
-																									<td >
-																										<div className="fontstyle">Your exam not started yet.</div>															
-																									</td>
-																							:
-
-																							this.props.todayDate>competitionInfo.examDate?
-																								competitionInfo.examDataStatus=="Completed"?
-																								<div className="fontstyle" >												
-																									<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
-																								</div>
-																								:
-																								<td >												
-																									<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
-																								</td>
-																							:
-																							<td >
-																								<div className="fontstyle">Competition not started yet</div>
-																							</td>
-																				:
-
-																					competitionInfo.examDataStatus=="InComplete"?
-																						this.state.showButton ?
-																						<td >
-																							<a> <button type="submit"  className="btn startexambtn1" data-text={competitionInfo._id} id={competitionInfo.examId} onClick={this.gotoPreviousMainExam.bind(this)}>Continue Exam </button></a>
-																							{/*<a> <button type="submit"  className="btn startexambtn1" id={competitionInfo.examId} onClick={this.MainExamComplete.bind(this)}>Discontinue Exam </button></a>*/}
-																						</td> 
-
-																						:
-																						<td >
-																							<div>
-																							 	{this.tryLoadingAgain()} 
-																							</div>
-																						</td>
-																					:
-																					<td >												
-																							<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
-																					</td>
-
-												            			:
-												            			competitionInfo.timeStatus=="valid" && competitionInfo.examYear=="NotAccept" ?
-												            				<td >										
-																				<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1">Register for Competition</button></a>
-																			</td>
-
-												            			:
-																			competitionInfo.timeStatus=="invalid" || competitionInfo.examYear=="NotAccept" ?
-																				<td >
-																					<div className="fontstyle">Competition has finished</div>
-																				</td>
-																			:
-												            					            			
-																			<td >										
-																				<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1">Register for Competition</button></a>
-																			</td>
-																		}
+											     			<td>{competitionInfo.competitionDate}</td>
+											     			<td>{competitionInfo.startTime}- {competitionInfo.endTime}</td>		
+																<td>{competitionInfo.status}</td>									     			
 											     		</tr>)
-															}else{
-																return null;
-															}
+															
 											     		})
 											     }
 											    </tbody>
