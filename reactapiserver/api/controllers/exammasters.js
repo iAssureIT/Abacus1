@@ -85,28 +85,28 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                             
                                   if(todayDate>competitionData[index].examDate){
                                     competitionData[index].examTimeStatus = "OldExam";
-                                  }else if(todayDate<=competitionData[i].examDate){
+                                  }else if(todayDate<=competitionData[index].examDate){
                                     competitionData[index].examTimeStatus = "NewExam";
                                   }
-                                  if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
+                                  if(todayDate==competitionData[index].examDate && ExamStartTime>ExamEndTime){
                                     competitionData[index].timeStatus = "invalid";
-                                  }else if(todayDate==competitionData[i].examDate && ExamStartTime<ExamEndTime){
+                                  }else if(todayDate==competitionData[index].examDate && ExamStartTime<ExamEndTime){
                                     competitionData[index].timeStatus = "valid";
                                   }else{
                                     competitionData[index].timeStatus = "nextCompetition";
                                   }
-                                  if(todayDate<=competitionData[i].examDate){
+                                  if(todayDate<=competitionData[index].examDate){
                                     competitionData[index].nextExamStatus = "Present"
                                   }else{
                                     competitionData[index].nextExamStatus = "Absent"
                                   }
-                                  competitionData[index].PayDate         = moment(competitionData[i].createdAt).format('MMM Do YYYY');
-                                  competitionData[index].currentExamDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
+                                  competitionData[index].PayDate         = moment(competitionData[index].createdAt).format('MMM Do YYYY');
+                                  competitionData[index].currentExamDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                     
                                   var studentCategory = competitionData[index].competitionExams;
                                   if(studentCategory){
                                     var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
-                                    var categoryWiseExamData = studentCategory[i];
+                                    var categoryWiseExamData = studentCategory[index];
                                     if(categoryWiseExamData){
                                       competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
                                     }
