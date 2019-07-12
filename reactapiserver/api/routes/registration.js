@@ -32,7 +32,7 @@ router.post('/', (req,res,next) => {
                                 .exec()
                                 .then(user=>{
                                     if(user.nModified == 1){
-                                        CategoryMaster  .findOne({"categoryName":req.body.category})
+                                        CategoryMasters .findOne({"categoryName":req.body.category})
                                                         .exec()
                                                         .then(categoryData=>{
                                                             var subCategory = categoryData.categoryName;
