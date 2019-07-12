@@ -496,7 +496,7 @@ class CreateStudentRegistration extends (Component)  {
 											<span className="floating-label">School Name <label className="requiredsign">*</label></span>					   			
 										</span>
 									</div>
-									{
+								{
 									this.state.gender==true?
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 examTypeBtn">
 									<span className="defaultLabelOes defaultLabelOesE genderLabel">Gender <label className="requiredsign">*</label></span>	
@@ -517,8 +517,6 @@ class CreateStudentRegistration extends (Component)  {
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 examTypeBtn ">
 										<span className="defaultLabelOes defaultLabelOesE genderLabel">Gender<label className="requiredsign">*</label></span>
 										    <div className="col-lg-12 col-md-12 col-sm-6 col-xs-12">
-									          
-
 												<div className="switch-field ">
 											      <input type="radio"  id="switch_left" name="genderType" value="Female" checked={this.state.genderType === 'Female'} onChange={this.handleChange.bind(this)} />
 											      <label htmlFor="switch_left">Female</label>
