@@ -76,7 +76,9 @@ router.post('/', (req,res,next) => {
                                                                                         }
                                                                                     )
                                                                                 .exec()
-                                                                                .then()
+                                                                                .then(smdata=>{
+                                                                                    res.status(200).json({message:"Updated into Student Master"})   
+                                                                                })
                                                                                 .catch(err =>{
                                                                                     console.log(err);
                                                                                     res.status(500).json({
