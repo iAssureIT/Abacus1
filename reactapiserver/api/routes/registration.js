@@ -1,7 +1,9 @@
 
 /*Need to work */
+const mongoose = require("mongoose");
 const express 	= require("express");
 const router 	= express.Router();
+
 
 const TempImages        = require('../models/tempimages');
 const StudentMaster     = require('../models/studentmasters'); 
