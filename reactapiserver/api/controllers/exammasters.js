@@ -71,8 +71,8 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                 var competitions = [];
                                 // competitionList.map((competitionData,index)=>{
                                 for(index = 0 ; index < competitionData.length ; index++){
-                                  competitionData[index].examDate = moment(competitionData[index].competitionDate).format('L');
-                                  competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
+                                  competitionData[index].examDate = moment(competitionData[index].competitionDate).format("DD/MM/YYYY");
+                                  // competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                                   competitionData[index].viewStatus = competitionData[index].competitionView;
                                   if(today.getTime()<(competitionData[index].competitionDate).getTime()){
                                     competitionData[index].examYear = "Accept";
