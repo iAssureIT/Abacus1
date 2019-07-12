@@ -48,7 +48,7 @@ app.use((req, res, next) =>{
 	if (req.method === 'OPTIONS') {
 		console.log('options');
 		// res.header("Access-Control-Allow-Headers" , "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-		req.header("Access-Control-Allow-Methods" , "PATCH, PUT, POST, DELETE, GET, OPTIONS");
+		req.header("Access-Control-Allow-Methods" , "PUT, POST, PATCH, DELETE, GET");
 		return res.status(200).json({});
 	}
 		console.log('no options');
