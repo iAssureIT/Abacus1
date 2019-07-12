@@ -112,8 +112,7 @@
 	
 }
 .whitetext{
-	/*color:#333;*/
-	
+	color:#ffffff;
 	text-align: center;
 }
 .priceLabel{
@@ -177,4 +176,466 @@
 }
 .packageDescParaRed{
 	color:red!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nav-pillss > li + li{
+	margin-left: 0px !important;
+	padding-left: 0px;
+    padding-right: 0px;
+    font-family: "Poppins","sans-serif";
+}
+.ReportTabs{
+	/*margin-top: 15px;*/
+}
+.MarginTop20{
+	margin-bottom: 25px;
+	font-family: "Poppins","sans-serif";
+}
+.noEarning{
+	font-size: 20px;
+	font-family: "Poppins","sans-serif";
+	color: #333;
+}
+.reportTables tr th, .reportTables tr td{
+	font-family: "Poppins","sans-serif";
+}
+.categoryTabAdmin{
+	margin-top: 30px;
+}
+.ExamReportTable{
+	overflow-x: auto;
+}
+.searchTableBoxAlignSETReport{
+	margin-top: 10px !important;
+	margin-bottom: 10px;
+	z-index: 111;
+}
+.reportTitle{
+	margin-top: 0px;
+}
+.searchboxreport{
+	margin-top:15px;
+	margin-bottom:15px;
+	/*margin-left:18px;*/
+}
+.searchbox{
+	margin-top:15px;
+	margin-bottom:30px;
+	/*margin-left:15px;*/
+	/*border-radius:5px;*/
+}
+.paddingleftzero{
+	padding-left: 0!important;
+	padding-right: 0!important;
+}
+.bottommargin{
+	margin-bottom:10px;
+}
+.MarginTop20{
+	margin-left:14px;
+}
+.totalamount{
+	color:#333;
+	font-weight: bold;
+
+}
+.FWSPreport{
+	font-weight: bold;
+	font-size: 14px;
+}
+.comFranchTit{
+	text-align: Center;
+}
+.franchCompRepTab{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.hidepill{
+	display:none!important;
+}
+.searchbox1{
+	margin-top: 0px!important;
+    margin-bottom: 15px!important;
+}
+.bottomSpace{
+	margin-bottom:10px;
+}
+.searchlbl{
+	margin-top:25px;
+}
+.tableAlignment{
+	margin-bottom:-20px;
+}
+.inputTextReportTabel{
+	margin-bottom:10px!important;
+}
+.practiceTextBox{
+    padding: 6px 6px!important;
+}
+.searchlbl1{
+	margin-top:10px!important;
+}
+.searchbxtop{
+	margin-top: 9px!important
+}
+.inputTextpractice{
+	margin-bottom:15px!important;
+}
+.paddingleftnull{
+	padding-left:0px!important;
+}
+.rightspacezero{
+	padding-right:0px!important;
+}
+
+.studentbluelabel{
+	color:blue;
+}
+
+.downloadBtnRep{
+	position: absolute;
+    right: 17px;
+    margin-top: 43px;
+}
+.frachiseNMWrap{
+	margin-top: 20px;
+}
+.frachiseNMWrapRep{
+	position: absolute;
+    display: none;
+}
+
+.franReport{
+	margin-bottom: 15px;
+}
+
+.tablebottomspace{
+	margin-bottom:55px;
+}
+.searchalignment{
+	padding-right:32px!important;
+}
+.tablealignzero{
+	padding-left:0!important;
+	padding-right:0!important;
+}
+.appearingStatus{
+	color:green;
+}
+.attemptedStatus{
+	color:red;
+}
+
+
+
+
+
+
+
+
+
+
+
+.companysettingboxinfo1{
+    border: 3px solid #d2d6de!important;
+    
+    min-height: 400px;
+}
+.companysettingboxs {
+	border: 3px solid #d2d6de!important;
+    /*margin-left: -50px!important;*/
+    min-height:  550px!important;
+}
+.companysettingboxinfo{
+    border: 3px solid #d2d6de!important;
+
+    min-height:  730px!important;
+}
+.radiobtnnon{
+    display: none;
+}
+.examTypeBtn1{
+    margin-top: 23px;
+}
+.photoscontent{
+    /*margin-right: 45px;*/
+    margin-top: 10px;
+}
+.settingbox{
+    width:1000px!important;
+    }
+    .bnktitle{
+        padding-bottom: 25px;
+    }
+    .franchiseid{
+    font-size: 13px;
+    font-family: Roboto-Regular;
+    color: #555;
+    font-weight: 600;
+    }
+.basicinfocmpset{
+	/*border: 1px solid #d2d6de;*/
+	height: 215px;
+    margin-bottom: 15px;
+}
+.basicinfotxt{
+	font-size: 15px !important;
+ 
+    font-weight: 500;
+    color: #444444;
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.1;
+	margin-left: 15px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.addcmtset{
+	padding:0;
+}
+.contactcatcls{
+    text-align: center;
+    margin: 10px;
+}
+.tbltdfortr{
+    width: 100%;
+
+}
+.rolelst{
+    text-align: center;
+   
+}
+.roletbl{
+   text-align: center!important;
+  
+}
+.rolelst1{
+    width: 68%;
+}
+.actionth{
+    text-align: left!important;
+}
+.onlineSXWrapfranchise{
+    /*margin-top: 3%;*/
+    margin-left: 0px;
+}
+.roletble1{
+   width: 5%;
+}
+.actiondata{
+    width: 15%;
+}
+.rsimg{
+    height: 50px;
+    float: right;
+} 
+.mkpyinpt{
+    margin-top: 80px;
+}
+.btnaligncentr{
+    text-align: center;
+}
+.paybrder{
+    border: 3px solid #d2d6de;
+    margin-top: 25px;
+    width: 85%;
+    margin-left: 75px;
+    padding-bottom: 25px;
+}
+
+.rolesField{
+	border-radius: 3px!important;
+}
+.branchtd{
+	width:100px!important;
+}
+.companysettingbox{
+	min-height:455px!important;
+}
+.companysettingbox{
+	/*width:725px!important;*/
+}
+.box-body{
+    padding-top:30px!important;
+    }
+
+.editbtns2{
+    padding:0px 0px!important;
+}
+.roletbl{
+	text-align: center!important;
+}
+.editbtns{
+	padding:10px 10px!important;
+}
+.editbtnshvr:hover{
+background:#00b8ff!important;
+border-color:#00b8ff!important;
+color:#fff!important;
+}
+.editbtns1{
+	padding:5px 5px!important;
+}
+.editbtns2{
+	padding:5px 5px!important;
+}
+.addrolesBtnaddroll{
+	margin-top: 0px!important;
+}
+.rolelst{
+	text-align: center;
+
+}
+.CategoriesListUpload {
+    font-size: 20px;
+    text-align: center;
+}
+.myTable{
+	border:1px solid #d3d6de;
+}
+.contentheight{
+    min-height:990px!important;
+    background:#ecf0f5;
+    }
+    .editInfo,.editTax{
+        height: 29px!important;
+        line-height: 16px!important;
+    }
+    .companysettingbox{
+        border:3px solid #d2d6de!important;
+        /*margin-left:10px;*/
+    }
+/*
+________________ For Table_____________________*/
+/**/
+
+/* .CStabl {
+    height:25px!important;
+    text-align: left!important;
+
+    padding-top:12px;
+}
+.CStablst{
+    padding:10px 15px !important;	
+} */
+
+.basicinfocmpset1{
+  background: #fff;
+  height: 1200px;
+  padding:15px;
+  margin: 20px;
+
+}
+.franchiseidpad{
+    padding-left:  0px;
+}
+.franchiseidbox{
+    /*padding-right: 0px!important;*/
+    margin-top: -20px!important;
+}
+.actions{
+    padding:0px!important;
+}
+
+.chosefilebor{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0px;
+    /*margin-left: 10px;*/
+}
+.instructionWrap{
+    white-space: pre-line;
+    font-family: "Roboto-Regular";
+    color: #333333;
+    font-size: 16px;
+    margin-bottom: 30px;
+    height: auto;
+}
+.instructionWrap1{
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+.franchiseBoxheader{
+    /*padding-left:40px;*/
+}
+.franchiseBoxheader2{
+    padding-left:28px;
+}
+.imagetype{
+    padding-right: 18px!important;
+}
+.imagelabel{
+    font-size: 11px!important;
+}
+.documentModal{
+    height: 500px;
+    /*overflow-y: auto;*/
+}
+.docLabel{
+    color:blue;
+}
+.docLabelhover:hover{
+    cursor:pointer;
+}
+.progressBarAlign{
+    margin-top:-50px!important;
+}
+.dwnldLabel{
+    color:blue;
+    font-size:14px;
+}
+.docImageView{
+    height:100%;
+    width:100%;
+}
+.progressbarPadding{
+    margin-top:0px!important;
+}
+.verificationLbl{
+    font-size:14px!important;
+    color:#3c8dbc;
+}
+.doclblalign{
+    margin-left:25px;
+}
+.modalbodyHeight{
+    height:400px;
+}
+.docVerified{
+    font-weight: bold;
+}
+.docVerifiedDisabled{
+    font-weight: bold;
+    cursor: not-allowed;
+}
+.notVerifiedTxt span{
+    /*background: #;*/
+    padding: 2px 5px;
+}
+.docFranWrap{
+    padding: 0px;
+}
+.docBox{
+    padding-top:80px!important;
+}
+.prevPage{
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+   
 }

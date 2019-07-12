@@ -21,29 +21,29 @@ class StudentSidebar extends (Component){
     }
   }
 
-componentDidMount(){
-  const token = localStorage.getItem("token");
-    if(token!==null){
-      console.log("Header Token = ",token);
-      this.setState({
-        loggedIn : true
-      })
-    }
-  // if ( !$('body').hasClass('adminLte')) {
-  //   var adminLte = document.createElement("script");
-  //   adminLte.type="text/javascript";
-  //   adminLte.src = "/js/adminLte.js";
-  //   // $("body").append(adminLte);
-  // }
-}
-componentWillMount(){
-      $('.sidebar').css({display:'block',background: '#222d32'});
-}
+  componentDidMount(){
+    const token = localStorage.getItem("token");
+      if(token!==null){
+        console.log("Header Token = ",token);
+        this.setState({
+          loggedIn : true
+        })
+      }
+    // if ( !$('body').hasClass('adminLte')) {
+    //   var adminLte = document.createElement("script");
+    //   adminLte.type="text/javascript";
+    //   adminLte.src = "/js/adminLte.js";
+    //   // $("body").append(adminLte);
+    // }
+  }
+  componentWillMount(){
+        $('.sidebar').css({display:'block',background: '#222d32'});
+  }
 
-componentWillUnmount(){
-  // $("script[src='/js/adminLte.js']").remove();
-  // $("link[href='/css/dashboard.css']").remove();
-}
+  componentWillUnmount(){
+    // $("script[src='/js/adminLte.js']").remove();
+    // $("link[href='/css/dashboard.css']").remove();
+  }
 
 //   removePersistantSessions(){
 //       UserSession.delete("progressbarSession", Meteor.userId());
@@ -59,14 +59,16 @@ componentWillUnmount(){
 //       }
 //       return firstName;
 //     }
-
 //   }
+
   clickLiTree(event){
     event.preventDefault();
-    $(event.target).parent().addClass('activeLi');
-    // var checkli = $(event.target).parent().siblings('li').removeClass('activeLi');
     console.log("I'm In.......");
-}
+    $(event.Target).addClass('menu-open');
+
+    $(event.target).parent().addClass('activeLi');
+    $(event.target).parent().siblings('li').removeClass('activeLi');
+  }
 
   clickTree(event){
       event.preventDefault();
@@ -74,19 +76,21 @@ componentWillUnmount(){
       console.log('$(event.currentTarget)',$(event.currentTarget));
       $(event.currentTarget).addClass('activetree');
       $(event.currentTarget).siblings('li').removeClass('activetree');
-      if($("#1,#2,#3,#4,#5").hasClass("menu-open")){
-        $(event.currentTarget).removeClass('menu-open');
-      }else{
-        $(event.currentTarget).addClass('menu-open');
-      }
+      $(event.currentTarget).addClass('menu-open');
       $(event.currentTarget).siblings('li').removeClass('menu-open');
       $(event.currentTarget).siblings('li').children('.treeview-menu').css('display','none');
       $(event.currentTarget).siblings('li').children('.treeview-menu').children().removeClass('activeLi');
       $(event.currentTarget).children('.treeview-menu').slideToggle();
   }
+   // event.preventDefault();
+   //    console.log('$(event.currentTarget)',$(event.currentTarget));
+   //    $(event.currentTarget).addClass('activetree');
+   //    $(event.currentTarget).siblings('li').removeClass('activetree');
+   //    $(event.currentTarget).siblings('li').removeClass('menu-open');
+   //    $(event.currentTarget).siblings('li').children('.treeview-menu').css('display','none');
+   //    $(event.currentTarget).siblings('li').children('.treeview-menu').children().removeClass('activeLi');
  
-
-
+ 
   render(){
     {console.log("loggedIn status sidebar = ", this.state.loggedIn)}
     if(this.state.loggedIn===false){
@@ -101,7 +105,6 @@ componentWillUnmount(){
               </div>
               <div className="pull-left info">
                 <p></p>
-                
               </div>
             </div>
             <div className="side1">
@@ -132,12 +135,6 @@ componentWillUnmount(){
                     <span>Dashboard</span>
                 </Link>
               </li>
-            
-
-
-
-
-
              <li id="1" className="treeview" onClick={this.clickTree.bind(this)}>
                 <a href="javascript:void(0)">
                   <i className="fa fa-file-text" />
@@ -147,7 +144,6 @@ componentWillUnmount(){
                   </span>
                 </a>
                 <ul className="treeview-menu treeview-menu1">
-
                   <li onClick={this.clickLiTree.bind(this)}>
                     <Link to="/MultipleComp">
                       <i className="fa fa-circle-o" /> Start Main Exam 
@@ -167,10 +163,6 @@ componentWillUnmount(){
               </li>
 
 
-
-
-
-
                <li id="2" className="treeview" onClick={this.clickTree.bind(this)}>
                 <a href="javascript:void(0)">
                   <i className="fa fa-book" />
@@ -180,7 +172,6 @@ componentWillUnmount(){
                   </span>
                 </a>
                 <ul className="treeview-menu treeview-menu1">
-
                   <li onClick={this.clickLiTree.bind(this)}>
                     <Link to="/PackageList">
                       <i className="fa fa-circle-o" /> Purchase New Package 
@@ -196,9 +187,6 @@ componentWillUnmount(){
 
 
 
-
-
-
               <li id="3" className="treeview" onClick={this.clickTree.bind(this)}>
                 <a href="javascript:void(0)">
                   <i className="fa fa-sticky-note-o" />
@@ -208,7 +196,6 @@ componentWillUnmount(){
                   </span>
                 </a>
                 <ul className="treeview-menu treeview-menu1">
-
                   <li onClick={this.clickLiTree.bind(this)}>
                     <Link to="/PracticeStartExam">
                       <i className="fa fa-circle-o" /> Start Free Practice Exam 
@@ -219,7 +206,6 @@ componentWillUnmount(){
                       <i className="fa fa-circle-o" /> Start Purchased Exam 
                     </Link>
                   </li>
-
                   <li onClick={this.clickLiTree.bind(this)}>
                     <Link to="/PractExamReports">
                       <i className="fa fa-circle-o" /> Practice Exam Reports 
@@ -227,10 +213,6 @@ componentWillUnmount(){
                   </li>
                 </ul>
               </li>
-
-
-
-
 
 
 
@@ -244,15 +226,10 @@ componentWillUnmount(){
                 </a>
                <ul className="treeview-menu treeview-menu1">
                   <li onClick={this.clickLiTree.bind(this)}>
-                  {!this.props.examData ?
                     <Link to="/Certificate">
                       <i className="fa fa-certificate" /> Certificate 
                     </Link>
-                    :
-                    null
-                  }
                   </li>
-                  
                   <li onClick={this.clickLiTree.bind(this)}>
                     <Link to="/ParticipCert">
                       <i className="fa fa-certificate" /> Participation Certificate 
@@ -260,10 +237,6 @@ componentWillUnmount(){
                   </li>
                 </ul>
               </li>
-
-
-
-
 
 
 
@@ -287,7 +260,6 @@ componentWillUnmount(){
                         <i className="fa fa-circle-o" />  Registration Form
                       </Link>
                     </li>
-                    
                     <li onClick={this.clickLiTree.bind(this)}>
                       <Link to="/MyOrder">
                         <i className="fa fa-circle-o" /> My Order

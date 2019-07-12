@@ -1,8 +1,9 @@
 import React,{Component}  	from 'react';
-import html2canvas 			from 'html2canvas';
-import * as jsPDF 			from 'jspdf';
-import swal from 'sweetalert';
-import $ from "jquery";
+import html2canvas 			    from 'html2canvas';
+import axios                from 'axios';
+import * as jsPDF 			    from 'jspdf';
+import swal                 from 'sweetalert';
+import $                    from "jquery";
 import '../css/invoice.css';
 
 //create pdf 
@@ -56,6 +57,7 @@ class MyInvoice extends Component{
       id              : '', 
       date            : '',
       rate            : '', 
+      orderMasterData : [],
       invoice         : [],
       tax             : [],
       serviceArray    : [{'serviceName': 'packageData','serviceRate':200,'totalQty':222}],
@@ -70,7 +72,25 @@ class MyInvoice extends Component{
   }
 
   componentDidMount(){ 
-    $('html, body').scrollTop(0);		
+    $('html, body').scrollTop(0);
+    var packageId= this.props.match.params.orderId;
+    console.log("packageId",packageId);
+
+      axios
+        .get('/packagemanagementmasters/'+packageId)
+        .then((response)=>{
+          console.log("packagemanagementmasters = ",response.data);
+          var orderMasterData   =  [];
+          var data   =  response.data;
+          var order   =  orderMasterData.push(data);
+
+          this.setState({
+              orderMasterData   :  [{packageName:"hgvjhv"}]
+          });
+        })
+        .catch(function(error){
+          console.log(error);
+        })
 	// if ( !$('body').hasClass('adminLte')) {
 	//   var adminLte = document.createElement("script");
 	//   adminLte.type="text/javascript";
@@ -84,7 +104,7 @@ class MyInvoice extends Component{
     	// $("link[href='/css/dashboard.css']").remove();
   }
   
-  cancdlinvoice(event){
+  cancelinvoice(event){
     // event.preventDefault();
     // var path = "/ServiceRequiredData/"+this.props.invoice.serviceId+"-"+this.props.invoice.serviceName+"-"+this.props.order._id;
     // // 
@@ -231,23 +251,22 @@ class MyInvoice extends Component{
 		                        </tr>
 		                      </thead>
 		                      <tbody>
-		                        {
-		                          // this.props.orderMasterData ? 
-		                          //  this.props.orderMasterData.packages.map((packageData,index)=>{
-		                          //   return(
-		                              <tr /*key ={index}*/ className="firstrow">
-		                                <td className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{/*packageData.packageName*/}Thor <br />
-		                                <span className="textCSN">Category: B{/*packageData.category*/}, sub-Category: B1{/*packageData.subCategory*/} , Number of Paper: 2{/*packageData.NoOfPracticeTest*/}</span> 
-		                              </td>
-		                                <td className="col-lg-2 col-md-2 col-sm-2 col-xs-2 amtcount"><i className="fa fa-rupee"></i>1000/-{/*packageData.packagePrice*/}</td>
-		                                <td className="col-lg-2 col-md-2 col-sm-2 col-xs-2 invoiceQuantity">1 </td>
-		                              <td className="col-lg-2 col-md-2 col-sm-2 col-xs-2 invoiceQuantity"><i className="fa fa-rupee"></i>1000/-{/*packageData.packagePrice * 1*/} </td>
-		                                {/* <td className="col-lg-3 col-md-3 amtcount"><i className="fa fa-rupee"></i>{this.rate()} </td> */}
+                            {
+		                          this.state.orderMasterData ? 
+		                           this.state.orderMasterData.map((packageData,index)=>{
+		                            return(
+		                              <tr key ={index} className="firstrow">
+		                                <td className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{packageData.packageName}<br />
+  		                                <span className="textCSN">{packageData.category}, sub-Category:{packageData.subCategory} , Number of Paper: {packageData.NoOfPracticeTest}</span> 
+  		                              </td>
+  		                              <td className="col-lg-2 col-md-2 col-sm-2 col-xs-2 amtcount"><i className="fa fa-rupee"></i>{packageData.packagePrice}</td>
+  		                              <td className="col-lg-2 col-md-2 col-sm-2 col-xs-2 invoiceQuantity">1</td>
+  		                              <td className="col-lg-2 col-md-2 col-sm-2 col-xs-2 invoiceQuantity"><i className="fa fa-rupee"></i>{packageData.packagePrice * 1} </td>
 		                              </tr>
-		                           //  )
-		                           // })
-		                          // :
-		                          // null
+		                            )
+		                           })
+		                          :
+		                          null
 		                        }
 		                      </tbody>
 		                    </table>
@@ -266,7 +285,7 @@ class MyInvoice extends Component{
 		                 
 		                  <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12 outerButtonDiv">
 		                    <a href="/PackageList">
-		                    <button type="submit" className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn ServiceProcessButtons pull-left" onClick={this.cancdlinvoice.bind(this)}>Cancel</button>
+		                    <button type="submit" className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn ServiceProcessButtons pull-left" onClick={this.cancelinvoice.bind(this)}>Cancel</button>
 		                    </a>
 		                    <button type="submit" className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn ServiceProcessButtons pull-right" onClick={this.confirm.bind(this)}>Make Payment</button>
 		                   </div>

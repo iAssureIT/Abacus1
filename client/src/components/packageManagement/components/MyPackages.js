@@ -32,8 +32,8 @@ class MyPackages extends Component {
 		this.deletePackageOrder=this.deletePackageOrder.bind(this);
 	}
 	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
   	}
   	// deletePackageOrder(event){
   	// 	event.preventDefault();

@@ -103,6 +103,7 @@ class MainLayout extends Component{
 										  		
 										  		<Route path="/PurchasedPkg" 	exact strict component={ PurchasedPackage } />
 										  		<Route path="/PackageList" 		exact strict component={ PackageList } />
+										  		<Route path="/PackageList/:orderId" 		exact strict component={ PackageList } />
 
 										  		<Route path="/StartPracticeExam"exact strict component={ StartPracticeExam } />
 										  		<Route path="/PracticeStartExam"exact strict component={ PracticeStartExam } />
@@ -122,6 +123,7 @@ class MainLayout extends Component{
 										  		
 										  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
 										  		<Route path="/MyInvoice"		exact strict component={ MyInvoice } />
+										  		<Route path="/MyInvoice/:orderId"		exact strict component={ MyInvoice } />
 										  		
 							  					<Route component={ PageNotFound } />
 							              	</Switch>

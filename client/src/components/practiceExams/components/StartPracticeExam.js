@@ -17,7 +17,7 @@ import '../css/PracticeExam.css';
 
 // import {Session} from 'meteor/session';
 
-class StartPracticeExam extends /*TrackerReact*/(Component)  {
+class StartPracticeExam extends (Component)  {
 	constructor(props){
 		super(props);
 		this.state={
