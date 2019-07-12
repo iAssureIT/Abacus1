@@ -71,7 +71,8 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                 var competitions = [];
                                 // competitionList.map((competitionData,index)=>{
                                 for(index = 0 ; index < competitionData.length ; index++){
-                                  competitionData[index].examDate = competitionData[index].competitionDate;
+                                  var competitionDate = new Date(competitionData[index].competitionDate);
+                                  competitionData[index].examDate = moment(competitionDate).format('L');
                                   // competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                                   competitionData[index].viewStatus = competitionData[index].competitionView;
                                   var examTime = new Date(competitionData[index].competitionDate);
