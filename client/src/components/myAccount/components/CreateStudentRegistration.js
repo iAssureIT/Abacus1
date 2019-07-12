@@ -206,8 +206,8 @@ class CreateStudentRegistration extends (Component)  {
 										.then((response)=>{
 												console.log("-------patch---->>",response.data);
 													this.setState({
-										// registration : response.data,
-									});
+																				// registration : response.data,
+																			});
 										})
 										.catch(function (error) {
 												console.log(error);
