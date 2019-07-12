@@ -111,6 +111,7 @@ router.post('/', (req,res,next) => {
                                                                                                     'studentEmail'   			: req.body.studentEmail,
                                                                                                     'genderType'     			: req.body.genderType,
                                                                                                     'createdAt'      			: new Date(),
+                                                                                                    'updateProfilePermission'   : "Blocked"
                                                                                                     // 'imgSrc'         			: imgSrc,
                                                                                                 });   
                                                                 studentmaster.save()
