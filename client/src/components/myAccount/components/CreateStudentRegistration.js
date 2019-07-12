@@ -8,18 +8,6 @@ import axios 				from 'axios';
 import moment				from 'moment';
 import '../css/MyAccount.css';
 
-// import {Mongo} 			  from 'meteor/mongo';
-// import {render} 		  from 'react-dom';
-// import { FlowRouter }     from 'meteor/ostrio:flow-router-extra';
-// import {withTracker} 	  from 'meteor/react-meteor-data';
-// import TrackerReact 	  from 'meteor/ultimatejs:tracker-react';
-// import {CategoryMaster}   from '/imports/admin/forms/addCategory/api/categoryMaster.js';
-// // import {StudentMaster} 	  from '/imports/admin/forms/student/api/studentMaster.js';
-// import {StudentMaster} 	  from '/imports/student/api/studentMaster.js';
-// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-// import {TempImage} 		  from '/imports/s3/api/ClientImageCall.js';
-// import {Session} 		  from 'meteor/session';
-// import ProfilePic         from './ProfilePic.jsx';
 class CreateStudentRegistration extends (Component)  {
 	constructor(props){
 		super(props);
@@ -61,13 +49,6 @@ class CreateStudentRegistration extends (Component)  {
 								  		   imagePath: "https://s3.ap-south-1.amazonaws.com/onlineexamabacus/ProductImage/6rmpYqGuEos6GeyeX.png", 
 								  		   tempPath: "http://localhost:3004/cdn/storage/ProductImage/6rmpYqGuEos6GeyeX/original/6rmpYqGuEos6GeyeX.png"
 								  		  }
-
-				// downTimeStatus: "Unread"
-				// notificationStatus: "Unread"
-	  									  
-	  			// "subscription"   :{
-			   //      "TempImages" : Meteor.subscribe("loginImgTempImages"),
-			   //    }
 		}
 		this.handleChange 	= this.handleChange.bind(this);
 		this.showCategories = this.showCategories.bind(this);
@@ -75,7 +56,6 @@ class CreateStudentRegistration extends (Component)  {
 	}
 
 	componentDidMount() {
-
 		axios
 			.get('/instructions/Student Registration')
 			.then((response)=>{
@@ -86,72 +66,37 @@ class CreateStudentRegistration extends (Component)  {
 			.catch(function(error){
 				console.log(error);
 			})
-
     	const studentID = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
     	this.setState({ studentID :studentID });
 		axios
   			.get('/studentmaster/sinfo/'+studentID)
             .then((response)=>{
-                console.log("-------studentInfo------>>",response.data);
             	this.setState({
-		  			_id 					: response.data._id,
-					studentFirstName 		: response.data.studentFirstName,
-					studentMiddleName 		: response.data.studentMiddleName,
-					studentLastName 		: response.data.studentLastName,
-					studentDOB 				: response.data.studentDOB,
-					schoolName 				: response.data.schoolName,
-					genderType 				: response.data.genderType,
-					profileEditStatus 		: response.data.profileEditStatus,
-					mobileNumber 			: response.data.mobileNumber,
-					studentAddress 			: response.data.studentAddress,
-					studentEmail 			: response.data.studentEmail,
-					studentCountry 			: response.data.studentCountry,
-					studentState 			: response.data.studentState,
-					studentCity 			: response.data.studentCity,
-					pincode 				: response.data.pincode,
-					category 				: response.data.category,
-		 			companyId 				: response.data.companyId,
-		 			franchiseUserId 		: response.data.franchiseId,
-		  			franchiseName 			: response.data.franchiseName,
-		  			contactNo 				: response.data.franchiseMobileNumber,
-		 		});
+															_id 					: response.data._id,
+														studentFirstName 		: response.data.studentFirstName,
+														studentMiddleName 		: response.data.studentMiddleName,
+														studentLastName 		: response.data.studentLastName,
+														studentDOB 				: response.data.studentDOB,
+														schoolName 				: response.data.schoolName,
+														genderType 				: response.data.genderType,
+														profileEditStatus 		: response.data.profileEditStatus,
+														mobileNumber 			: response.data.mobileNumber,
+														studentAddress 			: response.data.studentAddress,
+														studentEmail 			: response.data.studentEmail,
+														studentCountry 			: response.data.studentCountry,
+														studentState 			: response.data.studentState,
+														studentCity 			: response.data.studentCity,
+														pincode 				: response.data.pincode,
+														category 				: response.data.category,
+														companyId 				: response.data.companyId,
+														franchiseUserId 		: response.data.franchiseId,
+															franchiseName 			: response.data.franchiseName,
+															contactNo 				: response.data.franchiseMobileNumber,
+					 		});
             })
             .catch(function (error) {
                 console.log(error);
             });
-
-     //    axios
-  			// .get('/categories/B10')
-     //        .then((response)=>{
-     //            console.log("-------showCategories------>>",response.data);
-     //        	this.setState({
-		 		// 	// showCategories : response.data,
-		 		// });
-     //        })
-     //        .catch(function (error) {
-     //            console.log(error);
-     //        });
-
-//       if ( !$('body').hasClass('adminLte')) {
-//           var adminLte = document.createElement("script");
-//           adminLte.type = "text/javascript";
-//           adminLte.src = "/js/adminLte.js";
-//           adminLte.setAttribute('id','adminLte');
-//           $("body").append(adminLte);
-//         }
-     
-       // $(function() {
-       //      $( "#my-datepicker" ).datepicker({
-       //         changeMonth:true,
-       //         changeYear:true,
-       //         numberOfMonths:[2,2]
-       //      });
-       //   });
-     // var date = new Date();
-     //  date.setDate(date.getDate());
-     //  $('#my-datepicker').datepicker({ 
-     //      startDate: date
-     //  });
 
     $('.gender').click(function() {
     $(this).find('.btn').toggleClass('active');  
@@ -192,35 +137,7 @@ class CreateStudentRegistration extends (Component)  {
 
   	componentWillMount(){
   		this.showCategories();
-  // 		 Meteor.call("isAuthenticated","MyAccount","RegistrationForm",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res==true){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }else if(res==false){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }
-		// 	}
-		// });
-  	}
-
-	// componentWillUnmount(){
- //    	$("script[src='/js/adminLte.js']").remove();
- //    	$("link[href='/css/dashboard.css']").remove();
- //    	// Meteor.call("DontAllowStudentProfileUpdate",Meteor.userId(),(err,res)=>{
- //     //      if(err){
-
- //     //      }else{
-          	
- //     //      }
- //     //    });
-	// }
-  	
+  	}	
 	/*
 		show Categories 
 	*/
@@ -228,21 +145,18 @@ class CreateStudentRegistration extends (Component)  {
         axios
   			.get('/categories/categoriesname')
             .then((response)=>{
-                console.log("-------showCategories--will---->>",response.data);
                 	this.setState({
-			 			showCategories : response.data,
-			 		});
+						 			showCategories : response.data,
+					 		});
             })
             .catch(function (error) {
                 console.log(error);
             });
 	}
 
-  	studentRegistration(event){
-  		event.preventDefault();
-  		// if(this.state.profileEditStatus==false){
-        console.log("-------im inside patch method------>>");
-
+  studentRegistration(event){
+			event.preventDefault();
+			// 4523
   		if(this.state.gender=true){
   			if($("input[name='genderType']:checked").val() == 'on'){
 	          var genderType = 'Female';
@@ -264,279 +178,48 @@ class CreateStudentRegistration extends (Component)  {
   			mobileNumber       		: this.refs.mobileNumber.value.trim(),
   			studentDOB         		: this.refs.studentDOB.value.trim(),
   			schoolName         		: this.refs.schoolName.value.trim(),
-  			franchiseUserId       	: this.state.franchiseUserId,
-  			companyId   	   		: this.refs.franchiseId.value.trim(),
+  			franchiseUserId       : this.state.franchiseUserId,
+  			companyId   	   			: this.refs.franchiseId.value.trim(),
   			franchiseName      		: this.refs.franchiseName.value,
-  			franchiseMobileNumber   : this.refs.franchiseMobileNumber.value,
-  			studentAddress 			: this.refs.studentAddress.value.trim(),
-  			studentCountry 			: this.refs.studentCountry.value.trim(),
-  			studentState   			: this.refs.studentState.value.trim(),
-  			studentCity    			: this.refs.studentCity.value.trim(),
-  			pincode        			: this.refs.pincode.value.trim(),
-  			category       			: this.refs.category.value.trim(),
-  			studentEmail   			: this.refs.studentEmail.value.trim(),  			
-  			genderType     			: $("input[name='genderType']:checked").val(),
-  		}
-
-  			var _id                		= this.refs._id.value.trim();
-  			var studentFirstName   		= this.refs.studentFirstName.value.trim();
-  			var studentMiddleName  		= this.refs.studentMiddleName.value.trim();
-  			var studentLastName    		= this.refs.studentLastName.value.trim();
-  			var mobileNumber       		= this.refs.mobileNumber.value.trim();
-  			var studentDOB         		= this.refs.studentDOB.value.trim();
-  			var schoolName         		= this.refs.schoolName.value.trim();
-  			var franchiseUserId       	= this.state.franchiseUserId;
-  			var companyId   	   		= this.refs.franchiseId.value.trim();
-  			var franchiseName      		= this.refs.franchiseName.value;
-  			var franchiseMobileNumber  	= this.refs.franchiseMobileNumber.value.trim();
-  			var studentAddress 			= this.refs.studentAddress.value.trim();
-  			var studentCountry 			= this.refs.studentCountry.value.trim();
-  			var studentState   			= this.refs.studentState.value.trim();
-  			var studentCity    			= this.refs.studentCity.value.trim();
-  			var pincode        			= this.refs.pincode.value.trim();
-  			var category       			= this.refs.category.value.trim();
-  			var studentEmail   			= this.refs.studentEmail.value.trim();
-  			var genderType     			= $("input[name='genderType']:checked").val();
-  		
-			console.log(_id               )  			
-			console.log(studentFirstName  )
-  			console.log(studentMiddleName )
-  			console.log(studentLastName   )
-  			console.log(mobileNumber      )
-  			console.log(studentDOB        )
-  			console.log(schoolName        )
-  			console.log(franchiseUserId   )
-  			console.log(companyId   	  )
-  			console.log(franchiseName     )
-  			console.log(franchiseMobileNumber)
-  			console.log(studentAddress 	)
-  			console.log(studentCountry 	)
-  			console.log(studentState   	)
-  			console.log(studentCity    	)
-  			console.log(pincode        	)
-  			console.log(category       	)
-  			console.log(studentEmail   	)
-  			console.log(genderType     	)
-  		
-  		axios
-  			.patch('/registration',studFormValues)
-            .then((response)=>{
-                console.log("-------patch---->>",response.data);
-                	this.setState({
-			 			// registration : response.data,
-			 		});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
-  // 		Meteor.call("getProfilePic",studFormValues._id,(err,res)=>{
-		//   if(err){
-		//   }else{  
-		//   	// console.log("exist pic",res);
-		//   	if(res=="ImgFound"){
-		//   		if(studFormValues.franchiseName && studFormValues.franchiseMobileNumber ){
-		//   		var dateofBirth = new Date(studFormValues.studentDOB); 
-		// 		var today = new Date;
-		// 		var age = Math.floor((today-dateofBirth)/(365.25*24*60*60*1000));
-		// 		if(age>0){
-		// 			if(studFormValues._id){
-		// 				Meteor.call("addStudentRegistration",studFormValues,age,Meteor.userId(),(error,result)=>{
-		// 		  			if(error){
-		// 		  				console.log("error student insert",error);
-		// 		  			}else{
-		// 		  				if(result=="franchiseUserIdNotFound"){
-		// 	  					swal("Some Network issue. Please submit one more time","","warning");
-		// 	  				}else{
-		// 	  					swal("Profile Updated Successfully","","success");
-
-		// 	  					Meteor.call("updateUserCredential",Meteor.userId(),studFormValues,(err,res)=>{
-		// 				          if(err){
-
-		// 				          }else{
-		// 				          	// console.log("User updated Successfully");
-						          	
-		// 				          }
-		// 				        });
-		// 	  					Meteor.call("DontAllowStudentProfileUpdate",Meteor.userId(),(err,res)=>{
-		// 				          if(err){
-
-		// 				          }else{
-						          	
-		// 				          }
-		// 				        });
-		// 	  					FlowRouter.go('/myProfile');
-		// 	  					}
-		// 	  				}
-		//   				});
-		// 			}else{
-		// 			swal({
-		// 			  title             : 'Are you sure?',
-		// 			  text              : 'You will not be able to change franchise after registration!',
-		// 			  // text              : 'You will not be able to change exam category & franchise after registration!',
-		// 			  type              : 'warning',
-		// 			  showCancelButton  : true,
-		// 			  closeOnConfirm    : false,
-		// 			  confirmButtonColor: '#dd6b55',
-		// 			  cancelButtonColor : '#d44',
-		// 			  confirmButtonText : 'Yes, Continue!',
-		// 			  cancelButtonText  : 'No',
-		// 			  closeOnConfirm    : false
-		// 			}, function() {
-
-
-		// 			Meteor.call("credentialExists",studFormValues,(err,res)=>{
-		// 			      if(err){
-
-		// 			      }else{
-		// 			      	// console.log("exist res",res);
-		// 			      	if(res){
-		// 			      		if(res=='Not Exists'){
-		// 			      				Meteor.call("addStudentRegistration",studFormValues,age,Meteor.userId(),(error,result)=>{
-		// 						  			if(error){
-		// 						  				console.log("error student",error);
-		// 						  			}else{
-		// 						  				if(result=="franchiseUserIdNotFound"){
-		// 						  					swal("Some Network issue. Please submit one more time","","warning");
-		// 						  				}else{
-		// 						  					Meteor.call("updateUserCredential",Meteor.userId(),studFormValues,(err,res)=>{
-		// 									          if(err){
-
-		// 									          }else{
-		// 									          	// console.log("User updated Successfully");
-											          	
-		// 									          }
-		// 									        });
-		// 									         Meteor.call("DontAllowStudentProfileUpdate",Meteor.userId(),(err,res)=>{
-		// 						                          if(err){
-
-		// 						                          }else{
-								                            
-		// 						                          }
-		// 						                        });
-		// 						  					swal("Your Profile Registered Successfully",
-		// 						  						"",
-		// 						  						"success");
-		// 						  					FlowRouter.go('/myProfile');
-		// 						  					var toEmailId   = studFormValues.studentEmail;
-		// 											var fromEmailId = 'support@maats.in';
-		// 											var subject     = 'Abacus Online Exam Registration';
-		// 											var body        = 'Hello '+studFormValues.studentFirstName+'\n'+"Congratulations!!!"+'\n'+'\n'+"Student "+studFormValues.studentFirstName+' '+ studFormValues.studentMiddleName+' '+studFormValues.studentLastName+' has been registered for Abacus Online Exam Successfully.'+'\n'+'Please login using username: ' +toEmailId+ ' and password which you have set while registering.' +'\n'+'\n'+'Thanks and Regards'+'\n'+'Abacus Online Exam';
-		// 											Meteor.call('RegistrationEmail',toEmailId,fromEmailId,subject,body);
-		// 										}
-		// 						  			}
-		// 						  		});
-
-
-		// 			      		}else{
-		// 			      			swal("This Email Id or Mobile number already exists.");
-		// 			      		}
-		// 			      	}
-					      	
-		// 			      }
-		// 			});
-
-		// 	  	  });
-		// 		}
-		// 	  	}else{
-		// 	  		swal("Your age must be 1 year old","","warning");	
-		// 	  	}
-		// 	  }else{
-		// 	  	Bert.alert("Franchise name and franchise mobile number required","danger");
-		// 	  }
-	 //  }	else{
-	 //  	swal("Please upload profile Image");
-		//   }
-	 //  }
-		// });
+  			franchiseMobileNumber : this.refs.franchiseMobileNumber.value,
+  			studentAddress 				: this.refs.studentAddress.value.trim(),
+  			studentCountry 				: this.refs.studentCountry.value.trim(),
+  			studentState   				: this.refs.studentState.value.trim(),
+  			studentCity    				: this.refs.studentCity.value.trim(),
+  			pincode        				: this.refs.pincode.value.trim(),
+  			category       				: this.refs.category.value.trim(),
+  			studentEmail   				: this.refs.studentEmail.value.trim(),  			
+				genderType     				: $("input[name='genderType']:checked").val(),
+				studUserId						: localStorage.getItem("user_ID")
+			}
+			
+			var dateofBirth = new Date(studFormValues.studentDOB); 
+			var today = new Date;
+			var age = Math.floor((today-dateofBirth)/(365.25*24*60*60*1000));
+			if(age>0){
+				if(studFormValues.franchiseName && studFormValues.franchiseMobileNumber ){
+					console.log('studFormValues',studFormValues);		
+					studFormValues.age = age;
+					if(studFormValues.age){
+						axios
+								.post('/registration',studFormValues)
+										.then((response)=>{
+												console.log("-------patch---->>",response.data);
+													this.setState({
+										// registration : response.data,
+									});
+										})
+										.catch(function (error) {
+												console.log(error);
+										});
+					}
+				}else{
+					swal("Franchise name and franchise mobile number required");
+				}
+			}else{
+				swal("Your age must be 1 year old","","warning");	
+			}
   	}
-
- //  	componentWillReceiveProps(nextProps){
- //  		if(nextProps){  
-  				
- //  			if(nextProps.studentData.genderType=="Female"){
- //  				this.setState({gender:false});
- //  			}else{
- //  				null
- //  			}
- //  			// $("input[name=nextProps.studentData.genderType]:checked") == 'on');
-  			
- //  			if(!nextProps.studentData._id){
- //  				this.setState({
- //  				_id               : nextProps.studentData._id,
- //  				studentFirstName  : nextProps.profileData.firstname,
- //  				studentMiddleName : nextProps.studentData.studentMiddleName,
- //  				studentLastName   : nextProps.profileData.lastname,
-	//   			// StudParentName : nextProps.studentData.StudParentName,
-	//   			mobileNumber   	  : nextProps.profileData.mobNumber,
-	//   			studentDOB        : nextProps.studentData.studentDOB,
-	//   			schoolName        : nextProps.studentData.schoolName,
-	//   			franchiseName     : nextProps.studentData.franchiseName,
-	//   			franchiseId       : nextProps.studentData.companyId,
-	//   			franchiseMobileNumber  : nextProps.studentData.franchiseMobileNumber,
-	//   			// teacherName     : nextProps.studentData.teacherName,
-	//   			studentAddress : nextProps.studentData.studentAddress,
-	//   			studentCountry : nextProps.studentData.studentCountry,
-	//   			studentState   : nextProps.studentData.studentState,
-	//   			studentCity    : nextProps.studentData.studentCity,
-	//   			pincode        : nextProps.studentData.pincode,
-	//   			category       : nextProps.studentData.category,
-	//   			categoryDisabled : 'disabled',
-	//   			studentEmail   : nextProps.profileData.emailId,
-	//   			genderType     : nextProps.studentData.genderType,
-	//   			gender 		   : true,
-
- //  			});
-
- //  			}else{
- //  				this.setState({
- //  				_id               : nextProps.studentData._id,
- //  				studentFirstName  : nextProps.studentData.studentFirstName,
- //  				studentMiddleName : nextProps.studentData.studentMiddleName,
- //  				studentLastName   : nextProps.studentData.studentLastName,
-	//   			// StudParentName : nextProps.studentData.StudParentName,
-	//   			mobileNumber   	  : nextProps.studentData.mobileNumber,
-	//   			studentDOB        : nextProps.studentData.studentDOB,
-	//   			schoolName        : nextProps.studentData.schoolName,
-	//   			franchiseName     : nextProps.studentData.franchiseName,
-	//   			franchiseId       : nextProps.studentData.companyId,
-	//   			franchiseMobileNumber  : nextProps.studentData.franchiseMobileNumber,
-	//   			// teacherName     : nextProps.studentData.teacherName,
-	//   			studentAddress : nextProps.studentData.studentAddress,
-	//   			studentCountry : nextProps.studentData.studentCountry,
-	//   			studentState   : nextProps.studentData.studentState,
-	//   			studentCity    : nextProps.studentData.studentCity,
-	//   			pincode        : nextProps.studentData.pincode,
-	//   			category       : nextProps.studentData.category,
-	//   			categoryDisabled : 'disabled',
-	//   			studentEmail   : nextProps.studentData.studentEmail,
-	//   			genderType     : nextProps.studentData.genderType,
-	//   			gender 		   : true,
-
- //  			});
-
- //  			}
-  			
-  			
-  		
-	// 	this.handleChange = this.handleChange.bind(this);
-	// 	this.getFranchiseId = this.getFranchiseId.bind(this);
-
-	// 	if(nextProps.updateProfilePermission=="Active"){
-
-	// 		this.setState({profileEditStatus : false});
-
-	// 	}else if(nextProps.updateProfilePermission=="Blocked"){
-	// 		this.setState({profileEditStatus : true});
-
-	// 	}else{
-	// 		this.setState({profileEditStatus : false});
-	// 	}
-		
-
- //  		}
- //  	}
 
   	handleChange(event){
 		const target = event.target;
