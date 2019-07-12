@@ -28,12 +28,13 @@ exports.studentInfo = (req,res,next)=>{
                .exec()
                .then(student =>{
                  if(student){
-                   student.categoryDisabled        = 'Disabled';
-                   student.updateProfilePermission = student.profileEditStatus;
-                   student.submitButtonMsg         = 'Confirm & Update';
-                   if(student.submitButtonMsg){
-                    console.log('student found ',student.submitButtonMsg);
-                    res.status(200).json(student);
+                   var studentInfo = student;
+                   studentInfo.categoryDisabled        = 'Disabled';
+                   studentInfo.updateProfilePermission = studentInfo.profileEditStatus;
+                   studentInfo.submitButtonMsg         = 'Confirm & Update';
+                   if(studentInfo.submitButtonMsg){
+                    console.log('student found ',studentInfo.submitButtonMsg);
+                    res.status(200).json(studentInfo);
                    }
                  }else{
                    console.log('Student not found');

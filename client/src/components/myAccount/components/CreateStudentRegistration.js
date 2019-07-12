@@ -97,6 +97,7 @@ class CreateStudentRegistration extends (Component)  {
 														franchiseName   	: response.data.franchiseName,
 														contactNo 			  : response.data.franchiseMobileNumber,
 							 });
+							 console.log('')
 							 if(response.data.updateProfilePermission == "Blocked"){
 								this.setState({profileEditStatus : true});
 							 }else{
