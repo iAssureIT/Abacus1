@@ -2,6 +2,20 @@ const mongoose	= require("mongoose");
 
 const MyExamMaster = require('../models/myexammasters');
 
+exports. fetch_all_show_exam = (req,res,next) =>{
+    MyExamMaster.find({})
+            // .select("examStatus")
+            .exec()
+            .then(data =>{
+                res.status(200).json(data);
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
 exports.fetch_incomplete_exams = (req,res,next) => {
     var studentId       = req.params.studentId;
     MyExamMaster.find({StudentId:studentId,examStatus:"InCompleted"})

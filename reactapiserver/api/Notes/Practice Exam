@@ -23,7 +23,7 @@
 
     Method          : GET
 
-    URL             : /mypracticeexammasters/:practiceExamId/:studentId
+    URL             : /mypracticeexammasters/practiceExam/:practiceExamId/:studentId
 
     Input           : -NA-
                       

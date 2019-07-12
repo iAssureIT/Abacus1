@@ -2,6 +2,8 @@ const express 	= require("express");
 const router 	= express.Router();
 const MyExamMastersController         = require('../controllers/myexammasters');
 
+router.get('/',MyExamMastersController.fetch_all_show_exam);
+
 router.get('/dashboard/:studentId',MyExamMastersController.fetch_exam_student_dashboard);
 
 router.get('/getalreadysolvedquesans/:examId/:index',MyExamMastersController.getAlreadySolvedQuesAns);

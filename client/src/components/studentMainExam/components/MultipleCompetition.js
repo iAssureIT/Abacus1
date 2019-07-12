@@ -2,25 +2,8 @@ import React, {Component} from 'react';
 import {render} from 'react-dom';
 import swal from 'sweetalert';
 import $ from "jquery";
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import Webcam from 'react-webcam';
-
-// import {withTracker} from 'meteor/react-meteor-data';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
-// // import {ExamMaster} from '/imports/admin/forms/exam/api/examMaster.js';
-// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-
-// // import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
-// // import {MyExamMaster} from '/imports/admin/forms/student/api/myExamMaster.js';
-// // import CompetitionDetailsforPayment from '/imports/admin/forms/student/CompetitionDetailsforPayment.jsx'; 
-// // import {CompetitionRegisterOrder} from '/imports/admin/forms/student/api/competitionRegisterOrder.js';
-
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-// import CompetitionDetailsforPayment from '/imports/student/components/CompetitionDetailsforPayment.jsx'; 
-// import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
-
+import axios 				from 'axios';
+import moment				from 'moment';
 
 class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
@@ -63,36 +46,21 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 							}
 	}
 	componentDidMount(){
-		
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
+		axios
+			.get('/instructions/Student Registration')
+			.then((response)=>{
+				this.setState({
+					instruction :response.data[0].instruction
+				});
+			})
+			.catch(function(error){
+				console.log(error);
+			})
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
     	$("link[href='/css/dashboard.css']").remove();
   	}
-
-	// componentWillMount(){
- //  		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{
-	// 		if(err){
-	// 			console.log(err);
-	// 		}else{
-	// 			if(res==true){
-	// 	          this.setState({
-	// 	             facilityPermission : res,
-	// 	          });
-	// 	        }else if(res==false){
-	// 	          this.setState({
-	// 	             facilityPermission : res,
-	// 	          });
-	// 	        }
-	// 		}
-	// 	});
- //  	}
 
 	// startExam(event){
 	// 	event.preventDefault();
@@ -233,9 +201,6 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
 
 	render(){
-		/*if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-			$('.sidebar').css({display:'block',background: '#222d32'});
-		if(!this.props.loadingCRO && !this.props.loading && !this.props.loadingMyExam && !this.props.LoadingTest && !this.props.loadingTest3){*/
 			return(
 				<div>
 			        {/* Content Wrapper. Contains page content */}
