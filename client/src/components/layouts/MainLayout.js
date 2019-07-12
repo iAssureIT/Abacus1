@@ -105,7 +105,7 @@ class MainLayout extends Component{
 										  		<Route path="/PackageList" 		exact strict component={ PackageList } />
 										  		<Route path="/PackageList/:orderId" 		exact strict component={ PackageList } />
 
-										  		<Route path="/StartPracticeExam"exact strict component={ StartPracticeExam } />
+										  		<Route path="/practiceExam/:id/:urlPackageId/:BtnIndex" exact strict component={ StartPracticeExam } />
 										  		<Route path="/PracticeStartExam"exact strict component={ PracticeStartExam } />
 										  		<Route path="/PractExamReports" exact strict component={ PracticeExamReports } />
 										  		

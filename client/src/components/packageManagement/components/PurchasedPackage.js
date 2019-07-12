@@ -190,13 +190,13 @@ class PurchasedPackage extends Component {
       var practiceExamId = event.target.value;
 
       axios
-          .patch('/purchasedpackage/startpracticeexam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+          .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
           .then((response)=> {
             console.log("startpracticeexam = ",response.data);
             this.setState({
               startpracticeexam : response.data,
             });
-          var id = /*result*/response.data;
+          var id = response.data.ID;
           this.props.history.push('/practiceExam/'+id+'/'+pckgIndex+'/'+btnIndex);
           })
           .catch(function (error) {
