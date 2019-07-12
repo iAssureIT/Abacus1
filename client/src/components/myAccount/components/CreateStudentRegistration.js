@@ -12,6 +12,7 @@ class CreateStudentRegistration extends (Component)  {
 	constructor(props){
 		super(props);
 		this.state={
+			submitButtonMsg : '',
 				_id 					: '',
 				studentFirstName 		: '',
 				studentMiddleName 		: '',
@@ -19,7 +20,7 @@ class CreateStudentRegistration extends (Component)  {
 				studentDOB 				: '',
 				schoolName 				: '',
 				genderType 				: '',
-				profileEditStatus 		: "Blocked",
+				profileEditStatus 		: false,
 				mobileNumber 			: '',
 				studentEmail 			: '',
 				studentAddress 			: '',
@@ -71,28 +72,36 @@ class CreateStudentRegistration extends (Component)  {
 		axios
   			.get('/studentmaster/sinfo/'+studentID)
             .then((response)=>{
+							console.log('response sinfo ',response.data);
             	this.setState({
-															_id 					: response.data._id,
-														studentFirstName 		: response.data.studentFirstName,
-														studentMiddleName 		: response.data.studentMiddleName,
-														studentLastName 		: response.data.studentLastName,
+														submitButtonMsg 	: response.data.submitButtonMsg,
+														categoryDisabled 	: response.data.categoryDisabled,
+														_id 							: response.data._id,
+														studentFirstName 	: response.data.studentFirstName,
+														studentMiddleName : response.data.studentMiddleName,
+														studentLastName 	: response.data.studentLastName,
 														studentDOB 				: response.data.studentDOB,
 														schoolName 				: response.data.schoolName,
 														genderType 				: response.data.genderType,
-														profileEditStatus 		: response.data.profileEditStatus,
+														// profileEditStatus : response.data.profileEditStatus,
 														mobileNumber 			: response.data.mobileNumber,
-														studentAddress 			: response.data.studentAddress,
+														studentAddress 		: response.data.studentAddress,
 														studentEmail 			: response.data.studentEmail,
-														studentCountry 			: response.data.studentCountry,
+														studentCountry 		: response.data.studentCountry,
 														studentState 			: response.data.studentState,
 														studentCity 			: response.data.studentCity,
-														pincode 				: response.data.pincode,
-														category 				: response.data.category,
+														pincode 					: response.data.pincode,
+														category 					: response.data.category,
 														companyId 				: response.data.companyId,
-														franchiseUserId 		: response.data.franchiseId,
-															franchiseName 			: response.data.franchiseName,
-															contactNo 				: response.data.franchiseMobileNumber,
-					 		});
+														franchiseUserId 	: response.data.franchiseId,
+														franchiseName   	: response.data.franchiseName,
+														contactNo 			  : response.data.franchiseMobileNumber,
+							 });
+							 if(response.data.updateProfilePermission == "Blocked"){
+								this.setState({profileEditStatus : true});
+							 }else{
+								this.setState({profileEditStatus : false});
+							 }
             })
             .catch(function (error) {
                 console.log(error);
@@ -110,9 +119,6 @@ class CreateStudentRegistration extends (Component)  {
 			// alert($(this["options"]).val());
 		    return false;
 		});
-		// console.log("in didi mount",Meteor.userId());
-				// $('.updateaccess').addAttr('disabled');
-				// $(".updateaccess").attr("disabled", true);
 				// Meteor.call("getUpdateStatus",Meteor.userId(),(err,res)=>{
 				//    if(err){
 
@@ -224,7 +230,6 @@ class CreateStudentRegistration extends (Component)  {
   	handleChange(event){
 		const target = event.target;
 		var companyId= $('#franchiseId').val();
-        console.log("---1---->>",companyId);
 		const name   = target.name;
 		this.setState({
 		  [name]: event.target.value,
@@ -234,26 +239,23 @@ class CreateStudentRegistration extends (Component)  {
 
   	getFranchiseId(){
   		var companyId= $('#franchiseId').val();
-        console.log("------->>",companyId);
-
   		this.setState({FranchiseId : companyId});
   		axios
   			.get('/franchisedetails/franchisebasicinfo/'+companyId)
             .then((response)=>{
-                console.log("-------franchisedetails------>>",response.data);
 	            if(response.data!=="franchiseNotFound"){
-	            	this.setState({
-			  			franchiseUserId 		: response.data.franchiseCodeForCompanyId,
-			  			franchiseName 			: response.data.franchiseName,
-			  			contactNo 				: response.data.contactNo,
-			 		});
+								this.setState({
+															franchiseUserId 		: response.data.franchiseCodeForCompanyId,
+															franchiseName 			: response.data.franchiseName,
+															contactNo 				: response.data.contactNo,
+													});
 	            }else{
-			 		this.setState({
-			  			franchiseUserId 		: '',
-			  			franchiseName 			: '',
-			  			contactNo 				: '',
-			 		});
-			 	}
+						 		this.setState({
+																franchiseUserId 		: '',
+																franchiseName 			: '',
+																contactNo 				: '',
+														});
+							}
             })
             .catch(function (error) {
                 console.log(error);
@@ -640,7 +642,7 @@ class CreateStudentRegistration extends (Component)  {
 									
 									</div>
 									<div className="col-lg-3 col-lg-offset-5 col-md-6 col-sm-6 col-xs-6">
-										<button className="btn studRegister">Confirm & Register</button>
+										<button className="btn studRegister">{this.state.submitButtonMsg}</button>
 									</div>
 									<div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 											{/*<h4 className="adminContact">Please contact Admin on +91-8983318508 to allow profile update </h4>*/}

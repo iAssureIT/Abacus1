@@ -43,7 +43,7 @@ exports.studentInfo = (req,res,next)=>{
                       .then(user =>{
                         console.log('users ',user);
                         var studentInfo = {
-                          _id                   : user._id,
+                          _id                   : '',
                           studentFirstName      : user.profile.firstname,
                           studentMiddleName     : '',
                           studentLastName       : user.profile.lastname,
