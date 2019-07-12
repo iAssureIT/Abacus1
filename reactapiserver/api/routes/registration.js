@@ -44,7 +44,7 @@ router.post('/', (req,res,next) => {
                                                             }else if(req.body.age>11){
                                                                 var subCategory = subCategory+'4';
                                                             }
-                                                            console.log('subcategory ',subcategory);
+                                                            console.log('subcategory ',subCategory);
                                                             if(req.body._id){
                                                                 StudentMaster   .updateOne(
                                                                                         {"_id":req.body._id},
