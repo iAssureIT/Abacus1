@@ -28,9 +28,32 @@ exports.studentInfo = (req,res,next)=>{
                .exec()
                .then(student =>{
                  if(student){
-                   var studentInfo = student;
-                   studentInfo.categoryDisabled        = 'Disabled';
-                   studentInfo.updateProfilePermission = studentInfo.profileEditStatus;
+                   var studentInfo = {
+                          studentFirstName      : student.studentFirstName,
+                          studentMiddleName     : student.studentMiddleName,
+                          studentLastName       : student.studentLastName,
+                          mobileNumber   	      : student.mobileNumber,
+                          studentDOB            : student.studentDOB,
+                          schoolName            : student.schoolName,
+                          franchiseName         : student.franchiseName,
+                          franchiseId           : student.franchiseId,
+                          franchiseMobileNumber : student.franchiseMobileNumber,
+                          studentAddress        : student.studentAddress,
+                          studentCountry        : student.studentCountry,
+                          studentState          : student.studentState,
+                          studentCity           : student.studentCity,
+                          pincode               : student.pincode,
+                          category              : student.category,
+                          categoryDisabled      : 'disabled',
+                          studentEmail          : student.studentEmail,
+                          genderType            : student.genderType,
+                          gender 		            : student.gender,
+                          updateProfilePermission: student.profileEditStatus,
+                          notificationStatus    : student.notificationStatus,
+                          downTimeStatus        : student.downTimeStatus,
+                          companyId             : student.companyId,
+                          submitButtonMsg       : 'Confirm & Update'
+                   }
                    studentInfo.submitButtonMsg         = 'Confirm & Update';
                    if(studentInfo.submitButtonMsg){
                     console.log('student found ',studentInfo.submitButtonMsg);
