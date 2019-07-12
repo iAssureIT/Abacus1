@@ -31,7 +31,7 @@ router.post('/', (req,res,next) => {
                                         )
                                 .exec()
                                 .then(user=>{
-                                    if(user.nModified == 1){
+                                    if(user){
                                         CategoryMasters .findOne({"categoryName":req.body.category})
                                                         .exec()
                                                         .then(categoryData=>{
@@ -46,7 +46,7 @@ router.post('/', (req,res,next) => {
                                                                 var subCategory = subCategory+'4';
                                                             }
                                                             if(req.body._id){
-                                                                StudentMaster   .update(
+                                                                StudentMaster   .updateOne(
                                                                                         {"_id":req.body._id},
                                                                                         {
                                                                                             $set:{
