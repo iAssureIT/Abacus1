@@ -208,17 +208,17 @@ class CreateStudentRegistration extends (Component)  {
 					console.log('studFormValues',studFormValues);		
 					studFormValues.age = age;
 					if(studFormValues.age){
-						// axios
-						// 		.post('/registration',studFormValues)
-						// 				.then((response)=>{
-						// 						console.log("-------patch---->>",response.data);
-						// 							this.setState({
-						// 														// registration : response.data,
-						// 													});
-						// 				})
-						// 				.catch(function (error) {
-						// 						console.log(error);
-						// 				});
+						axios
+								.post('/registration',studFormValues)
+										.then((response)=>{
+												console.log("-------patch---->>",response.data);
+													this.setState({
+																				// registration : response.data,
+																			});
+										})
+										.catch(function (error) {
+												console.log(error);
+										});
 					}
 				}else{
 					swal("Franchise name and franchise mobile number required");
