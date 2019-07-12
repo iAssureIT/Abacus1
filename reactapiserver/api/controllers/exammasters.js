@@ -1,8 +1,45 @@
-const mongoose	    = require("mongoose");
-var moment          = require('moment');
-const ExamMaster    = require('../models/exammasters');
-const StudentMaster = require('../models/studentmasters');
+const mongoose	                = require("mongoose");
+var moment                      = require('moment');
+const ExamMaster                = require('../models/exammasters');
+const StudentMaster             = require('../models/studentmasters');
+const CompetitionRegisterOrder  = require('../models/competitionregisterorders');
 
+getStudentStatus = function(studentID,competitionId){
+  CompetitionRegisterOrder.findOne({studentId:studentID,competitionId:competitionData[i]._id,status:"paid"})
+                          .exec()
+                          .then(isStudentRegisterForComp=>{
+                            if(isStudentRegisterForComp && isStudentRegisterForComp._id){
+                              var studentPaymentStatus = "Paid";
+                              MyExamMaster.findOne({competitionId:isStudentRegisterForComp.competitionId,StudentId:studentID})
+                                          .exec()
+                                          .then(examData=>{
+                                            return {
+                                              studentPaymentStatus  : "Paid",
+                                              examDataStatus        : examData.examStatus,
+                                              examId                : examData._id,
+                                            }
+                                          })
+                                          .catch(err =>{
+                                            console.log(err);
+                                            res.status(500).json({
+                                              error: err
+                                              });
+                                          });                
+                            }else{
+                              return {
+                                studentPaymentStatus  : "unPaid",
+                                examDataStatus        : "",
+                                examId                : "",
+                              };
+                            }
+                          })
+                          .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                              error: err
+                              });
+                          });                
+}
 exports.fetch_exam_details = (req,res,next)=>{
   ExamMaster.find({competitionView:"Show"})
           .sort( { competitionDate:-1} )
@@ -19,20 +56,94 @@ exports.fetch_exam_details = (req,res,next)=>{
           });
 }
 exports.fetch_exam_details_mainexam = (req,res,next)=>{
-  ExamMaster.find({competitionView:"Show"})
-            .select("competitionName competitionDate startTime endTime")
-          .sort( { competitionDate:-1} )
-          .exec()
-          .then(data =>{
-          //   console.log('data ',data);
-            res.status(200).json(data);
-          })
-          .catch(err =>{
-            console.log(err);
-            res.status(500).json({
-              error: err
+  var todayDate       = moment(today).format('L');
+  var currentTime     = moment(today).format('LT');
+  StudentMaster.findOne({studentId:req.params.studentId})
+               .exec()
+               .then(studentData=>{
+                 if(studentData){
+                  ExamMaster.find({competitionView:"Show"})
+                            .sort( { competitionDate:-1} )
+                            .exec()
+                            .then(competitionList =>{
+                              var competitions = [];
+                              competitionList.map((competitionData,index)=>{
+                                competitionData[index].examDate = moment(competitionData[index].competitionDate).format('L');
+                                competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
+                                competitionData[index].viewStatus = competitionData[index].competitionView;
+                                if(today.getTime()<(competitionData[index].competitionDate).getTime()){
+                                  competitionData[index].examYear = "Accept";
+                                }else{
+                                  competitionData[index].examYear = "NotAccept";
+                                }
+                          
+                                if(todayDate>competitionData[index].examDate){
+                                  competitionData[index].examTimeStatus = "OldExam";
+                                }else if(todayDate<=competitionData[i].examDate){
+                                  competitionData[index].examTimeStatus = "NewExam";
+                                }
+                                if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
+                                  competitionData[index].timeStatus = "invalid";
+                                }else if(todayDate==competitionData[i].examDate && ExamStartTime<ExamEndTime){
+                                  competitionData[index].timeStatus = "valid";
+                                }else{
+                                  competitionData[index].timeStatus = "nextCompetition";
+                                }
+                                if(todayDate<=competitionData[i].examDate){
+                                  competitionData[index].nextExamStatus = "Present"
+                                }else{
+                                  competitionData[index].nextExamStatus = "Absent"
+                                }
+                                competitionData[index].PayDate         = moment(competitionData[i].createdAt).format('MMM Do YYYY');
+                                competitionData[index].currentExamDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
+                  
+                                var studentCategory = competitionData[index].competitionExams;
+                                if(studentCategory){
+                                  var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
+                                  var categoryWiseExamData = studentCategory[i];
+                                  if(categoryWiseExamData){
+                                    competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+                                  }
+                                }
+                                var data = getStudentStatus(req.params.studentId,competitionData[index]._id)
+                                competitions.push({
+                                  'competitionName'       : competitionData[index].competitionName,
+                                  'competitionDate'       : competitionData[index].competitionDate,
+                                  'startTime'             : competitionData[index].startTime,
+                                  'endTime'               : competitionData[index].endTime,
+                                  'examYear'              : competitionData[index].examYear,
+                                  'examTimeStatus'        : competitionData[index].examTimeStatus,
+                                  'timeStatus'            : competitionData[index].timeStatus,
+                                  'nextExamStatus'        : competitionData[index].nextExamStatus,
+                                  'PayDate'               : competitionData[index].PayDate,
+                                  'examStartStatus'       : competitionData[iindex].examStartStatus,
+                                  'studentPaymentStatus'  : data.studentPaymentStatus,
+                                  'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
+                                  // 'status'          : 
+                                });
+                                if(competitionList.length == competitions.length){
+                                  res.status(200).json(competitions);
+                                }
+                              })
+                              // res.status(200).json(competitionData);
+                            })
+                            .catch(err =>{
+                              console.log(err);
+                              res.status(500).json({
+                                error: err
+                                });
+                            });
+                 }else{
+                   res.status(404).json({message:"Student Not Found"});
+                 }
+               })
+               .catch(err =>{
+                  console.log(err);
+                  res.status(500).json({
+                    error: err
+                  });
               });
-          });
+  
 }
 exports.fetch_all = (req,res,next)=>{
     ExamMaster.find({competitionView:"Show"})
