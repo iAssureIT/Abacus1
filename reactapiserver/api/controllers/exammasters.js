@@ -67,65 +67,67 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                             .sort( { competitionDate:-1} )
                             .exec()
                             .then(competitionList =>{
-                              var competitions = [];
-                              competitionList.map((competitionData,index)=>{
-                                competitionData[index].examDate = moment(competitionData[index].competitionDate).format('L');
-                                competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
-                                competitionData[index].viewStatus = competitionData[index].competitionView;
-                                if(today.getTime()<(competitionData[index].competitionDate).getTime()){
-                                  competitionData[index].examYear = "Accept";
-                                }else{
-                                  competitionData[index].examYear = "NotAccept";
-                                }
-                          
-                                if(todayDate>competitionData[index].examDate){
-                                  competitionData[index].examTimeStatus = "OldExam";
-                                }else if(todayDate<=competitionData[i].examDate){
-                                  competitionData[index].examTimeStatus = "NewExam";
-                                }
-                                if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
-                                  competitionData[index].timeStatus = "invalid";
-                                }else if(todayDate==competitionData[i].examDate && ExamStartTime<ExamEndTime){
-                                  competitionData[index].timeStatus = "valid";
-                                }else{
-                                  competitionData[index].timeStatus = "nextCompetition";
-                                }
-                                if(todayDate<=competitionData[i].examDate){
-                                  competitionData[index].nextExamStatus = "Present"
-                                }else{
-                                  competitionData[index].nextExamStatus = "Absent"
-                                }
-                                competitionData[index].PayDate         = moment(competitionData[i].createdAt).format('MMM Do YYYY');
-                                competitionData[index].currentExamDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
-                  
-                                var studentCategory = competitionData[index].competitionExams;
-                                if(studentCategory){
-                                  var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
-                                  var categoryWiseExamData = studentCategory[i];
-                                  if(categoryWiseExamData){
-                                    competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+                              if(competitionList){
+                                var competitions = [];
+                                competitionList.map((competitionData,index)=>{
+                                  competitionData[index].examDate = moment(competitionData[index].competitionDate).format('L');
+                                  competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
+                                  competitionData[index].viewStatus = competitionData[index].competitionView;
+                                  if(today.getTime()<(competitionData[index].competitionDate).getTime()){
+                                    competitionData[index].examYear = "Accept";
+                                  }else{
+                                    competitionData[index].examYear = "NotAccept";
                                   }
-                                }
-                                var data = getStudentStatus(req.params.studentId,competitionData[index]._id)
-                                competitions.push({
-                                  'competitionName'       : competitionData[index].competitionName,
-                                  'competitionDate'       : competitionData[index].competitionDate,
-                                  'startTime'             : competitionData[index].startTime,
-                                  'endTime'               : competitionData[index].endTime,
-                                  'examYear'              : competitionData[index].examYear,
-                                  'examTimeStatus'        : competitionData[index].examTimeStatus,
-                                  'timeStatus'            : competitionData[index].timeStatus,
-                                  'nextExamStatus'        : competitionData[index].nextExamStatus,
-                                  'PayDate'               : competitionData[index].PayDate,
-                                  'examStartStatus'       : competitionData[iindex].examStartStatus,
-                                  'studentPaymentStatus'  : data.studentPaymentStatus,
-                                  'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
-                                  // 'status'          : 
-                                });
-                                if(competitionList.length == competitions.length){
-                                  res.status(200).json(competitions);
-                                }
-                              })
+                            
+                                  if(todayDate>competitionData[index].examDate){
+                                    competitionData[index].examTimeStatus = "OldExam";
+                                  }else if(todayDate<=competitionData[i].examDate){
+                                    competitionData[index].examTimeStatus = "NewExam";
+                                  }
+                                  if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
+                                    competitionData[index].timeStatus = "invalid";
+                                  }else if(todayDate==competitionData[i].examDate && ExamStartTime<ExamEndTime){
+                                    competitionData[index].timeStatus = "valid";
+                                  }else{
+                                    competitionData[index].timeStatus = "nextCompetition";
+                                  }
+                                  if(todayDate<=competitionData[i].examDate){
+                                    competitionData[index].nextExamStatus = "Present"
+                                  }else{
+                                    competitionData[index].nextExamStatus = "Absent"
+                                  }
+                                  competitionData[index].PayDate         = moment(competitionData[i].createdAt).format('MMM Do YYYY');
+                                  competitionData[index].currentExamDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
+                    
+                                  var studentCategory = competitionData[index].competitionExams;
+                                  if(studentCategory){
+                                    var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
+                                    var categoryWiseExamData = studentCategory[i];
+                                    if(categoryWiseExamData){
+                                      competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+                                    }
+                                  }
+                                  var data = getStudentStatus(req.params.studentId,competitionData[index]._id)
+                                  competitions.push({
+                                    'competitionName'       : competitionData[index].competitionName,
+                                    'competitionDate'       : competitionData[index].competitionDate,
+                                    'startTime'             : competitionData[index].startTime,
+                                    'endTime'               : competitionData[index].endTime,
+                                    'examYear'              : competitionData[index].examYear,
+                                    'examTimeStatus'        : competitionData[index].examTimeStatus,
+                                    'timeStatus'            : competitionData[index].timeStatus,
+                                    'nextExamStatus'        : competitionData[index].nextExamStatus,
+                                    'PayDate'               : competitionData[index].PayDate,
+                                    'examStartStatus'       : competitionData[iindex].examStartStatus,
+                                    'studentPaymentStatus'  : data.studentPaymentStatus,
+                                    'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
+                                    // 'status'          : 
+                                  });
+                                  if(competitionList.length == competitions.length){
+                                    res.status(200).json(competitions);
+                                  }
+                                })
+                              }
                               // res.status(200).json(competitionData);
                             })
                             .catch(err =>{
