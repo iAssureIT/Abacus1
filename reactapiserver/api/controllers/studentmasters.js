@@ -49,6 +49,7 @@ exports.studentInfo = (req,res,next)=>{
                           genderType            : student.genderType,
                           gender 		            : student.gender,
                           updateProfilePermission: student.profileEditStatus,
+                          profileEditStatus     : student.profileEditStatus,
                           notificationStatus    : student.notificationStatus,
                           downTimeStatus        : student.downTimeStatus,
                           companyId             : student.companyId,
