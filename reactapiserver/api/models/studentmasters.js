@@ -27,6 +27,7 @@ const studentmastersSchema = mongoose.Schema({
     createdAt : Date,
     imgSrc : String,
     updateProfilePermission: String,
+    profileEditStatus:String,
     franchiseId: String,
     companyId: String,
     examStatus : String,
