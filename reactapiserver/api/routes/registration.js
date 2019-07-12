@@ -13,6 +13,7 @@ const CategoryMasters   = require('../models/categorymasters');
 
 router.post('/', (req,res,next) => {
     var data = req.body;
+    console.log('data ',data);
     FranchiseDetails.findOne({"companyId":parseInt(req.body.companyId)})
                     .exec()
                     .then(franchiseData=>{
