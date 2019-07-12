@@ -68,7 +68,7 @@
 
 5. updatePracticeExamTimeAndStudenAnswer 
 
-    Method          : PATCH
+    Method          : POST
 
     URL             : /mypracticeexammasters
 
