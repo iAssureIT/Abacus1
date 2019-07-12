@@ -46,12 +46,14 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 							}
 	}
 	componentDidMount(){
+		console.log('data from myexammasters');
 		axios
-			.get('/instructions/Student Registration')
+			.get('/myexammasters')
 			.then((response)=>{
-				this.setState({
-					instruction :response.data[0].instruction
-				});
+				console.log('response ',response.data);
+				// this.setState({
+				// 	instruction :response.data[0].instruction
+				// });
 			})
 			.catch(function(error){
 				console.log(error);
