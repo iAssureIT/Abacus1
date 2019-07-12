@@ -83,7 +83,7 @@ class CreateStudentRegistration extends (Component)  {
 														studentDOB 				: response.data.studentDOB,
 														schoolName 				: response.data.schoolName,
 														genderType 				: response.data.genderType,
-														// profileEditStatus : response.data.profileEditStatus,
+														profileEditStatus : response.data.profileEditStatus,
 														mobileNumber 			: response.data.mobileNumber,
 														studentAddress 		: response.data.studentAddress,
 														studentEmail 			: response.data.studentEmail,

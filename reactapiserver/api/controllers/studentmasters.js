@@ -24,7 +24,7 @@ exports.studentInfo = (req,res,next)=>{
   var sId = req.params.studentId;
   console.log('studentInfo sId',sId);
   StudentMaster.findOne({studentId:sId})
-               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId")
+               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId updateProfilePermission")
                .exec()
                .then(student =>{
                  if(student){
