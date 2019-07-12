@@ -36,8 +36,9 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 		}
 	}
 	componentDidMount(){
+		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
 		axios
-			.get('/exammasters/listmainexam')
+			.get('/exammasters/listmainexam/'+studentId)
 			.then((response)=>{
 				console.log('response ',response.data);
 				this.setState({
