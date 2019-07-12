@@ -11,7 +11,6 @@ const CategoryMasters   = require('../models/categorymasters');
 
 router.post('/', (req,res,next) => {
     var data = req.body;
-    // res.status(200).json({data});
     FranchiseDetails.findOne({"companyId":parseInt(req.body.companyId)})
                     .exec()
                     .then(franchiseData=>{
@@ -45,6 +44,7 @@ router.post('/', (req,res,next) => {
                                                             }else if(req.body.age>11){
                                                                 var subCategory = subCategory+'4';
                                                             }
+                                                            console.log('subcategory ',subcategory);
                                                             if(req.body._id){
                                                                 StudentMaster   .updateOne(
                                                                                         {"_id":req.body._id},

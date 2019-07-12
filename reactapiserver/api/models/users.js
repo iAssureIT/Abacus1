@@ -38,6 +38,7 @@ const userSchema = mongoose.Schema({
 		sentEmailOTP 	: Number,
 		receivedEmailOTP : Number,
 		franchiseName 	: String,
+		franchise_id 	: String,
 		teacherName 	: String,
 		userProfile		: String,
 		changPwdVerify	: Boolean // If TRUE : user is created by API or else by Meteor React

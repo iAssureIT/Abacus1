@@ -221,7 +221,7 @@ exports.users_list = (req,res,next)=>{
 	User.find({})
 		.exec()
 		.then(users =>{
-			console.log('users ',users);
+			// console.log('users ',users);
 			res.status(200).json(users);
 		})
 		.catch(err =>{
@@ -239,7 +239,7 @@ exports.user_details = (req, res, next)=>{
 		.select("profile")
 		.exec()
 		.then(users =>{
-			console.log('users ',users);
+			// console.log('users ',users);
 			res.status(200).json(users);
 		})
 		.catch(err =>{
@@ -263,18 +263,18 @@ exports.user_profileimg = (req,res,next)=>{
 						.exec()
 						.then(users =>{
 							if(users){
-								console.log('img 1',users);
-								console.log('img 2',users.profile);								
-								console.log('img 3',users.profile.userProfile);
+								// console.log('img 1',users);
+								// console.log('img 2',users.profile);								
+								// console.log('img 3',users.profile.userProfile);
 								var imgdata = {
 									"_id": users._id,
 									"imagePath":users.profile.userProfile,
 								};
 								if(imgdata.imagePath){
-									console.log('imgdata if',imgdata);
+									// console.log('imgdata if',imgdata);
 									res.status(200).json(imgdata);
 								}else{
-									console.log('imgdata else',imgdata);
+									// console.log('imgdata else',imgdata);
 									res.status(200).json(imgdata);
 								}
 							}
