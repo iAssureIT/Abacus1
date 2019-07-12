@@ -66,10 +66,11 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                   ExamMaster.find({competitionView:"Show"})
                             .sort( { competitionDate:-1} )
                             .exec()
-                            .then(competitionList =>{
-                              if(competitionList){
+                            .then(competitionData =>{
+                              if(competitionData){
                                 var competitions = [];
-                                competitionList.map((competitionData,index)=>{
+                                // competitionList.map((competitionData,index)=>{
+                                for(index = 0 ; index < competitionData.length ; index++){
                                   competitionData[index].examDate = moment(competitionData[index].competitionDate).format('L');
                                   competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                                   competitionData[index].viewStatus = competitionData[index].competitionView;
@@ -123,10 +124,10 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                     'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
                                     // 'status'          : 
                                   });
-                                  if(competitionList.length == competitions.length){
+                                  if(competitionData.length == competitions.length){
                                     res.status(200).json(competitions);
                                   }
-                                })
+                                }
                               }
                               // res.status(200).json(competitionData);
                             })
