@@ -142,11 +142,13 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       // 'status'          : 
                                     });
                                   }
-                                  
+                                  if(competitionData.length == competitions.length){
+                                    res.status(200).json(competitions);
+                                  }
                                 }//End of For
-                                if(competitionData.length == competitions.length){
-                                  res.status(200).json(competitions);
-                                }
+                                // if(competitionData.length == competitions.length){
+                                //   res.status(200).json(competitions);
+                                // }
                               }
                               // res.status(200).json(competitionData);
                             })
