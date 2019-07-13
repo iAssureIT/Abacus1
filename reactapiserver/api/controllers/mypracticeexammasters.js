@@ -91,74 +91,30 @@ exports.fetch_practice = (req,res,next)=>{
 }
 
 exports.update_exam_ans = (req,res,next)=>{
-  console.log('update exam answer');
-  var examId   = req.body.examId;
   MyPracticeExamMaster.updateOne(
-                                  { _id : req.body.examId },
-                                  {
-                                    $set:{
-                                      'examTime':req.body.examTime,
-                                      'lastVisitedQuestion':parseInt(req.body.index),
-                                      'lastVisitedQAnswer':req.body.studAnswer,
-                                    }
-                                  }
-                                )
+                          {"_id":req.body.examId},
+                          {
+                            $set:{
+                              ['answerArray.'+req.body.index+'.attempted']    : "Yes",
+                              ['answerArray.'+req.body.index+'.studentAnswer']: req.body.studAnswer,
+                              ['answerArray.'+req.body.index+'.answer']       : req.body.answer,
+                              'examTime'                                      : req.body.examTime,
+                              'lastVisitedQuestion'                           : parseInt(req.body.index),
+                              'lastVisitedQAnswer'                            : req.body.studAnswer,
+                            }
+                          })
                       .exec()
-                      .then(data =>{
-                        if(data.nModified == 1){
-                          MyPracticeExamMaster.findOne({ _id : req.body.examId })
-                                              .exec()
-                                              .then(data=>{
-                                                var answerArray = data.answerArray[req.body.index];
-                                                if(answerArray.correctAnswer==req.body.studAnswer){
-                                                  var answer = 'Correct';
-                                                }else{
-                                                  var answer = "Wrong";
-                                                }
-                                                if(answer){
-                                                  MyPracticeExamMaster.update(
-                                                                              {"_id":req.body.examId},
-                                                                              {
-                                                                                $set:{
-                                                                                  ['answerArray.'+req.body.index+'.attempted']:"Yes",
-                                                                                  ['answerArray.'+req.body.index+'.studentAnswer']:studAnswer,
-                                                                                  ['answerArray.'+req.body.index+'.answer']:answer,
-                                                                                  // ['answerArray.'+index+'.lastVisited']:new Date(),
-                                                                                }
-                                                                              })
-                                                                      .exec()
-                                                                      .then(d=>{
-                                                                        if(d.nModified == 1){
-                                                                          res.status(200).json("Updated successfully");                                                
-                                                                        }else{
-                                                                          res.status(200).json("Something went wrong. 2");                        
-                                                                        }
-                                                                      })
-                                                                      .catch(err =>{
-                                                                        console.log(err);
-                                                                        res.status(500).json({
-                                                                          error: err
-                                                                          });
-                                                                      });
-                                                }else{
-                                                  res.status(200).json("Something went wrong. 1");
-                                                }
-                                              })
-                                              .catch(err =>{
-                                                console.log(err);
-                                                res.status(500).json({
-                                                  error: err
-                                                  });
-                                              });                        
+                      .then(d => {
+                        if(d.nModified == 1){
+                          res.status(200).json("Updated successfully");                                                
                         }else{
-                          res.status(200).json("Something went wrong.");
+                          res.status(404).json("Update failed");                        
                         }
-                        
                       })
                       .catch(err =>{
                         console.log(err);
                         res.status(500).json({
                           error: err
-                          });
+                        });
                       });
 }
