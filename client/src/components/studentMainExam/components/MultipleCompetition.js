@@ -61,62 +61,23 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 	componentDidMount(){
 		var i = 0;
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
-		
+		axios
+			.get('/competitionregisterorder/mainexam/'+studentId)
+			.then((response)=>{
+				console.log('response ',response.data);
+			})
+			.catch(function(error){
+				console.log("error",error);
+			});
+
 		axios
 			.get('/exammasters/listmainexam/'+studentId)
 			.then((response)=>{
 				console.log('response ',response.data);
-				var returnData = response.data;
-				if(returnData){
-					returnData.map((mainExam)=>{
-
-					});{
-						
-						// if(returnList[i].competitionFees){
-						// 	axios
-						// 			.get('/competitionregisterorder/'+studentId+'/'+returnList[i]._id)
-						// 			.then((responsecro)=>{
-						// 					if(responsecro.data){
-						// 						console.log('returnList i',returnList);
-						// 						console.log('i ',i);
-						// 						returnList[i].studentPaymentStatus = "Paid";
-						// 						axios
-						// 								.get('/myexammasters/participation/'+responsecro.competitionId+'/'+studentId)
-						// 								.then((resmyexam)=>{
-						// 									console.log(resmyexam);
-						// 									if(resmyexam){
-						// 										returnList[i].examDataStatus 			= resmyexam.examStatus;
-						// 										returnList[i].examId 							= resmyexam._id;	
-						// 									}else{
-						// 										returnList[i].examDataStatus 			= "";
-						// 										returnList[i].examId 							= "";				
-						// 									}
-						// 								})
-						// 								.catch(function(error){
-						// 									console.log("error",error);
-						// 								})
-						// 					}else{
-						// 						// returnList[i].studentPaymentStatus = "unPaid";
-						// 						// returnList[i].examDataStatus 			= "";
-						// 						// returnList[i].examId 							= '';
-						// 					}
-						// 			})
-						// 			.catch(function(error){
-						// 				console.log("error",error);
-						// 			})
-						// }
-					}//End of for
-				}
-				if(returnList.length == response.data.length){
-					console.log('returnList ',returnList);
-					this.setState({
-						competitionData : returnList	
-					})
-				}
 			})
 			.catch(function(error){
 				console.log("error",error);
-			})
+			});
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
