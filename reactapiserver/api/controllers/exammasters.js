@@ -3,6 +3,7 @@ var moment                      = require('moment');
 const ExamMaster                = require('../models/exammasters');
 const StudentMaster             = require('../models/studentmasters');
 const CompetitionRegisterOrder  = require('../models/competitionregisterorders');
+const MyExamMaster              = require('../models/myexammasters');
 
 getStudentStatus = function(studentID,competitionId){
   CompetitionRegisterOrder.findOne({studentId:studentID,competitionId:competitionId,status:"paid"})
@@ -21,7 +22,7 @@ getStudentStatus = function(studentID,competitionId){
                                           })
                                           .catch(err =>{
                                             console.log(err);
-                                            res.status(500).json({
+                                            return({
                                               error: err
                                               });
                                           });                
@@ -35,7 +36,7 @@ getStudentStatus = function(studentID,competitionId){
                           })
                           .catch(err =>{
                             console.log(err);
-                            res.status(500).json({
+                            return({
                               error: err
                               });
                           });                
@@ -126,7 +127,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                     'timeStatus'            : competitionData[index].timeStatus,
                                     'nextExamStatus'        : competitionData[index].nextExamStatus,
                                     // 'PayDate'               : competitionData[index].PayDate,
-                                    'examStartStatus'       : competitionData[iindex].examStartStatus,
+                                    'examStartStatus'       : competitionData[index].examStartStatus,
                                     'studentPaymentStatus'  : data.studentPaymentStatus,
                                     'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
                                     // 'status'          : 
