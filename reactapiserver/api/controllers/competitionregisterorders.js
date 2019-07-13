@@ -47,24 +47,36 @@ exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
 		        .exec()
             .then(competitionorder =>{
               if(competitionorder){
-                MyExamMaster.findOne({competitionId:competitionorder.competitionId,StudentId:req.params.studentID})
+                var competitionorderList = [];
+                competitionorder.map((co)=>{
+                  MyExamMaster.findOne({competitionId:co.competitionId,StudentId:req.params.studentID})
                             .select("examStatus")
                             .exec()
                             .then(examData=>{
                               if(examData){
-                                res.status(200).json({
+                                competitionorderList.push({
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : examData.examStatus,
                                   examId                : examData._id,
                                 });
                               }else{
-                                res.status(200).json({
+                                competitionorderList.push({
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : "",
                                   examId                : "",
                                 });
                               }
                             })
+                            .catch(err =>{
+                              console.log(err);
+                              res.status(500).json({
+                                error: err
+                                });
+                            });
+                });
+                if(competitionorder.length == competitionorderList.length){
+                  res.status(200).json(competitionorderList);
+                }
               }else{
                 res.status(200).json({
                   studentPaymentStatus  : "unPaid",
