@@ -76,6 +76,8 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   // competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                                   competitionData[index].viewStatus = competitionData[index].competitionView;
                                   var examTime = new Date(competitionData[index].competitionDate);
+                                  var ExamStartTime = moment(currentTime, 'h:mma');
+                                  var ExamEndTime   = moment(new Date(competitionData[index].endTime), 'h:mma');
                                   console.log('examTime ',examTime.getTime());
                                   if(today.getTime()< examTime.getTime()){
                                     competitionData[index].examYear = "Accept";
@@ -88,7 +90,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   }else if(todayDate<=competitionData[index].examDate){
                                     competitionData[index].examTimeStatus = "NewExam";
                                   }
-                                  if(todayDate==competitionData[index].examDate && ExamStartTime>ExamEndTime){
+                                  if(todayDate==competitionData[index].examDate && ExamStartTime > ExamEndTime){
                                     competitionData[index].timeStatus = "invalid";
                                   }else if(todayDate==competitionData[index].examDate && ExamStartTime<ExamEndTime){
                                     competitionData[index].timeStatus = "valid";
