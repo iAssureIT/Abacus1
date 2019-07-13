@@ -14,10 +14,18 @@ getStudentStatus = function(studentID,competitionId){
                               MyExamMaster.findOne({competitionId:isStudentRegisterForComp.competitionId,StudentId:studentID})
                                           .exec()
                                           .then(examData=>{
-                                            return {
-                                              studentPaymentStatus  : "Paid",
-                                              examDataStatus        : examData.examStatus,
-                                              examId                : examData._id,
+                                            if(examData){
+                                              return {
+                                                studentPaymentStatus  : "Paid",
+                                                examDataStatus        : examData.examStatus,
+                                                examId                : examData._id,
+                                              }
+                                            }else{
+                                              return {
+                                                studentPaymentStatus  : "unPaid",
+                                                examDataStatus        : "",
+                                                examId                : "",
+                                              };
                                             }
                                           })
                                           .catch(err =>{
@@ -117,24 +125,27 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   var dataID = competitionData[index]._id;
                                   console.log('dataID ',dataID);
                                   var data = getStudentStatus(req.params.studentId,dataID);
-                                  competitions.push({
-                                    'competitionName'       : competitionData[index].competitionName,
-                                    'competitionDate'       : competitionData[index].competitionDate,
-                                    'startTime'             : competitionData[index].startTime,
-                                    'endTime'               : competitionData[index].endTime,
-                                    'examYear'              : competitionData[index].examYear,
-                                    'examTimeStatus'        : competitionData[index].examTimeStatus,
-                                    'timeStatus'            : competitionData[index].timeStatus,
-                                    'nextExamStatus'        : competitionData[index].nextExamStatus,
-                                    // 'PayDate'               : competitionData[index].PayDate,
-                                    'examStartStatus'       : competitionData[index].examStartStatus,
-                                    'studentPaymentStatus'  : data.studentPaymentStatus,
-                                    'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
-                                    // 'status'          : 
-                                  });
-                                  if(competitionData.length == competitions.length){
-                                    res.status(200).json(competitions);
+                                  if(data){
+                                    competitions.push({
+                                      'competitionName'       : competitionData[index].competitionName,
+                                      'competitionDate'       : competitionData[index].competitionDate,
+                                      'startTime'             : competitionData[index].startTime,
+                                      'endTime'               : competitionData[index].endTime,
+                                      'examYear'              : competitionData[index].examYear,
+                                      'examTimeStatus'        : competitionData[index].examTimeStatus,
+                                      'timeStatus'            : competitionData[index].timeStatus,
+                                      'nextExamStatus'        : competitionData[index].nextExamStatus,
+                                      // 'PayDate'               : competitionData[index].PayDate,
+                                      'examStartStatus'       : competitionData[index].examStartStatus,
+                                      'studentPaymentStatus'  : data.studentPaymentStatus,
+                                      'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
+                                      // 'status'          : 
+                                    });
                                   }
+                                  
+                                }//End of For
+                                if(competitionData.length == competitions.length){
+                                  res.status(200).json(competitions);
                                 }
                               }
                               // res.status(200).json(competitionData);
