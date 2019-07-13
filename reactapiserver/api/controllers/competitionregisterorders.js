@@ -52,17 +52,17 @@ exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
                             .exec()
                             .then(examData=>{
                               if(examData){
-                                return {
+                                res.status(200).json({
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : examData.examStatus,
                                   examId                : examData._id,
-                                }
+                                });
                               }else{
-                                return {
+                                res.status(200).json({
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : "",
                                   examId                : "",
-                                };
+                                });
                               }
                             })
               }else{
