@@ -100,8 +100,8 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   }else{
                                     competitionData[index].nextExamStatus = "Absent"
                                   }
-                                  competitionData[index].PayDate         = moment(competitionData[index].createdAt).format('MMM Do YYYY');
-                                  competitionData[index].currentExamDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
+                                  // competitionData[index].PayDate         = moment(competitionData[index].createdAt).format('MMM Do YYYY');  
+                                  // competitionData[index].currentExamDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                     
                                   var studentCategory = competitionData[index].competitionExams;
                                   if(studentCategory){
@@ -111,7 +111,9 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
                                     }
                                   }
-                                  var data = getStudentStatus(req.params.studentId,competitionData[index]._id)
+                                  var dataID = competitionData[index]._id;
+                                  console.log('dataID ',dataID);
+                                  var data = getStudentStatus(req.params.studentId,dataID);
                                   competitions.push({
                                     'competitionName'       : competitionData[index].competitionName,
                                     'competitionDate'       : competitionData[index].competitionDate,
@@ -121,7 +123,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                     'examTimeStatus'        : competitionData[index].examTimeStatus,
                                     'timeStatus'            : competitionData[index].timeStatus,
                                     'nextExamStatus'        : competitionData[index].nextExamStatus,
-                                    'PayDate'               : competitionData[index].PayDate,
+                                    // 'PayDate'               : competitionData[index].PayDate,
                                     'examStartStatus'       : competitionData[iindex].examStartStatus,
                                     'studentPaymentStatus'  : data.studentPaymentStatus,
                                     'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,

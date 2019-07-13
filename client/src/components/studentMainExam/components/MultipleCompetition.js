@@ -30,8 +30,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 				competitionFees : '',
 				timeStatus : '',
 				examYear : '',
-				PayDate : '',
-				currentExamDate : '',
+				// PayDate : '',
+				// currentExamDate : '',
 			}],
 		}
 	}

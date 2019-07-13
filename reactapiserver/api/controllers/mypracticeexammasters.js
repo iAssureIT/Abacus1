@@ -96,9 +96,9 @@ exports.update_exam_ans = (req,res,next)=>{
                                   { _id : examId },
                                   {
                                     $set:{
-                                      'examTime':examTime,
-                                      'lastVisitedQuestion':parseInt(index),
-                                      'lastVisitedQAnswer':studAnswer,
+                                      'examTime':req.body.examTime,
+                                      'lastVisitedQuestion':parseInt(req.body.index),
+                                      'lastVisitedQAnswer':req.body.studAnswer,
                                     }
                                   }
                                 )
@@ -108,8 +108,8 @@ exports.update_exam_ans = (req,res,next)=>{
                           MyPracticeExamMaster.findOne({ _id : examId })
                                               .exec()
                                               .then(data=>{
-                                                var answerArray = data.answerArray[index];
-                                                if(answerArray.correctAnswer==studAnswer){
+                                                var answerArray = data.answerArray[req.body.index];
+                                                if(answerArray.correctAnswer==req.body.studAnswer){
                                                   var answer = 'Correct';
                                                 }else{
                                                   var answer = "Wrong";
