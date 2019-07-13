@@ -91,6 +91,7 @@ exports.fetch_practice = (req,res,next)=>{
 }
 
 exports.update_exam_ans = (req,res,next)=>{
+  console.log('update exam answer');
   var examId   = req.body.examId;
   MyPracticeExamMaster.updateOne(
                                   { _id : req.body.examId },

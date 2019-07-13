@@ -55,12 +55,14 @@ exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
                             .then(examData=>{
                               if(examData){
                                 competitionorderList.push({
+                                  competitionorder      : competitionorder._id,
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : examData.examStatus,
                                   examId                : examData._id,
                                 });
                               }else{
                                 competitionorderList.push({
+                                  competitionorder      : competitionorder._id,
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : "",
                                   examId                : "",

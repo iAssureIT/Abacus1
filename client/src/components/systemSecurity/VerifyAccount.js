@@ -7,10 +7,6 @@ import 'font-awesome/css/font-awesome.min.css';
 import './SignUp.css';
 
 class VerifyAccount extends Component {
-
-  
-
-
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
