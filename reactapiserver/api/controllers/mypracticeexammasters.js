@@ -93,7 +93,7 @@ exports.fetch_practice = (req,res,next)=>{
 exports.update_exam_ans = (req,res,next)=>{
   var examId   = req.body.examId;
   MyPracticeExamMaster.updateOne(
-                                  { _id : examId },
+                                  { _id : req.body.examId },
                                   {
                                     $set:{
                                       'examTime':req.body.examTime,
@@ -105,7 +105,7 @@ exports.update_exam_ans = (req,res,next)=>{
                       .exec()
                       .then(data =>{
                         if(data.nModified == 1){
-                          MyPracticeExamMaster.findOne({ _id : examId })
+                          MyPracticeExamMaster.findOne({ _id : req.body.examId })
                                               .exec()
                                               .then(data=>{
                                                 var answerArray = data.answerArray[req.body.index];
