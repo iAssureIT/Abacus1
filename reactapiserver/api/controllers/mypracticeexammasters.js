@@ -117,12 +117,12 @@ exports.update_exam_ans = (req,res,next)=>{
                                                 }
                                                 if(answer){
                                                   MyPracticeExamMaster.update(
-                                                                              {"_id":examId},
+                                                                              {"_id":req.body.examId},
                                                                               {
                                                                                 $set:{
-                                                                                  ['answerArray.'+index+'.attempted']:"Yes",
-                                                                                  ['answerArray.'+index+'.studentAnswer']:studAnswer,
-                                                                                  ['answerArray.'+index+'.answer']:answer,
+                                                                                  ['answerArray.'+req.body.index+'.attempted']:"Yes",
+                                                                                  ['answerArray.'+req.body.index+'.studentAnswer']:studAnswer,
+                                                                                  ['answerArray.'+req.body.index+'.answer']:answer,
                                                                                   // ['answerArray.'+index+'.lastVisited']:new Date(),
                                                                                 }
                                                                               })
