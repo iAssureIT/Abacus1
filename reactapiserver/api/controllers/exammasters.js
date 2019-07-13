@@ -5,7 +5,7 @@ const StudentMaster             = require('../models/studentmasters');
 const CompetitionRegisterOrder  = require('../models/competitionregisterorders');
 
 getStudentStatus = function(studentID,competitionId){
-  CompetitionRegisterOrder.findOne({studentId:studentID,competitionId:competitionData[i]._id,status:"paid"})
+  CompetitionRegisterOrder.findOne({studentId:studentID,competitionId:competitionId,status:"paid"})
                           .exec()
                           .then(isStudentRegisterForComp=>{
                             if(isStudentRegisterForComp && isStudentRegisterForComp._id){
