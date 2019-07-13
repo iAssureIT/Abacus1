@@ -5,6 +5,26 @@ import $ from "jquery";
 import axios 				from 'axios';
 import moment				from 'moment';
 
+var returnList = [{
+	_id : '',
+	competitionName : '',
+	competitionDate : '',
+	startTime : '',
+	endTime : '',
+	studentPaymentStatus : '',
+	examDate : '',
+	lastInCompExamIdStatus : '',
+	examDataStatus : '',
+	competitionStatus : '',
+	examStartStatus : '',
+	competitionFees : '',
+	timeStatus : '',
+	examYear : '',
+	competitionFees :'',
+	examId : ''
+	// PayDate : '',
+	// currentExamDate : '',
+}];
 class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
 	constructor(props){
@@ -36,84 +56,55 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 				// currentExamDate : '',
 			}],
 		}
+		
 	}
 	componentDidMount(){
-		var returnList = [{
-			_id : '',
-			competitionName : '',
-			competitionDate : '',
-			startTime : '',
-			endTime : '',
-			studentPaymentStatus : '',
-			examDate : '',
-			lastInCompExamIdStatus : '',
-			examDataStatus : '',
-			competitionStatus : '',
-			examStartStatus : '',
-			competitionFees : '',
-			timeStatus : '',
-			examYear : '',
-			competitionFees :'',
-			examId : ''
-			// PayDate : '',
-			// currentExamDate : '',
-		}];
+		var i = 0;
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		
 		axios
 			.get('/exammasters/listmainexam/'+studentId)
 			.then((response)=>{
 				console.log('response ',response.data);
 				var returnData = response.data;
 				if(returnData){
-					for(var i = 0 ; i < returnData.length; i++){
-						returnList[i] = {
-														_id : returnData[i]._id,
-														competitionName : returnData[i].competitionName,
-														competitionDate : returnData[i].competitionDate,
-														startTime : returnData[i].startTime,
-														endTime : returnData[i].endTime,
-														studentPaymentStatus : 'unPaid',
-														examDate : returnData[i].examDate,
-														lastInCompExamIdStatus : returnData[i].lastInCompExamIdStatus,
-														examDataStatus : '',
-														competitionStatus : returnData[i].competitionStatus,
-														examStartStatus : returnData[i].examStartStatus,
-														competitionFees : returnData[i].competitionFees,
-														timeStatus : returnData[i].timeStatus,
-														examYear : returnData[i].examYear,
-														competitionFees :returnData[i].competitionFees,
-														examId : '',
-						};
-						if(returnList[i].competitionFees){
-							axios
-									.get('/competitionregisterorder/'+studentId+'/'+returnData._id)
-									.then((responsecro)=>{
-											if(responsecro.data && responsecro.data._id){
-												returnList[i].studentPaymentStatus = "Paid";
-												axios
-														.get('/myexammasters/participation/'+responsecro.competitionId+'/'+studentId)
-														.then((resmyexam)=>{
-															if(resmyexam){
-																returnList[i].examDataStatus 			= resmyexam.examStatus;
-																returnList[i].examId 							= resmyexam._id;	
-															}else{
-																returnList[i].examDataStatus 			= "";
-																returnList[i].examId 							= "";				
-															}
-														})
-														.catch(function(error){
-															console.log("error",error);
-														})
-											}else{
-												// returnList[i].studentPaymentStatus = "unPaid";
-												// returnList[i].examDataStatus 			= "";
-												// returnList[i].examId 							= '';
-											}
-									})
-									.catch(function(error){
-										console.log("error",error);
-									})
-						}
+					returnData.map((mainExam)=>{
+
+					});{
+						
+						// if(returnList[i].competitionFees){
+						// 	axios
+						// 			.get('/competitionregisterorder/'+studentId+'/'+returnList[i]._id)
+						// 			.then((responsecro)=>{
+						// 					if(responsecro.data){
+						// 						console.log('returnList i',returnList);
+						// 						console.log('i ',i);
+						// 						returnList[i].studentPaymentStatus = "Paid";
+						// 						axios
+						// 								.get('/myexammasters/participation/'+responsecro.competitionId+'/'+studentId)
+						// 								.then((resmyexam)=>{
+						// 									console.log(resmyexam);
+						// 									if(resmyexam){
+						// 										returnList[i].examDataStatus 			= resmyexam.examStatus;
+						// 										returnList[i].examId 							= resmyexam._id;	
+						// 									}else{
+						// 										returnList[i].examDataStatus 			= "";
+						// 										returnList[i].examId 							= "";				
+						// 									}
+						// 								})
+						// 								.catch(function(error){
+						// 									console.log("error",error);
+						// 								})
+						// 					}else{
+						// 						// returnList[i].studentPaymentStatus = "unPaid";
+						// 						// returnList[i].examDataStatus 			= "";
+						// 						// returnList[i].examId 							= '';
+						// 					}
+						// 			})
+						// 			.catch(function(error){
+						// 				console.log("error",error);
+						// 			})
+						// }
 					}//End of for
 				}
 				if(returnList.length == response.data.length){
