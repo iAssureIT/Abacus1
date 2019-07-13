@@ -125,7 +125,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   // var dataID = competitionData[index]._id;
                                   // console.log('dataID ',dataID);
                                   // var data = getStudentStatus(req.params.studentId,dataID);
-                                  if(data){
+                                  // if(data){
                                     competitions.push({
                                       'competitionName'       : competitionData[index].competitionName,
                                       'competitionDate'       : competitionData[index].competitionDate,
@@ -139,7 +139,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       // 'studentPaymentStatus'  : data.studentPaymentStatus,
                                       // 'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
                                     });
-                                  }
+                                  // }
                                   if(competitionData.length == competitions.length){
                                     res.status(200).json(competitions);
                                   }
