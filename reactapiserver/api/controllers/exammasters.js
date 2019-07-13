@@ -127,6 +127,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   // var data = getStudentStatus(req.params.studentId,dataID);
                                   // if(data){
                                     competitions.push({
+                                      '_id'                   : competitionData[index]._id,
                                       'competitionName'       : competitionData[index].competitionName,
                                       'competitionDate'       : competitionData[index].competitionDate,
                                       'startTime'             : competitionData[index].startTime,

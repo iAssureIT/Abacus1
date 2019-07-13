@@ -41,8 +41,12 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			.get('/exammasters/listmainexam/'+studentId)
 			.then((response)=>{
 				console.log('response ',response.data);
+				var returnData = response.data;
+				if(returnData){
+
+				}
 				this.setState({
-					competitionData : response.data	
+					competitionData : returnData	
 				})
 			})
 			.catch(function(error){
