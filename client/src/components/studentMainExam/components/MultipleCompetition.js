@@ -43,7 +43,36 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 				console.log('response ',response.data);
 				var returnData = response.data;
 				if(returnData){
-
+					for(var i = 0 ; i < returnData.length; i++){
+						axios
+							.get('/competitionregisterorder/'+studentId+'/'+returnData._id)
+							.then((responsecro)=>{
+									if(responsecro.data && responsecro.data._id){
+										returnData[i].studentPaymentStatus = "Paid";
+										axios
+												.get('/myexammasters/participation/'+responsecro.competitionId+'/'+studentId)
+												.then((resmyexam)=>{
+													if(resmyexam){
+														returnData[i].examDataStatus 			= resmyexam.examStatus;
+														returnData[i].examId 							= resmyexam._id;	
+													}else{
+														returnData[i].examDataStatus 			= "";
+														returnData[i].examId 							= "";				
+													}
+												})
+												.catch(function(error){
+													console.log("error",error);
+												})
+									}else{
+										returnData[i].studentPaymentStatus = "unPaid";
+										returnData[i].examDataStatus 			= "";
+										returnData[i].examId 							= "";
+									}
+							})
+							.catch(function(error){
+								console.log("error",error);
+							})
+					}
 				}
 				this.setState({
 					competitionData : returnData	

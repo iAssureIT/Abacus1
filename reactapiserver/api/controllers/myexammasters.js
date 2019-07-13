@@ -71,7 +71,7 @@ exports.fetch_participationexam_certificate = (req,res,next) => {
     var competitionId = req.params.competitionId;
     var studentId     = req.params.studentId;
     MyExamMaster.find({competitionId:competitionId,StudentId:studentId})
-            .select("fullName competitionName examDate examSolvingTime")
+            .select("fullName competitionName examDate examSolvingTime examStatus")
             .exec()
             .then(data =>{
             //   console.log('data ',data);

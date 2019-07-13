@@ -137,6 +137,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       'timeStatus'            : competitionData[index].timeStatus,
                                       'nextExamStatus'        : competitionData[index].nextExamStatus,
                                       'examStartStatus'       : competitionData[index].examStartStatus,
+                                      'competitionFees'       : competitionData[index].competitionFees,
                                       // 'studentPaymentStatus'  : data.studentPaymentStatus,
                                       // 'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
                                     });
