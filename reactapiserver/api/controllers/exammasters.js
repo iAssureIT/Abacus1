@@ -122,9 +122,9 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
                                     }
                                   }
-                                  var dataID = competitionData[index]._id;
-                                  console.log('dataID ',dataID);
-                                  var data = getStudentStatus(req.params.studentId,dataID);
+                                  // var dataID = competitionData[index]._id;
+                                  // console.log('dataID ',dataID);
+                                  // var data = getStudentStatus(req.params.studentId,dataID);
                                   if(data){
                                     competitions.push({
                                       'competitionName'       : competitionData[index].competitionName,
@@ -135,11 +135,9 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       'examTimeStatus'        : competitionData[index].examTimeStatus,
                                       'timeStatus'            : competitionData[index].timeStatus,
                                       'nextExamStatus'        : competitionData[index].nextExamStatus,
-                                      // 'PayDate'               : competitionData[index].PayDate,
                                       'examStartStatus'       : competitionData[index].examStartStatus,
-                                      'studentPaymentStatus'  : data.studentPaymentStatus,
-                                      'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
-                                      // 'status'          : 
+                                      // 'studentPaymentStatus'  : data.studentPaymentStatus,
+                                      // 'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
                                     });
                                   }
                                   if(competitionData.length == competitions.length){
