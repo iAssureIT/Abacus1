@@ -2,7 +2,7 @@ const express 	= require("express");
 const router 	= express.Router();
 const MyExamMastersController         = require('../controllers/myexammasters');
 
-router.get('/allexam',MyExamMastersController.fetch_all_show_exam);
+router.get('/allexam',MyExamMastersController.fetch_all_show_exam); 
 
 router.get('/dashboard/:studentId',MyExamMastersController.fetch_exam_student_dashboard);
 

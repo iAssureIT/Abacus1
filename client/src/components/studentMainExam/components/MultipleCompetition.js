@@ -64,7 +64,6 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			.then((response)=>{
 				console.log('response ',response.data);
 				var returnData = response.data;
-
 				if(returnData){
 					for(var i = 0 ; i < returnData.length; i++){
 						returnList[i] = {
@@ -73,16 +72,17 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 														competitionDate : returnData[i].competitionDate,
 														startTime : returnData[i].startTime,
 														endTime : returnData[i].endTime,
-														studentPaymentStatus : '',
+														studentPaymentStatus : 'unPaid',
 														examDate : returnData[i].examDate,
 														lastInCompExamIdStatus : returnData[i].lastInCompExamIdStatus,
-														examDataStatus : returnData[i].examDataStatus,
+														examDataStatus : '',
 														competitionStatus : returnData[i].competitionStatus,
 														examStartStatus : returnData[i].examStartStatus,
 														competitionFees : returnData[i].competitionFees,
 														timeStatus : returnData[i].timeStatus,
 														examYear : returnData[i].examYear,
-														competitionFees :returnData[i].competitionFees
+														competitionFees :returnData[i].competitionFees,
+														examId : '',
 						};
 						if(returnList[i].competitionFees){
 							axios
@@ -105,19 +105,19 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 															console.log("error",error);
 														})
 											}else{
-												returnList[i].studentPaymentStatus = "unPaid";
-												returnList[i].examDataStatus 			= "";
-												returnList[i].examId 							= "";
+												// returnList[i].studentPaymentStatus = "unPaid";
+												// returnList[i].examDataStatus 			= "";
+												// returnList[i].examId 							= '';
 											}
 									})
 									.catch(function(error){
 										console.log("error",error);
 									})
 						}
-						
 					}//End of for
 				}
 				if(returnList.length == response.data.length){
+					console.log('returnList ',returnList);
 					this.setState({
 						competitionData : returnList	
 					})
