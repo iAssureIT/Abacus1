@@ -68,22 +68,28 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 					- Check if past exam and given 
 					- check if exam is schedule in future
 		*/
-		// axios
-			// .get('/competitionregisterorder/mainexam/'+studentId)
-			// .then((response)=>{
-			// 	console.log('response ',response.data);
-			// })
-			// .catch(function(error){
-			// 	console.log("error",error);
-			// });
-
+		var studentCompetitions = [];
+		var allCompetitions = [];
 		axios
 			.get('/exammasters/listmainexam')
 			.then((myexamlist)=>{
 				console.log('myexamlist ',myexamlist.data);
-				this.setState({
-					competitionData : myexamlist.data
-				});
+				allCompetitions = myexamlist.data;
+				axios
+						.get('/competitionregisterorder/mainexam/'+studentId)
+						.then((response)=>{
+							console.log('response ',response.data);
+							studentCompetitions = response.data;
+							studentCompetitions.map((sc)=>{
+								var index = allCompetitions.findIndex(function(data){
+																									return data._id == sc.competitionId
+																							});
+								console.log('index ',index);
+							});
+						})
+						.catch(function(error){
+							console.log("error",error);
+						});
 			})
 			.catch(function(error){
 				console.log("error",error);
