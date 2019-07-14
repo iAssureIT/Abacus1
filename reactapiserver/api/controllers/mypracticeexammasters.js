@@ -118,3 +118,72 @@ exports.update_exam_ans = (req,res,next)=>{
                         });
                       });
 }
+
+exports.ExamMarksUpdate = (req,res,next) =>{
+  MyPracticeExamMaster.findOne({"_id":req.params.examId})
+              .exec()
+              .then(practiceExamData=>{
+                  if(practiceExamData){
+                      var marksPerQues = practiceExamData.marksPerQues;
+                      var correctAnswer = practiceExamData.answerArray.filter(function(mapData){
+                                      return mapData.answer === "Correct";
+                                  }).length;
+
+                      var wrongAnswer  = practiceExamData.answerArray.filter(function(mapData){
+                                          return mapData.answer === "Wrong";
+                                      }).length;
+
+                      var attepmted  = practiceExamData.answerArray.filter(function(mapData){
+                                          return mapData.attempted === "Yes";
+                                      }).length;
+                      var totalScore  = correctAnswer * marksPerQues;
+                      var totalQue  = practiceExamData.totalQuestion;
+                      var examType = practiceExamData.examType;
+                      if(totalScore){
+                        MyPracticeExamMaster.update(
+                                                    {"_id":req.params.examId},
+                                                    {
+                                                      $set:{
+                                                        "attemptedQues":attepmted,
+                                                        "correctAnswer":correctAnswer,
+                                                        "wrongAnswer"  :wrongAnswer,
+                                                        "totalScore"   :totalScore,
+                                                        "examStatus"   :"Completed",
+                                                      }
+                                                    }
+                                            )
+                                            .exec()
+                                            .then(result=>{
+                                              if(result.nModified == 1){
+                                                res.status(409).json({
+                                                  examType      : examType,
+                                                  totalQuestion : totalQue,
+                                                  totalMarks    : totalScore,
+                                                  percentage    : (parseInt(totalScore)/parseInt(totalMarks))*100,
+                                                  attemptedQues : attepmted,
+                                                  correctAnswer : correctAnswer,
+                                                  wrongAnswer   : wrongAnswer,
+                                                });
+                                              }else{
+                                                res.status(409).json({message:"Exam Not Updated"});                          
+                                              }
+                                            })
+                                            .catch(err =>{
+                                              console.log(err);
+                                              res.status(500).json({
+                                                  error: err
+                                              });
+                                          });                              
+                      }
+                      
+                  }else{
+                      res.status(409).json({message:"Exam Not Found"});
+                  }
+              })
+              .catch(err =>{
+                  console.log(err);
+                  res.status(500).json({
+                      error: err
+                  });
+              });
+}
