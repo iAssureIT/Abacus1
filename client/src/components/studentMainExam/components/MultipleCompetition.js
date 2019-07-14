@@ -78,7 +78,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			// });
 
 		axios
-			.get('/exammasters/list')
+			.get('/exammasters/listmainexam')
 			.then((myexamlist)=>{
 				console.log('myexamlist ',myexamlist.data);
 			})
