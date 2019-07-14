@@ -138,6 +138,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                       var totalScore  = correctAnswer * marksPerQues;
                       var totalQue  = practiceExamData.totalQuestion;
                       var examType = practiceExamData.examType;
+                      var totalMarks = practiceExamData.totalMarks;
                       if(examType ){
                         MyPracticeExamMaster.updateOne(
                                                     {"_id":req.params.examId},
@@ -156,8 +157,8 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                               var sendRes = {
                                                 examType      : examType,
                                                 totalQuestion : totalQue,
-                                                totalMarks    : totalScore,
-                                                percentage    : (parseInt(totalScore)/parseInt(totalScore))*100,
+                                                totalMarks    : totalMarks,
+                                                percentage    : (parseInt(totalScore)/parseInt(totalMarks))*100,
                                                 attemptedQues : attepmted,
                                                 correctAnswer : correctAnswer,
                                                 wrongAnswer   : wrongAnswer,

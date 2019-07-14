@@ -81,6 +81,9 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			.get('/exammasters/listmainexam')
 			.then((myexamlist)=>{
 				console.log('myexamlist ',myexamlist.data);
+				this.setState({
+					competitionData : myexamlist.data
+				});
 			})
 			.catch(function(error){
 				console.log("error",error);
