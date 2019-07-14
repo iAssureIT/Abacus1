@@ -146,113 +146,95 @@ exports.competitionDetails = (req,res,next)=>{
                 });      
 }
 
-exports.fetch_all_show_exam 
-// exports.fetch_exam_details_mainexam = (req,res,next)=>{
-//   var today           = new Date();
-//   var todayDate       = moment(today).format('L');
-//   var currentTime     = moment(today).format('LT');
-//   StudentMaster.findOne({studentId:req.params.studentId})
-//                .exec()
-//                .then(studentData=>{
-//                  if(studentData){
-//                   ExamMaster.find({competitionView:"Show"})
-//                             .sort( { competitionDate:-1} )
-//                             .exec()
-//                             .then(competitionData =>{
-//                               if(competitionData){
-//                                 var competitions = [];
-//                                 // competitionList.map((competitionData,index)=>{
-//                                 for(index = 0 ; index < competitionData.length ; index++){
-//                                   var competitionDate = new Date(competitionData[index].competitionDate);
-//                                   competitionData[index].examDate = moment(competitionDate).format('L');
-//                                   // competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
-//                                   competitionData[index].viewStatus = competitionData[index].competitionView;
-//                                   var examTime = new Date(competitionData[index].competitionDate);
-//                                   var ExamStartTime = moment(currentTime, 'h:mma');
-//                                   var ExamEndTime   = moment(new Date(competitionData[index].endTime), 'h:mma');
-//                                   console.log('examTime ',examTime.getTime());
-//                                   if(today.getTime()< examTime.getTime()){
-//                                     competitionData[index].examYear = "Accept";
-//                                   }else{
-//                                     competitionData[index].examYear = "NotAccept";
-//                                   }
-                            
-//                                   if(todayDate>competitionData[index].examDate){
-//                                     competitionData[index].examTimeStatus = "OldExam";
-//                                   }else if(todayDate<=competitionData[index].examDate){
-//                                     competitionData[index].examTimeStatus = "NewExam";
-//                                   }
-//                                   if(todayDate==competitionData[index].examDate && ExamStartTime > ExamEndTime){
-//                                     competitionData[index].timeStatus = "invalid";
-//                                   }else if(todayDate==competitionData[index].examDate && ExamStartTime<ExamEndTime){
-//                                     competitionData[index].timeStatus = "valid";
-//                                   }else{
-//                                     competitionData[index].timeStatus = "nextCompetition";
-//                                   }
-//                                   if(todayDate<=competitionData[index].examDate){
-//                                     competitionData[index].nextExamStatus = "Present"
-//                                   }else{
-//                                     competitionData[index].nextExamStatus = "Absent"
-//                                   }
-//                                   // competitionData[index].PayDate         = moment(competitionData[index].createdAt).format('MMM Do YYYY');  
-//                                   // competitionData[index].currentExamDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
-                    
-//                                   var studentCategory = competitionData[index].competitionExams;
-//                                   if(studentCategory){
-//                                     var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
-//                                     var categoryWiseExamData = studentCategory[index];
-//                                     if(categoryWiseExamData){
-//                                       competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
-//                                     }
-//                                   }
-//                                   // var dataID = competitionData[index]._id;
-//                                   // console.log('dataID ',dataID);
-//                                   // var data = getStudentStatus(req.params.studentId,dataID);
-//                                   // if(data){
-//                                     competitions.push({
-//                                       '_id'                   : competitionData[index]._id,
-//                                       'competitionName'       : competitionData[index].competitionName,
-//                                       'competitionDate'       : competitionData[index].competitionDate,
-//                                       'startTime'             : competitionData[index].startTime,
-//                                       'endTime'               : competitionData[index].endTime,
-//                                       'examYear'              : competitionData[index].examYear,
-//                                       'examTimeStatus'        : competitionData[index].examTimeStatus,
-//                                       'timeStatus'            : competitionData[index].timeStatus,
-//                                       'nextExamStatus'        : competitionData[index].nextExamStatus,
-//                                       'examStartStatus'       : competitionData[index].examStartStatus,
-//                                       'competitionFees'       : competitionData[index].competitionFees,
-//                                       'competitionStatus'     : competitionData[index].competitionStatus,
-//                                       'examDate'              : competitionData[index].examDate,
-//                                       // 'studentPaymentStatus'  : data.studentPaymentStatus,
-//                                       // 'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
-//                                     });
-//                                   // }
-//                                   if(competitionData.length == competitions.length){
-//                                     res.status(200).json(competitions);
-//                                   }
-//                                 }//End of For
-//                                 // if(competitionData.length == competitions.length){
-//                                 //   res.status(200).json(competitions);
-//                                 // }
-//                               }
-//                               // res.status(200).json(competitionData);
-//                             })
-//                             .catch(err =>{
-//                               console.log(err);
-//                               res.status(500).json({
-//                                 error: err
-//                                 });
-//                             });
-//                  }else{
-//                    res.status(404).json({message:"Student Not Found"});
-//                  }
-//                })
-//                .catch(err =>{
-//                   console.log(err);
-//                   res.status(500).json({
-//                     error: err
-//                   });
-//               });
-  
-// }
+exports.fetch_all_show_exam = (req,res,next)=>{
+  ExamMaster.find({competitionView:"Show"})
+            .sort( { competitionDate:-1} )
+            .exec()
+            .then(competitionData =>{
+              if(competitionData){
+                var competitions = [];
+                // competitionList.map((competitionData,index)=>{
+                for(index = 0 ; index < competitionData.length ; index++){
+                  var competitionDate = new Date(competitionData[index].competitionDate);
+                  competitionData[index].examDate = moment(competitionDate).format('L');
+                  // competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
+                  competitionData[index].viewStatus = competitionData[index].competitionView;
+                  var examTime = new Date(competitionData[index].competitionDate);
+                  var ExamStartTime = moment(currentTime, 'h:mma');
+                  var ExamEndTime   = moment(new Date(competitionData[index].endTime), 'h:mma');
+                  console.log('examTime ',examTime.getTime());
+                  if(today.getTime()< examTime.getTime()){
+                    competitionData[index].examYear = "Accept";
+                  }else{
+                    competitionData[index].examYear = "NotAccept";
+                  }
+                  if(todayDate>competitionData[index].examDate){
+                    competitionData[index].examTimeStatus = "OldExam";
+                  }else if(todayDate<=competitionData[index].examDate){
+                    competitionData[index].examTimeStatus = "NewExam";
+                  }
+                  if(todayDate==competitionData[index].examDate && ExamStartTime > ExamEndTime){
+                    competitionData[index].timeStatus = "invalid";
+                  }else if(todayDate==competitionData[index].examDate && ExamStartTime<ExamEndTime){
+                    competitionData[index].timeStatus = "valid";
+                  }else{
+                    competitionData[index].timeStatus = "nextCompetition";
+                  }
+                  if(todayDate<=competitionData[index].examDate){
+                    competitionData[index].nextExamStatus = "Present"
+                  }else{
+                    competitionData[index].nextExamStatus = "Absent"
+                  }
+                  // competitionData[index].PayDate         = moment(competitionData[index].createdAt).format('MMM Do YYYY');  
+                  // competitionData[index].currentExamDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
+    
+                  // var studentCategory = competitionData[index].competitionExams;
+                  // if(studentCategory){
+                  //   var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
+                  //   var categoryWiseExamData = studentCategory[index];
+                  //   if(categoryWiseExamData){
+                  //     competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+                  //   }
+                  // }
+                  // var dataID = competitionData[index]._id;
+                  // console.log('dataID ',dataID);
+                  // var data = getStudentStatus(req.params.studentId,dataID);
+                  // if(data){
+                    competitions.push({
+                      '_id'                   : competitionData[index]._id,
+                      'competitionName'       : competitionData[index].competitionName,
+                      'competitionDate'       : competitionData[index].competitionDate,
+                      'startTime'             : competitionData[index].startTime,
+                      'endTime'               : competitionData[index].endTime,
+                      'examYear'              : competitionData[index].examYear,
+                      'examTimeStatus'        : competitionData[index].examTimeStatus,
+                      'timeStatus'            : competitionData[index].timeStatus,
+                      'nextExamStatus'        : competitionData[index].nextExamStatus,
+                      'examStartStatus'       : competitionData[index].examStartStatus,
+                      'competitionFees'       : competitionData[index].competitionFees,
+                      'competitionStatus'     : competitionData[index].competitionStatus,
+                      'examDate'              : competitionData[index].examDate,
+                      // 'studentPaymentStatus'  : data.studentPaymentStatus,
+                      // 'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
+                    });
+                  // }
+                  if(competitionData.length == competitions.length){
+                    res.status(200).json(competitions);
+                  }
+                }//End of For
+                // if(competitionData.length == competitions.length){
+                //   res.status(200).json(competitions);
+                // }
+              }
+              // res.status(200).json(competitionData);
+            })
+            .catch(err =>{
+              console.log(err);
+              res.status(500).json({
+                error: err
+                });
+            });
+} 
 
+
+              
