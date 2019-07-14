@@ -120,6 +120,7 @@ exports.update_exam_ans = (req,res,next)=>{
 }
 
 exports.ExamMarksUpdate = (req,res,next) =>{
+  console.log('my exam result')
   MyPracticeExamMaster.findOne({"_id":req.params.examId})
               .exec()
               .then(practiceExamData=>{
