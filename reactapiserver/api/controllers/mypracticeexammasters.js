@@ -124,8 +124,8 @@ exports.ExamMarksUpdate = (req,res,next) =>{
   MyPracticeExamMaster.findOne({"_id":req.params.examId})
               .exec()
               .then(practiceExamData=>{
-                  console.log('practiceExamData ',practiceExamData);
                   if(practiceExamData){
+                    console.log('practiceExamData ',practiceExamData.marksPerQues);
                       var marksPerQues = practiceExamData.marksPerQues;
                       var correctAnswer = practiceExamData.answerArray.filter(function(mapData){
                                       return mapData.answer === "Correct";
@@ -142,6 +142,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                       var totalQue  = practiceExamData.totalQuestion;
                       var examType = practiceExamData.examType;
                       if(totalScore){
+                        console.log('totalScore ',totalScore);
                         MyPracticeExamMaster.update(
                                                     {"_id":req.params.examId},
                                                     {
@@ -157,6 +158,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                             .exec()
                                             .then(result=>{
                                               if(result.nModified == 1){
+                                                console.log('result ',result);
                                                 var res = {
                                                   examType      : examType,
                                                   totalQuestion : totalQue,
@@ -171,6 +173,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                                   res.status(409).json(res);
                                                 }
                                               }else{
+                                                console.log('not update');
                                                 res.status(409).json({message:"Exam Not Updated"});                          
                                               }
                                             })
@@ -183,6 +186,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                       }
                       
                   }else{
+                      console.log('exam not found');
                       res.status(409).json({message:"Exam Not Found"});
                   }
               })
