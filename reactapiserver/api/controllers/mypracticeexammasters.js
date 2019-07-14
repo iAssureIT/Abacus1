@@ -153,33 +153,17 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                             )
                                             .exec()
                                             .then(result=>{
-                                              if(result.nModified == 1){
-                                                var sendRes = {
-                                                  examType      : examType,
-                                                  totalQuestion : totalQue,
-                                                  totalMarks    : totalScore,
-                                                  percentage    : (parseInt(totalScore)/parseInt(totalScore))*100,
-                                                  attemptedQues : attepmted,
-                                                  correctAnswer : correctAnswer,
-                                                  wrongAnswer   : wrongAnswer,
-                                                };
-                                                if(sendRes){
-                                                  res.status(200).json(sendRes);
-                                                }
-                                              }else{
-                                                // res.status(404).json({message:"Exam Not Updated"});                          
-                                                var sendRes = {
-                                                  examType      : examType,
-                                                  totalQuestion : totalQue,
-                                                  totalMarks    : totalScore,
-                                                  percentage    : (parseInt(totalScore)/parseInt(totalScore))*100,
-                                                  attemptedQues : attepmted,
-                                                  correctAnswer : correctAnswer,
-                                                  wrongAnswer   : wrongAnswer,
-                                                };
-                                                if(sendRes){
-                                                  res.status(200).json(sendRes);
-                                                }
+                                              var sendRes = {
+                                                examType      : examType,
+                                                totalQuestion : totalQue,
+                                                totalMarks    : totalScore,
+                                                percentage    : (parseInt(totalScore)/parseInt(totalScore))*100,
+                                                attemptedQues : attepmted,
+                                                correctAnswer : correctAnswer,
+                                                wrongAnswer   : wrongAnswer,
+                                              };
+                                              if(sendRes){
+                                                res.status(200).json(sendRes);
                                               }
                                             })
                                             .catch(err =>{
