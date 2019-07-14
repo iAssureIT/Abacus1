@@ -20,6 +20,8 @@ const mypracticeexammastersSchema = mongoose.Schema({
     createdAt : Date,
     date : String,
     examStatus : String,
+    lastVisitedQuestion : String,
+    lastVisitedQAnswer : String,
     answerArray : [ 
         {
             questionId          : String,

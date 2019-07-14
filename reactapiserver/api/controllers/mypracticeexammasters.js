@@ -60,7 +60,7 @@ exports.fetch_practice_exam_student = (req,res,next)=>{
   var studentId                   = req.params.studentId;
   var practiceExamId   = req.params.practiceExamId;
   MyPracticeExamMaster.findOne({_id:practiceExamId,StudentId:studentId})
-                      .select("examTime totalQuestion answerArray totalMarks examTime examName")
+                      .select("examTime totalQuestion answerArray totalMarks examTime examName lastVisitedQuestion lastVisitedQAnswer")
                       .exec()
                       .then(data =>{
                       //   console.log('data ',data);
