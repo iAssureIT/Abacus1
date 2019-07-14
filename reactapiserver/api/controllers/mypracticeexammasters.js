@@ -124,6 +124,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
   MyPracticeExamMaster.findOne({"_id":req.params.examId})
               .exec()
               .then(practiceExamData=>{
+                  console.log('practceExamData ',practceExamData);
                   if(practiceExamData){
                       var marksPerQues = practiceExamData.marksPerQues;
                       var correctAnswer = practiceExamData.answerArray.filter(function(mapData){
