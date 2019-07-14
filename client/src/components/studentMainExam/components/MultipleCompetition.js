@@ -77,14 +77,14 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			// 	console.log("error",error);
 			// });
 
-		axios
-			.get('/exammasters/listmainexam/'+studentId)
-			.then((myexamlist)=>{
-				console.log('myexamlist ',myexamlist.data);
-			})
-			.catch(function(error){
-				console.log("error",error);
-			});
+		// axios
+		// 	.get('/exammasters/listmainexam/'+studentId)
+		// 	.then((myexamlist)=>{
+		// 		console.log('myexamlist ',myexamlist.data);
+		// 	})
+		// 	.catch(function(error){
+		// 		console.log("error",error);
+		// 	});
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
