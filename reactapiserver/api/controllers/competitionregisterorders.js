@@ -49,20 +49,23 @@ exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
               if(competitionorder){
                 var competitionorderList = [];
                 competitionorder.map((co)=>{
+                  console.log('competitionId ',co.competitionId);
                   MyExamMaster.findOne({competitionId:co.competitionId,StudentId:req.params.studentID})
                             .select("examStatus")
                             .exec()
                             .then(examData=>{
                               if(examData){
+                                console.log('got exam');
                                 competitionorderList.push({
-                                  competitionorder      : competitionorder._id,
+                                  competitionorder      : co._id,
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : examData.examStatus,
                                   examId                : examData._id,
                                 });
                               }else{
+                                console.log(' exam not found');
                                 competitionorderList.push({
-                                  competitionorder      : competitionorder._id,
+                                  competitionorder      : co._id,
                                   studentPaymentStatus  : "Paid",
                                   examDataStatus        : "",
                                   examId                : "",
@@ -76,6 +79,7 @@ exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
                                 });
                             });
                 });
+                console.log('competitionorderList ',competitionorderList);
                 if(competitionorder.length == competitionorderList.length){
                   res.status(200).json(competitionorderList);
                 }

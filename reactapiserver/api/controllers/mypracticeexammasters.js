@@ -121,8 +121,6 @@ exports.update_exam_ans = (req,res,next)=>{
 }
 
 exports.ExamMarksUpdate = (req,res,next) =>{
-  console.log('REQ = ',req.params);
-
   MyPracticeExamMaster.findOne({"_id":req.params.examId})
               .exec()
               .then(practiceExamData=>{

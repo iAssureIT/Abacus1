@@ -61,6 +61,13 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 	componentDidMount(){
 		var i = 0;
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		/*
+			1. Get all the competitions 
+			2. Get all the exam given or opted by the student
+			3. If competitions given by student then
+					- Check if past exam and given 
+					- check if exam is schedule in future
+		*/
 		axios
 			.get('/competitionregisterorder/mainexam/'+studentId)
 			.then((response)=>{
@@ -72,8 +79,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
 		axios
 			.get('/exammasters/listmainexam/'+studentId)
-			.then((response)=>{
-				console.log('response ',response.data);
+			.then((myexamlist)=>{
+				console.log('response ',myexamlist.data);
 			})
 			.catch(function(error){
 				console.log("error",error);
