@@ -1,4 +1,5 @@
 const mongoose	= require("mongoose");
+var ObjectID = require("mongodb").ObjectID;
 
 const MyPracticeExamMaster = require('../models/mypracticeexammasters');
 
@@ -120,27 +121,74 @@ exports.update_exam_ans = (req,res,next)=>{
 }
 
 exports.ExamMarksUpdate = (req,res,next) =>{
-  console.log('my exam result')
-  MyPracticeExamMaster.aggregate([
-                              // {$match : {"_id":req.params.examId}},
-                              {$group : 
-                                        {
-                                          _id : "$answerArray.attempted"
-                                        }
-                              },
-                        ])
-                      .exec()
-                      .then(data=>{
-                        res.status(200).json(data);
-                      })
-                      .catch(err =>{
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        });
-                    });
-}
+  console.log('REQ = ',req.params);
 
-exports.updateQuestionPaperMasterAccordingtoPackages = (req,res,next) =>{
+  MyPracticeExamMaster.findOne({"_id":req.params.examId})
+              .exec()
+              .then(practiceExamData=>{
+                  if(practiceExamData){
+                      var marksPerQues = practiceExamData.marksPerQues;
+                      var correctAnswer = practiceExamData.answerArray.filter(function(mapData){
+                                      return mapData.answer === "Correct";
+                                  }).length;
+                      var wrongAnswer  = practiceExamData.answerArray.filter(function(mapData){
+                                          return mapData.answer === "Wrong";
+                                      }).length;
+                      var attepmted  = practiceExamData.answerArray.filter(function(mapData){
+                                          return mapData.attempted === "Yes";
+                                      }).length;
+                      var totalScore  = correctAnswer * marksPerQues;
+                      var totalQue  = practiceExamData.totalQuestion;
+                      var examType = practiceExamData.examType;
+                      if(examType ){
+                        MyPracticeExamMaster.updateOne(
+                                                    {"_id":req.params.examId},
+                                                    {
+                                                      $set:{
+                                                        "attemptedQues":attepmted,
+                                                        "correctAnswer":correctAnswer,
+                                                        "wrongAnswer"  :wrongAnswer,
+                                                        "totalScore"   :totalScore,
+                                                        "examStatus"   :"Completed",
+                                                      }
+                                                    }
+                                            )
+                                            .exec()
+                                            .then(result=>{
+                                              if(result.nModified == 1){
+                                                var sendRes = {
+                                                  examType      : examType,
+                                                  totalQuestion : totalQue,
+                                                  totalMarks    : totalScore,
+                                                  percentage    : (parseInt(totalScore)/parseInt(totalScore))*100,
+                                                  attemptedQues : attepmted,
+                                                  correctAnswer : correctAnswer,
+                                                  wrongAnswer   : wrongAnswer,
+                                                };
+                                                if(sendRes){
+                                                  res.status(409).json(sendRes);
+                                                }
+                                              }else{
+                                                res.status(409).json({message:"Exam Not Updated"});                          
+                                              }
+                                            })
+                                            .catch(err =>{
+                                              console.log(err);
+                                              res.status(500).json({
+                                                  error: err
+                                              });
+                                          });                              
+                      }
+                      
+                  }else{
+                      res.status(409).json({message:"Exam Not Found"});
+                  }
+              })
+              .catch(err =>{
+                  console.log(err);
+                  res.status(500).json({
+                      error: err
+                  });
+              });
   
 }

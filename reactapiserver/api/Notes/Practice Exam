@@ -92,16 +92,16 @@
 
 6. updateQuestionPaperMasterAccordingtoPackages
 
-    Method          : PATCH
+    Method          : POST
 
     URL             : /packagequestionpapermaster
 
     Input           : 
                         {
-                            quepaperID  : String,
-                            packageID   : String,
-                            index       : Number,
-                            orderId     : String,    
+                            quepaperID  : String, //qpid
+                            packageID   : String, //urlPackageId
+                            index       : Number, //BtnIndex
+                            orderId     : String, //orderId
                             studentID   : String,
                             todayDate   : String, //convert today date into moment().format("MMM Do YY") format
                         }
