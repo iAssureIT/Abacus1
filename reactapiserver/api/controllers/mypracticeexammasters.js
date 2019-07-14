@@ -162,6 +162,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                                 attemptedQues : attepmted,
                                                 correctAnswer : correctAnswer,
                                                 wrongAnswer   : wrongAnswer,
+                                                totalScore    : totalScore,
                                               };
                                               if(sendRes){
                                                 res.status(200).json(sendRes);
