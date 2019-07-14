@@ -192,6 +192,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
 }
 
 exports.completeExam = (req,res,next) =>{
+  console.log('completeexam');
   MyPracticeExamMaster.updateOne(
                               {"_id":req.body.examId},
                               {
