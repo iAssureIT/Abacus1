@@ -68,24 +68,47 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 					- Check if past exam and given 
 					- check if exam is schedule in future
 		*/
-		var studentCompetitions = [];
-		var allCompetitions = [];
+		// var studentCompetitions = [];
+		// var allCompetitions = [];
+		var k = 0;
 		axios
 			.get('/exammasters/listmainexam')
 			.then((myexamlist)=>{
 				console.log('myexamlist ',myexamlist.data);
-				allCompetitions = myexamlist.data;
+				var allCompetitions = myexamlist.data;
 				axios
 						.get('/competitionregisterorder/mainexam/'+studentId)
 						.then((response)=>{
 							console.log('response ',response.data);
-							studentCompetitions = response.data;
-							studentCompetitions.map((sc)=>{
+							var studentCompetitions = response.data;
+							for(k = 0 ; k < studentCompetitions.length; k++){
 								var index = allCompetitions.findIndex(function(data){
-																									return data._id == sc.competitionId
+																									return data._id == studentCompetitions[k].competitionId
 																							});
-								console.log('index ',index);
-							});
+								if(index > 0){
+									console.log('index ',index);
+									allCompetitions[index].studentPaymentStatus = "Paid";
+									axios
+											.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId)
+											.then((myexamres)=>{
+												if(myexamres.data.length > 0){
+													allCompetitions[index].examDataStatus = myexamres.data.examStatus;
+													allCompetitions[index].examId  = myexamres.data._id;
+												}
+											})
+											.catch(function(error){
+												console.log("error",error);
+											});
+								}//end of index
+							};//end of for
+							console.log('k ',k);
+							console.log('allCompetitions ',allCompetitions);
+							if(k >= studentCompetitions.length){
+								this.setState({
+									competitionData :allCompetitions
+								});
+							}
+							
 						})
 						.catch(function(error){
 							console.log("error",error);
