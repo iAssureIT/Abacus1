@@ -155,7 +155,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                             .exec()
                                             .then(result=>{
                                               if(result.nModified == 1){
-                                                res.status(409).json({
+                                                var res = {
                                                   examType      : examType,
                                                   totalQuestion : totalQue,
                                                   totalMarks    : totalScore,
@@ -163,7 +163,11 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                                   attemptedQues : attepmted,
                                                   correctAnswer : correctAnswer,
                                                   wrongAnswer   : wrongAnswer,
-                                                });
+                                                };
+                                                console.log('res ',res);
+                                                if(res){
+                                                  res.status(409).json(res);
+                                                }
                                               }else{
                                                 res.status(409).json({message:"Exam Not Updated"});                          
                                               }
