@@ -194,7 +194,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
 exports.completeExam = (req,res,next) =>{
   console.log('completeexam');
   MyPracticeExamMaster.updateOne(
-                              {"_id":req.body.examId},
+                              {"_id":req.params.examId},
                               {
                                 $set:{
                                   'examStatus'  : "Completed",
@@ -202,6 +202,7 @@ exports.completeExam = (req,res,next) =>{
                               })
                           .exec()
                           .then(d => {
+                            console.log('d ',d);
                             if(d.nModified == 1){
                               res.status(200).json("Updated successfully");                                                
                             }else{
