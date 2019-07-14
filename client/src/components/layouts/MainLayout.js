@@ -15,7 +15,7 @@ import ConfirmOtp  				from '../../components/systemSecurity/ConfirmOtp.js';
 import ForgotPassword 			from '../../components/systemSecurity/ForgotPassword.js';
 import ResetPassword 			from '../../components/systemSecurity/ResetPassword.js';
 import SignUp 					from '../../components/systemSecurity/SignUp.js';
-import VerifyAccount 			from '../../components/systemSecurity/VerifyAccount.js';
+import VerifyMobileAOS 			from '../../components/systemSecurity/VerifyAccount.js';
 // Section: 2 - MainExam ********************************************************************
 import MultipleCompetition 		from '../../components/studentMainExam/components/MultipleCompetition.js';
 import PastExamReports 			from '../../components/studentMainExam/components/PastExamReports.js';
@@ -25,6 +25,7 @@ import PackageList				from '../../components/packageManagement/components/Packag
 import PurchasedPackage 		from '../../components/packageManagement/components/PurchasedPackage.js';
 // Section: 4 - PracticeExam**********************************************************
 import StartPracticeExam 		from '../../components/practiceExams/components/StartPracticeExam.js';
+import PracticeExamResult 		from '../../components/practiceExams/components/PracticeExamResult.js';
 import PracticeStartExam 		from '../../components/practiceExams/components/PracticeStartExam.js';
 import PracticeExamReports 		from '../../components/practiceExams/components/PracticeExamReports.js';
 // Section: 5 - Certificate**********************************************************
@@ -99,30 +100,32 @@ class MainLayout extends Component{
 						            <div className="container-fluid main-container nullPadding">
 						              	<div className="col-lg-10 marg-left nullPadding">
 							              	<Switch>
-										  		<Route path="/dashboard" 		exact strict component={ StudentProfile }/>
+										  		<Route path="/dashboard" 				exact strict component={ StudentProfile }/>
 										  		
-										  		<Route path="/PurchasedPkg" 	exact strict component={ PurchasedPackage } />
-										  		<Route path="/PackageList" 		exact strict component={ PackageList } />
-										  		<Route path="/PackageList/:orderId" 		exact strict component={ PackageList } />
+										  		<Route path="/PurchasedPkg" 			exact strict component={ PurchasedPackage } />
+										  		<Route path="/PackageList" 				exact strict component={ PackageList } />
+										  		<Route path="/PackageList/:orderId" 	exact strict component={ PackageList } />
 
 										  		<Route path="/practiceExam/:id/:urlPackageId/:BtnIndex" exact strict component={ StartPracticeExam } />
-										  		<Route path="/PracticeStartExam"exact strict component={ PracticeStartExam } />
-										  		<Route path="/PractExamReports" exact strict component={ PracticeExamReports } />
+										  		<Route path="/practiceExam/:id" 		exact strict component={ StartPracticeExam } />
+										  		<Route path="/PracticeExamResult/:id"	exact strict component={ PracticeExamResult } />
+										  		<Route path="/PracticeStartExam"		exact strict component={ PracticeStartExam } />
+										  		<Route path="/PractExamReports" 		exact strict component={ PracticeExamReports } />
 										  		
-										  		<Route path="/Certificate" 		exact strict component={ Certificate } />
-										  		<Route path="/ParticipCert" 	exact strict component={ ParticipationCertificate } />
+										  		<Route path="/Certificate" 				exact strict component={ Certificate } />
+										  		<Route path="/ParticipCert" 			exact strict component={ ParticipationCertificate } />
 
-										  		<Route path="/StudResetPwd" 	exact strict component={ StudentResetPassword } />
-										  		<Route path="/MyOrder" 			exact strict component={ MyOrder } />
-										  		<Route path="/CreateStudReg"	exact strict component={ CreateStudentRegistration } />
+										  		<Route path="/StudResetPwd" 			exact strict component={ StudentResetPassword } />
+										  		<Route path="/MyOrder" 					exact strict component={ MyOrder } />
+										  		<Route path="/CreateStudReg"			exact strict component={ CreateStudentRegistration } />
 
-										  		<Route path="/MultipleComp"		exact strict component={ MultipleCompetition } />
-										  		<Route path="/PastExamReports"	exact strict component={ PastExamReports } />
-										  		<Route path="/CompResultReport"	exact strict component={ CompetitionResultReport } />
+										  		<Route path="/MultipleComp"				exact strict component={ MultipleCompetition } />
+										  		<Route path="/PastExamReports"			exact strict component={ PastExamReports } />
+										  		<Route path="/CompResultReport"			exact strict component={ CompetitionResultReport } />
 										  		<Route path="/CompetitionDetailsforPayment/:compId"	exact strict component={ CompetitionDetailsforPayment } />
 										  		
 										  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
-										  		<Route path="/MyInvoice"		exact strict component={ MyInvoice } />
+										  		<Route path="/MyInvoice"				exact strict component={ MyInvoice } />
 										  		<Route path="/MyInvoice/:orderId"		exact strict component={ MyInvoice } />
 										  		
 							  					<Route component={ PageNotFound } />
@@ -142,13 +145,15 @@ class MainLayout extends Component{
 			<Router>
 			  	<Switch>
 			  		<div>
-					   	<Route path="/" 				exact strict component={ Login } />
-					    <Route path="/login" 			exact strict component={ Login } />
-				  		<Route path="/signup" 			exact strict component={ SignUp } />
-				  		<Route path="/forgot-pwd" 		exact strict component={ ForgotPassword } />
-				  		<Route path="/reset-pwd" 		exact strict component={ ResetPassword } />
-				  		<Route path="/verify-account" 	exact strict component={ VerifyAccount } />
-				  		<Route path="/confirm-otp" 		exact strict component={ ConfirmOtp } />
+					   	<Route path="/" 									exact strict component={ Login } />
+					    <Route path="/login" 								exact strict component={ Login } />
+				  		<Route path="/signup" 								exact strict component={ SignUp } />
+				  		<Route path="/forgot-pwd" 							exact strict component={ ForgotPassword } />
+				  		<Route path="/reset-pwd" 							exact strict component={ ResetPassword } />
+				  		<Route path="/verify-account" 						exact strict component={ VerifyMobileAOS } />
+				  		<Route path="/otpFirstVarification/:mailId" 		exact strict component={ ConfirmOtp } />
+				  		<Route path="/otpVarification/:mailId" 				exact strict component={ ConfirmOtp } />
+				  		<Route path="/forgotOTPVarification/:mailId" 		exact strict component={ ConfirmOtp } />
 					</div>
 			    </Switch> 
   			</Router>

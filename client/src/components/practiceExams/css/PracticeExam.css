@@ -149,7 +149,7 @@
 }
 #mySlideShowStartExam{
     border-image:url("/images/imagestexture.jpeg") 30 round;
-     background: radial-gradient(black 15%, transparent 16%) 0 0, radial-gradient(black 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background: radial-gradient(black 15%, transparent 16%) 0 0, radial-gradient(black 15%, transparent 16%) 8px 8px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
     background-color: #010101;
     background-size: 16px 16px;
 }
@@ -167,7 +167,9 @@
 .itemCustomT{
 	transition: transform .3s ease-in-out !important;
 }
-
+.marg38{
+	margin-top: 38px
+}
 /**************************For PracticeStartExam.js***********************/
 .qpRow{
     padding: 10px;

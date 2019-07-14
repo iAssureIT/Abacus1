@@ -171,13 +171,13 @@ class Login extends Component {
                   </Link>
                 </div>
               </div>
-              {/*<div className="col-lg-12 col-md-12 col-sm-12 pdcls">
+              <div className="col-lg-12 col-md-12 col-sm-12 pdcls">
                 <div className="col-lg-12 col-md-12 col-sm-12 ">
-                  <Link to='/verify-email' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                  <Link to='/verify-account' className="UMGreyy forgotpass emailverify col-lg-12 col-md-12 col-xs-12 col-sm-12">
                     OTP Verification
                   </Link>
                 </div>
-              </div>*/}
+              </div>
             </form>
           </div>
         </div>

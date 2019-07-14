@@ -32,6 +32,7 @@ class PurchasedPackage extends Component {
                   'defaultBtnTime'    : '00:05',
                   facilityPermission  : 'waitingforResult',
                   packageId           : '',
+                  lastExamId          : '',
                   PackageQPMData      : [],
                   practiceQPData      : [],
                   attemptOfpracticetest   : '',
@@ -57,9 +58,9 @@ class PurchasedPackage extends Component {
       axios
         .get('/mypracticeexammasters/incompleteexam/E6BRdJtHMF9a6p7KF')
         .then((response)=>{
-          console.log("purchasedpackage = ",response.data)
+          console.log("incompleteexam = ",response.data)
           this.setState({
-            // purchasedpackage :response.data[0].instruction
+            lastExamId :response.data[0]._id, 
           });
         })
         .catch(function(error){
@@ -83,7 +84,7 @@ class PurchasedPackage extends Component {
             })
           })
         })
-        .catch(function(error){
+        .catch(function(error){ 
           console.log(error);
         })   
 
@@ -229,13 +230,15 @@ class PurchasedPackage extends Component {
 
     ExamComplete(event){
       var id = $(event.target).attr('id');
-      // Meteor.call("practiceExamFinished",id,(error,result)=>{
-      //   if(error){
-
-      //   }else{
-          this.props.history.purchasedpackage("/startPracticeExam");
-      //   }
-      // });
+      axios
+          .post('/mypracticeexammasters/finishexam/'+id)
+          .then((response)=> {
+            console.log("finishexam = ",response.data);
+            this.props.history.push("/PracticeStartExam");
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
     }
 
     tryPELoadingAgainforBtn(){
@@ -295,8 +298,8 @@ class PurchasedPackage extends Component {
                           // !this.props.LoadingTest3 ?
                           // this.props.status !=''?
                           // !this.props.loadingTest4 ?
-                          /*!this.props.lastExamId ?*/
-                          this.state.practiceQPData.length !=0 ?
+                          !this.state.lastExamId ?
+                          // this.state.practiceQPData.length !=0 ?
                           <div className="box-header with-border boxMinHeight ">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamInstructionWrap ">
@@ -359,17 +362,17 @@ class PurchasedPackage extends Component {
                             <div className=" box-header with-border boxMinHeight  studDataNotExist">
                               <h3 className="col-lg-12 col-md-12 col-sm-12"> Oops! It seems that you didn't complete your last exam. Do you wish to continue ? </h3>
                               <div>
-                                <button className="btn btn-primary yesContinueBtn col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-lg-sm col-sm-offset-4 " id={this.props.lastExamId} onClick={this.gotoPreviousExam.bind(this)}>Yes, continue</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button className="btn btn-danger notContinueBtn col-lg-2 col-md-2  " id="kfjvdfnvkj"/*this.props.lastExamId*/ onClick={this.ExamComplete.bind(this)}>No</button>
+                                <button className="btn btn-primary yesContinueBtn col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-lg-sm col-sm-offset-4 " id={this.state.lastExamId} onClick={this.gotoPreviousExam.bind(this)}>Yes, continue</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button className="btn btn-danger notContinueBtn col-lg-2 col-md-2  " id={this.state.lastExamId} onClick={this.ExamComplete.bind(this)}>No</button>
                             </div>
                             </div>
                           :
-                          <div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
-                            <div>
-                              Loading please wait...!!!
+                            <div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
+                              <div>
+                                Loading please wait...!!!
+                              </div>
+                              <img src="/images/preloader.gif"/>
                             </div>
-                            <img src="/images/preloader.gif"/>
-                          </div>
                             
                         }
                       </div>

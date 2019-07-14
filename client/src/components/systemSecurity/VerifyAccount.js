@@ -1,12 +1,66 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
+import $ from 'jquery';
 
 import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
 
-class VerifyAccount extends Component {
+class VerifyMobileAOS extends Component {
+
+  constructor(){
+    super();
+    this.state ={
+      "subscription" : {
+        // user             : Meteor.subscribe("userfunction"), 
+      }
+    }
+  }
+
+  VerifyMobileAOS(event){
+    event.preventDefault();
+    var mobileVerifyAOS = this.refs.mobileVerifyAOS.value;
+     // Meteor.call('addVerifyOTP', mobileVerifyAOS, function(error,result){
+     //    if(error){
+     //      swal(error);
+     //    }else{
+     //      var result = result;
+     //      if(result =="alreadyVerified"){
+     //        swal("Your account already verified","","warning");
+     //        FlowRouter.go("/");
+     //      }else if(result != "MobNumNotExists"){
+     //        if(result){
+     //          var profileData = result.profile;
+     //          var userId = result._id;
+     //          var emailotp = Math.floor(100000 + Math.random() * 900000);
+     //           Meteor.call('addOTP', userId , emailotp, function(error,result){
+     //                  if(error){
+     //                    console.log(error);
+     //                  }else{
+                        
+     //                    FlowRouter.go('/otpFirstVarification/'+userId);
+     //                  Meteor.call("sendSMSMsg",profileData.firstname,mobileVerifyAOS,emailotp); //Send otp through sms
+     //                }
+     //          });
+     //          }
+     //        }else{
+     //          swal("Wrong Mobile Number" ,"Enter mobile number that you used for creating Account","warning");
+     //        }
+        
+     //    }
+     //  });
+  }
+
+  inputEffect(event){
+    event.preventDefault();
+    if($(event.target).val() != ""){
+      $(event.target).addClass("has-content");
+    }else{
+      $(event.target).removeClass("has-content");
+    }
+  }
+
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
@@ -46,7 +100,7 @@ class VerifyAccount extends Component {
         <div className="col-lg-6 col-lg-offset-2 col-md-6 col-md-offset-2 col-sm-12 col-sm-offset-2 formbg1 signupPadding signUpFormWrap loginOesWrap loginforms1" style={{"height": winHeight}}>
           <div className="divVerifyEmailWrap">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 forgotpwd verifypd">
-              <form id="OTPMobMail" /*onSubmit={this.VerifyMobileAOS.bind(this)}*/>
+              <form id="OTPMobMail" onSubmit={this.VerifyMobileAOS.bind(this)}>
                 <h3 className="signInNameTitle"><span className="bordbt">VERIFY ACCOUNT</span></h3>
                 <div className="text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
                     <span>Enter Mobile Number that you used for creating Account </span>
@@ -60,9 +114,10 @@ class VerifyAccount extends Component {
                     </span>
                   </div>
                 </div>
+                <Link to='/otpFirstVarification/hgjhkjj'>
                 <div className="submitButtonWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr">
                   <button type="submit" className="btn btn-info submitBtn col-lg-12 col-md-12 col-sm-12 col-xs-12 UMloginbutton">Submit</button>
-                </div>
+                </div></Link>
                 <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">
                   <Link to='/' className="UMGrey signInbtn pdleftclr col-lg-12 col-md-12 col-sm-12 col-xs-12">Sign In</Link>   
                 </div>
@@ -74,4 +129,4 @@ class VerifyAccount extends Component {
     );
   }
 }
-export default VerifyAccount;
+export default VerifyMobileAOS;

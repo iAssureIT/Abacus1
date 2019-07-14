@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import $ from "jquery";
 
-
 import './SignUp.css';
 
  class ConfirmOtp extends Component {
@@ -211,25 +210,15 @@ import './SignUp.css';
           <div className="divConfirmOtpModalWrap">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" className="firstverification">
               <div className="text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                <span>We have sent you a Verification Code to your registered <b>mobile and Email </b>.<br/><br/></span>
+                <span>We have sent you a Verification Code to your registered <b>Email </b>.<br/><br/></span>
               </div>
               <form id="OTPMobMail" onSubmit={this.confirmOTP.bind(this)}>
                 <div className="col-lg-12 col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 veriemail">
                   <div className="text-left col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                    <span>Enter six digit verification code received on <b>Email</b>.<br/></span>
+                    <span>Enter six digit verification code:<br/></span>
                   </div>
                   <div className="input-effect input-group veribtm1">
                     <input type="text" className="effect-21 form-control loginInputs " ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength="6" pattern="(0|[0-9]*)" required/>
-                    <span className="input-group-addon glyphi-custommm"><i className="fa fa-key" aria-hidden="true"></i></span>
-                    <span className="focus-border">
-                      <i></i>
-                    </span>
-                  </div>
-                  <div className="text-left col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                    <span>Enter four digit verification code received on <b>Mobile</b>.<br/></span>
-                  </div>
-                  <div className="input-effect input-group veribtm1">
-                    <input type="text" className="effect-21 form-control loginInputs " ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength="4" pattern="(0|[0-9]*)" required/>
                     <span className="input-group-addon glyphi-custommm"><i className="fa fa-key" aria-hidden="true"></i></span>
                     <span className="focus-border">
                       <i></i>

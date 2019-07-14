@@ -2,9 +2,9 @@ import React, {Component} 	from 'react';
 import { Link } 			from 'react-router-dom';
 import $ 					from "jquery";
 import axios 				from 'axios';
-
+import 'bootstrap/dist/js/bootstrap.min.js';
 import '../css/PracticeExam.css';
-
+declare var jQuery: any;
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
 // import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -25,6 +25,7 @@ class StartPracticeExam extends (Component)  {
 			questionArray	   : [],
 			noOfQuestion       : '',
 			totalMarks         : '',
+			examStatus         : '',
 			examTime           : '',
 			examName           : '',
 			myIndex            : '',
@@ -43,47 +44,19 @@ class StartPracticeExam extends (Component)  {
 
 	componentWillMount(){
 
-		if(this.state.examTime){
-			this.getTimefunction(this.state.examTime,this.props.match.params.id);
-		}else{
-			var getUrl = "location.pathname";
-			if(getUrl=="/practiceExam/"+this.props.match.params.id){
-				this.props.history.push('/startPracticeExam');
-			}else{
-			}
-		}
-		var examId = this.props.match.params.id;
-
+		var practiceExamId = this.props.match.params.id;
 		axios
-			.get('/mypracticeexammasters/'+examId)
+			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
 			.then((response)=>{
-				console.log("ExamTimeData = ",response.data);
-				this.getTimefunction(response.data[1],examId);
+				this.getTimefunction(response.data.examTime,practiceExamId);
 			})
 			.catch(function(error){
 				console.log(error)
 			})
-		// var examId = FlowRouter.getParam("id");
-		// Meteor.call("getPracticeExamTimeData",examId,Meteor.userId(),(err,res)=>{
-		// 	if(err){
-		// 		swal(err);
-		// 	}else{
-		// 		// console.log("res -----> ",res);
-		// 		if(res[0]=="data"){
-		// 			this.getTimefunction(res[1],examId);					
-		// 		}
-		// 	}
-		// });
 	}
 
 	componentDidMount(){	
 
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
 		var practiceExamId = this.props.match.params.id;			
 
 		axios
@@ -94,20 +67,77 @@ class StartPracticeExam extends (Component)  {
 								noOfQuestion 		: response.data.totalQuestion,
 								totalMarks 			: response.data.totalMarks,
 								questionArray 		: response.data.answerArray,
+								examStatus 			: response.data.examStatus,
 								examTime 			: response.data.examTime,
 								examName 			: response.data.examName,
 							 });
+
 			})
 			.catch(function(error){
 				console.log(error)
 			})
+
+
+				//======================================================
+				// 		Here you write which options is prechecked.
+				//======================================================
+
+				var quesArray = this.state.questionArray;
+				for(var i=0; i<quesArray.length; i++){
+					quesArray[i].optionAcheck = false;
+					quesArray[i].optionBcheck = false;
+					quesArray[i].optionCcheck = false;
+					quesArray[i].optionDcheck = false;
+
+					if(quesArray[i].studAnswer !== ""){
+						switch(quesArray[i].studAnswer){
+							case "A" : quesArray[i].optionAcheck = "checked"; break;
+							case "B" : quesArray[i].optionBcheck = "checked"; break;
+							case "C" : quesArray[i].optionCcheck = "checked"; break;
+							case "D" : quesArray[i].optionDcheck = "checked"; break;
+						}
+					}
+				}
+
+				if(i == quesArray.length){
+					this.setState({
+						questionArray : quesArray,
+					});
+				}
+
+
+		axios
+			.get('/mypracticeexammasters/practiceExam/'+practiceExamId)
+			.then((response)=>{
+				console.log("visited Q  = ",response.data.lastVisitedQuestion);
+				console.log("visited Q answer = ",response.data.lastVisitedQAnswer);
+			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
+
+				if(!response.data.lastVisitedQuestion){
+						this.setState(
+						{
+							qIndex: 0
+						})
+					}else{
+						this.setState(
+						{
+							qIndex: parseInt(response.data.lastVisitedQuestion) + 1
+						})
+					}
+
+
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+
+
 		// var exmId = FlowRouter.getParam("id");		
 		// Meteor.call("getLastVisitedQuestion",exmId,(err,res)=>{
 		// 	if(err){
 		// 	}else{
 		// 		if(res){
 		// 			// console.log("last Visited----->",res.lastVisitedQAnswer);
-		// 			// $('.'+res.lastVisitedQAnswer+'-'+res.lastVisitedQuestion).attr("checked", "checked");
 		// 			if(!res.lastVisitedQuestion){
 		// 				this.setState(
 		// 				{
@@ -164,113 +194,77 @@ class StartPracticeExam extends (Component)  {
 
 	getPracticeAnswerbyStud(event){
 		event.preventDefault();
-		var getqNum = event.target.getAttribute('data-qNum');
 		var checkedStatus = event.target.checked;
-		var studAnswer = event.target.getAttribute('id');
-		var examTime = $('.countdownWrap').text();
-		var examId = this.props.match.params.id;
-		var num = parseInt(getqNum);
+		var index  		  = event.target.getAttribute('data-qNum');
+		var studAnswer    = event.target.getAttribute('id');
+		var correctAnswer = event.target.getAttribute('data-right');
+		var examTime 	  = $('.countdownWrap').text();
+		var examId  	  = this.props.match.params.id;
+		var nextQues	  = parseInt(index) + 1;
 
-		console.log("--getqNum-->>",getqNum,"--checkedStatus-->>",checkedStatus,"--studAnswer-->>",studAnswer,"--examTime-->>",examTime,"--examId-->>",examId);
+		if(studAnswer == correctAnswer){
+			var answer = "Correct";
+		}else{
+			var answer = "Wrong";			
+		}
+
+		var formValues = {
+			"examId"     : examId,
+			"index"      : index,
+			"studAnswer" : studAnswer,
+			"examTime"   : examTime,
+			"answer"     : answer,
+		};
+
+		console.log("getqNum = ",index," | studAnswer = ",studAnswer," | examTime = ",examTime," | examId = ",examId, " | Answer = ",answer);
 
 		$('#ind'+(this.state.qIndex)).hide();
 		$('.carousel-control-right').click();
-		$('.carousel-control-left').click();
+		$('.carousel-control-left').click();		
 		
-		if(checkedStatus==true){
-			console.log("in check");
-			$('.carousel').carousel(num+1);
-			// $('#ind'+(num)).hide();
-		}
 		axios
-			.patch('/mypracticeexammasters',{examId,getqNum,studAnswer,examTime})
+			.post('/mypracticeexammasters',formValues)
 			.then((response)=>{
-				console.log("mypracticeexammasters",response.data);
-				this.fillcolorwhenanswer(getqNum,studAnswer);
-				this.clickRightLeftArraow();
-				$('.carousel').carousel(num+1);
+				console.log("mypracticeexammasters1 = ",response.data);
+				this.fillcolorwhenanswer(index,studAnswer);
+
+				var quesArray = this.state.questionArray;
+				switch(studAnswer){
+					case "A" : quesArray[index].optionAcheck = "checked"; break;
+					case "B" : quesArray[index].optionBcheck = "checked"; break;
+					case "C" : quesArray[index].optionCcheck = "checked"; break;
+					case "D" : quesArray[index].optionDcheck = "checked"; break;
+				}
+
+				this.setState({
+					questionArray : quesArray,
+				});
+
+
+				jQuery('#mySlideShow').carousel(nextQues);
 			})
 			.catch(function(error){
-				console.log(error)
+				console.log("Error while selected answer = ", error)
 			})
-		// Meteor.call("updatePracticeExamTimeAndStudenAnswer",examId,getqNum,studAnswer,examTime,(err,res)=>{
-		// 	if(err){
-		// 	}else{
-		// 		if(res==1){
-		// 			this.fillcolorwhenanswer(getqNum,studAnswer);
-		// 			this.clickRightLeftArraow();
-		// 			// $('#ind'+(num)).hide();
-		// 			$('.carousel').carousel(num+1);
-
-		// 			// this.setState({
-		// 			// 	qIndex: parseInt(getqNum),
-		// 			// })
-		// 		}else{
-		// 			Bert.alert( 'Please check internet connection. Previous question was not solved', 'danger');
-		// 		}
-		// 	}
-		// });		
+			// if(checkedStatus==true){
+			// 	console.log("in check");	
+			// 	jQuery('#mySlideShow').carousel({
+			// 	    interval: 100
+			// 	});
+			// }
 	}
 
 	// after question solve question number will get filled by green color
 
 	fillcolorwhenanswer(getqNum,studAnswer){
-		$('#'+getqNum).addClass("greenClor");
+		$('#qn'+getqNum).addClass("greenClor");
 	}
 
 	componentDidUpdate(){
-// 		$('.Yes').addClass("greenClor");
-
-// // -------------------- Left Right carousel show hide ----------------//
-
-// 		$('.carousel').carousel({
-// 		  wrap: false
-// 		}).on('slid.bs.carousel', function () {
-// 			var curSlide = $('.active');
-// 		  if(curSlide.is( ':first-child' )) {
-// 			 $('.left').show();
-// 			 return;
-// 		  } else {
-// 			 $('.left').show();	  
-// 		  }
-// 		  if (curSlide.is( ':last-child' )) {
-// 			 $('.right').hide();
-// 			 return;
-// 		  } else {
-// 		  	$('.showNextWindowButtow').show();
-// 			 $('.right').show();	  
-// 		  }
-// 		});
-
-	}
-
-	clickRightLeftArraow(){
-		// var getIndex = $('.active').attr('id');
-		var getIndex = $("#configuration_sidebar_content1 li.active").attr('id');
-		// var answerData =  MyPracticeExamMaster.findOne({"_id":FlowRouter.getParam("id")});
-		var examId = this.props.match.params.id;
-
-		axios
-			.get('/mypracticeexammasters/'+examId)
-			.then((response)=>{
-				console.log("ExamTimeData = ",response.data);
-				var answerData = response.data;
-				if(answerData){
-					var answerDataArray = answerData.answerArray[getIndex];	
-					if(answerDataArray){
-						$('.'+answerDataArray.studentAnswer+"-"+(getIndex)).attr("checked",true);
-					}
-				}
-			})
-			.catch(function(error){
-				console.log(error)
-			})
-
-		
+		$('.Yes').addClass("greenClor")
 	}
 
 	endExam(){
-
 		axios
 			.patch('/purchasedpackage/updatequespaper')
 			.then((response)=>{
@@ -281,7 +275,28 @@ class StartPracticeExam extends (Component)  {
 				console.log(error)
 			})
 
-			// // clearInterval(Session.get("interval"));
+	   		var values ={
+                            quepaperID  : String,
+                            packageID   : String,
+                            index       : Number,
+                            orderId     : String,    
+                            studentID   : String,
+                            todayDate   : String, //convert today date into moment().format("MMM Do YY") format
+                        }
+        axios
+			.post('/packagequestionpapermaster',values)
+			.then((response)=>{
+				console.log("updatequespaper = ",response.data);
+				if("result" =="returnTrue"){
+					this.props.history.push("/practiceExamResult/"+this.props.match.params.id);
+				}
+				else{
+					this.props.history.push("/practiceExam/"+this.props.match.params.id);
+				}					
+			})
+			.catch(function(error){
+				console.log(error)
+			})
 			// Meteor.call("finishExamBtnClick",(error,result)=>{
 			// 	if(error){
 			// 		console.log(error);
@@ -293,25 +308,16 @@ class StartPracticeExam extends (Component)  {
 							
 			// 			}
 			// 		});					
-					if("result" =="returnTrue"){
-						this.props.history.push("/practiceExamResult/"+this.props.match.params.id);
-					}
-					else{
-						this.props.history.push("/practiceExam/"+this.props.match.params.id);
-					}					
 					
-					
-
 			// 	}
 			// });
 			
 	}
 	getTimefunction(examTime,id){
-		
 		if(examTime && id){
 			clearInterval(interval);
-			var interval = setInterval(function() {
-			// Session.set("interval",interval);
+			var interval = setInterval(()=>{
+			// localstorage.setItem("interval",interval);
 			  var timer = examTime.split(':');
 			  var minutes = parseInt(timer[0], 10);
 			  var seconds = parseInt(timer[1], 10);
@@ -319,8 +325,7 @@ class StartPracticeExam extends (Component)  {
 			  minutes = (seconds < 0) ? --minutes : minutes;
 			  if (minutes < 0){
 			  		clearInterval(interval);
-				  	// location.reload();
-				  	// FlowRouter.go("/practiceExamResult/"+id);
+				  	this.props.history.push("/practiceExamResult/"+id);
 			  }else{
 				  seconds = (seconds < 0) ? 59 : seconds;
 				  seconds = (seconds < 10) ? '0' + seconds : seconds;
@@ -334,6 +339,13 @@ class StartPracticeExam extends (Component)  {
 		}
 
 	}
+	// routTimefunction(){
+	// 	var id = this.props.match.params.id;
+
+	// 	this.state.rout?
+	// 	this.props.history.push("/practiceExamResult/"+id)
+	// 	:null
+	// }
 
 
 
@@ -361,18 +373,15 @@ class StartPracticeExam extends (Component)  {
 			examTime = minutes + ':' + seconds;
 		  }
 		}
-
-		}, 1000);
-		
+		}, 1000);		
 	}
 
-	
 	render(){
-		// if(!this.props.loadingTest1){
-		// 	if(this.props.examCompleteStatus=="InCompleted"){		
-		// 		if(this.state.questionArrayFromTC.length>1){
-		// 		// console.log("this.qIndex",this.state.qIndex);
-		
+
+
+		if(this.state.questionArray){
+			if(this.state.examStatus!=="Completed"){	
+				if(this.state.questionArray.length>1){				
 				return(
 					<div>
 				        <div className="content-wrapper content-wrapperexampaper content-wrapperexampaperstudent">
@@ -391,7 +400,6 @@ class StartPracticeExam extends (Component)  {
 													<div className="col-lg-1 col-md-1 col-sm-1 countdownWrapDiv">
 														<span className=" countdown countdownWrap"></span>
 													</div>
-
 												</div>		
 											</div>
 							            	<div>
@@ -401,10 +409,7 @@ class StartPracticeExam extends (Component)  {
 													<img src="/images/leftboy.png" className="examstdHeight"/>
 
 												</div>
-												<div id="mySlideShow" className="col-lg-8 col-md-8 col-sm-8 carousel mySlideShowbg1 slide  " data-ride="carousel" data-interval="false">
-												{/*<div id="mySlideShow" className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 carousel slide" data-ride="carousel" data-interval="false">*/}
-					                            
-
+												<div id="mySlideShow" ref={(ele)=> this.mySlideShow = ele} className="col-lg-8 col-md-8 col-sm-8 carousel mySlideShowbg1 slide" data-ride="carousel" data-interval="false">
 									  
 													<ol id="configuration_sidebar_content1" className="carousel-indicators oesCarouselIndicator">
 															{ this.state.questionArray.map( (slides,index)=>{
@@ -416,7 +421,7 @@ class StartPracticeExam extends (Component)  {
 																}
 																if(index <this.state.questionArray.length-1){
 																return (
-																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus, "A-"+index, slides.attempted} id={slides.questionNumber} onClick={this.clickRightLeftArraow.bind(this)}>{index+1}</li>
+																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus, "A-"+index, slides.attempted} id={"qn"+slides.questionNumber} >{index+1}</li>
 																	);
 																}else{
 																	return (
@@ -450,9 +455,9 @@ class StartPracticeExam extends (Component)  {
 																			);
 																		}else{
 																			questionArray.push(
-																					<span className="arithmeticOpe" key={i}>{questionArr[i]} <br/></span>
-																				);
-																			}
+																				<span className="arithmeticOpe" key={i}>{questionArr[i]} <br/></span>
+																			);
+																		}
 																	}
 
 																}
@@ -460,7 +465,6 @@ class StartPracticeExam extends (Component)  {
 																													 
 															return (														
 																     <div id={"ind"+index} className={"item itemCustomT "+ activeStatus} key={index}>
-																	      
 																	      <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 sliderTitles">
 																	      	<div className="col-lg-6 col-lg-offset-2 col-md-offset-2 col-sm-6 col-sm-offset-2 col-md-6 col-xs-9 questionTitWrapp">Question No. <span className="questionTitsubWrap">{index+1} :</span> </div>
 																			<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 questionTitsubWrap">{questionArray}</div>
@@ -470,19 +474,15 @@ class StartPracticeExam extends (Component)  {
 																	      	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 answerWrapSlide">
 																	      	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 answerOption">
 																		      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
-																		      	{/*<span className="ABCD col-lg-1 col-md-1 col-sm-1"> A</span>*/}
-																				{/*console.log("----------------->>",slides.questionNumber)*/}
 																		      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-																				  <input type="radio" name="questionOption" id="A" className={"A-"+index} data-qNum={slides.questionNumber} onClick={this.getPracticeAnswerbyStud.bind(this)} />
+																				  <input type="radio" name="questionOption" id="A" className={"A-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getPracticeAnswerbyStud.bind(this)} checked={slides.optionAcheck}/>
 																				  <span className="checkmarkk"></span>
 																				  <span className=" quesAnswerOpt">{slides.A}</span>
 																				</label>
 																		   	   </div>
 																		      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
-																		      	{/*<span className="ABCD col-lg-1 col-md-1 col-sm-1"> B</span>*/}
-																		      	
 																		      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-																				  <input type="radio" name="questionOption" id="B" className={"B-"+index} data-qNum={slides.questionNumber} onClick={this.getPracticeAnswerbyStud.bind(this)} />
+																				  <input type="radio" name="questionOption" id="B" className={"B-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getPracticeAnswerbyStud.bind(this)}  checked={slides.optionBcheck}/>
 																				  <span className="checkmarkk"></span>
 																				  <span className=" quesAnswerOpt">{slides.B}</span>
 																				</label>
@@ -490,20 +490,16 @@ class StartPracticeExam extends (Component)  {
 																		      </div>
 																	      
 																		      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
-																		      	{/*<span className="ABCD col-lg-1 col-md-1 col-sm-1"> C</span>*/}
-																		      	
 																		      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-																				  <input type="radio" name="questionOption" id="C" className={"C-"+index} data-qNum={slides.questionNumber} onClick={this.getPracticeAnswerbyStud.bind(this)} />
+																				  <input type="radio" name="questionOption" id="C" className={"C-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getPracticeAnswerbyStud.bind(this)}  checked={slides.optionCcheck}/>
 																				  <span className="checkmarkk"></span>
 																				  <span className=" quesAnswerOpt">{slides.C}</span>
 																				</label>
 																		      	 
 																		      </div>
 																		      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
-																		      	{/*<span className="ABCD col-lg-1 col-md-1 col-sm-1"> D</span>*/}
-																		      	
 																		      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-																				  <input type="radio" name="questionOption" id="D" className={"D-"+index} data-qNum={slides.questionNumber} onClick={this.getPracticeAnswerbyStud.bind(this)} />
+																				  <input type="radio" name="questionOption" id="D" className={"D-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getPracticeAnswerbyStud.bind(this)}  checked={slides.optionDcheck}/>
 																				  <span className="checkmarkk"></span>
 																				  <span className=" quesAnswerOpt">{slides.D}</span>
 																				</label>
@@ -539,11 +535,11 @@ class StartPracticeExam extends (Component)  {
 														  }) 
 														}
 													</div>
-													<Link className="left carousel-control controlRL" to="#mySlideShow" data-slide="prev" onClick={this.clickRightLeftArraow.bind(this)}>
+													<Link className="left carousel-control controlRL" to="#mySlideShow" data-slide="prev">
 													    <span className="glyphicon glyphicon-chevron-left"></span>
 													    <span className="sr-only">Previous</span>
 													</Link>
-													<Link className="right carousel-control carousel-control-right controlRL" to="#mySlideShow" data-slide="next" onClick={this.clickRightLeftArraow.bind(this)}>
+													<Link className="right carousel-control carousel-control-right controlRL" to="#mySlideShow" data-slide="next" >
 													    <span className="glyphicon glyphicon-chevron-right"></span>
 													    <span className="sr-only">Next</span>
 													</Link>
@@ -551,9 +547,7 @@ class StartPracticeExam extends (Component)  {
 												<div className="col-md-2 col-sm-2 col-xs-2 colpadding paddingTop">
 												<img src="/images/rightgal.png" className="examstdHeight"/>
 												</div>
-
 											</div>
-											
 											<div className="col-lg-12 col-md-12 col-sm-12 showNextButtonWrap">
 											</div>
 										  </div>
@@ -565,105 +559,71 @@ class StartPracticeExam extends (Component)  {
 						</div>
 					</div>
 					);
-	// 			}else{
-	// 				return (
-	// 					<div>			
-	// 			        <div className="content-wrapper">
-	// 			          <section className="content-header">
-	// 			            {/*<h1>Answer Sheet</h1>*/}
-	// 			          </section>
-	// 			          <section className="content viewContent">
-	// 			            <div className="row">
-	// 			              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	// 			                <div className="box">
-	// 			                  <div className="box-header with-border boxMinHeight  loadingImgWrap">
-	// 								 <h3 className="examFinishedStatus examLoadingTimeDiv"> Loading please wait... </h3>
-	// 								 {/*<img src="/images/preloader.gif"/>*/}
-	// 								 </div>
-	// 								  </div>
-	// 								</div>
-	// 							  </div>
-					
-	// 						  </section>
-	// 						</div>
-	// 					</div>
-	// 					);
-	// 			}
-	// 		}else{
-	// 			return (
-	// 				<div>
-	// 			        <div className="content-wrapper">
-	// 			            <section className="content viewContent">
-	// 			            	<div className="row">
-	// 			             	   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	// 			                        <div className="box">
-	// 			                    		<div className="box-header with-border boxMinHeight  studDataNotExist">
-	// 											<div className="startExambox col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-	// 												<div className="fontstyle"> You Have finished your practice test... Thank You !!!</div> 
-	// 											</div>
-	// 										</div>
-	// 								    </div>
-	// 								</div>
-	// 							</div>
-					
-	// 						</section>
-	// 					</div>
-	// 				</div>
-	// 					);
-	// 		}
-	// 	}else{
-	// 		return (
-	// 			<div>
-	// 		        <div className="content-wrapper">
-	// 		            <section className="content viewContent">
-	// 		            	<div className="row">
-	// 		             	   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-	// 		                        <div className="box">
-	// 		                    		<div className="box-header with-border boxMinHeight  studDataNotExist">
-	// 										<div className="startExambox col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-	// 											<div className="fontstyle"> Loading please wait...</div> 
-	// 										</div>
-	// 									</div>
-	// 							    </div>
-	// 							</div>
-	// 						</div>
-				
-	// 					</section>
-	// 				</div>
-	// 			</div>
-	// 		);
-	// 	}
+				}else{
+					return (
+						<div>			
+					        <div className="content-wrapper">
+					          	<section className="content-header">
+					            	{/*<h1>Answer Sheet</h1>*/}
+					          	</section>
+						        <section className="content viewContent">
+						            <div className="row">
+						              	<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+						                	<div className="box">
+						                  		<div className="box-header with-border boxMinHeight  loadingImgWrap">
+												 	<h3 className="examFinishedStatus examLoadingTimeDiv"> Loading please wait... </h3>
+												 	{/*<img src="/images/preloader.gif"/>*/}
+			    									<img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					);
+				}
+			}else{
+				return (
+					<div>
+				        <div className="content-wrapper">
+				            <section className="content viewContent">
+				            	<div className="row">
+				             	   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+				                        <div className="box">
+				                    		<div className="box-header with-border boxMinHeight  studDataNotExist">
+												<div className="startExambox col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+													<div className="fontstyle"> You Have finished your practice test... Thank You !!!</div> 
+												</div>
+											</div>
+									    </div>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+				);
+			}
+		}else{
+			return (
+				<div>
+			        <div className="content-wrapper">
+			            <section className="content viewContent">
+			            	<div className="row">
+			             	   <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+			                        <div className="box">
+			                    		<div className="box-header with-border boxMinHeight  studDataNotExist">
+											<div className="startExambox col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+												<div className="fontstyle"> Loading please wait...</div> 
+											</div>
+										</div>
+								    </div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			);
+		}
 	}
 } export default StartPracticeExam;
-// export default statrtPracticeExamContainer = withTracker(props=>{
-// 	var id = FlowRouter.getParam("id");
-// 	// FlowRouter.getParam("id"),FlowRouter.getParam("urlPackageId"),FlowRouter.getParam("BtnIndex"),
-// 	var packageID = FlowRouter.getParam("urlPackageId");
-// 	var indx = FlowRouter.getParam("BtnIndex");
-// 	// console.log("packageID,indx",packageID,indx);
-// 	const postHandle1     =  Meteor.subscribe('showSinglePracticePaper',id);
-// 	const loadingTest1    = !postHandle1.ready();
-
-// 	const postHandle2      =  Meteor.subscribe('showSingleTempQPaper');
-// 	const loadingTest2     = !postHandle2.ready();
-
-// 	var practiceExamData  = MyPracticeExamMaster.findOne({"_id":id})||{};
-// 	if(practiceExamData){
-// 			var examName ="Practice Exam";
-// 			var examTime = practiceExamData.examTime; //-------------get updated exam time
-// 			var examCompleteStatus =practiceExamData.examStatus;
-
-// 		return{
-// 			examName,
-// 			examTime,
-// 			postHandle1,
-// 			id,
-// 			packageID,
-// 			indx,
-// 			examCompleteStatus,
-// 			loadingTest1,
-// 			loadingTest2
-
-// 		}
-// 	}
-// })(StartPracticeExam);

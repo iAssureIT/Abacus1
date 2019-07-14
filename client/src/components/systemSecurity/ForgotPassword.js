@@ -145,20 +145,8 @@ class ForgotPassword extends Component {
                       </span>
                     </div>
                   </div>
-                  <div className="text-left col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                    <span>Enter registerd Mobile Number </span>
-                  </div>
-                  <div className="form-group col-lg-12 col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr veribtm">
-                    <div className="input-effect input-group">
-                      <InputMask mask="9999-999-999" maskChar=" " name="enterMobNo" ref="enterMobNo" onChange={this.handleChange} className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText"  pattern="^(0|[0-9-+]*)$" title="Enter Mobile Number!" autoComplete="off" required/>
-                      <span className="input-group-addon glyphi-custommm"><i className="fa fa-phone-square" aria-hidden="true"></i></span>
-                      <span className="focus-border">
-                        <i></i>
-                      </span>
-                    </div>
-                  </div>
                   <div className="submitButtonWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr">
-                    <Link to='/confirm-otp'>
+                    <Link to='/forgotOTPVarification/hgjhnk'>
                       <button type="submit" className="btn col-lg-12 col-md-12 col-sm-12 col-xs-12 submitBtn UMloginbutton">Send Verification Code</button>
                     </Link>
                   </div>

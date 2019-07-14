@@ -1,67 +1,69 @@
-/*  
-	COMPONENT:  Exam Result 
-	PROGRAMMER: VIKAS JAGDALE 
-	
-	This component will show final paper. 
+import React ,{ Component }		from 'react';
+import $ 					from "jquery";
+import moment 					from "moment";
+import axios 				from 'axios';
 
-*/
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import {withTracker} from 'meteor/react-meteor-data';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import {QuestionPaperMaster} from '/imports/admin/forms/setQuestionPaper/api/questionPaperMaster.js';
-import {MyPracticeExamMaster} from '/imports/student/api/myPracticeExamMaster.js';
-// import {MyPracticeExamMaster} from '/imports/admin/forms/student/api/myPracticeExamMaster.js';
-import {Session} from 'meteor/session';
-import './StartPracticeExamHeader';
-class PracticeExamResult extends TrackerReact(Component)  {
-	componentDidMount(){
-		
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
-	}
-	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
-  	}
+// import './StartPracticeExamHeader';
+import '../css/PracticeExam.css';
 
+class PracticeExamResult extends(Component)  {
 	constructor(props){
 		super(props);
 		this.state={
-			'myIndex'      : '',
-			'backarraowcnt': '',
-			'subscription':{
-			}
+			'myIndex'      		: '',
+			'backarraowcnt'		: '',
+			percentage 			: '',
+			practiceExamData 	: [],
+			'subscription'		: {}
 		}
 	}
+	componentDidMount(){
+		var practiceExamId = this.props.match.params.id;
 
+		axios
+			.get('/mypracticeexammasters/getresult/'+practiceExamId)
+			.then((response)=>{
+				console.log("practiceExam Result = ",response.data);
+				this.setState({
+					practiceExamData : response.data,
+					percentage 		 : response.data.percentage
+				})
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+
+		// if ( !$('body').hasClass('adminLte')) {
+		//   var adminLte = document.createElement("script");
+		//   adminLte.type="text/javascript";
+		//   adminLte.src = "/js/adminLte.js";
+		//   $("body").append(adminLte);
+		// }
+	}
+	componentWillUnmount(){
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
+  	}
 	
 	render(){
-
 		return(
-			
 			<div>
 			<div className="CountIncrement">0</div>
 			<div className="CountDecreBackArrow">0</div>
 		        {/* Content Wrapper. Contains page content */}
 		        <div className="content-wrapper content-wrapperexampaper">
 		     	  <section className="content-header1"></section>
-		          <section className="content viewContent">
+		          <section className="content viewContent marg38">
 		            <div className="row">
 		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 		                <div className="box">
-		                {this.props.practiceExamData !="Not return Marks" ? 
+		                {this.state.practiceExamData !=="Not return Marks" ? 
 		                  <div>
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div className="col-lg-12 col-md-12 col-md-offset-3 examDetailsWrap">
-									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap1">{this.props.practiceExamData.examType}</div>
-									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap2">Total Questions : {this.props.practiceExamData.totalQuestion}</div>
-									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap3">Total Marks :  {this.props.practiceExamData.totalMarks}</div>
+									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap1">{this.state.practiceExamData.examType}</div>
+									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap2">Total Questions :{this.state.practiceExamData.totalQuestion}</div>
+									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap3">Total Marks :{this.state.practiceExamData.totalMarks}</div>
 									<div className="col-lg-3  col-md-3 col-sm-3 col-xs-2"></div>
 								</div>
 								
@@ -73,16 +75,16 @@ class PracticeExamResult extends TrackerReact(Component)  {
 								<div id="mySlideShowStartExam" className="col-lg-8 col-md-8 col-sm-8 col-xs-8 carousel slide " data-ride="carousel" data-interval="false">
 									  <div className="carousel-inner">
 									    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									    	{this.props.percentage >= 75 && this.props.percentage <=100 ?
+									    	{this.state.percentage >= 75 && this.state.percentage <=100 ?
 												<h2 className="congrats">Excellent Work! </h2>
 												:
-												this.props.percentage >= 50 && this.props.percentage <=75 ?
+												this.state.percentage >= 50 && this.state.percentage <=75 ?
 													<h2 className="congrats">Good Job Done!</h2>
 												:
-												this.props.percentage >= 25 && this.props.percentage <=50 ?
+												this.state.percentage >= 25 && this.state.percentage <=50 ?
 													<h2 className="congrats">Need More Practice! </h2>
 												:
-												this.props.percentage >= 0 && this.props.percentage <=25 ?
+												this.state.percentage >= 0 && this.state.percentage <=25 ?
 													<span>
 													<h2 className="congrats poorSec"> Sorry... Poor Job!! </h2>
 													<h4 className="congrats">Best wishes for next exam! </h4>
@@ -91,20 +93,20 @@ class PracticeExamResult extends TrackerReact(Component)  {
 													null
 									    	}
 									    </div>
-									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examresultWrap">{moment().format('hh:mm a')} , {moment().format('DD MMM YYYY')} - {this.props.practiceExamData.examType} Results</div>
+									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examresultWrap">{moment().format('hh:mm a')} , {moment().format('DD MMM YYYY')} - {this.state.practiceExamData.examType} Results</div>
 										
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
 											<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 congratsImgWrap congrats nopadding">
-												{this.props.percentage >= 75 && this.props.percentage <=100 ?
+												{this.state.percentage >= 75 && this.state.percentage <=100 ?
 												<img src="/images/congrats.gif" className="congratsImg"/>
 												:
-												this.props.percentage >= 50 && this.props.percentage <=75 ?
+												this.state.percentage >= 50 && this.state.percentage <=75 ?
 													<img src="/images/congrats.gif" className="congratsImg"/>
 												:
-												this.props.percentage >= 25 && this.props.percentage <=50 ?
+												this.state.percentage >= 25 && this.state.percentage <=50 ?
 													<img src="/images/needImprovement.gif" className="congratsImg"/>
 												:
-												this.props.percentage >= 0 && this.props.percentage <=25 ?
+												this.state.percentage >= 0 && this.state.percentage <=25 ?
 													<img src="/images/zeroMark.gif" className="congratsImg"/>
 												:
 													null
@@ -113,29 +115,26 @@ class PracticeExamResult extends TrackerReact(Component)  {
 											<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 resultSecWrap">
 												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 totalScore">
-														Total Score : {this.props.practiceExamData.totalScore}
+														Total Score : {this.state.practiceExamData.totalScore}
 													</div>
 											   	</div>
 												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 markksWrap">
 												
 												
-												{/*<div className="col-lg-5 col-md-5 col-sm-5 startnewExamtext">
-													<a href="/startPracticeExam">Start New Exam</a>
-												</div>*/}
 												</div>
 											</div>
 											<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 congratsImgWrap nopadding">
 												
-												{this.props.percentage >= 75 && this.props.percentage <=100 ?
+												{this.state.percentage >= 75 && this.state.percentage <=100 ?
 												<img src="/images/congrats.gif" className="congratsImg"/>
 												:
-												this.props.percentage >= 50 && this.props.percentage <=75 ?
+												this.state.percentage >= 50 && this.state.percentage <=75 ?
 													<img src="/images/congrats.gif" className="congratsImg"/>
 												:
-												this.props.percentage >= 25 && this.props.percentage <=50 ?
+												this.state.percentage >= 25 && this.state.percentage <=50 ?
 													<img src="/images/needImprovement.gif" className="congratsImg"/>
 												:
-												this.props.percentage >= 0 && this.props.percentage <=25 ?
+												this.state.percentage >= 0 && this.state.percentage <=25 ?
 													<img src="/images/zeroMark.gif" className="congratsImg"/>
 												:
 													null
@@ -147,19 +146,19 @@ class PracticeExamResult extends TrackerReact(Component)  {
 									  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Total Questions</div>
-												<span className="marksSec1">{this.props.practiceExamData.totalQuestion}</span>
+												<span className="marksSec1">{this.state.practiceExamData.totalQuestion}</span>
 											</div>
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Attempted Questions</div>
-												<span className="marksSec2">{this.props.practiceExamData.attemptedQues}</span>
+												<span className="marksSec2">{this.state.practiceExamData.attemptedQues}</span>
 											</div>
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Correct Answers</div>
-												<span className="marksSec3">{this.props.practiceExamData.correctAnswer}</span>
+												<span className="marksSec3">{this.state.practiceExamData.correctAnswer}</span>
 											</div>
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Wrong Answers</div>
-												<span className="marksSec4">{this.props.practiceExamData.wrongAnswer}</span>
+												<span className="marksSec4">{this.state.practiceExamData.wrongAnswer}</span>
 											</div>
 
 							        	</div>									  
@@ -184,32 +183,33 @@ class PracticeExamResult extends TrackerReact(Component)  {
 		);
 	}
 }
-export default PracticeExamResultContainer = withTracker(props=>{
-	var id = FlowRouter.getParam("id");
-	clearInterval(Session.get("interval"));
-	var practiceExamData = '';
-	const postHandle1     =  Meteor.subscribe('showSinglePracticePaper',id);
-	const loadingTest     = !postHandle1.ready();
-	// Meteor.call("practiceExamFinished",id);
-	Meteor.call("PracticeExamMarksUpdate",id,(error,result)=>{
-		if(error){
-			console.log(error);
-		}else{
+export default PracticeExamResult;
+// export default PracticeExamResultContainer = withTracker(props=>{
+// 	var id = FlowRouter.getParam("id");
+// 	clearInterval(Session.get("interval"));
+// 	var practiceExamData = '';
+// 	const postHandle1     =  Meteor.subscribe('showSinglePracticePaper',id);
+// 	const loadingTest     = !postHandle1.ready();
+// 	// Meteor.call("practiceExamFinished",id);
+// 	Meteor.call("PracticeExamMarksUpdate",id,(error,result)=>{
+// 		if(error){
+// 			console.log(error);
+// 		}else{
 
-		}
-	});
-	practiceExamData  = MyPracticeExamMaster.findOne({"_id":id})||{};
-	// console.log(practiceExamData);
-	if(practiceExamData){
-		practiceExamData = practiceExamData;
-		var percentage = (parseInt(practiceExamData.totalScore)/parseInt(practiceExamData.totalMarks))*100;
-		// console.log(percentage);
-	}else{
-		practiceExamData = "Not return Marks";
-	}
-	return{
-		practiceExamData,
-		loadingTest,
-		percentage,
-	}
-})(PracticeExamResult);
+// 		}
+// 	});
+// 	practiceExamData  = MyPracticeExamMaster.findOne({"_id":id})||{};
+// 	// console.log(practiceExamData);
+// 	if(practiceExamData){
+// 		practiceExamData = practiceExamData;
+// 		var percentage = (parseInt(practiceExamData.totalScore)/parseInt(practiceExamData.totalMarks))*100;
+// 		// console.log(percentage);
+// 	}else{
+// 		practiceExamData = "Not return Marks";
+// 	}
+// 	return{
+// 		practiceExamData,
+// 		loadingTest,
+// 		percentage,
+// 	}
+// })(PracticeExamResult);
