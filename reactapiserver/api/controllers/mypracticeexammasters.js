@@ -164,10 +164,22 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                                   wrongAnswer   : wrongAnswer,
                                                 };
                                                 if(sendRes){
-                                                  res.status(409).json(sendRes);
+                                                  res.status(200).json(sendRes);
                                                 }
                                               }else{
-                                                res.status(409).json({message:"Exam Not Updated"});                          
+                                                // res.status(404).json({message:"Exam Not Updated"});                          
+                                                var sendRes = {
+                                                  examType      : examType,
+                                                  totalQuestion : totalQue,
+                                                  totalMarks    : totalScore,
+                                                  percentage    : (parseInt(totalScore)/parseInt(totalScore))*100,
+                                                  attemptedQues : attepmted,
+                                                  correctAnswer : correctAnswer,
+                                                  wrongAnswer   : wrongAnswer,
+                                                };
+                                                if(sendRes){
+                                                  res.status(200).json(sendRes);
+                                                }
                                               }
                                             })
                                             .catch(err =>{
