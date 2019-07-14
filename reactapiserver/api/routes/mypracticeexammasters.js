@@ -9,6 +9,7 @@ router.get('/practiceExam/:practiceExamId/:studentId',MyPracticeExamMastersContr
 router.get('/:studentId', MyPracticeExamMastersController.fetch_practice_student);
 router.get('/:examPaperId/:studentId', MyPracticeExamMastersController.fetch_exampaper_student);
 router.post('/',MyPracticeExamMastersController.update_exam_ans);
+router.post('/finishexam/:examId',MyPracticeExamMastersController.completeExam);
 
 
 module.exports = router;

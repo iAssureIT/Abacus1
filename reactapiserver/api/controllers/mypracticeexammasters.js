@@ -190,3 +190,27 @@ exports.ExamMarksUpdate = (req,res,next) =>{
               });
   
 }
+
+exports.completeExam = (req,res,next) =>{
+  MyPracticeExamMaster.updateOne(
+                              {"_id":req.body.examId},
+                              {
+                                $set:{
+                                  'examStatus'  : "Completed",
+                                }
+                              })
+                          .exec()
+                          .then(d => {
+                            if(d.nModified == 1){
+                              res.status(200).json("Updated successfully");                                                
+                            }else{
+                              res.status(404).json("Update failed");                        
+                            }
+                          })
+                          .catch(err =>{
+                            console.log(err);
+                            res.status(500).json({
+                              error: err
+                            });
+                          });
+}
