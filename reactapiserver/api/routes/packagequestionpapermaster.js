@@ -3,7 +3,7 @@ const router 	= express.Router();
 
 const PackageQuestionPaperMaster = require('../controllers/packagequestionpapermaster');
 
-router.patch('/',PackageQuestionPaperMaster.update_packagequestionpapermaster);
+router.post('/',PackageQuestionPaperMaster.update_packagequestionpapermaster);
 
 router.get('/:studentID',PackageQuestionPaperMaster.fetch_student_pkgquemaster);
 

@@ -60,7 +60,7 @@ exports.fetch_practice_exam_student = (req,res,next)=>{
   var studentId                   = req.params.studentId;
   var practiceExamId   = req.params.practiceExamId;
   MyPracticeExamMaster.findOne({_id:practiceExamId,StudentId:studentId})
-                      .select("examTime totalQuestion answerArray totalMarks examTime examName lastVisitedQuestion lastVisitedQAnswer")
+                      .select("examTime totalQuestion answerArray totalMarks examTime examName lastVisitedQuestion lastVisitedQAnswer examStatus")
                       .exec()
                       .then(data =>{
                       //   console.log('data ',data);
@@ -121,79 +121,26 @@ exports.update_exam_ans = (req,res,next)=>{
 
 exports.ExamMarksUpdate = (req,res,next) =>{
   console.log('my exam result')
-  MyPracticeExamMaster.findOne({"_id":req.params.examId})
-              .exec()
-              .then(practiceExamData=>{
-                  if(practiceExamData){
-                    console.log('practiceExamData ',practiceExamData.marksPerQues);
-                      var marksPerQues = practiceExamData.marksPerQues;
-                      var correctAnswer = practiceExamData.answerArray.filter(function(mapData){
-                                      return mapData.answer === "Correct";
-                                  }).length;
+  MyPracticeExamMaster.aggregate([
+                              // {$match : {"_id":req.params.examId}},
+                              {$group : 
+                                        {
+                                          _id : "$answerArray.attempted"
+                                        }
+                              },
+                        ])
+                      .exec()
+                      .then(data=>{
+                        res.status(200).json(data);
+                      })
+                      .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        });
+                    });
+}
 
-                      var wrongAnswer  = practiceExamData.answerArray.filter(function(mapData){
-                                          return mapData.answer === "Wrong";
-                                      }).length;
-
-                      var attepmted  = practiceExamData.answerArray.filter(function(mapData){
-                                          return mapData.attempted === "Yes";
-                                      }).length;
-                      var totalScore  = correctAnswer * marksPerQues;
-                      var totalQue  = practiceExamData.totalQuestion;
-                      var examType = practiceExamData.examType;
-                      if(totalScore){
-                        console.log('totalScore ',totalScore);
-                        MyPracticeExamMaster.update(
-                                                    {"_id":req.params.examId},
-                                                    {
-                                                      $set:{
-                                                        "attemptedQues":attepmted,
-                                                        "correctAnswer":correctAnswer,
-                                                        "wrongAnswer"  :wrongAnswer,
-                                                        "totalScore"   :totalScore,
-                                                        "examStatus"   :"Completed",
-                                                      }
-                                                    }
-                                            )
-                                            .exec()
-                                            .then(result=>{
-                                              if(result.nModified == 1){
-                                                console.log('result ',result);
-                                                var res = {
-                                                  examType      : examType,
-                                                  totalQuestion : totalQue,
-                                                  totalMarks    : totalScore,
-                                                  percentage    : (parseInt(totalScore)/parseInt(totalMarks))*100,
-                                                  attemptedQues : attepmted,
-                                                  correctAnswer : correctAnswer,
-                                                  wrongAnswer   : wrongAnswer,
-                                                };
-                                                console.log('res ',res);
-                                                if(res){
-                                                  res.status(409).json(res);
-                                                }
-                                              }else{
-                                                console.log('not update');
-                                                res.status(409).json({message:"Exam Not Updated"});                          
-                                              }
-                                            })
-                                            .catch(err =>{
-                                              console.log(err);
-                                              res.status(500).json({
-                                                  error: err
-                                              });
-                                          });                              
-                      }
-                      
-                  }else{
-                      console.log('exam not found');
-                      res.status(409).json({message:"Exam Not Found"});
-                  }
-              })
-              .catch(err =>{
-                  console.log(err);
-                  res.status(500).json({
-                      error: err
-                  });
-              });
+exports.updateQuestionPaperMasterAccordingtoPackages = (req,res,next) =>{
+  
 }
