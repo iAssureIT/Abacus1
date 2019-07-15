@@ -101,12 +101,16 @@ exports.competitionDetails = (req,res,next)=>{
   StudentMaster .findOne({_id:req.params.studentId})
                 .exec()
                 .then(studentMasterData=>{
+                  console.log('studentMasterData o ',studentMasterData);
                   if(studentMasterData){
+                  console.log('studentMasterData i ',studentMasterData);
                     ExamMaster.find({_id:req.params.competitionId})
                               // .select("result ")
                               .exec()
                               .then(competitionData =>{
+                                    console.log('competitionData o ',competitionData);
                                   if(competitionData){
+                                    console.log('competitionData i ',competitionData);
                                     var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
                                     var CompetitionExamData = competitionData.competitionExams;
                                     if(CompetitionExamData){
@@ -119,12 +123,16 @@ exports.competitionDetails = (req,res,next)=>{
                                                                 studentMasterData   : studentMasterData,
                                                               });
                                       }else{
+                                      console.log('comp 1 not found');
+
                                         res.status(404).json({message:"competition Exam does not exist"})  
                                       }
                                     }else{
+                                      console.log('comp 2 not found');
                                       res.status(404).json({message:"competition Exam does not exist"})
                                     }
                                   }else{
+                                    console.log('exam not found');
                                     res.status(404).json({message:"Exam not found"});
                                   }
                               })
@@ -135,7 +143,8 @@ exports.competitionDetails = (req,res,next)=>{
                                   });
                               });
                   }else{
-                    res.status(409).json({message:"Student Not found"});
+                    console.log('student not found');
+                    res.status(404).json({message:"Student Not found"});
                   }
                 })
                 .catch(err =>{
