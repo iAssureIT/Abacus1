@@ -84,7 +84,7 @@ exports.fetch_statu_exam = (req,res,next)=>{
   var competitionId = req.params.competitionId;
   console.log('competitionId ',competitionId);
   ExamMaster.find({_id:competitionId})
-          .select("result ")
+          // .select("result ")
           .exec()
           .then(data =>{
           //   console.log('data ',data);

@@ -226,18 +226,15 @@
     
     URL         : /exammasters/exampurchase/:competitionId/:studentId
 
-    Input       : 
-                    {
-                        examId          : String,
-                        index           : String,
-                        studAnswer      : String,
-                        examTime        : String,
-                    }
+    Input       : - NA -
 
     Output      : 
                     if successfully
                         {
-                            message : "Answer updated,
+                            competitionData     : competitionData,
+                            CompetitionExamData : ,
+                            dateformat          : dateformat,
+                            studentMasterData 
                         }
                     else 
                         {
@@ -248,14 +245,9 @@
 
     Method      : POST
     
-    URL         : /quickwalletmasters/exampurchase/:studentId
+    URL         : /exampurchase/:studentId/:competitionId/:compfees
 
-    Input       : 
-                    {
-                        studentId          : String,
-                        competitionId      : String,
-                        compFees          : String,
-                    }
+    Input       : - NA -
 
     Output      : 
                     if successfully

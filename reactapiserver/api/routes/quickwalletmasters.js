@@ -5,6 +5,6 @@ const QuickWalletMastersController = require('../controllers/quickwalletmasters'
 
 router.get('/', QuickWalletMastersController.fetch_details);
 router.post('/payment',QuickWalletMastersController.makepayment);
-router.post('/exampurchase',QuickWalletMastersController.paymentGatewayforCompetition);
+router.post('/exampurchase/:studentId/:competitionId/:compfees',QuickWalletMastersController.paymentGatewayforCompetition);
 
 module.exports = router;

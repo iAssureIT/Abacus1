@@ -145,10 +145,6 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
 	startExam(event){
 		event.preventDefault();
-		// this.setState({
-		// 				showButton:false,
-		// 				showstartbtn:false,
-		// 	});
 		navigator.getMedia = ( 
 		// navigator.getUserMedia || // use the proper vendor prefix
         navigator.webkitGetUserMedia ||
