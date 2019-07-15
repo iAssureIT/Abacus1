@@ -183,6 +183,9 @@ exports.fetch_all_show_exam = (req,res,next)=>{
                     });
                   }
                 }//End of For
+                if(competitionData.length == competitions.length){
+                  res.status(200).json(competitions);
+                }
             })
             .catch(err =>{
               console.log(err);
