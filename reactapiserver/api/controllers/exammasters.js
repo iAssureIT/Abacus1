@@ -222,8 +222,10 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                       'competitionFees'       : competitionData[index].competitionFees,
                                       'competitionStatus'     : competitionData[index].competitionStatus,
                                       'examDate'              : competitionData[index].examDate,
-                                      // 'studentPaymentStatus'  : data.studentPaymentStatus,
-                                      // 'lastInCompExamIdStatus' : data.lastInCompExamIdStatus,
+                                      'studentPaymentStatus'  : 'unPaid',
+                                      'lastInCompExamIdStatus' : '',
+                                      'examDataStatus'        : '',
+                                      'examId'                : '',
                                     });
                                   // }
                                   if(competitionData.length == competitions.length){
