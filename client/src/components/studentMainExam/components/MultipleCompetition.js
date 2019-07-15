@@ -71,62 +71,70 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 		// var studentCompetitions = [];
 		// var allCompetitions = [];
 		var k = 0;
-		const data = { 
-										"todaydate" : new Date(),
-								 };
-		if(data){
-			console.log('todatdate ',data);
-			axios
-				.post('/exammasters/listmainexam' , data)
-				.then((myexamlist)=>{
-					console.log('myexamlist ',myexamlist.data);
-					// this.setState({
-					// 	competitionData : myexamlist.data
-					// });
-					var allCompetitions = myexamlist.data;
+		axios
+			.get('/studentmaster/details/2aWJfCyAeadLrvZ29')
+			.then((student)=>{
+				console.log('student ',student);
+				const data = { 
+						"todaydate" 	: new Date(),
+						"subCategory"	: student.data.subCategory,
+				};
+				if(data){
+					console.log('todatdate ',data);
 					axios
-							.get('/competitionregisterorder/mainexam/'+studentId)
-							.then((response)=>{
-								console.log('response ',response.data);
-								var studentCompetitions = response.data;
-								for(k = 0 ; k < studentCompetitions.length; k++){
-									var index = allCompetitions.findIndex(function(data){
-																										return data._id == studentCompetitions[k].competitionId
-																								});
-									if(index > 0){
-										console.log('index ',index);
-										allCompetitions[index].studentPaymentStatus = "Paid";
-										axios
-												.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId)
-												.then((myexamres)=>{
-													if(myexamres.data.length > 0){
-														allCompetitions[index].examDataStatus = myexamres.data.examStatus;
-														allCompetitions[index].examId  = myexamres.data._id;
-													}
-												})
-												.catch(function(error){
-													console.log("error",error);
-												});
-									}//end of index
-								};//end of for
-								console.log('k ',k);
-								console.log('allCompetitions ',allCompetitions);
-								if(k >= studentCompetitions.length){
-									this.setState({
-										competitionData :allCompetitions
+						.post('/exammasters/listmainexam' , data)
+						.then((myexamlist)=>{
+							console.log('myexamlist ',myexamlist.data);
+							// this.setState({
+							// 	competitionData : myexamlist.data
+							// });
+							var allCompetitions = myexamlist.data;
+							axios
+									.get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
+									.then((response)=>{
+										console.log('response ',response.data);
+										var studentCompetitions = response.data;
+										for(k = 0 ; k < studentCompetitions.length; k++){
+											var index = allCompetitions.findIndex(function(data){
+																												return data._id == studentCompetitions[k].competitionId
+																										});
+											if(index > 0){
+												console.log('index ',index);
+												allCompetitions[index].studentPaymentStatus = "Paid";
+												axios
+														.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId)
+														.then((myexamres)=>{
+															if(myexamres.data.length > 0){
+																allCompetitions[index].examDataStatus = myexamres.data.examStatus;
+																allCompetitions[index].examId  = myexamres.data._id;
+															}
+														})
+														.catch(function(error){
+															console.log("error",error);
+														});
+											}//end of index
+										};//end of for
+										console.log('k ',k);
+										console.log('allCompetitions ',allCompetitions);
+										if(k >= studentCompetitions.length){
+											console.log('in allCompetitions ',allCompetitions);
+											this.setState({
+												competitionData :allCompetitions
+											});
+										}		
+									})
+									.catch(function(error){
+										console.log("error",error);
 									});
-								}
-								
-							})
-							.catch(function(error){
-								console.log("error",error);
-							});
-				})
-				.catch(function(error){
-					console.log("error",error);
-				});
-		}
-		
+						})
+						.catch(function(error){
+							console.log("error",error);
+						});
+				}
+			})
+			.catch(function(error){
+				console.log("error",error);
+			});
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
@@ -307,7 +315,80 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 											     			<td>{competitionInfo.competitionName}</td>
 											     			<td>{moment(competitionInfo.competitionDate).format("DD/MM/YYYY")}</td>
 											     			<td>{competitionInfo.startTime}- {competitionInfo.endTime}</td>		
-																<td>{competitionInfo.examStatus}</td>	     			
+																 {competitionInfo.studentPaymentStatus=="paid" ?												            				
+												            					this.props.todayDate < competitionInfo.examDate ?
+																					<td >												
+																						<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
+																					</td>
+																				:
+																				
+																				!competitionInfo.lastInCompExamIdStatus?
+																					competitionInfo.examDataStatus=="Completed"?
+																						<td >												
+																							<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
+																						</td>
+																					:
+																					competitionInfo.competitionStatus=="start"?
+																								competitionInfo.examStartStatus=="start"?
+																									<td >
+																										<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1">Start Exam </button></a>
+																									</td>
+																									:	
+																									<td >
+																										<div className="fontstyle">Your exam not started yet.</div>															
+																									</td>
+																							:
+
+																							this.props.todayDate>competitionInfo.examDate?
+																								competitionInfo.examDataStatus=="Completed"?
+																								<div className="fontstyle" >												
+																									<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
+																								</div>
+																								:
+																								<td >												
+																									<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
+																								</td>
+																							:
+																							<td >
+																								<div className="fontstyle">Competition not started yet</div>
+																							</td>
+																				:
+
+																					competitionInfo.examDataStatus=="InComplete"?
+																						this.state.showButton ?
+																						<td >
+																							<a> <button type="submit"  className="btn startexambtn1" data-text={competitionInfo._id} id={competitionInfo.examId} onClick={this.gotoPreviousMainExam.bind(this)}>Continue Exam </button></a>
+																							{/*<a> <button type="submit"  className="btn startexambtn1" id={competitionInfo.examId} onClick={this.MainExamComplete.bind(this)}>Discontinue Exam </button></a>*/}
+																						</td> 
+
+																						:
+																						<td >
+																							<div>
+																							 	{this.tryLoadingAgain()} 
+																							</div>
+																						</td>
+																					:
+																					<td >												
+																							<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
+																					</td>
+
+												            			:
+												            			competitionInfo.timeStatus=="valid" && competitionInfo.examYear=="NotAccept" ?
+												            				<td >										
+																				<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1">Register for Competition</button></a>
+																			</td>
+
+												            			:
+																			competitionInfo.timeStatus=="invalid" || competitionInfo.examYear=="NotAccept" ?
+																				<td >
+																					<div className="fontstyle">Competition has finished</div>
+																				</td>
+																			:
+												            					            			
+																			<td >										
+																				<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1">Register for Competition</button></a>
+																			</td>
+																		}	     			
 											     		</tr>)
 															
 											     		})

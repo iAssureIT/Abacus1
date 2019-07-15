@@ -198,8 +198,8 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                     
                                   var studentCategory = competitionData[index].competitionExams;
                                   if(studentCategory){
-                                    var i                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
-                                    var categoryWiseExamData = studentCategory[index];
+                                    var i  = studentCategory.findIndex(data => data.subCategory ==req.body.subCategory);
+                                    var categoryWiseExamData = studentCategory[i];
                                     if(categoryWiseExamData){
                                       competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
                                     }
