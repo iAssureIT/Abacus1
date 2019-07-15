@@ -101,22 +101,16 @@ exports.competitionDetails = (req,res,next)=>{
   StudentMaster .findOne({studentId:req.params.studentId})
                 .exec()
                 .then(studentMasterData=>{
-                  console.log('studentMasterData o ',studentMasterData);
                   if(studentMasterData){
-                  console.log('studentMasterData i ',studentMasterData);
                     ExamMaster.findOne({_id:req.params.competitionId})
-                              // .select("result ")
                               .exec()
                               .then(competitionData =>{
-                                    console.log('competitionData o ',competitionData);
                                   if(competitionData){
-                                    console.log('competitionData i ',competitionData);
                                     var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
                                     var CompetitionExamData = competitionData.competitionExams;
-                                    console.log('competitionExams o ',CompetitionExamData);
                                     if(CompetitionExamData){
-                                      console.log('competitionExams i ',CompetitionExamData);
-
+                                      console.log('student cat ', studentMasterData.category);
+                                      console.log('student subcat ', studentMasterData.subCategory);
                                       var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
                                       if(arrIndex){
                                         res.status(200).json({
@@ -131,11 +125,9 @@ exports.competitionDetails = (req,res,next)=>{
                                         res.status(404).json({message:"competition Exam does not exist"})  
                                       }
                                     }else{
-                                      console.log('comp 2 not found');
                                       res.status(404).json({message:"competition Exam does not exist"})
                                     }
                                   }else{
-                                    console.log('exam not found');
                                     res.status(404).json({message:"Exam not found"});
                                   }
                               })
@@ -146,7 +138,6 @@ exports.competitionDetails = (req,res,next)=>{
                                   });
                               });
                   }else{
-                    console.log('student not found');
                     res.status(404).json({message:"Student Not found"});
                   }
                 })
