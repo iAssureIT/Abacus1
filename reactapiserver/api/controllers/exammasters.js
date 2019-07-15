@@ -168,7 +168,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   competitionData[index].viewStatus = competitionData[index].competitionView;
                                   var examTime = new Date(competitionData[index].competitionDate);
                                   var ExamStartTime = moment(currentTime, 'h:mma');
-                                  var ExamEndTime   = moment(new Date(competitionData[index].endTime), 'h:mma');
+                                  var ExamEndTime   = moment(competitionData[index].endTime, 'h:mma');
                                   console.log('examTime ',examTime.getTime());
                                   if(today.getTime()< examTime.getTime()){
                                     competitionData[index].examYear = "Accept";
