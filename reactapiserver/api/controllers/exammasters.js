@@ -103,7 +103,7 @@ exports.competitionDetails = (req,res,next)=>{
                 .then(studentMasterData=>{
                   if(studentMasterData){
                     ExamMaster.find({_id:req.params.competitionId})
-                              .select("result ")
+                              // .select("result ")
                               .exec()
                               .then(competitionData =>{
                                   if(competitionData){
