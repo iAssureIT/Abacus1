@@ -104,7 +104,7 @@ exports.competitionDetails = (req,res,next)=>{
                   console.log('studentMasterData o ',studentMasterData);
                   if(studentMasterData){
                   console.log('studentMasterData i ',studentMasterData);
-                    ExamMaster.find({_id:req.params.competitionId})
+                    ExamMaster.findOne({_id:req.params.competitionId})
                               // .select("result ")
                               .exec()
                               .then(competitionData =>{
@@ -115,7 +115,7 @@ exports.competitionDetails = (req,res,next)=>{
                                     var CompetitionExamData = competitionData.competitionExams;
                                     console.log('competitionExams o ',CompetitionExamData);
                                     if(CompetitionExamData){
-                                    console.log('competitionExams i ',CompetitionExamData);
+                                      console.log('competitionExams i ',CompetitionExamData);
 
                                       var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
                                       if(arrIndex){
