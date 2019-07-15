@@ -111,6 +111,7 @@ exports.competitionDetails = (req,res,next)=>{
                                     if(CompetitionExamData){
                                       console.log('student cat ', studentMasterData.category);
                                       console.log('student subcat ', studentMasterData.subCategory);
+                                      console.log('CompetitionExamData ',CompetitionExamData);
                                       var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
                                       if(arrIndex){
                                         res.status(200).json({
