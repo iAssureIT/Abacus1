@@ -147,7 +147,7 @@ exports.competitionDetails = (req,res,next)=>{
 }
 
 exports.fetch_all_show_exam = (req,res,next)=>{
-  console.log('reg.body ',req.body);
+  console.log('reg.body ',req.body.todaydate);
   var today           = new Date(req.body.todaydate);
   console.log('today ',today);
   var todayDate       = moment(today).format('L');
