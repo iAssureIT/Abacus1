@@ -72,7 +72,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 		// var allCompetitions = [];
 		var k = 0;
 		axios
-			.get('/studentmaster/details/2aWJfCyAeadLrvZ29')
+			// .get('/studentmaster/details/2aWJfCyAeadLrvZ29')
+			.get('/studentmaster/details/'+studentId)
 			.then((student)=>{
 				console.log('student ',student);
 				const data = { 
@@ -90,7 +91,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 							// });
 							var allCompetitions = myexamlist.data;
 							axios
-									.get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
+									// .get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
+									.get('/competitionregisterorder/mainexam/'+studentId)
 									.then((response)=>{
 										console.log('response ',response.data);
 										var studentCompetitions = response.data;
