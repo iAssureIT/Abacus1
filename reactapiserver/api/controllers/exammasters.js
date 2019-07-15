@@ -157,10 +157,9 @@ exports.fetch_all_show_exam = (req,res,next)=>{
             .then(competitionData =>{
                 var competitions = [];
                 for(index = 0 ; index < competitionData.length ; index++){
-                  console.log('competitionStatus ',competitionData[index].competitionStatus);
                   console.log('Date ',new Date(competitionData[index].competitionDate));
                   if(competitionData[index].competitionStatus == 'stop'){
-                    if(today > new Date(competitionData[index].competitionDate)){
+                    if(moment(today).format('DD/MM/YYYY') > moment(competitionData[index].competitionDate).format('DD/MM/YYYY')){
                       examStatus = 'Stop-Competition has Finished';
                     }else{
                       examStatus = 'Stop-Competition not started yet';
