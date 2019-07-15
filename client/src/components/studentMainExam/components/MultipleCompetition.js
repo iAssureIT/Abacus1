@@ -71,11 +71,13 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 		// var studentCompetitions = [];
 		// var allCompetitions = [];
 		var k = 0;
-		const data = { todaydate : new Date()};
-		console.log('todatdate ',data);
+		const data = { 
+										"todaydate" : new Date(),
+									};
 		if(data){
+			console.log('todatdate ',data);
 			axios
-			.get('/exammasters/listmainexam',data)
+			.get('/exammasters/listmainexam' , data)
 			.then((myexamlist)=>{
 				console.log('myexamlist ',myexamlist.data);
 				var allCompetitions = myexamlist.data;
