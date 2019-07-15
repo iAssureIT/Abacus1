@@ -148,6 +148,7 @@ exports.competitionDetails = (req,res,next)=>{
 
 exports.fetch_all_show_exam = (req,res,next)=>{
   var today           = new Date(req.body.todaydate);
+  console.log('today ',today);
   var todayDate       = moment(today).format('L');
   var currentTime     = moment(today).format('LT');
   ExamMaster.find({competitionView:"Show"})
