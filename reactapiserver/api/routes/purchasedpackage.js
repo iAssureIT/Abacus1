@@ -163,7 +163,7 @@ router.get('/:studentID', (req,res,next) => {
                 });    
 });
 
-router.patch('/updatequespaper', (req,res,next) =>{
+router.post('/updatequespaper', (req,res,next) =>{
     PackageQuestionPaperMaster  .findOne({questionPaper_id:req.body.practiceExamId,buyerId:req.body.studentId,packageId : req.body.pckgIndex ,order_id:req.body.orderId})
                                 .exec()
                                 .then(questionPaperDetails=>{

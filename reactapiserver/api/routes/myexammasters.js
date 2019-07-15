@@ -28,7 +28,7 @@ router.get('/:categoryname/:subCategory/:competitionId/:startRange/:dataRange',M
 
 router.get('/:categoryname/:studentname/:competitionId',MyExamMastersController.search_student_competition_result_view);
 
-router.patch('/updateexamtimeAndstudenanswer',MyExamMastersController.updateExamTimeAndStudenAnswer);
+router.post('/updateexamtimeAndstudenanswer',MyExamMastersController.updateExamTimeAndStudenAnswer);
 
 
 module.exports = router;

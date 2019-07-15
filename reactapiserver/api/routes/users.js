@@ -11,15 +11,15 @@ router.post('/signup', UserController.user_signup);
 
 router.post('/login',UserController.user_login);
 
-router.patch('/changepwd',UserController.change_pwd);
+router.post('/changepwd',UserController.change_pwd);
 
-router.patch('/changepwdall',UserController.change_all_student_pwd);
+router.post('/changepwdall',UserController.change_all_student_pwd);
 
 router.get('/fetchopt',UserController.fetch_otp);
 
-router.patch('/updateotp',UserController.update_otp);
+router.post('/updateotp',UserController.update_otp);
 
-router.patch('/mobileverification',UserController.mobile_optverify);
+router.post('/mobileverification',UserController.mobile_optverify);
 
 router.delete('/:userId', checkAuth, UserController.user_delete);
 

@@ -26,7 +26,7 @@ shuffle = function(array) {
 	return array;
 }
 
-router.patch('/:compId/:studentID', (req,res,next)=>{
+router.post('/:compId/:studentID', (req,res,next)=>{
     var todayDate = new Date();
     StudentMaster.findOne({"_id":studentId.req.params.studentId})
                 .exec()
