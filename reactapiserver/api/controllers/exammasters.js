@@ -158,18 +158,18 @@ exports.fetch_all_show_exam = (req,res,next)=>{
                 var competitions = [];
                 for(index = 0 ; index < competitionData.length ; index++){
                   console.log('Date ',new Date(competitionData[index].competitionDate));
-                  if(competitionData[index].competitionStatus == 'stop'){
-                    if(moment(today).format('DD/MM/YYYY') > moment(competitionData[index].competitionDate).format('DD/MM/YYYY')){
-                      examStatus = 'Stop-Competition has Finished';
-                    }else{
-                      examStatus = 'Stop-Competition not started yet';
+                  if(moment(today).format('YYYY/MM/DD') > moment(competitionData[index].competitionDate).format('YYYY/MM/DD')){
+                    examStatus = 'Finished';
+                  }else if(moment(today).format('YYYY/MM/DD') == moment(competitionData[index].competitionDate).format('YYYY/MM/DD')){
+                    if(moment(today).getTime() < moment(new Date(competitionData[index].endTime)).getTime()){
+                        examStatus = 'NotFinished';
+                    }else if(moment(today).getTime() < moment(new Date(competitionData[index].startTime)).getTime()){
+                          examStatus = 'NotStarted';
+                    }else if(moment(today).getTime() > moment(new Date(competitionData[index].endTime)).getTime()){
+                        examStatus = 'Finished';
                     }
                   }else{
-                    if(today > new Date(competitionData[index].competitionDate)){
-                      examStatus = 'Start-Competition has Finished';
-                    }else{
-                      examStatus = 'Start-Competition not started yet';
-                    }
+                    examStatus = 'NotFinished';
                   }
                   if(examStatus != '-'){
                     competitions.push({

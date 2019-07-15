@@ -1,0 +1,25 @@
+competitionStatus : Stop
+    today > competitionDate
+        - competition has Finished
+        if student has opted
+            - if given 
+                - Result
+            - if not 
+                - competition has Finished
+    today == competitionDate
+        if student has opted
+            - Your Exam is not started
+        else
+        - competition not started yet
+
+competitionStatus : start
+    - Register for competition
+    - You have 
+
+------------------------------------------------------------------------------------------------------------------------------
+
+if competitionStatus == Stop
+    if today > competitionDate
+        Competition has Finished
+    else
+        Competition Not started yet
