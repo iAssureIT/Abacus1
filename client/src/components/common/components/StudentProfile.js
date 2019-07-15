@@ -10,7 +10,7 @@ import $									from 'jquery';
 
 import '../css/common.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/js/modal.js';
+// import 'bootstrap/js/modal.js';
 import 'bootstrap/js/tab.js';
 
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
@@ -61,14 +61,14 @@ class StudentProfile extends Component{
 
 	componentWillMount(){
     	// $('.sidebar').css({display:'block',background: '#222d32'});
-    	console.log("loggedIn",this.state.loggedIn);
+    	// console.log("loggedIn",this.state.loggedIn);
     	// var token = localstorage.getItem('token');
     	// console.log("localstorage =",localstorage);
     	// console.log("token =",token);
     	axios
-	    	.get('/notificationmasters/cancel')
+	    	.get('/notificationmasters/Broadcast')
             .then((response)=> {
-                console.log("-------Notificationstatus------>>",response.data);
+                // console.log("-------Notificationstatus------>>",response.data);
                 this.setState({
 		 			Notificationstatus : response.data,
 		 		});
@@ -76,31 +76,31 @@ class StudentProfile extends Component{
           		var resArray = response.data;        	
           
 	          	if(resArray.length>0 && resArray[0]._id){
-                console.log("-------in if------>>");
+                // console.log("-------in if------>>");
 				$('#showstatus').css('display','block');
 				$('#showstatus').css('overflow-y','auto');
     	 		$('#showstatus').addClass('fade in');
-		   //        	if(studData){
-					// 	if(studData.notificationStatus=="Unread"){
-					// 		Meteor.setTimeout(function() {
-						    // $('#showstatus').show();
-					// 		}, 300);
-					// 	}else{
-					// 		Meteor.setTimeout(function() {
-					// 	    $('#showstatus').modal('hide');
-					// 		}, 300);
-					// 	}
-					// }	
+		  //  //        	if(studData){
+				// 	// 	if(studData.notificationStatus=="Unread"){
+				// 	// 		Meteor.setTimeout(function() {
+				// 		    // $('#showstatus').show();
+				// 	// 		}, 300);
+				// 	// 	}else{
+				// 	// 		Meteor.setTimeout(function() {
+				// 	// 	    $('#showstatus').modal('hide');
+				// 	// 		}, 300);
+				// 	// 	}
+				// 	// }	
 
 	          	}
-	          	else{
-                console.log("-------in else------>>");
+	   //        	else{
+    //             // console.log("-------in else------>>");
 
-						// Meteor.setTimeout(function() {
-					    	// $('#showstatus').hide();
-						// }, 300);
+				// 		// Meteor.setTimeout(function() {
+				// 	    	// $('#showstatus').hide();
+				// 		// }, 300);
 
-				}
+				// }
 
             })
             .catch(function (error) {
@@ -124,7 +124,7 @@ class StudentProfile extends Component{
 	    axios
 	    	.get('myexammasters/dashboard/'+studentID)
             .then((response)=> {
-                console.log("-------dashboardReports------>>",response.data);
+                // console.log("-------dashboardReports------>>",response.data);
                 this.setState({
 		 			mainExamReport : response.data
 		 		});
@@ -139,7 +139,7 @@ class StudentProfile extends Component{
         axios
 	    	.get('/packageordermasters/'+studentID/*WyQY35LEFitPcabP5*/)
             .then((response)=> {
-                console.log("-------packageordermasters------>>",response.data);
+                // console.log("-------packageordermasters------>>",response.data);
                 this.setState({
 		 			packageordermasters : response.data,
 		 		});
@@ -153,7 +153,7 @@ class StudentProfile extends Component{
         axios
 	    	.get('/packagemanagementmasters')
             .then((response)=> {
-                console.log("-------packageData------>>",response.data);
+                // console.log("-------packageData------>>",response.data);
                 this.setState({
 		 			packageData : response.data,
 		 		});
@@ -231,8 +231,9 @@ class StudentProfile extends Component{
 	// // }
 
   	updateStudentNotifctn(){
-  		$('#showstatus').css('display','none');
-    	  $('#showstatus').removeClass('fade in');
+  		// $('#showstatus').css('display','none');
+    // 	  $('#showstatus').removeClass('fade in');
+    	  // $('.modal-backdrop').hide();
   		 // Meteor.call("updateStudentNotificationStatusToRead",(err,res)=>{
           // if(err){
           // }else{            
@@ -241,8 +242,8 @@ class StudentProfile extends Component{
   	}
 
   	updateStudentTimeStatus(){
-  		$('#showNotice').css('display','none');
-    	  $('#showNotice').removeClass('fade in');
+  		// $('#showNotice').css('display','none');
+    // 	  $('#showNotice').removeClass('fade in');
  //  		 Meteor.call("updateStudentDownTimeStatusStatusToRead",(err,res)=>{
  //          if(err){
  //          }else{            
@@ -254,6 +255,21 @@ class StudentProfile extends Component{
  //    	$("script[src='/js/adminLte.js']").remove();
  //    	$("link[href='/css/dashboard.css']").remove();
  //  	}
+
+
+ showPckgDescription(e){
+ 	// e.preventDefault();
+ 	var modalId = e.target.getAttribute('data-text'); 
+ 	$('#md'+modalId).css("display","block");
+ 	// $('#'+modalId).addClass("fade in");
+ }
+
+ closePckgDescription(e){
+ 	// e.preventDefault();
+ 	var modalId = e.target.getAttribute('data-text');
+ 	$('#md'+modalId).css("display","none");
+
+ }
 
 	render(){
 		/* window.scroll(0,0);
@@ -271,7 +287,7 @@ class StudentProfile extends Component{
 					}, 300);
 				}
 				*/
-		{console.log("this.state.loggedIn = ", this.state.loggedIn)}
+		// {console.log("this.state.loggedIn = ", this.state.loggedIn)}
 		if(this.state.loggedIn===false){
 			return <redirect to="/login"/>
 		}else{
@@ -327,6 +343,7 @@ class StudentProfile extends Component{
 									<div className="col-lg-10 col-lg-offset-1 zeropadding">
 										<div className="col-lg-12 boxlistpadding">
 											{this.state.packageData.map((data,index)=>{
+												console.log("data = ",data);
 								    			return data? 
 								    				<div className="col-lg-6 col-md-6 col-sm-12 outerboxpadding" key={index}>
 									    				<div className="col-lg-12 col-md-12 col-sm-12 smallboxpckg" > 
@@ -336,14 +353,14 @@ class StudentProfile extends Component{
 												    		<div className=" smallfont"> Rs. : {data.PackagePrice} </div>
 												    		<div className=" smallfont"> Practice Test : {data.NoOfPracticeTest} </div>
 												    		<div className="smallfont">
-														        <label title="Click here to see description" className="docLabel docLabelhover" data-toggle="modal" data-target={'#'+index}>Description</label>
+														        <label title="Click here to see description" className="docLabel docLabelhover" data-toggle="modal" data-text={index} data-target={'#md'+index} onClick={this.showPckgDescription.bind(this)}>Description</label>
 														    </div>
 												    	</div>
-												    	<div id={index} className="modal fade" role="dialog">
+												    	<div id={"md"+index} className="modal" role="dialog">
 													        <div className="modal-dialog">
 														        <div className="modal-content documentModal dashboardPckgDesc">
 														            <div className="modal-header">
-														              	<button type="button" className="close" data-dismiss="modal">&times;</button>
+														              	<button type="button" data-text={index} className="close" data-dismiss="modal" onClick={this.closePckgDescription.bind(this)}>&times;</button>
 														                <h4 className="modal-title">Package Name : {data.packageName}</h4>
 														            </div>
 														            <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -527,8 +544,8 @@ class StudentProfile extends Component{
 	                                </div>
 	                            </div>
 
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showstatus">After login modal status</button>
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showNotice">After login modal Notice</button>
+								{/*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showstatus">After login modal status</button>
+								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showNotice">After login modal Notice</button>*/}
 
 						</div>
 					</div>

@@ -29,16 +29,16 @@ import PracticeExamResult 		from '../../components/practiceExams/components/Prac
 import PracticeStartExam 		from '../../components/practiceExams/components/PracticeStartExam.js';
 import PracticeExamReports 		from '../../components/practiceExams/components/PracticeExamReports.js';
 // Section: 5 - Certificate**********************************************************
-import Certificate 				from '../../components/certificate/components/Certificate.js';
-import ParticipationCertificate from '../../components/certificate/components/ParticipationCertificate.js';
+import Certificate 					from '../../components/certificate/components/Certificate.js';
+import ParticipationCertificate 	from '../../components/certificate/components/ParticipationCertificate.js';
 // Section: 6 - MyAccounCompetitionDetailsforPaymentt ***********************************************************
-import StudentResetPassword 	from '../../components/myAccount/components/ChangePassword.js';
-import CreateStudentRegistration from '../../components/myAccount/components/CreateStudentRegistration.js';
-import MyOrder 					from '../../components/myAccount/components/MyOrders.js';
-import PaymentReceipt 			from '../../components/myAccount/components/PaymentReceipt.js';
+import StudentResetPassword 		from '../../components/myAccount/components/ChangePassword.js';
+import CreateStudentRegistration 	from '../../components/myAccount/components/CreateStudentRegistration.js';
+import MyOrder 						from '../../components/myAccount/components/MyOrders.js';
+import PaymentReceipt 				from '../../components/myAccount/components/PaymentReceipt.js';
 import CompetitionDetailsforPayment from '../../components/myAccount/components/CompetitionDetailsforPayment.js';
 // Section: 7 - paymentProcess ***********************************************************
-import MyInvoice 				from '../../components/paymentProcess/components/MyInvoice.js';
+import MyInvoice 					from '../../components/paymentProcess/components/MyInvoice.js';
 
 class MainLayout extends Component{
   
@@ -82,8 +82,6 @@ class MainLayout extends Component{
     })
   }
 
-
-
   render(){
     // console.log("loggedIn status layput = ", this.state.loggedIn);
     console.log("local stoarage = ",localStorage.getItem("token"));
@@ -106,7 +104,7 @@ class MainLayout extends Component{
 										  		<Route path="/PackageList" 				exact strict component={ PackageList } />
 										  		<Route path="/PackageList/:orderId" 	exact strict component={ PackageList } />
 
-										  		<Route path="/practiceExam/:id/:urlPackageId/:BtnIndex" exact strict component={ StartPracticeExam } />
+										  		<Route path="/practiceExam/:id/:orderId/:PackageId/:BtnIndex" exact strict component={ StartPracticeExam } />
 										  		<Route path="/practiceExam/:id" 		exact strict component={ StartPracticeExam } />
 										  		<Route path="/PracticeExamResult/:id"	exact strict component={ PracticeExamResult } />
 										  		<Route path="/PracticeStartExam"		exact strict component={ PracticeStartExam } />

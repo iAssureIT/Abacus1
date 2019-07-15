@@ -2,6 +2,7 @@ import React, {Component} 	from 'react';
 import { Link } 			from 'react-router-dom';
 import $ 					from "jquery";
 import axios 				from 'axios';
+import moment 				from 'moment';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '../css/PracticeExam.css';
 declare var jQuery: any;
@@ -266,7 +267,7 @@ class StartPracticeExam extends (Component)  {
 
 	endExam(){
 		axios
-			.patch('/purchasedpackage/updatequespaper')
+			.post('/purchasedpackage/updatequespaper')
 			.then((response)=>{
 				console.log("updatequespaper = ",response.data);
 				
@@ -276,13 +277,15 @@ class StartPracticeExam extends (Component)  {
 			})
 
 	   		var values ={
-                            quepaperID  : String,
-                            packageID   : String,
-                            index       : Number,
-                            orderId     : String,    
-                            studentID   : String,
-                            todayDate   : String, //convert today date into moment().format("MMM Do YY") format
+                            quepaperID  : this.props.match.params.id,
+                            orderId     : this.props.match.params.orderId,
+                            packageID   : this.props.match.params.packageId,
+                            index       : this.props.match.params.btnIndex,
+                            studentID   : "E6BRdJtHMF9a6p7KF",
+                            todayDate   : moment().format("MMM Do YY"),
                         }
+		console.log("values==== ",values)
+
         axios
 			.post('/packagequestionpapermaster',values)
 			.then((response)=>{
@@ -325,7 +328,10 @@ class StartPracticeExam extends (Component)  {
 			  minutes = (seconds < 0) ? --minutes : minutes;
 			  if (minutes < 0){
 			  		clearInterval(interval);
-				  	this.props.history.push("/practiceExamResult/"+id);
+				  	axios
+			        	.post('/mypracticeexammasters/finishexam/'+id)
+			        	.then((response)=>{console.log("finished practice exam");this.props.history.push("/practiceExamResult/"+id)})
+			        	.catch(function (error) {console.log(error)})
 			  }else{
 				  seconds = (seconds < 0) ? 59 : seconds;
 				  seconds = (seconds < 10) ? '0' + seconds : seconds;
@@ -486,16 +492,13 @@ class StartPracticeExam extends (Component)  {
 																				  <span className="checkmarkk"></span>
 																				  <span className=" quesAnswerOpt">{slides.B}</span>
 																				</label>
-																		      	 
 																		      </div>
-																	      
 																		      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
 																		      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
 																				  <input type="radio" name="questionOption" id="C" className={"C-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getPracticeAnswerbyStud.bind(this)}  checked={slides.optionCcheck}/>
 																				  <span className="checkmarkk"></span>
 																				  <span className=" quesAnswerOpt">{slides.C}</span>
 																				</label>
-																		      	 
 																		      </div>
 																		      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
 																		      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
@@ -525,7 +528,7 @@ class StartPracticeExam extends (Component)  {
 																		</div>
 																		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 																		    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finishBttn">
-																				<button className="showNextWindowButtow btn btn-primary" onClick={this.endExam.bind(this)}>{slides.finish_button}</button>
+																				<button className="showNextWindowButtow btn btn-primary" onClick={this.endExam.bind(this)}>finish Exam{slides.finish_button}</button>
 																			</div>
 																		</div>
 																	  </div>

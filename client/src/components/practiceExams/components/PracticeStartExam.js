@@ -4,6 +4,7 @@ import $ 					from 'jquery';
 import axios				from 'axios';
 
 import '../css/PracticeExam.css';
+var id ;
 
 class PracticeStartExam extends Component {
 	constructor(props){
@@ -14,11 +15,12 @@ class PracticeStartExam extends Component {
 			'defaultBtnTime' 	: '00:05',
 			facilityPermission  : 'waitingforResult',
 			instruction 		: 'Loading Instructions',
-			practiceQPData 		: [],
+			practiceQPData 		: "",
+			mypracticeexamstatus : [],
 		});
 	}
 	componentDidMount(){
-
+		
 		axios
 			.get('/instructions/Practice Exam')
 			.then((response)=>{
@@ -31,15 +33,112 @@ class PracticeStartExam extends Component {
 			})
 
 		axios
-	    	.get('/questionpapermasters/A/A2')
+	    	.get('/questionpapermasters/A/A1')
             .then((response)=> {
+				// console.log("A/A1 = ",response.data);
                 this.setState({
 		 			practiceQPData : response.data,
+		 		},()=>{
+
+		 			this.getStatus();
+
+		 			
 		 		});
             })
             .catch(function (error) {
                 console.log(error);
             });
+	}
+
+	getStatus(){
+		var array = [];
+		var obj;
+
+		var qpData = this.state.practiceQPData;
+									console.log("qpData qpData = ",qpData);
+
+		 			if(qpData){	
+
+		 				qpData.map((item,ind)=>{
+		 					axios
+								.get('/mypracticeexammasters/'+item._id+'/E6BRdJtHMF9a6p7KF')
+								.then((response)=>{
+
+									var examAttempt = response.data;
+									console.log("my prac tice = ",examAttempt,item._id);
+
+									if(examAttempt.length>0){
+
+									array.push({
+										ind : ind,
+										pId : item._id,
+										status : "Completed",
+									});
+									}else{
+										// data.freeExamStatus = "Not Completed"
+									array.push({
+										ind: ind,
+										pId : item._id,
+										status : "InComplete",
+									});
+									}
+									this.setState({
+										mypracticeexamstatus :array,
+									});
+								})
+								.catch(function(error){
+
+								})
+
+
+		 				})
+
+
+		 				// for(var i=0;i<qpData.length;i++){
+							// 		console.log("qpData tice = ",qpData[i]);
+
+		 				// 	var data = qpData[i];
+		 				// 	id = data._id;
+		 				// 	if(id){
+							// 		console.log("my ids= ",id);
+
+					 	// 	axios
+							// 	.get('/mypracticeexammasters/'+id+'/E6BRdJtHMF9a6p7KF')
+							// 	.then((response)=>{
+
+							// 		var examAttempt = response.data;
+							// 		console.log("my prac tice = ",examAttempt,id);
+
+							// 		if(examAttempt.length>0){
+
+							// 		array.push({
+							// 			ind : i,
+							// 			pId : id,
+							// 			status : "Completed",
+							// 		});
+							// 		}else{
+							// 			// data.freeExamStatus = "Not Completed"
+							// 		array.push({
+							// 			ind: i,
+							// 			pId : id,
+							// 			status : "InComplete",
+							// 		});
+							// 		}
+							// 		this.setState({
+							// 			mypracticeexamstatus :array,
+							// 		});
+							// 	})
+							// 	.catch(function(error){
+
+							// 	})
+							// }
+
+							// data.freeExamStatus = "InCompleted"
+
+		 				
+		 			}
+
+
 	}
 	componentWillMount(){
   // 		 Meteor.call("isAuthenticated","PracticeExam","StartFreePracticeExam",(err,res)=>{
@@ -75,7 +174,7 @@ class PracticeStartExam extends Component {
  		axios
 			.get('/mypracticeexammasters/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
 			.then((response)=>{
-						console.log("mypracticeexammasters = ",response.data);
+				// console.log("mypracticeexammasters = ",response.data);
 
 				this.setState({
 					mypracticeexammasters :response.data
@@ -84,12 +183,6 @@ class PracticeStartExam extends Component {
 			.catch(function(error){
 
 			})
-
-
-
-
-
-
 
 		// Meteor.call("checkExamISsolveToday",practiceExamId,(error,result)=>{
 		// 	if(error){
@@ -159,6 +252,10 @@ class PracticeStartExam extends Component {
 		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
 		// 	$('.sidebar').css({display:'block',background: '#222d32'});
 		//  if(this.state.showstartExamBtn){
+			console.log("this.state.practiceQPData",this.state.practiceQPData);
+		var statusArray= this.state.mypracticeexamstatus;
+			console.log("this.state.statusArray",statusArray);
+
 		return(
 			
 			<div>
@@ -198,16 +295,20 @@ class PracticeStartExam extends Component {
 																<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC">
 																	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examTable">
 															    	{this.state.practiceQPData.map((questionPaper,index)=>{
+															    		
 															    		return  <div className="col-lg-6 col-md-6 col-sm-6 col-lg-offset-3 col-md-offset-3 qpRow" key={index}>  
 																		    		<div className="col-lg-9 col-md-9 col-sm-9 col-xs-9 qpTestTitle"> {questionPaper.quePaperTitle}</div>
-																		    		{questionPaper.freeExamStatus=="Completed" ?
+																		    		{	statusArray[index]?
+																		    			statusArray[index].status=="Completed" ?
 																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 																			    			<Link to="/PractExamReports"><button type="submit" className="btn startexambtn leftpaddingzero" value={questionPaper._id} title="Click here to start exam">Result</button></Link>
 																			    		</div>
-																		    		:
+																			    		:
 																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 																			    			<button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" onClick={this.startPracticeExam.bind(this)} value={questionPaper._id}>Start</button>
 																			    		</div>
+																		    		:
+																			    		null
 																			    	}
 																		    	</div>
 															    		})

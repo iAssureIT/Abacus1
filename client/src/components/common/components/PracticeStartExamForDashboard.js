@@ -32,16 +32,16 @@ class PracticeStartExamForDashboard extends Component {
 	}
 
 	componentDidMount(){
-
+		var newStateArray = [];
 		const studentID = 'uKRhdd7qS6ctjgK6s'/*localStorage.getItem("user_ID");*/
 	    	this.setState({
 	    		studentID 	: studentID
 	    	})
 
         axios
-	    	.get('/competitionregisterorder/'+studentID /*bzdaMLD9Mf8YxR7TM*/)
+	    	.get('/competitionregisterorder/E6BRdJtHMF9a6p7KF'/*+studentID*/)
             .then((response)=> {
-                console.log("-------competitionregisterorder222------>>",response.data);
+                // console.log("-------competitionregisterorder222------>>",response.data);
                 this.setState({
 		 			practiceQPData1 : response.data,
 		 		});
@@ -53,9 +53,9 @@ class PracticeStartExamForDashboard extends Component {
             });
 
         axios
-	    	.get('/myexammasters/incomplete/'+studentID /*cgTpRuSjgRt7GnLr5*/)
+	    	.get('/myexammasters/incomplete/E6BRdJtHMF9a6p7KF'/*+studentID*/)
             .then((response)=> {
-                console.log("-------myexammasters333------>>",response.data);
+                // console.log("-------myexammasters333------>>",response.data);
                 this.setState({
 		 			Notificationstatus : response.data,
 		 		});
@@ -69,51 +69,91 @@ class PracticeStartExamForDashboard extends Component {
         axios
 	    	.get('/studentmaster/details/'+studentID /*WyQY35LEFitPcabP6*/)
             .then((response)=> {
-                console.log("-----Category/subCategory------>>",response.data.category+'/'+response.data.subCategory);          
-
+                // console.log("-----Category/subCategory------>>",response.data.category+'/'+response.data.subCategory);          
 	        axios
 		    	.get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
 	            .then((response)=> {
-	                console.log("-------questionpapermasters444------>>",response.data);
-                	console.log("-------this.state.practiceQPData._id------>>",response.data[0]._id);
-
+	                // console.log("-------questionpapermasters444------>>",response.data);
 	                this.setState({
 			 			practiceQPData : response.data,
-			 		});
-		            for(var i=0;response.data.length>i;i++){
-				        console.log("-----"+i+"------>>")
-			        axios
-					    .get('/mypracticeexammasters/'+response.data[i]._id+/*vh5EWGeJf34k54XjF*/'/'+studentID /*uKRhdd7qS6ctjgK6s*/)
-			            .then((response)=> {
-			                console.log("-------mypracticeexammasters"+i+"------>>",response.data);
-			                
-			                var newStateArray = [];
-			                if(response.data.length>0){
-				                var count = 0;
-				                for (var j = 0; j < response.data.length; j++) {
-				                	if(response.data[j].examStatus=='Completed'){
-				                		count++;
-				                	}
-				                }
-				                if(count==response.data.length){
-							 			var status = 'Completed'
-				                }else{
-							 			var status =  'Incomplete'
-				                }
-			                }else{
-						 			var status =  'Incomplete'
-			                }
-			                newStateArray.push(status);
-							this.setState({
-								myArray: newStateArray
-							});
-			        	console.log('myArray = ',newStateArray);
+			 		},()=>{
+				        var paperdata = this.state.practiceQPData;
+				        if(paperdata){
 
-			            })
-			            .catch(function (error) {
-			                console.log(error);
-			            });
-			        }
+				        	for(var i=0;i<paperdata.length;i++){
+				        		var paperId = paperdata[i]._id;
+				        // console.log("-----"+i+"----out-->>",paperdata[i]);
+						        axios
+								    .get('/mypracticeexammasters/'+paperdata[i]._id+/*vh5EWGeJf34k54XjF*/'/E6BRdJtHMF9a6p7KF'/*+studentID*/)
+						            .then((response)=> {
+						                console.log("-------mypracticeexammasters"+i+"------>>",response.data);
+						                if(response.data.length>0){
+							                var count = 0;
+							                for (var j = 0; j < response.data.length; j++) {
+							                	if(response.data[j].examStatus=='Completed'){
+							                		count++;
+							                	}
+							                }
+							                if(count==response.data.length){
+										 			var status = 'Completed'
+							                }else{
+										 			var status =  'Incomplete'
+							                }
+						                }else{
+									 			var status =  'Incomplete'
+						                }
+										 newStateArray.push({
+										 	paperId:paperId,
+										 	status : status
+										 });
+
+						        		console.log('myArray = ',newStateArray);
+										this.setState({
+												myArray: newStateArray
+											},()=>{
+
+											}); 
+						            })
+						            .catch(function (error) {
+						                console.log(error);
+						            });
+				        	}
+				        }
+			 		});
+		     //        for(var i=0;i>response.data.length;i++){
+				   //      console.log("-----"+i+"------>>",response.data[i]._id)
+			    //     axios
+					  //   .get('/mypracticeexammasters/'+response.data[i]._id+/*vh5EWGeJf34k54XjF*/'/'+studentID /*uKRhdd7qS6ctjgK6s*/)
+			    //         .then((response)=> {
+			    //             console.log("-------mypracticeexammasters"+i+"------>>",response.data);
+			                
+			    //             var newStateArray = [];
+			    //             if(response.data.length>0){
+				   //              var count = 0;
+				   //              for (var j = 0; j < response.data.length; j++) {
+				   //              	if(response.data[j].examStatus=='Completed'){
+				   //              		count++;
+				   //              	}
+				   //              }
+				   //              if(count==response.data.length){
+							//  			var status = 'Completed'
+				   //              }else{
+							//  			var status =  'Incomplete'
+				   //              }
+			    //             }else{
+						 // 			var status =  'Incomplete'
+			    //             }
+			    //             newStateArray.push(status);
+							// this.setState({
+							// 	myArray: newStateArray
+							// });
+			    //     	console.log('myArray = ',newStateArray);
+
+			    //         })
+			    //         .catch(function (error) {
+			    //             console.log(error);
+			    //         });
+			    //     }
 	            })
 	            .catch(function (error) {
 	                console.log(error);
@@ -125,7 +165,7 @@ class PracticeStartExamForDashboard extends Component {
         axios
 	    	.get('/mypracticeexammasters/incompleteexam/'+studentID /*rRDPwPwKJrCRtyY9X*/)
             .then((response)=> {
-                console.log("-------mypracticeexammasters666------>>",response.data);
+                // console.log("-------mypracticeexammasters666------>>",response.data);
                 this.setState({
 		 			Notificationstatus : response.data,
 		 		});
@@ -151,7 +191,7 @@ class PracticeStartExamForDashboard extends Component {
 	render(){ 
 // console.log('myArray111 = ',this.state.myArray);
 
-		// if(!this.props.loadingTest5){
+	if(this.state.practiceQPData){
 		return(
 			<div className="col-lg-12">
 		        <div >
@@ -178,13 +218,14 @@ class PracticeStartExamForDashboard extends Component {
 											    {/*console.log("this.state.practiceQPData",this.state.practiceQPData)*/}
 											    	{this.state.practiceQPData.length>0?								
 											    		this.state.practiceQPData.map((questionPaper,index)=>{
+											    			console.log("questionPaper---------->",questionPaper);
 												    	return (<ul className="col-lg-12 freePPaper" key={index}>													    			
 													    			<li className="testtitle testtitlepadding col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>
 													    			{
-													    				this.state.myArray=="Completed"?
+													    				(this.state.myArray.status=="Completed" && this.state.myArray.paperId==questionPaper._id)?
 													    				<Link to="/PractExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li></Link>
 													    				:
-													    				<Link to="/StartPracticeExam"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li></Link>
+													    				<Link to="/PracticeStartExam"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li></Link>
 													    			}
 													     		</ul>)
 											    		})
@@ -203,11 +244,12 @@ class PracticeStartExamForDashboard extends Component {
 				</div>
 			</div>
 			);
-		// }else{
-		// 	return(
-		// 		<div>Loading...</div>
-		// 		)
-		// }
+		}else{
+			return(
+				<div>Loading...</div>
+			    // <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
+			)
+		}
 		
 			
 		

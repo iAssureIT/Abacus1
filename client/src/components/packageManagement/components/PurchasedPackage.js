@@ -40,7 +40,6 @@ class PurchasedPackage extends Component {
                                           // packageManagementData : Meteor.subscribe("packageManagementData"),
                                         }
                   });
-
     }
     componentDidMount(){
 
@@ -176,9 +175,10 @@ class PurchasedPackage extends Component {
 
     startPracticeExam(event){
       event.preventDefault();
-      var btnIndex = event.target.getAttribute('data-index');
-      var pckgIndex = event.target.getAttribute('data-text');
-      var orderId = event.target.getAttribute('data-id');
+      var btnIndex        = event.target.getAttribute('data-index');
+      var pckgIndex       = event.target.getAttribute('data-text');
+      var orderId         = event.target.getAttribute('data-id');
+      var practiceExamId  = event.target.value;
 
       this.setState({
          BtnIndex:btnIndex,
@@ -188,7 +188,6 @@ class PurchasedPackage extends Component {
         showButton:false,
         showstartExamBtn:false,
       });
-      var practiceExamId = event.target.value;
 
       axios
           .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
@@ -198,7 +197,7 @@ class PurchasedPackage extends Component {
               startpracticeexam : response.data,
             });
           var id = response.data.ID;
-          this.props.history.push('/practiceExam/'+id+'/'+pckgIndex+'/'+btnIndex);
+          this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
           })
           .catch(function (error) {
               console.log(error);

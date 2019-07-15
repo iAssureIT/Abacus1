@@ -43,7 +43,7 @@ class StudentRegistrationforCompetition extends Component  {
 		axios
 	    	.get('/studentmaster/details/WyQY35LEFitPcabP6')
             .then((response)=> {
-                console.log("-------studentmasterdetails------>>",response.data);
+                // console.log("-------studentmasterdetails------>>",response.data);
                 this.setState({
 		 			studentmasterdetails : response.data,
 		 		});
@@ -57,7 +57,7 @@ class StudentRegistrationforCompetition extends Component  {
         axios
 	    	.get('/exammasters/list')
             .then((response)=> {
-                console.log("-------exammasters------>>",response.data);
+                // console.log("-------exammasters------>>",response.data);
                 this.setState({
 		 			competitionData : response.data,
 		 		});
@@ -112,7 +112,7 @@ class StudentRegistrationforCompetition extends Component  {
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
-		  console.log("webcam is available");
+		  // console.log("webcam is available");
 		//   Meteor.call("StartExamCategoryWise",(error,result)=>{
 		// 	if(error){
 		// 		swal(error);
@@ -245,7 +245,7 @@ class StudentRegistrationforCompetition extends Component  {
 							<div className="carousel-inner">
 								{this.state.competitionData.length>0 ?
 									this.state.competitionData.map((competitionInfo,index)=>{	
-		console.log("competitionInfo.timeStatus= ",competitionInfo.timeStatus,"competitionInfo.examYear= ",competitionInfo.examYear)
+		// console.log("competitionInfo.timeStatus= ",competitionInfo.timeStatus,"competitionInfo.examYear= ",competitionInfo.examYear)
 
 										return(											
 										<div className={index==0?"item active":"item"}  key={index}>
