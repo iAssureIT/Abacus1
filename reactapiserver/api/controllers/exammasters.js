@@ -160,12 +160,12 @@ exports.fetch_all_show_exam = (req,res,next)=>{
                   console.log('Date ',new Date(competitionData[index].competitionDate));
                   if(moment(today).format('YYYY/MM/DD') > moment(competitionData[index].competitionDate).format('YYYY/MM/DD')){
                     examStatus = 'Finished';
-                  }else if(moment(today).format('YYYY/MM/DD') == moment(competitionData[index].competitionDate).format('YYYY/MM/DD')){
-                    if(moment(today).getTime() < moment(new Date(competitionData[index].endTime)).getTime()){
+                  }else if(today.format('YYYY/MM/DD') == moment(competitionData[index].competitionDate).format('YYYY/MM/DD')){
+                    if(today.getTime() < new Date(competitionData[index].endTime).getTime()){
                         examStatus = 'NotFinished';
-                    }else if(moment(today).getTime() < moment(new Date(competitionData[index].startTime)).getTime()){
+                    }else if(today.getTime() < new Date(competitionData[index].startTime).getTime()){
                           examStatus = 'NotStarted';
-                    }else if(moment(today).getTime() > moment(new Date(competitionData[index].endTime)).getTime()){
+                    }else if(today.getTime() > new Date(competitionData[index].endTime).getTime()){
                         examStatus = 'Finished';
                     }
                   }else{
