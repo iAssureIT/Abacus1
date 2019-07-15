@@ -158,13 +158,13 @@ exports.fetch_all_show_exam = (req,res,next)=>{
                 var competitions = [];
                 for(index = 0 ; index < competitionData.length ; index++){
                   if(competitionData[index].competitionStatus == 'Stop'){
-                    if(today > competitionData[index].competitionDate){
+                    if(today > new Date(competitionData[index].competitionDate)){
                       examStatus = 'Stop-Competition has Finished';
                     }else{
                       examStatus = 'Stop-Competition not started yet';
                     }
                   }else{
-                    if(today > competitionData[index].competitionDate){
+                    if(today > new Date(competitionData[index].competitionDate)){
                       examStatus = 'Start-Competition has Finished';
                     }else{
                       examStatus = 'Start-Competition not started yet';
