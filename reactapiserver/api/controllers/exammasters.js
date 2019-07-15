@@ -106,7 +106,7 @@ exports.competitionDetails = (req,res,next)=>{
                               .exec()
                               .then(competitionData =>{
                                   if(competitionData){
-                                    var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
+                                    var dateformat = moment(new Date(competitionData.competitionDate)).format('MMM Do YYYY');
                                     var CompetitionExamData = competitionData.competitionExams;
                                     if(CompetitionExamData){
                                       console.log('student cat ', studentMasterData.category);
