@@ -156,21 +156,21 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
 		  // console.log("webcam is available");
-		  Meteor.call("StartExamCategoryWise",(error,result)=>{
-			if(error){
-				swal(error);
-			}else{
-				var id = result;
-				// console.log("id",id);
-				if(id){
-					// Meteor.call("updateMyExamFee",id); 
-					// location.reload();
-					FlowRouter.go('/startExam/'+id);
-				}else{
-					swal("Please start exam again","This is happened due to bad internet connection","warning");
-				}
-			}
-		});
+		//   Meteor.call("StartExamCategoryWise",(error,result)=>{
+		// 	if(error){
+		// 		swal(error);
+		// 	}else{
+		// 		var id = result;
+		// 		// console.log("id",id);
+		// 		if(id){
+		// 			// Meteor.call("updateMyExamFee",id); 
+		// 			// location.reload();
+		// 			FlowRouter.go('/startExam/'+id);
+		// 		}else{
+		// 			swal("Please start exam again","This is happened due to bad internet connection","warning");
+		// 		}
+		// 	}
+		// });
 
 		}, function() {
 		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");

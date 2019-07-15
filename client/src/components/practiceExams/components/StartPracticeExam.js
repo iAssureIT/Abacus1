@@ -278,9 +278,9 @@ class StartPracticeExam extends (Component)  {
 
 	   		var values ={
                             quepaperID  : this.props.match.params.id,
-                            orderId     : this.props.match.params.orderId,
-                            packageID   : this.props.match.params.packageId,
-                            index       : this.props.match.params.btnIndex,
+                            orderId     : this.props.match.params.orderId?this.props.match.params.orderId:"",
+                            packageID   : this.props.match.params.packageId?this.props.match.params.packageId:"",
+                            index       : this.props.match.params.btnIndex?this.props.match.params.btnIndex:"",
                             studentID   : "E6BRdJtHMF9a6p7KF",
                             todayDate   : moment().format("MMM Do YY"),
                         }

@@ -169,16 +169,20 @@ class PracticeStartExam extends Component {
 					});
 		var practiceExamId = event.target.value;
 		console.log("practiceExamId = ",practiceExamId);
-
+		// this.props.history.push('/practiceExam/'+practiceExamId);
 
  		axios
-			.get('/mypracticeexammasters/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+			.post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+			// .get('/mypracticeexammasters/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
 			.then((response)=>{
-				// console.log("mypracticeexammasters = ",response.data);
+
+				this.props.history.push('/practiceExam/'+response.data.ID);
+				console.log("response start practiceeee ------= =========>",response);
 
 				this.setState({
 					mypracticeexammasters :response.data
 				});
+
 			})
 			.catch(function(error){
 
@@ -299,7 +303,7 @@ class PracticeStartExam extends Component {
 															    		return  <div className="col-lg-6 col-md-6 col-sm-6 col-lg-offset-3 col-md-offset-3 qpRow" key={index}>  
 																		    		<div className="col-lg-9 col-md-9 col-sm-9 col-xs-9 qpTestTitle"> {questionPaper.quePaperTitle}</div>
 																		    		{	statusArray[index]?
-																		    			statusArray[index].status=="Completed" ?
+																		    			(statusArray[index].status=="Completed" && statusArray[index].pId==questionPaper._id)?
 																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 																			    			<Link to="/PractExamReports"><button type="submit" className="btn startexambtn leftpaddingzero" value={questionPaper._id} title="Click here to start exam">Result</button></Link>
 																			    		</div>
