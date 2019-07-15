@@ -159,7 +159,7 @@ exports.fetch_all_show_exam = (req,res,next)=>{
                 for(index = 0 ; index < competitionData.length ; index++){
                   console.log('competitionStatus ',competitionData[index].competitionStatus);
                   console.log('Date ',new Date(competitionData[index].competitionDate));
-                  if(competitionData[index].competitionStatus == 'Stop'){
+                  if(competitionData[index].competitionStatus == 'stop'){
                     if(today > new Date(competitionData[index].competitionDate)){
                       examStatus = 'Stop-Competition has Finished';
                     }else{
