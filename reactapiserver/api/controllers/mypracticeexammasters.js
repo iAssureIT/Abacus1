@@ -214,3 +214,24 @@ exports.completeExam = (req,res,next) =>{
                             });
                           });
 }
+
+exports.checkExamISsolveToday = (req,res,next) =>{
+  var studentId     = req.params.studentId;
+  var examPaperId   = req.params.examPaperId;
+  MyPracticeExamMaster.findOne({StudentId:studentId,examPaperId:examPaperId})
+                      .select("examStatus")
+                      .exec()
+                      .then(data =>{
+                        if(data){
+                          res.status(200).json("exist")
+                        }else{
+                          res.status(200).json("not-exist")
+                        }
+                      })
+                      .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                          error: err
+                          });
+                      });
+}

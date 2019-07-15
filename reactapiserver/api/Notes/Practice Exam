@@ -124,6 +124,35 @@
                             _id             : String,
                             quePaperTitle   : String,
                       }]
+
+8. checkExamISsolveToday
+
+    Method          : GET
+
+    URL             :  /mypracticeexammasters/checkexamissolvetoday/:studentId/:examPaperId
+
+    Input           : -NA-
+                      
+    Output          : 
+                        if successfully
+                            exist 
+                        else
+                            not-exist
+
+9. practiceExamFinished
+
+    Method          : GET
+
+    URL             :  /mypracticeexammasters/finishexam/:examId
+
+    Input           : -NA-
+                      
+    Output          : 
+                        if successfully
+                            Updated successfully 
+                        else
+                            Update failed
+
 ------------------------------------------------------------------------------------------
                         2. Start Purchased Exam
 ------------------------------------------------------------------------------------------

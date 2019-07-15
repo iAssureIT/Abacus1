@@ -119,13 +119,13 @@ exports.competitionDetails = (req,res,next)=>{
                                                                 studentMasterData   : studentMasterData,
                                                               });
                                       }else{
-                                        res.status(409).json({message:"competition Exam does not exist"})  
+                                        res.status(404).json({message:"competition Exam does not exist"})  
                                       }
                                     }else{
-                                      res.status(409).json({message:"competition Exam does not exist"})
+                                      res.status(404).json({message:"competition Exam does not exist"})
                                     }
                                   }else{
-                                    res.status(409).json({message:"Exam not found"});
+                                    res.status(404).json({message:"Exam not found"});
                                   }
                               })
                               .catch(err =>{
