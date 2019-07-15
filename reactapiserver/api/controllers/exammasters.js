@@ -98,7 +98,7 @@ exports.fetch_statu_exam = (req,res,next)=>{
           });
 }
 exports.competitionDetails = (req,res,next)=>{
-  StudentMaster .findOne({_id:req.params.studentId})
+  StudentMaster .findOne({studentId:req.params.studentId})
                 .exec()
                 .then(studentMasterData=>{
                   console.log('studentMasterData o ',studentMasterData);
