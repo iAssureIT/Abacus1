@@ -181,9 +181,14 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                                   }else if(todayDate<=competitionData[index].examDate){
                                     competitionData[index].examTimeStatus = "NewExam";
                                   }
+                                  console.log('todayDate ',todayDate);
+                                  console.log('competitionData[index].examDate ',competitionData[index].examDate);
+                                  console.log('ExamStartTime ',ExamStartTime);
+                                  console.log('ExamEndTime ',ExamEndTime);
+                                  
                                   if(todayDate==competitionData[index].examDate && ExamStartTime > ExamEndTime){
                                     competitionData[index].timeStatus = "invalid";
-                                  }else if(todayDate==competitionData[index].examDate && ExamStartTime<ExamEndTime){
+                                  }else if(todayDate==competitionData[index].examDate && ExamStartTime < ExamEndTime){
                                     competitionData[index].timeStatus = "valid";
                                   }else{
                                     competitionData[index].timeStatus = "nextCompetition";

@@ -102,7 +102,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 																										});
 											if(index > 0){
 												console.log('index ',index);
-												allCompetitions[index].studentPaymentStatus = "Paid";
+												allCompetitions[index].studentPaymentStatus = "paid";
 												axios
 														.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId)
 														.then((myexamres)=>{
@@ -143,7 +143,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
     	$("link[href='/css/dashboard.css']").remove();
   	}
 
-	// startExam(event){
+	startExam(event){
 	// 	event.preventDefault();
 	// 	// this.setState({
 	// 	// 				showButton:false,
@@ -176,9 +176,9 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 	// 	    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
 	// 	});
 		
-	// }
+	}
 
-	// gotoPreviousMainExam(event){
+	gotoPreviousMainExam(event){
 	// 	var id = $(event.target).attr('id');
 	// 	var compId = $(event.target).attr('data-text');
 	// 	navigator.getMedia = ( 
@@ -194,9 +194,9 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 	// 	    swal("As per our rule, you will be not allowed to attempt exam without camera","","warning");
 	// 	});
 	// 	// FlowRouter.go("/startExam/"+id);
-	// }
+	}
 
-	// MainExamComplete(event){
+	MainExamComplete(event){
 	// 	var id = $(event.target).attr('id');
 	// 	swal({
 	// 		  title              : 'Are you sure?',
@@ -277,7 +277,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
 	// 	}, 1000);
 		
-	// }
+	}
 	
 
 
