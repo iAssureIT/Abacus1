@@ -113,7 +113,10 @@ exports.competitionDetails = (req,res,next)=>{
                                     console.log('competitionData i ',competitionData);
                                     var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
                                     var CompetitionExamData = competitionData.competitionExams;
+                                    console.log('competitionExams o ',CompetitionExamData);
                                     if(CompetitionExamData){
+                                    console.log('competitionExams i ',CompetitionExamData);
+
                                       var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
                                       if(arrIndex){
                                         res.status(200).json({
