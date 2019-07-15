@@ -147,7 +147,7 @@ exports.competitionDetails = (req,res,next)=>{
 }
 
 exports.fetch_all_show_exam = (req,res,next)=>{
-  var today           = new Date();
+  var today           = req.params.todaydate;
   var todayDate       = moment(today).format('L');
   var currentTime     = moment(today).format('LT');
   ExamMaster.find({competitionView:"Show"})
@@ -163,7 +163,7 @@ exports.fetch_all_show_exam = (req,res,next)=>{
                   // competitionData[index].EXAMDate = moment(competitionData[index].examDate).format("DD/MM/YYYY");
                   competitionData[index].viewStatus = competitionData[index].competitionView;
                   var examTime = new Date(competitionData[index].competitionDate);
-                  var ExamStartTime = moment(new Date(), 'h:mma');
+                  var ExamStartTime = moment(req.params.todaydate, 'h:mma');
                   var ExamEndTime   = moment(new Date(competitionData[index].endTime), 'h:mma');
                   console.log('examTime ',examTime.getTime());
                   if(today.getTime()< examTime.getTime()){
