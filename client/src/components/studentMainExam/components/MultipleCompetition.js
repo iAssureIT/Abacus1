@@ -72,8 +72,10 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 		// var allCompetitions = [];
 		var k = 0;
 		var todaydate = new Date();
-		axios
-			.get('/exammasters/listmainexam',{todaydate})
+		console.log('todatdate ',todaydate);
+		if(todaydate){
+			axios
+			.get('/exammasters/listmainexam',todaydate)
 			.then((myexamlist)=>{
 				console.log('myexamlist ',myexamlist.data);
 				var allCompetitions = myexamlist.data;
@@ -118,6 +120,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			.catch(function(error){
 				console.log("error",error);
 			});
+		}
+		
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
