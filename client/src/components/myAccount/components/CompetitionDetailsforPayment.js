@@ -9,10 +9,10 @@ class CompetitionDetailsforPayment extends Component{
 	constructor(props) {
 	    super();
 	    this.state = {
-	    	competitionData : [],
-	    	competitionExams : [],
-	    	studentMasterData : [],
-	    	dateformat : '',
+	    	competitionData 	: [],
+	    	competitionExams 	: [],
+	    	studentMasterData 	: [],
+	    	dateformat 			: '',
 	    }
 	}
 	componentDidMount(){
@@ -22,6 +22,7 @@ class CompetitionDetailsforPayment extends Component{
 		//   adminLte.src = "/js/adminLte.js";
 		//   $("body").append(adminLte);
 		// }
+
 		var id = localStorage.getItem("user_ID");
 		var competitionId = this.props.match.params.compId;
 		console.log("localstorage",id);
@@ -55,16 +56,17 @@ class CompetitionDetailsforPayment extends Component{
 
   	confirmPayment(event){
   		event.preventDefault();
+		const studentID 	= localStorage.getItem("user_ID");
   		var competitionFees = this.refs.competitionFees.value;
   		var comp_id 		= this.refs.comp_id.value;
   		var QPId 			= this.refs.QPId.value;
-		var formValues= {
-							studentId          : "E6BRdJtHMF9a6p7KF",
-	                    	competitionId      : comp_id,
-	                    	compFees           : competitionFees,
-						}
+		var formValues		= {
+								studentId          : studentID,
+		                    	competitionId      : comp_id,
+		                    	compFees           : competitionFees,
+							  }
   		axios
-			.post('/quickwalletmasters/exampurchase/E6BRdJtHMF9a6p7KF'/*+studentId*/,formValues)
+			.post('/quickwalletmasters/exampurchase/'+studentID,formValues)
 			.then((response)=>{
 				console.log('response123 = ',response.data);
 				this.setState({

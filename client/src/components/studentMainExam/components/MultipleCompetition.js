@@ -25,7 +25,7 @@ var returnList = [{
 	// PayDate : '',
 	// currentExamDate : '',
 }];
-class MultipleCompetition extends /*TrackerReact*/(Component)  {
+class MultipleCompetition extends (Component)  {
 
 	constructor(props){
 		super(props);
@@ -62,12 +62,11 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 	}
 	componentDidMount(){
 		var i = 0;
-		const studentId = /*localStorage.getItem("user_ID")*/"E6BRdJtHMF9a6p7KF";
+		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
 		var array=[];
 		if(studentId){
 			var k = 0;
 			axios
-				// .get('/studentmaster/details/2aWJfCyAeadLrvZ29')
 				.get('/studentmaster/details/'+studentId)
 				.then((student)=>{
 					console.log('student ',student);

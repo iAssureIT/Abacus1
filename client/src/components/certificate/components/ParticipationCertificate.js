@@ -59,7 +59,7 @@ class ParticipationCertificate extends (Component) {
   //       this.setState({
   //       	studentId:response.data.id
   //       })
-
+		const studentID = localStorage.getItem("user_ID");
 		var competitionId = $("#selectId option:selected").attr("id");
 		console.log('competitionId= ',competitionId);
 		
@@ -67,7 +67,7 @@ class ParticipationCertificate extends (Component) {
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
 			axios
-				.get('/myexammasters/participation/'+competitionId+'/E6BRdJtHMF9a6p7KF')
+				.get('/myexammasters/participation/'+competitionId+'/'+studentID)
 	            .then((response)=>{
 	                console.log("-------myExamMaster------>>",response.data[0]);
 	            	this.setState({

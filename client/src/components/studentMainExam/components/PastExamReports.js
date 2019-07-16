@@ -21,6 +21,8 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 		}
 
 	componentWillMount(){
+		const studentID = localStorage.getItem("user_ID");
+
   // 		Meteor.call("isAuthenticated","MainExam","MainExamReports",(err,res)=>{
 		// 	if(err){
 		// 		console.log(err);
@@ -37,7 +39,7 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 		// 	}
 		// });	axios.get('/myexammasters/'+"LLNtieLsRXXL7RbdJ",)
 
-		axios.get('/myexammasters/'+"E6BRdJtHMF9a6p7KF",)
+		axios.get('/myexammasters/'+studentID,)
             .then((response)=> {
                 console.log("-------getAllExamReport------>>",response);
                 this.setState({

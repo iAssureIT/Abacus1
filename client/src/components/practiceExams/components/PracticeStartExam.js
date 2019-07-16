@@ -20,6 +20,7 @@ class PracticeStartExam extends Component {
 		});
 	}
 	componentDidMount(){
+		const studentID = localStorage.getItem("user_ID");
 		
 		axios
 			.get('/instructions/Practice Exam')
@@ -29,39 +30,44 @@ class PracticeStartExam extends Component {
 				});
 			})
 			.catch(function(error){
+                console.log(error);
+			})
+		axios
+			.get('/studentmaster/details/'+studentID)
+			.then((response)=>{
+				// console.log("A/A1 = ",response.data.category);
+
+			axios
+		    	.get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
+	            .then((response)=> {
+					console.log("A/A1 = ",response.data);
+	                this.setState({
+			 			practiceQPData : response.data,
+			 		},()=>{
+			 			this.getStatus();
+			 		});
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
 
 			})
-
-		axios
-	    	.get('/questionpapermasters/A/A1')
-            .then((response)=> {
-				// console.log("A/A1 = ",response.data);
-                this.setState({
-		 			practiceQPData : response.data,
-		 		},()=>{
-
-		 			this.getStatus();
-
-		 			
-		 		});
-            })
-            .catch(function (error) {
+			.catch(function(error){
                 console.log(error);
-            });
+			})
 	}
 
 	getStatus(){
-		var array = [];
+		const studentID = localStorage.getItem("user_ID");
+		var array 		= [];
 		var obj;
 
 		var qpData = this.state.practiceQPData;
-									console.log("qpData qpData = ",qpData);
-
+					console.log("qpData qpData = ",qpData);
 		 			if(qpData){	
-
 		 				qpData.map((item,ind)=>{
 		 					axios
-								.get('/mypracticeexammasters/'+item._id+'/E6BRdJtHMF9a6p7KF')
+								.get('/mypracticeexammasters/'+item._id+'/'+studentID)
 								.then((response)=>{
 
 									var examAttempt = response.data;
@@ -103,7 +109,7 @@ class PracticeStartExam extends Component {
 							// 		console.log("my ids= ",id);
 
 					 	// 	axios
-							// 	.get('/mypracticeexammasters/'+id+'/E6BRdJtHMF9a6p7KF')
+							// 	.get('/mypracticeexammasters/'+id+'/'+studentID)
 							// 	.then((response)=>{
 
 							// 		var examAttempt = response.data;
@@ -163,6 +169,7 @@ class PracticeStartExam extends Component {
   	}
 	startPracticeExam(event){
 		event.preventDefault();
+		const studentID = localStorage.getItem("user_ID");
 		this.setState({
 						showButton		:false,
 						showstartExamBtn:false,
@@ -172,8 +179,8 @@ class PracticeStartExam extends Component {
 		// this.props.history.push('/practiceExam/'+practiceExamId);
 
  		axios
-			.post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
-			// .get('/mypracticeexammasters/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+			.post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
+			// .get('/mypracticeexammasters/'+practiceExamId+'/'+studentID)
 			.then((response)=>{
 
 				this.props.history.push('/practiceExam/'+response.data.ID);

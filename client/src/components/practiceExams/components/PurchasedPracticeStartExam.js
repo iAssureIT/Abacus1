@@ -25,7 +25,7 @@ class PurchasedPracticeStartExam extends Component {
 
 }
     componentDidMount(){
-
+      const studentID = localStorage.getItem("user_ID");
       axios
         .get('/instructions/Practice Exam')
         .then((response)=>{
@@ -38,7 +38,7 @@ class PurchasedPracticeStartExam extends Component {
         })
 
       axios
-        .get('/mypracticeexammasters/incompleteexam/E6BRdJtHMF9a6p7KF')
+        .get('/mypracticeexammasters/incompleteexam/'+studentID)
         .then((response)=>{
           console.log("purchasedpackage = ",response.data)
           this.setState({
@@ -50,7 +50,7 @@ class PurchasedPracticeStartExam extends Component {
         })
 
       axios
-        .get('/packagequestionpapermaster/E6BRdJtHMF9a6p7KF')
+        .get('/packagequestionpapermaster/'+studentID)
         .then((response)=>{
           console.log("PackageQPMData = ",response.data)
           this.setState({
