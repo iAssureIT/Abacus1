@@ -415,7 +415,7 @@ exports.showCompetitionStatusForStudent = (req,res,next) =>{
     var competitionId   = req.params.competitionId;
     var data = request({
                         "method":"GET", 
-                        "uri": "http://localhost:3042/exammasters/exampurchase/"+"competitionId"+"/"+studentId,
+                        "uri": "http://abacusapi.iassureit.com/exammasters/exampurchase/"+"competitionId"+"/"+studentId,
                         "json": true,
                         "headers": {
                         "User-Agent": "My little demo app"
