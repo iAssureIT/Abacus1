@@ -125,10 +125,10 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
                                                                                                                             "params" : quickWalletInput,
                                                                                                                             "json": true,
-                                                                                                                            "headers": {
-                                                                                                                            "User-Agent": "My little demo app",
-                                                                                                                            "Authorization": "Bearer " + "secrect",
-                                                                                                                            }
+                                                                                                                            // "headers": {
+                                                                                                                            // "User-Agent": "My little demo app",
+                                                                                                                            // "Authorization": "Bearer " + "secrect",
+                                                                                                                            // }
                                                                                                                         }).then(payresponse=>{
                                                                                                                             console.log('payresponse ',payresponse);
                                                                                                                             if(payresponse.status == 'success'){

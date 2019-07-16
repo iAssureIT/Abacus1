@@ -27,24 +27,30 @@ shuffle = function(array) {
 }
 
 router.post('/:compId/:studentID', (req,res,next)=>{
+    console.log('startexamcatwise');
     var todayDate = new Date();
     StudentMaster.findOne({"_id":studentId.req.params.studentId})
                 .exec()
                 .then(studentData=>{
                     if(studentData){
+                        console.log('studentData ',studentData);
                         ExamMaster  .findOne({_id:req.params.compId,competitionStatus:"start"})
                                     .exec()
                                     .then(examMasterData=>{
                                         if(examMasterData){
+                                            console.log('examMasterData ',examMasterData);
                                             var studentCategory = 	examMasterData.competitionExams;
                                             if(studentCategory){
+                                                console.log('studentCategory ',studentCategory);
                                                 var index = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
                                                 var categoryWiseExamData =studentCategory[index];
                                                 if(categoryWiseExamData){
+                                                    console.log('categoryWiseExamData ',categoryWiseExamData);
                                                     QuestionPaperMaster .findOne({_id:categoryWiseExamData.questionPaperId})
                                                                         .exec()
                                                                         .then(quesPaperData=>{
                                                                             if(quesPaperData){
+                                                                                console.log('quesPaperData ',quesPaperData);
                                                                                 var questionArray =  quesPaperData.questionsArray;
                                                                                 if(questionArray){
                                                                                     var questionArray1 = shuffle(questionArray);
@@ -107,10 +113,10 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                                                                                 if(myexammasterData.answerArray.length == tempQueArray.length){
                                                                                                                     res.status(200).json({message:"Exam Created",ID : myexammasterData._id})
                                                                                                                 }else{
-                                                                                                                    res.status(409).json({message:"Exam Questions not updated properly",ID : myexammasterData._id })
+                                                                                                                    res.status(200).json({message:"Exam Questions not updated properly",ID : myexammasterData._id })
                                                                                                                 }
                                                                                                             }else{
-                                                                                                                res.status(409).json({message:"Somthing went wrong. Practice Exam Not Created"})
+                                                                                                                res.status(200).json({message:"Somthing went wrong. Practice Exam Not Created"})
                                                                                                             }
                                                                                                                                 
                                                                                                         })
@@ -121,13 +127,13 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                                                                             });
                                                                                                         });
                                                                                     }else{
-                                                                                        res.status(409).status({message:"Number of questions are less"});    
+                                                                                        res.status(200).status({message:"Number of questions are less"});    
                                                                                     }
                                                                                 }else{
-                                                                                    res.status(409).status({message:"Questions not found"});    
+                                                                                    res.status(200).status({message:"Questions not found"});    
                                                                                 }
                                                                             }else{
-                                                                                res.status(409).status({message:"Question Paper not found"});                            
+                                                                                res.status(200).status({message:"Question Paper not found"});                            
                                                                             }
                                                                         })
                                                                         .catch(err =>{
@@ -137,11 +143,11 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                                             });
                                                                         });
                                                 }else{
-                                                    res.status(409).status({message:"Student Category not found"});        
+                                                    res.status(200).status({message:"Student Category not found"});        
                                                 }
                                             }
                                         }else{
-                                            res.status(409).status({message:"Comptation not found"});
+                                            res.status(200).status({message:"Comptation not found"});
                                         }
                                             
                                     })
@@ -152,7 +158,7 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                         });
                                     });                    
                     }else{
-                        res.status(409).json({message:"Student not found"});
+                        res.status(200).json({message:"Student not found"});
                     }
                 })
                 .catch(err =>{
