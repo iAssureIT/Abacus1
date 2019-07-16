@@ -136,6 +136,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             }else{
                                                                                                                                 res.status(200).json(false);
                                                                                                                             }
+                                                                                                                            res.status(200).json("Something went wrong");
                                                                                                                         });
                                                                                                         console.log('result ',result);
                                                                                     
