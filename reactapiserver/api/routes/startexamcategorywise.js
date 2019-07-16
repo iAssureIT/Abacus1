@@ -27,7 +27,22 @@ shuffle = function(array) {
 }
 
 router.post('/:compId/:studentID', (req,res,next)=>{
-    res.status(200).json('request');
+    // res.status(200).json('request');
+    StudentMaster.findOne({studentId:req.params.studentId})
+                 .exec()
+                 .then(studentData=>{
+                     if(studentData){
+                         res.status(200).json(studentData);
+                     }else{
+                        res.status(200).json({message:"Student Not found"});
+                     }
+                 })
+                 .catch(err =>{
+                    console.log(err);
+                    return res.status(500).json({
+                        error: err
+                    });
+                }); 
 });
 
 module.exports = router;
