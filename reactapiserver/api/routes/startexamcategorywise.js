@@ -33,16 +33,19 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                  .exec()
                  .then(studentData=>{
                      if(studentData){
+                         console.log('studentData ',studentData);
                         ExamMaster  .findOne({_id:req.params.compId,competitionStatus:"start"})
                                     .exec()
                                     .then(examMasterData=>{
                                         if(examMasterData){
+                                            console.log('examMasterData ',examMasterData);
                                             var studentCategory = 	examMasterData.competitionExams;
                                             if(studentCategory){
                                                 var i = studentCategory.findIndex((data) =>{ return (data.subCategory == studentData.subCategory) });
                                                 if(i > -1){
-                                                    var categoryWiseExamData =studentCategory[index];
+                                                    var categoryWiseExamData =studentCategory[i];
                                                     if(categoryWiseExamData){
+                                                        console.log('categoryWiseExamData ',categoryWiseExamData);
                                                         res.status(200).status(categoryWiseExamData);        
                                                     }else{
                                                         res.status(200).status({message:"student Category not found"});        
