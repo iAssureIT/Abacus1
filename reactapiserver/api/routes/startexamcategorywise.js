@@ -10,6 +10,7 @@ const ExamMaster                    = require('../models/exammasters');
 // const PackageManagementMaster       = require('../models/packagemanagementmasters');
 // const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
 const QuestionPaperMaster           = require('../models/questionpapermasters');
+const MyExamMaster                  = require('../models/myexammasters');
 
 shuffle = function(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
