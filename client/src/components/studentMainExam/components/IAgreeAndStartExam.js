@@ -1,6 +1,8 @@
-
-import React, {Component} from 'react';
-import Webcam from 'react-webcam';
+import React, {Component} 	from 'react';
+// import Webcam 				from 'react-webcam';
+import axios 				from 'axios';
+import swal 				from 'sweetalert';
+import $ 					from 'jquery';
 
 // import {withTracker} from 'meteor/react-meteor-data';
 // import TrackerReact from 'meteor/ultimatejs:tracker-react';
@@ -16,11 +18,12 @@ class IAgreeAndStartExam extends (Component)  {
 	constructor(props){
 		super(props);
 		this.state={
-			'defaultTime':'00:15',
-			'defaultBtnTime':'00:15',
-			showButton:true,
-			showstartbtn: true,
-			facilityPermission : 'waitingforResult',
+			'defaultTime'		: '00:15',
+			'defaultBtnTime'	: '00:15',
+			showButton 			: true,
+			showstartbtn 		: true,
+			instruction 		: '',
+			facilityPermission 	: 'waitingforResult',
 		}
 	}
 	
@@ -31,6 +34,16 @@ class IAgreeAndStartExam extends (Component)  {
 		//   adminLte.src = "/js/adminLte.js";
 		//   $("body").append(adminLte);
 		// }
+		axios
+	        .get('/instructions/Main Exam')
+	        .then((response)=>{
+	          this.setState({
+	            instruction :response.data[0].instruction
+	          });
+	        })
+	        .catch(function(error){
+	          console.log(error);
+	        })
 	}
 	componentWillUnmount(){
     	// $("script[src='/js/adminLte.js']").remove();
@@ -78,9 +91,9 @@ class IAgreeAndStartExam extends (Component)  {
 		// 			// location.reload();
 		// 			FlowRouter.go('/startExam/'+id);
 		// 		}else{
-		// 			$('.startExamBtn').css('display','block');
-		// 			$('.wrProcessing').css('display','none');
-		// 			swal("Please start exam again","This is happened due to bad internet connection","warning");
+					// $('.startExamBtn').css('display','block');
+					// $('.wrProcessing').css('display','none');
+					// swal("Please start exam again","This is happened due to bad internet connection","warning");
 		// 		}
 		// 	}
 		// });
@@ -139,7 +152,7 @@ class IAgreeAndStartExam extends (Component)  {
 	}
 	// this function is assuming due to bab internet or internet is not available this function will execute
 	tryLoadingAgain(){
-		 examTime = this.state.defaultTime;
+		var examTime = this.state.defaultTime;
 		var LoadingInterval = setInterval(function() {
 		
 		if(examTime){
@@ -165,7 +178,7 @@ class IAgreeAndStartExam extends (Component)  {
 	}
 	// this function is assuming due to bab internet or internet is not available this function will execute
 	tryLoadingAgainforBtn(){
-		 examTime = this.state.defaultBtnTime;
+		var examTime = this.state.defaultBtnTime;
 		var LoadingInterval = setInterval(function() {
 		
 		if(examTime){
@@ -194,7 +207,7 @@ class IAgreeAndStartExam extends (Component)  {
 	
 	render(){
 		
-		if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
+		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
 			$('.sidebar').css({display:'block',background: '#222d32'});
 		if(this.state.showstartbtn){
 		if(!this.props.loadingCRO && !this.props.loading && !this.props.loadingMyExam){
@@ -224,14 +237,13 @@ class IAgreeAndStartExam extends (Component)  {
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Instructions for Practice Test:</div> 
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 instructionList instructionWrap">
-										{this.props.competitionData?this.props.competitionData.termsCondition:null}
-										{/*{this.props.ME_Instruction.instruction}*/}
+										{this.state.instruction}
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 bginstruction">
 
 									</div>
 									<form>
-										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrap">
+										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC">
 											<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 												<div className="checkbox checkbox-success">
 							                        <input type="checkbox" className="seleectQueInput mainExamCheckbox" name="seleectQueInput"/>
@@ -260,7 +272,8 @@ class IAgreeAndStartExam extends (Component)  {
 				  </section>
 				</div>
 			</div>
-			);}
+			);
+		}
 			else{
 				return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
 				   <img className=" loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
@@ -297,15 +310,15 @@ class IAgreeAndStartExam extends (Component)  {
 					</div>
 				);
 			}
-			}else if (this.state.facilityPermission == false ){
-			  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
-		  }else if(this.state.facilityPermission == "waitingforResult"){
-		  	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-			   <img className=" loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-			</div>);
-		  }else{ 
-		  return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		}
+		// 	}else if (this.state.facilityPermission == false ){
+		// 	  	return (<div>{this.props.history.push('/noAccesss')}</div>);
+		//   }else if(this.state.facilityPermission == "waitingforResult"){
+		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
+		// 	   <img className=" loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
+		// 	</div>);
+		//   }else{ 
+		//   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
+		// }
 	}
 }
 export default IAgreeAndStartExam;
