@@ -73,7 +73,12 @@ exports.change_pwd = (req, res, next)=>{
 }
 
 exports.user_signup = (req,res,next)=>{
-	User.find({emails:{$elemMatch:{address:req.body.email}}})
+	User.find(
+				{
+					"emails"				: {$elemMatch:{address:req.body.email}},
+					"profile.mobNumber"		: req.body.mobNumber	
+				}
+			)
 		.exec()
 		.then(user =>{
 			if(user.length >= 1){
@@ -87,6 +92,7 @@ exports.user_signup = (req,res,next)=>{
 							error:err
 						});
 					}else{
+						const OTP = getRandomInt(1000,9999);
 						const user = new User({
 										_id: new mongoose.Types.ObjectId(),
 										createdAt	: new Date,
@@ -115,14 +121,35 @@ exports.user_signup = (req,res,next)=>{
 													createdOn     : new Date(),
 													userCode	  : req.body.password.split("").reverse().join(""),
 													pwdStatus	  : true,
+													sentEmailOTP  : OTP,
 										},
 										roles 		: ["Student"]
 			            });	
 						user.save()
 							.then(result =>{
-								res.status(201).json({
-									message: 'User created'
+								const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
+								const sourceMobile = "+919923393733";
+								var text = "Dear "+result.profile.firstname+','+'\n'+"To verify your account on Abacus Online System, Enter the verification code : "+OTP; 
+
+								client.messages.create(
+									src=sourceMobile,
+									dst='91'+req.body.mobNumber,
+									text=text
+								).then((result)=> {
+									console.log("src = ",src," | DST = ", dst, " | result = ", result);
+									// return res.status(200).json("OTP "+OTP+" Sent Successfully ");
+									return res.status(200).json({
+										"message" : 'NEW-USER-CREATED',
+										"user_id" : newUser._id,
+										"otp"     : OTP,
+									});			
 								})
+								.catch(otpError=>{
+									return res.status(501).json({
+										message: "Some Error Occurred in OTP Send Function",
+										error: otpError
+									});        
+								});
 							})
 							.catch(err =>{
 								console.log(err);
