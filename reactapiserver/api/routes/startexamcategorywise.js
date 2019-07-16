@@ -29,7 +29,7 @@ shuffle = function(array) {
 router.post('/:compId/:studentID', (req,res,next)=>{
     console.log('startexamcatwise');
     var todayDate = new Date();
-    StudentMaster.findOne({"_id":studentId.req.params.studentId})
+    StudentMaster.findOne({studentId:req.params.studentId})
                 .exec()
                 .then(studentData=>{
                     if(studentData){
