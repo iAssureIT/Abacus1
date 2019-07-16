@@ -5,11 +5,11 @@ const mongoose	= require("mongoose");
 var moment      = require('moment');
 
 const StudentMaster                 = require('../models/studentmasters'); 
-// const ExamMaster                    = require('../models/exammasters');
+const ExamMaster                    = require('../models/exammasters');
 // const PackageOrderMaster            = require('../models/packageordermasters');
 // const PackageManagementMaster       = require('../models/packagemanagementmasters');
 // const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
-// const QuestionPaperMaster           = require('../models/questionpapermasters');
+const QuestionPaperMaster           = require('../models/questionpapermasters');
 
 shuffle = function(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
@@ -37,9 +37,24 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                     .exec()
                                     .then(examMasterData=>{
                                         if(examMasterData){
-                                            return res.status(200).status(examMasterData);
+                                            var studentCategory = 	examMasterData.competitionExams;
+                                            if(studentCategory){
+                                                var i = studentCategory.findIndex((data) =>{ return (data.subCategory == studentData.subCategory) });
+                                                if(i > -1){
+                                                    var categoryWiseExamData =studentCategory[index];
+                                                    if(categoryWiseExamData){
+                                                        res.status(200).status(categoryWiseExamData);        
+                                                    }else{
+                                                        res.status(200).status({message:"student Category not found"});        
+                                                    }
+                                                }else{
+                                                    res.status(200).status({message:"student Category exam not found"});    
+                                                }
+                                            }else{
+                                                res.status(200).status({message:"student Category exam not found"});
+                                            }
                                         }else{
-                                            return res.status(200).status({message:"Compitition not found"});
+                                            res.status(200).status({message:"Compitition not found"});
                                         }
                                     })
                                     .catch(err =>{
