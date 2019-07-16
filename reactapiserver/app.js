@@ -29,9 +29,10 @@ const sturegcompetitionsRouters		= require('./api/routes/studentregistrationforc
 const questionpapermastersRouters	= require('./api/routes/questionpapermasters');
 const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
 const startexamcategorywiseRouters	= require('./api/routes/startexamcategorywise');
+const multiplCompetitionRouters		= require('./api/routes/multiplCompetition');
 
-mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
-// mongoose.connect('mongodb://localhost/onlineExamSystem',{
+// mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
+mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
 })
 mongoose.promise =global.Promise;
@@ -79,6 +80,7 @@ app.use('/studentcompetitions',sturegcompetitionsRouters);
 app.use("/packagequestionpapermaster",packagequestionpapermasterRoutes);
 app.use("/latestcompetitions",latestCompetitionsRouters);
 app.use("/startexamcategorywise",startexamcategorywiseRouters);
+app.use('/multiplCompetition',multiplCompetitionRouters);
 
 // handle all other request which not found 
 app.use((req, res, next) => {

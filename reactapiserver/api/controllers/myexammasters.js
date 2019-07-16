@@ -261,13 +261,13 @@ exports.getMainExamQuestions = (req,res,next) =>{
                             if(dataObject){
                                 res.status(200).json(dataObject);
                             }else{
-                                res.status(409).json({message:"Something went wrong"});    
+                                res.status(200).json({message:"Something went wrong"});    
                             }
                         }else{
-                            res.status(409).json({message:"Question's Answer not found"});
+                            res.status(200).json({message:"Question's Answer not found"});
                         }
                     }else{
-                        res.status(409).json({message:"Exam Not found"});
+                        res.status(200).json({message:"Exam Not found"});
                     }
                 })
                 .catch(err =>{
