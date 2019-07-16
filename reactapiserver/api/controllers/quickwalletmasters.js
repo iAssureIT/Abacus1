@@ -92,7 +92,6 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                     'status'    	            : 'UnPaid',
                                                 });
                                                 competitionRegisterOrder.save()
-                                                                        .exec()
                                                                         .then(data=>{
                                                                             QuickWalletMaster.findOne({})
                                                                                              .exe()

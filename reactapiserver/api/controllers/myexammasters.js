@@ -1,5 +1,5 @@
 const mongoose	= require("mongoose");
-
+var request = require('request-promise');
 const MyExamMaster = require('../models/myexammasters');
 
 exports. fetch_all_show_exam = (req,res,next) =>{
@@ -408,4 +408,18 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                         error: err
                     });
                 });
+}
+
+exports.showCompetitionStatusForStudent = (req,res,next) =>{
+    var studentId       = req.params.studentId;
+    var competitionId   = req.params.competitionId;
+    var data = request({
+                        "method":"GET", 
+                        "uri": "http://localhost:3042/exammasters/exampurchase/"+"competitionId"+"/"+studentId,
+                        "json": true,
+                        "headers": {
+                        "User-Agent": "My little demo app"
+                        }
+                    });
+    res.status(200).json(data);
 }
