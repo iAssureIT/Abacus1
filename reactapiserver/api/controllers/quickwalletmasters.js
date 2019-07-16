@@ -123,6 +123,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                         var result = request({
                                                                                                                             "method":"POST", 
                                                                                                                             "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
+                                                                                                                            "params" : quickWalletInput,
                                                                                                                             "json": true,
                                                                                                                             "headers": {
                                                                                                                             "User-Agent": "My little demo app",
@@ -132,7 +133,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             console.log('payresponse ',payresponse);
                                                                                                                             if(payresponse.status == 'success'){
                                                                                                                                 var paymentUrl = payresponse.data.url;
-                                                                                                                                
+
                                                                                                                                 res.status(200).json(paymentUrl);
                                                                                                                             }else{
                                                                                                                                 res.status(200).json(false);
