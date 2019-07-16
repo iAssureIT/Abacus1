@@ -43,8 +43,9 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                             if(studentCategory){
                                                 console.log('studentCategory ',studentCategory);
                                                 var i = studentCategory.findIndex((data) =>{ return (data.subCategory == studentData.subCategory) });
-                                                console.log('i ',i);
+                                                console.log('1. i ',i);
                                                 if(i >= 0){
+                                                    console.log('2. i ',i);
                                                     var categoryWiseExamData =studentCategory[index];
                                                     if(categoryWiseExamData){
                                                         console.log('categoryWiseExamData ',categoryWiseExamData);
@@ -150,6 +151,7 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                 }
 
                                                 if(i<0){
+                                                    console.log('3. i ',i);
                                                     res.status(200).status({message:"Student Category not found"});        
                                                 }
                                                 
