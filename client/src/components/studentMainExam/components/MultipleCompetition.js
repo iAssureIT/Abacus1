@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import swal from 'sweetalert';
-import $ from "jquery";
+import React, {Component} 	from 'react';
+import {render} 			from 'react-dom';
+import swal 				from 'sweetalert';
+import $ 					from "jquery";
 import axios 				from 'axios';
 import moment				from 'moment';
 
@@ -60,7 +60,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 	}
 	componentDidMount(){
 		var i = 0;
-		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		const studentId = /*localStorage.getItem("user_ID")*/"E6BRdJtHMF9a6p7KF";
 		/*
 			1. Get all the competitions 
 			2. Get all the exam given or opted by the student
@@ -98,8 +98,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 										var studentCompetitions = response.data;
 										for(k = 0 ; k < studentCompetitions.length; k++){
 											var index = allCompetitions.findIndex(function(data){
-																												return data._id == studentCompetitions[k].competitionId
-																										});
+											return data._id == studentCompetitions[k].competitionId
+											});
 											if(index > 0){
 												console.log('index ',index);
 												allCompetitions[index].studentPaymentStatus = "paid";

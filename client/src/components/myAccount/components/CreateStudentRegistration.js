@@ -67,7 +67,7 @@ class CreateStudentRegistration extends (Component)  {
 			.catch(function(error){
 				console.log(error);
 			})
-    	const studentID = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+    	const studentID = /*localStorage.getItem("user_ID")*/"E6BRdJtHMF9a6p7KF";
     	this.setState({ studentID :studentID });
 		axios
   			.get('/studentmaster/sinfo/'+studentID)

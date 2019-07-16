@@ -18,6 +18,8 @@ import SignUp 					from '../../components/systemSecurity/SignUp.js';
 import VerifyMobileAOS 			from '../../components/systemSecurity/VerifyAccount.js';
 // Section: 2 - MainExam ********************************************************************
 import MultipleCompetition 		from '../../components/studentMainExam/components/MultipleCompetition.js';
+import IAgreeAndStartExam 		from '../../components/studentMainExam/components/IAgreeAndStartExam.js';
+import StartExam 				from '../../components/studentMainExam/components/StartExam.js';
 import PastExamReports 			from '../../components/studentMainExam/components/PastExamReports.js';
 import CompetitionResultReport 	from '../../components/studentMainExam/components/CompetitionResultReport.js';
 // Section: 3 - PackageManagement ***************************************************
@@ -104,23 +106,26 @@ class MainLayout extends Component{
 										  		<Route path="/PackageList" 				exact strict component={ PackageList } />
 										  		<Route path="/PackageList/:orderId" 	exact strict component={ PackageList } />
 
-										  		<Route path="/practiceExam/:id/:orderId/:PackageId/:BtnIndex" exact strict component={ StartPracticeExam } />
-										  		<Route path="/practiceExam/:id" 		exact strict component={ StartPracticeExam } />
-										  		<Route path="/PracticeExamResult/:id"	exact strict component={ PracticeExamResult } />
-										  		<Route path="/PracticeStartExam"		exact strict component={ PracticeStartExam } />
-										  		<Route path="/PractExamReports" 		exact strict component={ PracticeExamReports } />
+										  		<Route path="/practiceExam/:id/:orderId/:PackageId/:BtnIndex" 		exact strict component={ StartPracticeExam } />
+										  		<Route path="/practiceExam/:id" 			exact strict component={ StartPracticeExam } />
+										  		<Route path="/PracticeExamResult/:id"		exact strict component={ PracticeExamResult } />
+										  		<Route path="/PracticeStartExam"			exact strict component={ PracticeStartExam } />
+										  		<Route path="/PractExamReports" 			exact strict component={ PracticeExamReports } />
 										  		
-										  		<Route path="/Certificate" 				exact strict component={ Certificate } />
-										  		<Route path="/ParticipCert" 			exact strict component={ ParticipationCertificate } />
+										  		<Route path="/Certificate" 					exact strict component={ Certificate } />
+										  		<Route path="/ParticipCert" 				exact strict component={ ParticipationCertificate } />
 
-										  		<Route path="/StudResetPwd" 			exact strict component={ StudentResetPassword } />
-										  		<Route path="/MyOrder" 					exact strict component={ MyOrder } />
-										  		<Route path="/CreateStudReg"			exact strict component={ CreateStudentRegistration } />
+										  		<Route path="/StudResetPwd" 				exact strict component={ StudentResetPassword } />
+										  		<Route path="/MyOrder" 						exact strict component={ MyOrder } />
+										  		<Route path="/CreateStudReg"				exact strict component={ CreateStudentRegistration } />
 
-										  		<Route path="/MultipleComp"				exact strict component={ MultipleCompetition } />
-										  		<Route path="/PastExamReports"			exact strict component={ PastExamReports } />
-										  		<Route path="/CompResultReport"			exact strict component={ CompetitionResultReport } />
-										  		<Route path="/CompetitionDetailsforPayment/:compId"	exact strict component={ CompetitionDetailsforPayment } />
+										  		<Route path="/MultipleComp"					exact strict component={ MultipleCompetition } />
+										  		<Route path="/IAgreeAndStartExam"			exact strict component={ IAgreeAndStartExam } />
+										  		<Route path="/IAgreeAndStartExam/:competitionId"			exact strict component={ IAgreeAndStartExam } />
+										  		<Route path="/StartExam/:Id"				exact strict component={ StartExam } />
+										  		<Route path="/PastExamReports"				exact strict component={ PastExamReports } />
+										  		<Route path="/CompResultReport"				exact strict component={ CompetitionResultReport } />
+										  		<Route path="/competitionDetails/:compId"	exact strict component={ CompetitionDetailsforPayment } />
 										  		
 										  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
 										  		<Route path="/MyInvoice"				exact strict component={ MyInvoice } />
