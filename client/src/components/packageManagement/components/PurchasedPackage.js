@@ -42,7 +42,7 @@ class PurchasedPackage extends Component {
                   });
     }
     componentDidMount(){
-
+      const studentID = localStorage.getItem("user_ID");
       axios
         .get('/instructions/Practice Exam')
         .then((response)=>{
@@ -55,7 +55,7 @@ class PurchasedPackage extends Component {
         })
 
       axios
-        .get('/mypracticeexammasters/incompleteexam/E6BRdJtHMF9a6p7KF')
+        .get('/mypracticeexammasters/incompleteexam/'+studentID)
         .then((response)=>{
           console.log("incompleteexam = ",response.data)
           this.setState({
@@ -67,7 +67,7 @@ class PurchasedPackage extends Component {
         })
 
       axios
-        .get('/packagequestionpapermaster/E6BRdJtHMF9a6p7KF')
+        .get('/packagequestionpapermaster/'+studentID)
         .then((response)=>{
           console.log("PackageQPMData = ",response.data)
           this.setState({
@@ -88,7 +88,7 @@ class PurchasedPackage extends Component {
         })   
 
         axios
-          .get('/packagemanagementmasters/attemptOfpracticetest/SCwE67ZHr88rbXHTY')
+          .get('/packagemanagementmasters/attemptOfpracticetest/SCwE67ZHr88rbXHTY'/*+packageID*/)
           .then((response)=>{
             console.log("attemptOfpracticetest = ",response.data);
 
@@ -175,6 +175,7 @@ class PurchasedPackage extends Component {
 
     startPracticeExam(event){
       event.preventDefault();
+      const studentID     = localStorage.getItem("user_ID");
       var btnIndex        = event.target.getAttribute('data-index');
       var pckgIndex       = event.target.getAttribute('data-text');
       var orderId         = event.target.getAttribute('data-id');
@@ -190,7 +191,7 @@ class PurchasedPackage extends Component {
       });
 
       axios
-          .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+          .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
           .then((response)=> {
             console.log("startpracticeexam = ",response.data);
             this.setState({

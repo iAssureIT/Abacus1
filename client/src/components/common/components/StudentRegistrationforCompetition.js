@@ -121,7 +121,7 @@ class StudentRegistrationforCompetition extends Component  {
 		// 		// console.log("id",id);
 				// if(id){
 					// FlowRouter.go('/startExam/'+id);
-					// this.props.history.push('/startExam/E6BRdJtHMF9a6p7KF'/*+id*/);
+					// this.props.history.push('/startExam/fgdsfgdsrf/*+id*/);
 				// }else{
 				// 	swal("Please start exam again","This is happened due to bad internet connection","warning");
 				// }

@@ -45,9 +45,10 @@ class StartPracticeExam extends (Component)  {
 
 	componentWillMount(){
 
+		const studentID = localStorage.getItem("user_ID");
 		var practiceExamId = this.props.match.params.id;
 		axios
-			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
 			.then((response)=>{
 				this.getTimefunction(response.data.examTime,practiceExamId);
 			})
@@ -59,9 +60,10 @@ class StartPracticeExam extends (Component)  {
 	componentDidMount(){	
 
 		var practiceExamId = this.props.match.params.id;			
+		const studentID = localStorage.getItem("user_ID");
 
 		axios
-			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
 			.then((response)=>{
 				console.log("mypracticeexammasters = ",response.data);
 				this.setState({
@@ -155,7 +157,7 @@ class StartPracticeExam extends (Component)  {
 		// });	
 
 		axios
-			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/E6BRdJtHMF9a6p7KF')
+			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
 			.then((response)=>{
 				console.log("mypracticeexammasters = ",response.data);
 				this.setState({
@@ -281,7 +283,7 @@ class StartPracticeExam extends (Component)  {
                             orderId     : this.props.match.params.orderId?this.props.match.params.orderId:"",
                             packageID   : this.props.match.params.packageId?this.props.match.params.packageId:"",
                             index       : this.props.match.params.btnIndex?this.props.match.params.btnIndex:"",
-                            studentID   : "E6BRdJtHMF9a6p7KF",
+                            studentID   : localStorage.getItem("user_ID"),
                             todayDate   : moment().format("MMM Do YY"),
                         }
 		console.log("values==== ",values)

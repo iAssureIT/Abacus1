@@ -78,7 +78,7 @@ class IAgreeAndStartExam extends (Component)  {
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
-		navigator.getMedia({video: true}, function() {
+		navigator.getMedia({video: true},()=>{
 		  console.log("webcam is available");
 		//   Meteor.call("StartExamCategoryWise",FlowRouter.getParam('competitionId'),(error,result)=>{
 		// 	if(error){
@@ -89,7 +89,7 @@ class IAgreeAndStartExam extends (Component)  {
 		// 		if(id){
 		// 			// Meteor.call("updateMyExamFee",id); 
 		// 			// location.reload();
-		// 			FlowRouter.go('/startExam/'+id);
+					this.props.history.push('/startExam/ghjkkkkiuuuiik'/*+id*/);
 		// 		}else{
 					// $('.startExamBtn').css('display','block');
 					// $('.wrProcessing').css('display','none');

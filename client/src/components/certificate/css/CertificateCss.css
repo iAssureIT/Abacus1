@@ -221,7 +221,7 @@ src:url(/fonts/Humanist.ttf)
     text-align: center;
 }
 .partCert{
-    margin-top: -71px !important;
+    /*margin-top: -71px !important;*/
 }
 .dispIn-blk{
     display: inline-block;

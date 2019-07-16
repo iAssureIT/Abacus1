@@ -111,7 +111,7 @@ class StudentProfile extends Component{
 	componentDidMount(){
 
 		const token = localStorage.getItem("token");
-		const studentID = /*'E6BRdJtHMF9a6p7KF'*/localStorage.getItem("user_ID");
+		const studentID = localStorage.getItem("user_ID");
 	    // console.log("Dashboard Token = ",token);
 	    if(token!==null){
 	    console.log("Token Received");

@@ -33,13 +33,13 @@ class PracticeStartExamForDashboard extends Component {
 
 	componentDidMount(){
 		var newStateArray = [];
-		const studentID = 'uKRhdd7qS6ctjgK6s'/*localStorage.getItem("user_ID");*/
+		const studentID = localStorage.getItem("user_ID");
 	    	this.setState({
 	    		studentID 	: studentID
 	    	})
 
         axios
-	    	.get('/competitionregisterorder/E6BRdJtHMF9a6p7KF'/*+studentID*/)
+	    	.get('/competitionregisterorder/'+studentID)
             .then((response)=> {
                 // console.log("-------competitionregisterorder222------>>",response.data);
                 this.setState({
@@ -53,7 +53,7 @@ class PracticeStartExamForDashboard extends Component {
             });
 
         axios
-	    	.get('/myexammasters/incomplete/E6BRdJtHMF9a6p7KF'/*+studentID*/)
+	    	.get('/myexammasters/incomplete/'+studentID)
             .then((response)=> {
                 // console.log("-------myexammasters333------>>",response.data);
                 this.setState({
@@ -67,7 +67,7 @@ class PracticeStartExamForDashboard extends Component {
             });
 
         axios
-	    	.get('/studentmaster/details/'+studentID /*WyQY35LEFitPcabP6*/)
+	    	.get('/studentmaster/details/'+studentID/*WyQY35LEFitPcabP6*/)
             .then((response)=> {
                 // console.log("-----Category/subCategory------>>",response.data.category+'/'+response.data.subCategory);          
 	        axios
@@ -84,7 +84,7 @@ class PracticeStartExamForDashboard extends Component {
 				        		var paperId = paperdata[i]._id;
 				        // console.log("-----"+i+"----out-->>",paperdata[i]);
 						        axios
-								    .get('/mypracticeexammasters/'+paperdata[i]._id+/*vh5EWGeJf34k54XjF*/'/E6BRdJtHMF9a6p7KF'/*+studentID*/)
+								    .get('/mypracticeexammasters/'+paperdata[i]._id+'/'+studentID)
 						            .then((response)=> {
 						                console.log("-------mypracticeexammasters"+i+"------>>",response.data);
 						                if(response.data.length>0){

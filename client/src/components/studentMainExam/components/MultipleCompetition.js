@@ -25,7 +25,7 @@ var returnList = [{
 	// PayDate : '',
 	// currentExamDate : '',
 }];
-class MultipleCompetition extends /*TrackerReact*/(Component)  {
+class MultipleCompetition extends (Component)  {
 
 	constructor(props){
 		super(props);
@@ -35,108 +35,125 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 			showButton:true,
 			showstartbtn: true,
 			facilityPermission : 'waitingforResult',
-			competitionData: [{
-				_id : '',
-				competitionName : '',
-				competitionDate : '',
-				startTime : '',
-				endTime : '',
-				studentPaymentStatus : '',
-				examDate : '',
-				lastInCompExamIdStatus : '',
-				examDataStatus : '',
-				competitionStatus : '',
-				examStartStatus : '',
-				competitionFees : '',
-				timeStatus : '',
-				examYear : '',
-				competitionFees :'',
-				examId : ''
-				// PayDate : '',
-				// currentExamDate : '',
-			}],
+			todayDate : moment(new Date()).format('L'),
+			competitionData: [], 
+			// competitionData: [{
+			// 	_id : '',
+			// 	competitionName : '',
+			// 	competitionDate : '',
+			// 	startTime : '',
+			// 	endTime : '',
+			// 	studentPaymentStatus : '',
+			// 	examDate : '',
+			// 	lastInCompExamIdStatus : '',
+			// 	examDataStatus : '',
+			// 	competitionStatus : '',
+			// 	examStartStatus : '',
+			// 	competitionFees : '',
+			// 	timeStatus : '',
+			// 	examYear : '',
+			// 	competitionFees :'',
+			// 	examId : ''
+			// 	// PayDate : '',
+			// 	// currentExamDate : '',
+			// }],
 		}
 		
 	}
 	componentDidMount(){
 		var i = 0;
-		const studentId = /*localStorage.getItem("user_ID")*/"E6BRdJtHMF9a6p7KF";
-		/*
-			1. Get all the competitions 
-			2. Get all the exam given or opted by the student
-			3. If competitions given by student then
-					- Check if past exam and given 
-					- check if exam is schedule in future
-		*/
-		// var studentCompetitions = [];
-		// var allCompetitions = [];
-		var k = 0;
-		axios
-			// .get('/studentmaster/details/2aWJfCyAeadLrvZ29')
-			.get('/studentmaster/details/'+studentId)
-			.then((student)=>{
-				console.log('student ',student);
-				const data = { 
-						"todaydate" 	: new Date(),
-						"subCategory"	: student.data.subCategory,
-				};
-				if(data){
-					console.log('todatdate ',data);
-					axios
-						.post('/exammasters/listmainexam' , data)
-						.then((myexamlist)=>{
-							console.log('myexamlist ',myexamlist.data);
-							// this.setState({
-							// 	competitionData : myexamlist.data
-							// });
-							var allCompetitions = myexamlist.data;
-							axios
-									// .get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
-									.get('/competitionregisterorder/mainexam/'+studentId)
-									.then((response)=>{
-										console.log('response ',response.data);
-										var studentCompetitions = response.data;
-										for(k = 0 ; k < studentCompetitions.length; k++){
-											var index = allCompetitions.findIndex(function(data){
-											return data._id == studentCompetitions[k].competitionId
-											});
-											if(index > 0){
-												console.log('index ',index);
-												allCompetitions[index].studentPaymentStatus = "paid";
-												axios
-														.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId)
-														.then((myexamres)=>{
-															if(myexamres.data.length > 0){
-																allCompetitions[index].examDataStatus = myexamres.data.examStatus;
-																allCompetitions[index].examId  = myexamres.data._id;
-															}
-														})
-														.catch(function(error){
-															console.log("error",error);
-														});
-											}//end of index
-										};//end of for
-										console.log('k ',k);
-										console.log('allCompetitions ',allCompetitions);
-										if(k >= studentCompetitions.length){
-											console.log('in allCompetitions ',allCompetitions);
-											this.setState({
-												competitionData :allCompetitions
-											});
-										}		
-									})
-									.catch(function(error){
-										console.log("error",error);
-									});
-						})
-						.catch(function(error){
-							console.log("error",error);
-						});
-				}
-			})
-			.catch(function(error){
-				console.log("error",error);
-			});
+		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		var array=[];
+		if(studentId){
+			var k = 0;
+			axios
+				.get('/studentmaster/details/'+studentId)
+				.then((student)=>{
+					console.log('student ',student);
+					const data = { 
+							"todaydate" 	: new Date(),
+							"subCategory"	: student.data.subCategory,
+					};
+					if(data){
+						console.log('todatdate ',data);
+						axios
+							.post('/exammasters/listmainexam' , data)
+							.then((myexamlist)=>{
+								console.log('myexamlist ',myexamlist.data);
+								// this.setState({
+								// 	competitionData : myexamlist.data
+								// });
+								var allCompetitions = myexamlist.data;
+								axios
+										// .get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
+										.get('/competitionregisterorder/mainexam/'+studentId)
+										.then((response)=>{
+											console.log('response=-----> ',response.data);
+											var studentCompetitions = response.data;
+											for(k = 0 ; k < studentCompetitions.length; k++){
+												var index = allCompetitions.findIndex((data)=>{
+													return data._id == studentCompetitions[k].competitionId
+												});
+												if(index > -1){
+													// console.log('index ',index);
+													allCompetitions[index].studentPaymentStatus = "paid";
+													var compData = allCompetitions[index];
+													axios
+															.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId+'/'+index)
+															.then((myexamres)=>{
+																console.log("myexamres---->",myexamres);
+																var myexamresData = myexamres.data;
+																if(myexamresData.data.length > 0){
+																if(allCompetitions[myexamresData.index]){
+																	allCompetitions[myexamresData.index].examDataStatus = myexamresData.data[0].examStatus;
+																	allCompetitions[myexamresData.index].examId  = myexamresData.data[0]._id;
+																}
+																	// array.push(allCompetitions[myexamresData.index]);
+
+																}
+																// console.log('in array ',array);
+																// this.setState({
+																// 	competitionData :array
+																// 	// competitionData :allCompetitions
+																// },()=>{
+																// 	// console.log("in callback---->",this.state.competitionData[0].examDataStatus);
+																// });
+
+															})
+															.catch(function(error){
+																console.log("error",error);
+															});
+												}//end of index
+																// console.log("all comp---array->",array);
+
+
+											};//end of for
+											// console.log('k ',k);
+											// console.log('allCompetitions ',allCompetitions);
+											if(k >= studentCompetitions.length){
+												var dataArray = this.state.competitionData;
+												dataArray = [...allCompetitions,...dataArray]
+												console.log('in array ',dataArray);
+												this.setState({
+													competitionData :allCompetitions
+												},()=>{
+													console.log("in callback---->",this.state.competitionData[1].examDataStatus);
+												});
+											}		
+										})
+										.catch(function(error){
+											console.log("error",error);
+										});
+							})
+							.catch(function(error){
+								console.log("error",error);
+							});
+					}
+				})
+				.catch(function(error){
+					console.log("error",error);
+				});
+		}
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
@@ -278,6 +295,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 
 
 	render(){
+		console.log("competitionData render",this.state.competitionData);
 			return(
 				<div>
 			        {/* Content Wrapper. Contains page content */}
@@ -307,29 +325,36 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 										    {this.state.competitionData/*.length>0*/ ?
 											    <tbody >
 											     	{this.state.competitionData.map((competitionInfo,index)=>{
-											     		// console.log("competitionInfo---->",competitionInfo.viewStatus);
+											     		// var comp = competitionInfo;
+											     		// console.log("this.props.competitionInfo---->",competitionInfo);
+
 											    return (<tr key={index}>
 											     			<td>{index+1}</td>
 											     			<td>{competitionInfo.competitionName}</td>
 											     			<td>{moment(competitionInfo.competitionDate).format("DD/MM/YYYY")}</td>
 											     			<td>{competitionInfo.startTime}- {competitionInfo.endTime}</td>		
 																 {competitionInfo.studentPaymentStatus=="paid" ?												            				
-												            					this.props.todayDate < competitionInfo.examDate ?
+												            					this.state.todayDate < competitionInfo.examDate ?
 																					<td >												
 																						<div className="fontstyle">You have Paid {competitionInfo.competitionFees} Rs.</div>												
+																					
 																					</td>
 																				:
 																				
 																				!competitionInfo.lastInCompExamIdStatus?
+																				
 																					competitionInfo.examDataStatus=="Completed"?
-																						<td >												
+																						<td >
+																																		
 																							<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
 																						</td>
 																					:
 																					competitionInfo.competitionStatus=="start"?
 																								competitionInfo.examStartStatus=="start"?
 																									<td >
+																									{"qqqq"+competitionInfo.examDataStatus}
 																										<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1">Start Exam </button></a>
+																									
 																									</td>
 																									:	
 																									<td >
@@ -337,7 +362,7 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 																									</td>
 																							:
 
-																							this.props.todayDate>competitionInfo.examDate?
+																							this.state.todayDate>competitionInfo.examDate?
 																								competitionInfo.examDataStatus=="Completed"?
 																								<div className="fontstyle" >												
 																									<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1">Result</button></a>												
@@ -348,7 +373,9 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 																								</td>
 																							:
 																							<td >
+																							
 																								<div className="fontstyle">Competition not started yet</div>
+																							
 																							</td>
 																				:
 
@@ -388,6 +415,8 @@ class MultipleCompetition extends /*TrackerReact*/(Component)  {
 																			</td>
 																		}	     			
 											     		</tr>)
+
+
 															
 											     		})
 											     }

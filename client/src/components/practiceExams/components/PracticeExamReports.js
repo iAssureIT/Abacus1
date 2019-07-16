@@ -19,9 +19,9 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		    }
 		}
 	componentDidMount(){
-		const studentID = /*"am4H2NojLxiEKBRPq"*/localStorage.getItem("user_ID");
+		const studentID = localStorage.getItem("user_ID");
 		// axios.get('/mypracticeexammasters/'+studentID)
-		axios.get('/mypracticeexammasters/E6BRdJtHMF9a6p7KF')
+		axios.get('/mypracticeexammasters/'+studentID)
             .then((response)=> {
                 // console.log("-------practiceExamReport------>>",response);
                 this.setState({

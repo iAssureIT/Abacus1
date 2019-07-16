@@ -46,12 +46,12 @@ class StudentResetPassword extends (Component) {
 	    var passwordConfirm = this.refs.resetPasswordPasswordConfirm.value;
 	   	
 	   	var inpFields = {
-					   	// resetPassword 	: this.props.match.params,
-					    // oldPassword     : this.refs.oldPassword.value,
-					    userID    		: "E6BRdJtHMF9a6p7KF",
-					    password        : this.refs.resetPasswordPassword.value,
-					    passwordConfirm : this.refs.resetPasswordPasswordConfirm.value,
-					    // header 			: Access-Control-Allow-Origin
+						   	// resetPassword 	: this.props.match.params,
+						    // oldPassword     : this.refs.oldPassword.value,
+						    userID    		: localStorage.getItem("user_ID"),
+						    password        : this.refs.resetPasswordPassword.value,
+						    passwordConfirm : this.refs.resetPasswordPasswordConfirm.value,
+						    // header 			: Access-Control-Allow-Origin
 						}
 
 		if (password === passwordConfirm) {

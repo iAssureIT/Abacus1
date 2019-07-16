@@ -15,9 +15,9 @@ class Certificate extends (Component) {
 			examData 		 : '',
 			competitionStatus: true,
 		}
-		this.printDocument=this.printDocument.bind(this);
-		this.createPDF=this.createPDF.bind(this);
-		this.getCanvas=this.getCanvas.bind(this);
+		this.printDocument	=this.printDocument.bind(this);
+		this.createPDF		=this.createPDF.bind(this);
+		this.getCanvas		=this.getCanvas.bind(this);
 	}
 
 	componentWillMount(){
@@ -39,17 +39,13 @@ class Certificate extends (Component) {
 	}
 
 	getCompetitionId(s){
-		// var studentId = localStorage.getItem("studentId");
-  //       this.setState({
-  //       	studentId:response.data.id
-  //       })
-
+		const studentID = localStorage.getItem("user_ID");
 		var competitionId = $("#selectId option:selected").attr("id");
 		console.log('competitionId= ',competitionId);
 
 		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
-			axios.get('/myexammasters/'+competitionId+'/E6BRdJtHMF9a6p7KF')
+			axios.get('/myexammasters/'+competitionId+'/'+studentID)
             .then((response)=>{
                 console.log("-------myExamMaster------>>",response.data[0]);
             	this.setState({
