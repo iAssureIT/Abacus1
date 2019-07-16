@@ -43,15 +43,15 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                             if(studentCategory){
                                                 var i = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
                                                 if(i > -1){
-                                                        res.status(200).status(i);        
+                                                        res.status(200).json(i);        
                                                 }else{
-                                                    res.status(200).status({message:"student Category exam not found"});    
+                                                    res.status(200).json({message:"student Category exam not found"});    
                                                 }
                                             }else{
-                                                res.status(200).status({message:"student Category exam not found"});
+                                                res.status(200).json({message:"student Category exam not found"});
                                             }
                                         }else{
-                                            res.status(200).status({message:"Compitition not found"});
+                                            res.status(200).json({message:"Compitition not found"});
                                         }
                                     })
                                     .catch(err =>{
