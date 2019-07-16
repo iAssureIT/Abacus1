@@ -33,7 +33,21 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                  .exec()
                  .then(studentData=>{
                      if(studentData){
-                         res.status(200).json(studentData);
+                        ExamMaster  .findOne({_id:req.params.compId,competitionStatus:"start"})
+                                    .exec()
+                                    .then(examMasterData=>{
+                                        if(examMasterData){
+                                            return res.status(200).status(examMasterData);
+                                        }else{
+                                            return res.status(200).status({message:"Compitition not found"});
+                                        }
+                                    })
+                                    .catch(err =>{
+                                        console.log(err);
+                                        return res.status(500).json({
+                                            error: err
+                                        });
+                                    });
                      }else{
                         res.status(200).json({message:"Student Not found"});
                      }
