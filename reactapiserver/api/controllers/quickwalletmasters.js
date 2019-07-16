@@ -1,5 +1,5 @@
 const mongoose	= require("mongoose");
-
+var request = require('request-promise');
 const QuickWalletMasters        = require('../models/quickwalletmasters');
 const StudentMaster             = require('../models/studentmasters');
 const ExamMaster                = require('../models/exammasters');
@@ -115,14 +115,26 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "redirecturl" : req.params.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
-                                                                                                        var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
-                                                                                                                            {params: quickWalletInput});
-                                                                                                        if(result.data.status == 'success'){
-                                                                                                            var paymentUrl = result.data.data.url;
-                                                                                                            res.status(200).json(paymentUrl);
-                                                                                                        }else{
-                                                                                                            res.status(200).json(false);
-                                                                                                        }
+                                                                                                        // var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
+                                                                                                                            // {params: quickWalletInput});
+                                                                                                        var result = request({
+                                                                                                                            "method":"POST", 
+                                                                                                                            "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
+                                                                                                                            "json": true,
+                                                                                                                            "headers": {
+                                                                                                                            "User-Agent": "My little demo app",
+                                                                                                                            "Authorization": "Bearer " + "secrect",
+                                                                                                                            }
+                                                                                                                        }).then(payresponse=>{
+                                                                                                                            console.log('payresponse ',payresponse);
+                                                                                                                            if(payresponse.data.status == 'success'){
+                                                                                                                                var paymentUrl = payresponse.data.data.url;
+                                                                                                                                res.status(200).json(paymentUrl);
+                                                                                                                            }else{
+                                                                                                                                res.status(200).json(false);
+                                                                                                                            }
+                                                                                                                        });
+                                                                                    
                                                                                                     }
                                                                                                  }else{
                                                                                                      res.status(409).json({message:"Quick wallet details not found."})
