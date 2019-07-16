@@ -25,12 +25,12 @@ class CompetitionDetailsforPayment extends Component{
 
 		var id = localStorage.getItem("user_ID");
 		var competitionId = this.props.match.params.compId;
-		console.log("localstorage",id);
+		
 		axios
 			.get('/exammasters/exampurchase/'+competitionId+'/'+id)
 			.then((response)=>{
 				console.log('response123 = ',response.data);
-				var competitionExams =response.data.studentMasterData.competitionExams;
+				var competitionExams =response.data.competitionData.competitionExams[0];
 
 				this.setState({
 					competitionData :response.data.competitionData,
@@ -39,7 +39,7 @@ class CompetitionDetailsforPayment extends Component{
 					dateformat :response.data.dateformat,
 				},()=>{
 					console.log("competitionData= ",this.state.competitionData)
-					console.log("competitionExams= ",this.state.studentMasterData.competitionExams)
+					console.log("competitionExams= ",this.state.competitionExams)
 					console.log("studentMasterData= ",this.state.studentMasterData)
 					console.log("dateformat= ",this.state.dateformat)
 				});
@@ -60,15 +60,21 @@ class CompetitionDetailsforPayment extends Component{
   		var competitionFees = this.refs.competitionFees.value;
   		var comp_id 		= this.refs.comp_id.value;
   		var QPId 			= this.refs.QPId.value;
-		var formValues		= {
-								studentId          : studentID,
-		                    	competitionId      : comp_id,
-		                    	compFees           : competitionFees,
-							  }
+
+  		// var url  = window.location.protocol+window.location.hostname;
+  		var url  = window.location.origin;
+  		var studentId = localStorage.getItem('user_ID');
+		var data      = {
+					    "url"          : url,                	
+				}
+				// console.log('formValues = ',formValues);
+		console.log("url ----->",url,studentId,comp_id);
+
+
   		axios
-			.post('/quickwalletmasters/exampurchase/'+studentID,formValues)
+			.post('/quickwalletmasters/exampurchase/'+studentId/*+studentId*/+'/'+comp_id+'/'+competitionFees,data)
 			.then((response)=>{
-				console.log('response123 = ',response.data);
+				console.log('payment res = ',response.data);
 				this.setState({
 					// competitionData :allCompetitions
 				});
@@ -133,10 +139,10 @@ class CompetitionDetailsforPayment extends Component{
 											</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
-											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Category &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{/*this.state.CompetitionExamData.competitionExams[0].category*/}</div>
+											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Category &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{this.state.studentMasterData.category}</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
-											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Exam Duration &nbsp;:&nbsp;{/*this.state.CompetitionExamData.competitionExams[0].examDuration*/} (Minutes)</div>
+											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Exam Duration &nbsp;:&nbsp;{this.state.competitionExams.examDuration} (Minutes)</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 green">Competition Fees :&nbsp; <i className="fa fa-inr" aria-hidden="true"></i>&nbsp;{this.state.competitionData.competitionFees}</div>

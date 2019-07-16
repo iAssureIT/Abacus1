@@ -310,7 +310,7 @@ class MultipleCompetition extends (Component)  {
 
 
 	render(){
-		console.log("competitionData render",this.state.competitionData);
+		// console.log("competitionData render",this.state.competitionData);
 			return(
 				<div>
 			        {/* Content Wrapper. Contains page content */}

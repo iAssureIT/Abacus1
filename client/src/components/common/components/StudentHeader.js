@@ -188,6 +188,10 @@ class StudentHeader extends (Component){
       $('.dropdown-menu').toggle();
      }
 
+     closepopup(e){
+      $('#popup').css("display","none");
+     }
+
   render(){
     {console.log("loggedIn status header = ", this.state.loggedIn)}
     if(this.state.loggedIn===false){
@@ -286,7 +290,7 @@ class StudentHeader extends (Component){
                     <img src={this.studentLoginPhoto()} className="user-image"  />
                     <span className="hidden-xs"> {this.state.studentName} </span>
                   </Link>
-                  <ul className="dropdown-menu">
+                  <ul className="dropdown-menu" id="popup">
                     {/* User image */}
                     <li className="user-header">
                       <img src={this.studentLoginPhoto()} className="img-circle" />
@@ -304,7 +308,7 @@ class StudentHeader extends (Component){
                     {/* Menu Footer*/}
                     <li className="user-footer">
                       <div className="pull-left">
-                        <Link to="/CreateStudReg" className="btn btn-default btn-flat">My Registration</Link>
+                        <Link to="/CreateStudReg" className="btn btn-default btn-flat" onClick={this.closepopup.bind(this)}>My Registration</Link>
                       </div>
                       <div className="pull-right">
                         <Link to="/login">
