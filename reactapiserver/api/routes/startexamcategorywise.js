@@ -29,7 +29,7 @@ shuffle = function(array) {
 router.post('/:compId/:studentID', (req,res,next)=>{
     // res.status(200).json('request');
     console.log('/startexamcategorywise',req.params);
-    StudentMaster.findOne({studentId:req.params.studentId})
+    StudentMaster.findOne({studentId:req.params.studentID})
                  .exec()
                  .then(studentData=>{
                      if(studentData){
