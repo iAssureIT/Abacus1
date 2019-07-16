@@ -28,6 +28,7 @@ shuffle = function(array) {
 
 router.post('/:compId/:studentID', (req,res,next)=>{
     // res.status(200).json('request');
+    console.log('/startexamcategorywise');
     StudentMaster.findOne({studentId:req.params.studentId})
                  .exec()
                  .then(studentData=>{
