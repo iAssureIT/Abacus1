@@ -268,6 +268,9 @@ class StartPracticeExam extends (Component)  {
 	}
 
 	endExam(){
+
+		console.log("end free exam");
+		if(this.props.match.params.orderId && this.props.match.params.packageId && this.props.match.params.btnIndex){
 		axios
 			.post('/purchasedpackage/updatequespaper')
 			.then((response)=>{
@@ -286,7 +289,7 @@ class StartPracticeExam extends (Component)  {
                             studentID   : localStorage.getItem("user_ID"),
                             todayDate   : moment().format("MMM Do YY"),
                         }
-		console.log("values==== ",values)
+		// console.log("values==== ",values)
 
         axios
 			.post('/packagequestionpapermaster',values)
@@ -302,20 +305,26 @@ class StartPracticeExam extends (Component)  {
 			.catch(function(error){
 				console.log(error)
 			})
-			// Meteor.call("finishExamBtnClick",(error,result)=>{
-			// 	if(error){
-			// 		console.log(error);
-			// 	}else{
-			// 		Meteor.call("updateQuestionPaperMasterAccordingtoPackages",FlowRouter.getParam("id"),this.props.packageID,this.props.indx,(error,result)=>{
-			// 			if(error){
-			// 				console.log(error);
-			// 			}else{
-							
-			// 			}
-			// 		});					
-					
-			// 	}
-			// });
+
+		}else{
+
+			axios
+			.post('/mypracticeexammasters/finishexam/'+this.props.match.params.id)
+			.then((response)=>{
+				console.log("free paper response = ",response.data);
+
+				this.props.history.push("/practiceExamResult/"+this.props.match.params.id)
+				
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+
+
+		}
+			
+
+			
 			
 	}
 	getTimefunction(examTime,id){
@@ -330,10 +339,11 @@ class StartPracticeExam extends (Component)  {
 			  minutes = (seconds < 0) ? --minutes : minutes;
 			  if (minutes < 0){
 			  		clearInterval(interval);
-				  	axios
-			        	.post('/mypracticeexammasters/finishexam/'+id)
-			        	.then((response)=>{console.log("finished practice exam");this.props.history.push("/practiceExamResult/"+id)})
-			        	.catch(function (error) {console.log(error)})
+				  	// axios
+			    //     	.post('/mypracticeexammasters/finishexam/'+id)
+			    //     	.then((response)=>{console.log("finished practice exam");this.props.history.push("/practiceExamResult/"+id)})
+			    //     	.catch(function (error) {console.log(error)})
+			    this.endExam();
 			  }else{
 				  seconds = (seconds < 0) ? 59 : seconds;
 				  seconds = (seconds < 10) ? '0' + seconds : seconds;
