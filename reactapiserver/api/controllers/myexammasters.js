@@ -75,7 +75,8 @@ exports.fetch_participationexam_certificate = (req,res,next) => {
             .exec()
             .then(data =>{
             //   console.log('data ',data);
-                res.status(200).json(data);
+                
+                res.status(200).json({data : data,index:req.params.index});
             })
             .catch(err =>{
                 console.log(err);

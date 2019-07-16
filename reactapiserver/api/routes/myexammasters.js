@@ -12,7 +12,7 @@ router.get('/getmainexamlastvisitedquestion/:competitionId',MyExamMastersControl
 
 router.get('/getmainexamquestions/:competitionId/:studentId',MyExamMastersController.getMainExamQuestions);
 
- router.get('/participation/:competitionId/:studentId', MyExamMastersController.fetch_participationexam_certificate);
+ router.get('/participation/:competitionId/:studentId/:index', MyExamMastersController.fetch_participationexam_certificate);
 
 router.get('/dashboard/:studentId/:competitionId',MyExamMastersController.fetch_student_incomplete_exams);
 
