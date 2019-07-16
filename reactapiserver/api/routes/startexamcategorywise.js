@@ -27,7 +27,7 @@ shuffle = function(array) {
 }
 
 router.post('/:compId/:studentID', (req,res,next)=>{
-    console.log('request');
+    res.status(200).json('request');
 });
 
 module.exports = router;
