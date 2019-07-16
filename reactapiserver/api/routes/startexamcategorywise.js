@@ -146,34 +146,34 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                                                 });
                                                                             });
                                                     }else{
-                                                        res.status(200).status({message:"Student Category not found"});        
+                                                        return res.status(200).status({message:"Student Category not found"});        
                                                     }
                                                 }
 
                                                 if(i<0){
                                                     console.log('3. i ',i);
-                                                    res.status(200).status({message:"Student Category not found"});        
+                                                    return res.status(200).status({message:"Student Category not found"});        
                                                 }
                                                 
                                             }
                                         }else{
-                                            res.status(200).status({message:"Comptation not found"});
+                                            return res.status(200).status({message:"Compitition not found"});
                                         }
                                             
                                     })
                                     .catch(err =>{
                                         console.log(err);
-                                        res.status(500).json({
+                                        return res.status(500).json({
                                             error: err
                                         });
                                     });                    
                     }else{
-                        res.status(200).json({message:"Student not found"});
+                        return res.status(200).json({message:"Student not found"});
                     }
                 })
                 .catch(err =>{
                     console.log(err);
-                    res.status(500).json({
+                    return res.status(500).json({
                         error: err
                     });
                 });
