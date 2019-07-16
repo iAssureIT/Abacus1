@@ -22,9 +22,11 @@ class CompetitionDetailsforPayment extends Component{
 		//   adminLte.src = "/js/adminLte.js";
 		//   $("body").append(adminLte);
 		// }
+		var id = localStorage.getItem("user_ID");
 		var competitionId = this.props.match.params.compId;
+		console.log("localstorage",id);
 		axios
-			.get('/exammasters/exampurchase/'+competitionId+'/E6BRdJtHMF9a6p7KF')
+			.get('/exammasters/exampurchase/'+competitionId+'/'+id)
 			.then((response)=>{
 				console.log('response123 = ',response.data);
 				var competitionExams =response.data.studentMasterData.competitionExams;
