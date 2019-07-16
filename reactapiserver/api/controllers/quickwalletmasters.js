@@ -130,8 +130,9 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             }
                                                                                                                         }).then(payresponse=>{
                                                                                                                             console.log('payresponse ',payresponse);
-                                                                                                                            if(payresponse.data.status == 'success'){
-                                                                                                                                var paymentUrl = payresponse.data.data.url;
+                                                                                                                            if(payresponse.status == 'success'){
+                                                                                                                                var paymentUrl = payresponse.data.url;
+                                                                                                                                
                                                                                                                                 res.status(200).json(paymentUrl);
                                                                                                                             }else{
                                                                                                                                 res.status(200).json(false);
