@@ -95,7 +95,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                 competitionRegisterOrder.save()
                                                                         .then(data=>{
                                                                             QuickWalletMasters.findOne({})
-                                                                                             .exe()
+                                                                                             .exec()
                                                                                              .then(QWCredential=>{
                                                                                                  if(QWCredential){
                                                                                                     if(QWCredential.environment=="production"){
