@@ -97,6 +97,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                             QuickWalletMasters.findOne({})
                                                                                              .exec()
                                                                                              .then(QWCredential=>{
+                                                                                                 console.log('QWCredential ',QWCredential);
                                                                                                  if(QWCredential){
                                                                                                     if(QWCredential.environment=="production"){
                                                                                                         var API = QWCredential.prodAPI;
@@ -115,6 +116,8 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "redirecturl" : req.body.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
+                                                                                                    console.log('quickWalletInput ',quickWalletInput);
+
                                                                                                         // var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
                                                                                                                             // {params: quickWalletInput});
                                                                                                         var result = request({
