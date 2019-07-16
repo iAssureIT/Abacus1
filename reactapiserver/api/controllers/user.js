@@ -121,7 +121,10 @@ exports.user_signup = (req,res,next)=>{
 													createdOn     : new Date(),
 													userCode	  : req.body.password.split("").reverse().join(""),
 													pwdStatus	  : true,
+<<<<<<< Updated upstream
 													sentEmailOTP  : OTP,
+=======
+>>>>>>> Stashed changes
 										},
 										roles 		: ["Student"]
 			            });	
@@ -325,6 +328,7 @@ exports.user_profileimg = (req,res,next)=>{
             });
 }
 
+<<<<<<< Updated upstream
 exports.fetch_otp = (req,res,next)=>{
 	var sId = req.body.studentId;
 	User.findOne({_id:sId})
@@ -337,6 +341,24 @@ exports.fetch_otp = (req,res,next)=>{
 				res.status(200).json("Something went wrong");
 			}			
 		})
+=======
+exports.user_otpupdate = (req,res,next)=>{
+	var email = req.body.email;
+	var mobileOtp = req.body.mobileOtp;
+	var emailOtp = req.body.emailOtp;
+
+	User.update(
+					{emails:{$elemMatch:{address:req.body.email}}},
+					{
+						$set:{
+							"profile.sentEmailOTP" 		: emailOtp,
+							"profile.receivedEmailOTP" 	: Number,
+						}
+					}
+			   )
+		.exec()
+		.then()
+>>>>>>> Stashed changes
 		.catch(err =>{
 			console.log(err);
 			res.status(500).json({
@@ -344,6 +366,10 @@ exports.fetch_otp = (req,res,next)=>{
 			});
 		});
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 exports.update_otp =(req,res,next) =>{
 	console.log('update otp');
