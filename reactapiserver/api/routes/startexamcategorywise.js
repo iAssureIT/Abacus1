@@ -42,9 +42,9 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                             var studentCategory = 	examMasterData.competitionExams;
                                             if(studentCategory){
                                                 console.log('studentCategory ',studentCategory);
-                                                var index = studentCategory.findIndex((data) =>{ return (data.subCategory == studentData.subCategory) });
-                                                console.log('index ',index);
-                                                if(index > 0 || index == 0 ){
+                                                var i = studentCategory.findIndex((data) =>{ return (data.subCategory == studentData.subCategory) });
+                                                console.log('i ',i);
+                                                if(i > 0 || i == 0 ){
                                                     var categoryWiseExamData =studentCategory[index];
                                                     if(categoryWiseExamData){
                                                         console.log('categoryWiseExamData ',categoryWiseExamData);
