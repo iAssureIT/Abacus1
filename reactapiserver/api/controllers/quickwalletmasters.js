@@ -134,6 +134,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                                 res.status(200).json(false);
                                                                                                                             }
                                                                                                                         });
+                                                                                                        console.log('result ',result);
                                                                                     
                                                                                                     }
                                                                                                  }else{
