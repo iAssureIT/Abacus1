@@ -74,6 +74,7 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                                                         }
                                                                                         if(tempQueArray.length == questionArray1.length){
                                                                                             const myexammaster = new MyExamMaster({
+                                                                                                                    "_id"                   : new mongoose.Types.ObjectId(),
                                                                                                                     "StudentId"             : req.params.studentId,
                                                                                                                     "companyId"             : studentData.companyId,
                                                                                                                     "franchise_id"          : studentData.franchiseId,
