@@ -77,6 +77,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                         .then(ExamMasterData=>{
                                             if(ExamMasterData){
                                                 const competitionRegisterOrder = new CompetitionRegisterOrder({
+                                                    '_id'                       : new mongoose.Types.ObjectId(),
                                                     'competitionId'	            : req.params.competitionId,
                                                     'competitionName'           : ExamMasterData.competitionName,
                                                     'studentFullName'           : studentMasterData.studentFullName,
