@@ -41,15 +41,9 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                             console.log('examMasterData ',examMasterData);
                                             var studentCategory = 	examMasterData.competitionExams;
                                             if(studentCategory){
-                                                var i = studentCategory.findIndex((data) =>{ return (data.subCategory == studentData.subCategory) });
+                                                var i = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
                                                 if(i > -1){
-                                                    var categoryWiseExamData =studentCategory[i];
-                                                    // if(categoryWiseExamData){
-                                                        console.log('categoryWiseExamData ',categoryWiseExamData);
                                                         res.status(200).status(i);        
-                                                    // }else{
-                                                        // res.status(200).status({message:"student Category not found"});        
-                                                    // }
                                                 }else{
                                                     res.status(200).status({message:"student Category exam not found"});    
                                                 }
