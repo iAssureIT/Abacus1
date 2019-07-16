@@ -61,17 +61,17 @@ class ParticipationCertificate extends (Component) {
   //       })
 		const studentID = localStorage.getItem("user_ID");
 		var competitionId = $("#selectId option:selected").attr("id");
-		console.log('competitionId= ',competitionId);
-		
+		var index = $("#selectId option:selected").attr("data-index");
+		console.log('competitionId= ',index);
 		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
 			axios
-				.get('/myexammasters/participation/'+competitionId+'/'+studentID)
+				.get('/myexammasters/participation/'+competitionId+'/'+studentID+'/'+index)
 	            .then((response)=>{
-	                console.log("-------myExamMaster------>>",response.data[0]);
+	                console.log("-------myExamMaster------>>",response.data.data);
 	            	this.setState({
-			 			examData : response.data[0],
+			 			examData : response.data.data[0],
 			 			competitionStatus : false,
 			 		});
 	            })
@@ -167,7 +167,7 @@ class ParticipationCertificate extends (Component) {
 												<select type="text" name="competitionId" ref="competitionId"  id="selectId" onClick={this.getCompetitionId.bind(this)} /*onChange={this.handleChange}*/ className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" title="Please select Category" required>
 													<option value="">-- Select Competition for certificate --</option>
 													{this.state.allCompetitions.map((competition,index)=>{
-														return(<option key={index} id={competition._id}>{competition.competitionName}</option>)
+														return(<option key={index} className="findIndex" data-index={index} id={competition._id}>{competition.competitionName}</option>)
 													  })
 													}
 												</select>
@@ -177,7 +177,7 @@ class ParticipationCertificate extends (Component) {
 										<div className="col-lg-12 col-md-12 col-sm-12 addMoreCerthideBtn" onClick={this.hideBtnShowList.bind(this)}>
 											<button className="btn btn-primary" >Get more Certificates</button>
 										</div>
-										{this.state.examData ?
+										{!this.state.examData=="" ?
 					                  		 // this.state.examData.answerArray ?
 					                  		 // 	 this.state.examData.answerArray.length > 0 ?
 					                  	 			<div>

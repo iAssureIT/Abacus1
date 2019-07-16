@@ -20,6 +20,7 @@ class StartExam extends (Component)  {
 			totalMarks 			: '',
 			questionArrayFromTC : [],
 			'defaultTime'  		: '02:15',
+			examStatus : "",
 			// 'subscription':{
 			// 	'subscription':{
 			//  	'myExamMasterData' :  Meteor.subscribe('showSingleAnsPaper',this.props.id),
@@ -43,8 +44,31 @@ class StartExam extends (Component)  {
 		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
 		});
 
-		var examId = this.props.match.params.id;
+		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		var compId = this.props.match.params.compId;
+		var examId = this.props.match.params.examId;
 		$("#0").addClass('active');
+				console.log('compId',compId);
+				console.log('examId',examId);
+		
+		axios
+	        .get('/myexammasters/participation/'+compId+'/'+studentId+'/0')
+	        .then((response)=>{
+				console.log('participation Info =',response.data);
+				var responseData = response.data;
+				this.setState({
+					examStatus : responseData.data[0].examStatus 
+				},()=>{
+					console.log("examStatus",this.state.examStatus);
+				})
+				// this.props.history.push('/startExam/'+response.data);
+
+	        })
+	        .catch(function(error){
+	          	console.log(error);
+	          	$('.startExamBtn').css('display','Block');
+				$('.wrProcessing').css('display','none');
+	        })
 		// Meteor.call("getExamTimeData",examId,Meteor.userId(),(err,res)=>{
 		// 	if(err){
 
@@ -293,6 +317,7 @@ class StartExam extends (Component)  {
 		          {/* Content Header (Page header) */}
 		          <section className="content-header1"></section>
 		           <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 pull-right webCamStyle">
+			          {this.state.examStatus !="Completed" && this.state.examStatus != "notExist"?
 			          <div className="innerWebCam">
 			            <div className="drawSquare pull-right"></div>
 			            <Webcam className="videoSizeDisplay" autoPlay="true"
@@ -302,6 +327,9 @@ class StartExam extends (Component)  {
 			              ref={node => this.webcam = node}
 			            />
 			            </div>
+			            :
+			            null
+			        }
 
 			        </div>
 		          {/* Main content */}
@@ -310,7 +338,7 @@ class StartExam extends (Component)  {
 		        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 		            <div className="box">
 		                <div>
-		                   	{this.props.examStatus !="Completed" && this.props.examStatus != "notExist"?
+		                   	{this.state.examStatus !="Completed" && this.state.examStatus != "notExist"?
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 colpadding">

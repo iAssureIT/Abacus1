@@ -77,8 +77,8 @@ class SignUp extends Component {
                 	 	.post('/user/signup',auth,)
 			            .then((response)=> {
 			                console.log("-------userData------>>",response);
-		            		swal("Great","Information submitted successfully and OTP is sent to your registered Email ID and Mobile no","success");
-			                this.props.history.push("/confirm-otp");
+		            		swal("Great","Information submitted successfully","success");
+			                this.props.history.push("/");
 			                // this.setState({
 			                //   practiceExamReport : reconfirm-otpsponse.data
 			                // });

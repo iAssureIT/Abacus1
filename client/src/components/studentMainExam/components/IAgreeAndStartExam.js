@@ -70,42 +70,62 @@ class IAgreeAndStartExam extends (Component)  {
 
 	startExam(event){
 		if($('.mainExamCheckbox').is(':checked')){
-		event.preventDefault();
-		$('.startExamBtn').css('display','none');
-		$('.wrProcessing').css('display','block');
-		navigator.getMedia = ( 
-		// navigator.getUserMedia || // use the proper vendor prefix
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia);
-		navigator.getMedia({video: true},()=>{
-		  console.log("webcam is available");
-		//   Meteor.call("StartExamCategoryWise",FlowRouter.getParam('competitionId'),(error,result)=>{
-		// 	if(error){
-		// 		swal(error);
-		// 	}else{
-		// 		var id = result;
-		// 		// console.log("id",id);
-		// 		if(id){
-		// 			// Meteor.call("updateMyExamFee",id); 
-		// 			// location.reload();
-					this.props.history.push('/startExam/ghjkkkkiuuuiik'/*+id*/);
-		// 		}else{
-					// $('.startExamBtn').css('display','block');
-					// $('.wrProcessing').css('display','none');
-					// swal("Please start exam again","This is happened due to bad internet connection","warning");
-		// 		}
-		// 	}
-		// });
+			event.preventDefault();
+			$('.startExamBtn').css('display','none');
+			$('.wrProcessing').css('display','block');
+			navigator.getMedia = (
+			// navigator.getUserMedia || // use the proper vendor prefix
+	        navigator.webkitGetUserMedia ||
+	        navigator.mozGetUserMedia ||
+	        navigator.msGetUserMedia);
+			navigator.getMedia({video: true},()=>{
+			  	console.log("webcam is available");
+				const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+				var compId = this.props.match.params.compId;
+			  	console.log("/"+compId+'/'+studentId);
 
-		}, function() {
-			$('.startExamBtn').css('display','Block');
-			$('.wrProcessing').css('display','none');
-		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
-		});
-	}else{
-		swal("Please select I have read the instructions","","warning");
-	}
+
+			  	
+						this.props.history.push('/startExam/'+compId+'/ghjbk'/*+response.data*/);
+
+				axios
+			        .post('/startexamcategorywise/'+compId+'/'+studentId)
+			        .then((response)=>{
+						console.log('ID',response.data);
+						this.props.history.push('/startExam/'+compId+'/ghjbk'/*+response.data*/);
+			        })
+			        .catch(function(error){
+			          	console.log(error);
+			          	$('.startExamBtn').css('display','Block');
+						$('.wrProcessing').css('display','none');
+			        })
+			  
+			//   Meteor.call("StartExamCategoryWise",FlowRouter.getParam('competitionId'),(error,result)=>{
+			// 	if(error){
+			// 		swal(error);
+			// 	}else{
+			// 		var id = result;
+			// 		// console.log("id",id);
+			// 		if(id){
+			// 			// Meteor.call("updateMyExamFee",id); 
+			// 			// location.reload();
+						// this.props.history.push('/startExam/'/*+id*/);
+			// 		}else{
+						// $('.startExamBtn').css('display','block');
+						// $('.wrProcessing').css('display','none');
+						// swal("Please start exam again","This is happened due to bad internet connection","warning");
+			// 		}
+			// 	}
+			// });
+
+			}, function() {
+				$('.startExamBtn').css('display','Block');
+				$('.wrProcessing').css('display','none');
+			    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
+			});
+		}else{
+			swal("Please select I have read the instructions","","warning");
+		}
 		
 	}
 

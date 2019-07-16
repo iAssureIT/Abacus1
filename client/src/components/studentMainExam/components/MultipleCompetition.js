@@ -1,5 +1,6 @@
 import React, {Component} 	from 'react';
 import {render} 			from 'react-dom';
+import {Link} 				from 'react-router-dom';
 import swal 				from 'sweetalert';
 import $ 					from "jquery";
 import axios 				from 'axios';
@@ -168,7 +169,21 @@ class MultipleCompetition extends (Component)  {
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
-		  // console.log("webcam is available");
+		  console.log("webcam is available");
+		  	const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+				var compId = this.props.match.params.compId;
+			  	console.log("/"+compId+'/'+studentId);
+
+				axios
+			        .post('/startexamcategorywise/'+compId+'/'+studentId)
+			        .then((response)=>{
+						console.log('ID',response.data);
+						this.props.history.push('/startExam/'+response.data);
+
+			        })
+			        .catch(function(error){
+			          	console.log(error);
+			        })
 		//   Meteor.call("StartExamCategoryWise",(error,result)=>{
 		// 	if(error){
 		// 		swal(error);
@@ -352,8 +367,8 @@ class MultipleCompetition extends (Component)  {
 																					competitionInfo.competitionStatus=="start"?
 																								competitionInfo.examStartStatus=="start"?
 																									<td >
-																									{"qqqq"+competitionInfo.examDataStatus}
-																										<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1">Start Exam </button></a>
+																									{competitionInfo.examDataStatus}
+																										<button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1"><Link to={"/iAgreeAndStartExam/"+competitionInfo._id} className="startexambtn1"> Start Exam </Link></button>
 																									
 																									</td>
 																									:	

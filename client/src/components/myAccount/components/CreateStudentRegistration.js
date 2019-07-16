@@ -7,6 +7,7 @@ import ProfilePic   		from './ProfilePic.js';
 import axios 				from 'axios';
 import moment				from 'moment';
 import '../css/MyAccount.css';
+declare var jQuery: any;
 
 class CreateStudentRegistration extends (Component)  {
 	constructor(props){
@@ -107,6 +108,11 @@ class CreateStudentRegistration extends (Component)  {
             .catch(function (error) {
                 console.log(error);
             });
+     var date = new Date();
+      date.setDate(date.getDate());
+      jQuery('#my-datepicker').datepicker({ 
+          startDate: date
+      });
 
     $('.gender').click(function() {
     $(this).find('.btn').toggleClass('active');  
@@ -185,10 +191,10 @@ class CreateStudentRegistration extends (Component)  {
   			mobileNumber       		: this.refs.mobileNumber.value.trim(),
   			studentDOB         		: this.refs.studentDOB.value.trim(),
   			schoolName         		: this.refs.schoolName.value.trim(),
-  			franchiseUserId       : this.state.franchiseUserId,
-  			companyId   	   			: this.refs.franchiseId.value.trim(),
+  			franchiseUserId       	: this.state.franchiseUserId,
+  			companyId   	   		: this.refs.franchiseId.value.trim(),
   			franchiseName      		: this.refs.franchiseName.value,
-  			franchiseMobileNumber : this.refs.franchiseMobileNumber.value,
+  			franchiseMobileNumber 	: this.refs.franchiseMobileNumber.value,
   			studentAddress 				: this.refs.studentAddress.value.trim(),
   			studentCountry 				: this.refs.studentCountry.value.trim(),
   			studentState   				: this.refs.studentState.value.trim(),
@@ -212,9 +218,10 @@ class CreateStudentRegistration extends (Component)  {
 								.post('/registration',studFormValues)
 										.then((response)=>{
 												console.log("-------patch---->>",response.data);
+												this.props.history.push('/dashboard');
 													this.setState({
-																				// registration : response.data,
-																			});
+														// registration : response.data,
+													});
 										})
 										.catch(function (error) {
 												console.log(error);
@@ -485,7 +492,7 @@ class CreateStudentRegistration extends (Component)  {
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
 										<span className="defaultLabelOes defaultLabelOesE ">Date of Birth<label className="requiredsign">*</label></span>
-											<input type="text" id="my-datepicker" data-provide="datepicker" name="studentDOB" ref="studentDOB" value={studentBirthDate} onChange={this.handleChange} className={this.state.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" readOnly required/>		   			
+											<input type="text" id="my-datepicker" data-provide="datepicker" name="studentDOB" ref="studentDOB" value={studentBirthDate} onChange={this.handleChange} className={this.state.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" /*readOnly*/ required/>		   			
 										</span>
 									</div>
 								</div>
@@ -497,7 +504,7 @@ class CreateStudentRegistration extends (Component)  {
 										</span>
 									</div>
 								{
-									this.state.gender==true?
+								this.state.gender==true?
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 examTypeBtn">
 									<span className="defaultLabelOes defaultLabelOesE genderLabel">Gender <label className="requiredsign">*</label></span>	
 									    <div className="col-lg-12 col-md-12 col-sm-6 col-xs-12">
