@@ -112,7 +112,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "mobile"     : studentMasterData.mobileNumber,
                                                                                                                "secret"     : secret,
                                                                                                                "amount"     : req.params.compfees,
-                                                                                                               "redirecturl" : Meteor.absoluteUrl()+'payment-response/'+userId+'/'+comp_id,             
+                                                                                                               "redirecturl" : req.params.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
                                                                                                         var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
