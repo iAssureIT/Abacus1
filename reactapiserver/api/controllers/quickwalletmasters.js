@@ -108,10 +108,10 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                         var secret    = QWCredential.sandboxSecret;
                                                                                                     }
                                                                                                     var quickWalletInput = {
-                                                                                                               "partnerid" : partnerid,
-                                                                                                               "mobile"   :   mobileNumber,
-                                                                                                               "secret"   :   secret,
-                                                                                                               "amount"   :    competitionFees,
+                                                                                                               "partnerid"  : partnerid,
+                                                                                                               "mobile"     : studentMasterData.mobileNumber,
+                                                                                                               "secret"     : secret,
+                                                                                                               "amount"     : req.params.compfees,
                                                                                                                "redirecturl" : Meteor.absoluteUrl()+'payment-response/'+userId+'/'+comp_id,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
