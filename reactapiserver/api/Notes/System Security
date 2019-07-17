@@ -1,7 +1,18 @@
-1. SignUp - Done
-2. Login 
+1. SignUp                                               - WIP
+    - Check if email and mobile               - Done
+        - if exixt then show error
+    - send opt to registered mobile mobNumber - Done
+2. Login                                                - WIP
+    - check if user is Active and Verified
 3. Forgot password
-4. OTP Verification
+    - get the email id
+    - sent otp to email id (use the sentEmailOTP and recevideEMailotp)
+4. OTP Verification                                     - WIP
+    - Verify the otp                - Done
+    - sent registration email       - YTS
+5. Reset password                                       - YTS
+    - input will be userID and password
+    - password will be reset
 
 ------------------------------------------------------------------------------------------
                         1. SignUp
@@ -24,7 +35,9 @@
                     }
     Output      :
                     {
-                        "message"  : String,
+                        "message" : 'NEW-USER-CREATED',
+                        "user_id" : result._id,
+                        "otp"     : OTP,
                     }
                 
 2. Login to the system
@@ -43,3 +56,22 @@
                         "message"  : String,
                         "tocken"   : String
                     }
+
+4. OTP Verification
+
+    Method      : POST
+    
+    URL         : /user/otpverify
+
+    Input       :
+                    {
+                        mobileNumber       : String,
+                        otp                 : String,
+                    }
+    Output      :
+                    if successful
+                        { message : "User Verified" }
+                    if fail (mobile number not found)
+                        { message : "Number not found" }
+                    else user is not updated
+                        {message:"User Verified but Status is not updated in users collections"}

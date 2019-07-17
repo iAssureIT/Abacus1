@@ -31,7 +31,53 @@ function sendSMSMsg (firstname,toNumber,otp){
 }
 
 exports.mobile_optverify = (req, res, next)=>{
-	var mobileNum = req.body.mobileNumber;
+	var mobileNum 	= req.body.mobileNumber;
+	var otp 		= req.body.otp;
+	if(mobileNum && otp){
+		User.findOne({"profile.mobNumber":mobileNum})
+			.exec()
+			.then(user=>{
+				if(user){
+					if(user.profile.sentEmailOTP == otp){
+						User.updateOne(
+								{_id:user._id},
+								{
+									$set: {
+										"emails[0].verified" 		: true,
+										"profile.status"	 		: "Active",
+										"profile.sentEmailOTP"		: 0,
+										"profile.receivedEmailOTP"	: otp,
+									}
+								}
+							)
+							.exec()
+							.then(data=>{
+								if(data.nModified == 1){
+									res.status(200).json({message:"User Verified"})
+								}else{
+									res.status(200).json({message:"User Verified but Status is not updated in users collections"})
+								}
+							})
+							.catch(err =>{
+								console.log(err);
+								res.status(500).json({
+									error: err
+								});
+							});				
+					}else{
+
+					}
+				}else{
+					res.status(200).json({message:"Number not found"})
+				}
+			})
+			.catch(err =>{
+				console.log(err);
+				res.status(500).json({
+					error: err
+				});
+			});
+	} 
 	res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
 }
 
@@ -133,7 +179,7 @@ exports.user_signup = (req,res,next)=>{
 										emails		: [
 												{
 													address  : req.body.email,
-													verified : true 
+													verified : false 
 												}
 										],
 										profile		:{
