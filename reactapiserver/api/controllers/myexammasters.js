@@ -300,6 +300,7 @@ exports.getmainexamlastvisitedquestion = (req,res,next)=>{
 
 exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
     var answer = "";
+    console.log('updateExamTimeAndStudenAnswer body ',req.body);
     MyExamMaster.findOne({"_id":req.body.examId})
                 .exec()
                 .then(examAnswerData=>{
