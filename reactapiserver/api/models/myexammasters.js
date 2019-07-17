@@ -14,6 +14,7 @@ const myexammastersSchema = mongoose.Schema({
     competitionName : String,
     examDate : Date,
     examDateFormat : Date,
+    examName : String,
     category : String,
     subCategory : String,
     paperName : String,
