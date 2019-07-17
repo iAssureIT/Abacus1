@@ -305,7 +305,7 @@ exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
                 .exec()
                 .then(examAnswerData=>{
                     if(examAnswerData){
-                        if(req.body.studAnswer == examAnswerData.answerArray[index]){
+                        if(req.body.studAnswer == examAnswerData.answerArray[req.body.index]){
                             answer = 'Correct';
                         }else{
                             answer = 'Wrong';
@@ -318,9 +318,9 @@ exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
                                                     'examSolvingTime'                       : req.body.examTime,
                                                     'lastVisitedQuestion'                   : parseInt(req.body.index),
                                                     'lastVisitedQAnswer'                    : req.body.studAnswer,
-                                                    ['answerArray.'+index+'.attempted']     : "Yes",
-                                                    ['answerArray.'+index+'.studentAnswer'] : req.body.studAnswer,
-                                                    ['answerArray.'+index+'.answer']        : req.body.answer,
+                                                    ['answerArray.'+req.body.index+'.attempted']     : "Yes",
+                                                    ['answerArray.'+req.body.index+'.studentAnswer'] : req.body.studAnswer,
+                                                    ['answerArray.'+req.body.index+'.answer']        : req.body.answer,
                                                 }
                                             }
                                         )
