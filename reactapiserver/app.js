@@ -103,7 +103,7 @@ app.use((error, req, res, next) => {
 			message:error.message
 		}
 	});
-	res.end();
+	// res.end();
 });
 
 module.exports = app;

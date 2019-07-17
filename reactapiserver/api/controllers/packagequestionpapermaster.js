@@ -35,8 +35,10 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                                                                                     .exec()
                                                                                                     .then(data=>{
                                                                                                         if(data.nModified == 1){
+                                                                                                            console.log('data updated');
                                                                                                             res.status(200).json("Updated successfully");
                                                                                                         }else{
+                                                                                                            console.log('data not updated');
                                                                                                             res.status(200).json("Something went wrong");
                                                                                                         }
                                                                                                     })
@@ -58,6 +60,7 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                                                 });
                                                             });
                                     }else{
+                                        console.log('wrong');
                                         res.status(200).json("something went wrong");
                                     }
                                 })
