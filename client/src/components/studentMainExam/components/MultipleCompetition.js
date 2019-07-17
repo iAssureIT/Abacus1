@@ -63,6 +63,7 @@ class MultipleCompetition extends (Component)  {
 	}
 	componentDidMount(){
 		var i = 0;
+
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
 		var array=[];
 		if(studentId){
@@ -155,6 +156,7 @@ class MultipleCompetition extends (Component)  {
 					console.log("error",error);
 				});
 		}
+
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
