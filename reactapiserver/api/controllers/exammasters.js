@@ -188,21 +188,21 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                       'examId'                : '',
                     });
                   // }
-                  if(competitionData.length == competitions.length){
-                    CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"})
-                                            .exec()
-                                            .then(isStudentRegisterForComp=>{
-                                                res.status(200).json({isStudentRegisterForComp,competitions})
-                                            })
-                                            .catch(err =>{
-                                              console.log(err);
-                                              return({
-                                                error: err
-                                                });
-                                            }); 
-                    // res.status(200).json(competitions);
-                  }
                 }//End of For
+                if(competitionData.length == competitions.length){
+                  CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"})
+                                          .exec()
+                                          .then(isStudentRegisterForComp=>{
+                                              res.status(200).json({isStudentRegisterForComp,competitions})
+                                          })
+                                          .catch(err =>{
+                                            console.log(err);
+                                            return({
+                                              error: err
+                                              });
+                                          }); 
+                  // res.status(200).json(competitions);
+                }
               }
               // res.status(200).json(competitionData);
             })
