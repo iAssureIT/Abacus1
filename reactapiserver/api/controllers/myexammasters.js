@@ -487,14 +487,12 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                                 error: err
                                             });
                                         });
-                            }
-                            
-                                                            
+                            }                                                            
                         }else{
-                            res.status(409).json({message:"It seams there is some isssue with Time"});    
+                            res.status(200).json({message:"It seams there is some isssue with Time"});    
                         }
                     }else{
-                        res.status(409).json({message:"Exam Not Found"});
+                        res.status(200).json({message:"Exam Not Found"});
                     }
                 })
                 .catch(err =>{
