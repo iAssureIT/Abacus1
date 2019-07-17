@@ -438,7 +438,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                             var min2 = m2.split(":");
                             if(min1[1] =="00" && min2[1]=="00"){
                                 var examSolvedTime = min1[0]-min2[0];
-                                var examSolvedTime =  examSolvedTime < 10 ? "0"+examSolvedTime : examSolvedTime;
+                                var examSolvedTime =  examSolvedTime < 10 ? "0"+ examSolvedTime : examSolvedTime;
                                 var examSolvedTime = examSolvedTime+":00";
                             }else{  
                                 if(min1[1]=="00"){
@@ -468,7 +468,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                                                         "wrongAnswer"       : wrongAnswer,
                                                         "totalScore"        : totalScore,
                                                         "examSolvedTime"    : examSolvedTime,
-                                                        "examSolvingTime"   : examSolvingTime,
+                                                        "examSolvingTime"   : req.params.examsolvingtime,
                                                         "examStatus"        : "Completed",
                                                         "status"            : "Attempted",
                                                     }
