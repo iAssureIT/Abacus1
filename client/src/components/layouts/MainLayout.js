@@ -50,8 +50,7 @@ class MainLayout extends Component{
     	loggedIn : false,
     	logout 	 : true
     }
-    this.updateState = this.updateState.bind(this);
-    console.log("in constructor");
+    this.updateState = this.updateState.bind(this);    
   }
    
   componentWillMount(){
@@ -86,7 +85,7 @@ class MainLayout extends Component{
 
   render(){
     // console.log("loggedIn status layput = ", this.state.loggedIn);
-    console.log("local stoarage = ",localStorage.getItem("token"));
+    console.log("layout token----> ",localStorage.getItem("token"));
    if(localStorage.getItem("token")){
       return(
   		<Router>
@@ -120,6 +119,8 @@ class MainLayout extends Component{
 										  		<Route path="/CreateStudReg"				exact strict component={ CreateStudentRegistration } />
 
 										  		<Route path="/MultipleComp"					exact strict component={ MultipleCompetition } />
+										  		<Route path="/MultipleComp/:compId"					exact strict component={ MultipleCompetition } />
+										  		<Route path="/IAgreeAndStartExam"			exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/IAgreeAndStartExam/:compId"	exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/StartExam/:compId/:examId"	exact strict component={ StartExam } />
 										  		<Route path="/PastExamReports"				exact strict component={ PastExamReports } />

@@ -12,7 +12,6 @@ class CompetitionDetailsforPayment extends Component{
 	    	competitionData 	: [],
 	    	competitionExams 	: [],
 	    	studentMasterData 	: [],
-	    	questionPaperId		: '',
 	    	dateformat 			: '',
 	    }
 	}
@@ -32,29 +31,13 @@ class CompetitionDetailsforPayment extends Component{
 			.then((response)=>{
 				console.log('response123 = ',response.data);
 				var competitionExams =response.data.competitionData.competitionExams[0];
-				for (var i = 0; response.data.competitionData.competitionExams.length>=i ; i++) {
-					var cat 		= response.data.studentMasterData.category;
-					var subCat 		= response.data.studentMasterData.subCategory;
-					var compExams 	= response.data.competitionData.competitionExams;
-				console.log(compExams[i].category,"------",cat,"-------",compExams[i].subCategory,"----",subCat);
-
-					if (compExams[i].category===cat && compExams[i].subCategory===subCat) {
-						
-					} else {
-
-
-					}
-
-				}
 
 				this.setState({
-					competitionData 	:response.data.competitionData,
-					competitionExams 	:competitionExams,
-					studentMasterData 	:response.data.studentMasterData,
-					// questionPaperId 	:questionPaperId,
-					dateformat 			:response.data.dateformat,
+					competitionData :response.data.competitionData,
+					competitionExams :competitionExams,
+					studentMasterData :response.data.studentMasterData,
+					dateformat :response.data.dateformat,
 				},()=>{
-
 					console.log("competitionData= ",this.state.competitionData)
 					console.log("competitionExams= ",this.state.competitionExams)
 					console.log("studentMasterData= ",this.state.studentMasterData)
@@ -165,7 +148,7 @@ class CompetitionDetailsforPayment extends Component{
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 green">Competition Fees :&nbsp; <i className="fa fa-inr" aria-hidden="true"></i>&nbsp;{this.state.competitionData.competitionFees}</div>
 											<input type="hidden" ref="competitionFees" name="competitionFees" value={this.state.competitionData.competitionFees}/>
 											<input type="hidden" ref="comp_id" name="comp_id" value={this.state.competitionData._id}/>
-											<input type="hidden" ref="QPId" name="QPId" value={this.state.questionPaperId}/>
+											<input type="hidden" ref="QPId" name="QPId" value={this.state.CompetitionExamData.competitionExams.questionPaperId}/>
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rfoac">
