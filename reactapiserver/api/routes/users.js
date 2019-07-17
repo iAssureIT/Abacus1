@@ -21,6 +21,10 @@ router.post('/updateotp',UserController.update_otp);
 
 router.post('/mobileverification',UserController.mobile_optverify);
 
+router.post('/emailverification',UserController.email_optverify);
+
+router.post('/updateotp',UserController.update_otp);
+
 router.delete('/:userId', checkAuth, UserController.user_delete);
 
 router.get('/profileimg/:studentId', UserController.user_profileimg);

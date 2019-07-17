@@ -120,7 +120,7 @@ class MultipleCompetition extends (Component)  {
 															var index                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
 															var categoryWiseExamData = studentCategory[index];
 															if(categoryWiseExamData){
-																competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+																competitionData[i].examStartStatus = categoryWiseExamData.examStatus;
 															}
 														}
 														competitions.push({

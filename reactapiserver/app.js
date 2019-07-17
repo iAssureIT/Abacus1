@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');// morgan call next function if problem occure
 const bodyParser = require('body-parser');// this package use to formate json data 
 const mongoose = require ('mongoose');
+var nodeMailer = require('nodemailer');
 
 global.JWT_KEY = "secret";
 // Routes which should handle requests
@@ -30,12 +31,13 @@ const questionpapermastersRouters	= require('./api/routes/questionpapermasters')
 const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
 const startexamcategorywiseRouters	= require('./api/routes/startexamcategorywise');
 const multiplCompetitionRouters		= require('./api/routes/multiplCompetition');
-const sendemail						= require('./api/routes/sendemail');
+// const sendemail						= require('./api/routes/sendemail');
 const projectsettingsRouters		= require('./api/routes/projectsettings');
 
 
 mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 // mongoose.connect('mongodb://localhost/onlineExamSystem',{
+// mongoose.connect('mongodb://localhost/onlineExamSystem3may',{
 	useNewUrlParser: true
  })
 mongoose.promise =global.Promise;
@@ -84,9 +86,36 @@ app.use("/packagequestionpapermaster",packagequestionpapermasterRoutes);
 app.use("/latestcompetitions",latestCompetitionsRouters);
 app.use("/startexamcategorywise",startexamcategorywiseRouters);
 app.use('/multiplCompetition',multiplCompetitionRouters);
-app.use("/sendemail",sendemail);
+// app.use("/sendemail",sendemail);
 app.use("/projectsettings",projectsettingsRouters);
 // handle all other request which not found 
+
+app.post('/send-email', function (req, res) {
+	let transporter = nodeMailer.createTransport({
+		host: 'smtp.gmail.com',
+		port: 587,
+		// secure: true,
+		auth: {
+			user: 'support@maats.in',
+			pass: 'maats@maats777'
+		}
+	});
+	let mailOptions = {
+		from: '"Abacus Online Exam" <support@maats.in>', // sender address
+		to: req.body.email, // list of receivers
+		subject: req.body.subject, // Subject line
+		text: req.body.text, // plain text body
+		html: req.body.mail // html body
+	};
+
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			return console.log(error);
+		}
+		console.log('Message %s sent: %s', info.messageId, info.response);
+			res.render('index');
+		});
+	});
 app.use((req, res, next) => {
 	const error = new Error('Not Found Manual ERROR');
 	error.status = 404;

@@ -1,7 +1,6 @@
 const mongoose	= require("mongoose");
 const bcrypt	= require("bcrypt");
 const jwt		= require("jsonwebtoken");
-const SendOtp = require('sendotp');
 const User = require('../models/users');
 const TempImg        = require('../models/tempimages');
 
@@ -10,29 +9,23 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
 function sendSMSMsg (firstname,toNumber,otp){
 	var toNum = '91'+toNumber.replace(/-/g, '');
 	var text = "Dear "+firstname+','+'\n'+"To verify your account on Abacus Online System, Please Enter the verification code : "+otp; // Your SMS Text Message - English;
-	console.log('otp ',otp);
-	console.log('text ',text);
-	console.log('toNum ',toNum);
-	if(text && toNum){
-		const sendOtp = new SendOtp('218126Ah3sKTCFpXF5b0fbf06',text);
-		if(sendOtp){
-			sendOtp.send(toNum,"MAATS",otp.toString(),function(e,r){
-				if(e){
-					console.log('e',e);
-					return e;
-				}else if(r){
-					console.log('r ',r);
-					return r;
-				}
-			});
+	var key = '218126Ah3sKTCFpXF5b0fbf06';
+	var sender = 'MSGIND';
+	var route = '4';
+	var msg91 = require("msg91")(key, sender, route );
+
+	msg91.send(toNum, text, function(err,status) {
+		if(err){
+			console.log('e',e);
+			return e;
+		}else if(status){
+			console.log('r ',r);
+			return r;
 		}
-		
-	}
-	
+	});
 }
 
 exports.mobile_optverify = (req, res, next)=>{
@@ -91,7 +84,52 @@ exports.mobile_optverify = (req, res, next)=>{
 
 exports.email_optverify = (req, res, next)=>{
 	var emailID = req.body.emailID;
-	res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
+	var otp 		= req.body.otp;
+	if(emailID && otp){
+		User.findOne({"emails":{$elemMatch:{address:req.body.emailID}}})
+			.exec()
+			.then(user=>{
+				if(user){
+					if(user.profile.sentEmailOTP == otp){
+						User.updateOne(
+								{_id:user._id},
+								{
+									$set: {
+										"profile.sentEmailOTP"		: 0,
+										"profile.receivedEmailOTP"	: otp,
+									}
+								}
+							)
+							.exec()
+							.then(data=>{
+								if(data.nModified == 1){
+									res.status(200).json({message:"User Verified"})
+								}else{
+									res.status(200).json({message:"User Verified but Status is not updated in users collections"})
+								}
+							})
+							.catch(err =>{
+								console.log(err);
+								res.status(500).json({
+									error: err
+								});
+							});				
+					}else if(user.profile.sentEmailOTP == 0){
+						res.status(200).json({message:"User already verified"})
+					}else{
+						res.status(200).json({message:"Wrong OTP"})
+					}
+				}else{
+					res.status(200).json({message:"Number not found"})
+				}
+			})
+			.catch(err =>{
+				console.log(err);
+				res.status(500).json({
+					error: err
+				});
+			});
+	}
 }
 exports.change_pwd = (req, res, next)=>{
 	console.log('change_pwd');
@@ -154,9 +192,11 @@ exports.change_pwd = (req, res, next)=>{
 exports.user_signup = (req,res,next)=>{
 	console.log('signup');
 	User.find(
-				{
-					"emails"				: {$elemMatch:{address:req.body.email}},
-					"profile.mobNumber"		: req.body.mobNumber	
+				{ $or : 
+					[
+						{"emails"				: {$elemMatch:{address:req.body.email}}},
+						{"profile.mobNumber"		: req.body.mobNumber}	
+					]
 				}
 			)
 		.exec()
@@ -240,7 +280,15 @@ exports.user_signup = (req,res,next)=>{
 
 exports.user_login = (req,res,next)=>{
 	console.log('login');
-	User.findOne({emails:{$elemMatch:{address:req.body.email}}})
+	User.findOne(
+						{ $and : 
+							[
+								{"emails"				: {$elemMatch:{address:req.body.email}}},
+								// {"emails"				: {$elemMatch:{verified:true}}},
+								{"profile.status"		: 'Active'}	
+							]
+						}
+				)
 		.exec()
 		.then(user => {
 			if(user){
@@ -417,22 +465,20 @@ exports.update_otp =(req,res,next) =>{
 	console.log('update otp');
 	var sId 		= req.body.studentId;
 	var sentOTP		= req.body.sentOTP;
-	var receivedOTP = req.body.receivedOTP;
 	User.updateOne(
 					{_id:sId},
 					{
 						$set:{
 							"profile.sentEmailOTP"		: sentOTP,
-							"profile.receivedEmailOTP"	: receivedOTP
 						}
 					}
 				)
 		.exec()
 		.then(users =>{
 			if(users.nModified == 1){
-				res.status(200).json("OPT updated");
+				res.status(200).json("OTP updated");
 			}else{
-				res.status(200).json("Something went wrong");
+				res.status(200).json("OTP Not updated");
 			}			
 		})
 		.catch(err =>{

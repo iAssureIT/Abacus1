@@ -17,6 +17,7 @@
     "moment": "^2.24.0",
     "mongoose": "^5.5.7",
     "morgan": "^1.9.1",
+    "msg91": "0.0.6",
     "nodemailer": "^6.3.0",
     "osenv": "^0.1.5",
     "react-router": "^3.2.1",

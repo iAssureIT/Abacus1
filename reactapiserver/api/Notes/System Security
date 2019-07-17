@@ -57,11 +57,11 @@
                         "tocken"   : String
                     }
 
-4. OTP Verification
+4. Mobile OTP Verification
 
     Method      : POST
     
-    URL         : /user/otpverify
+    URL         : /user/mobileverification
 
     Input       :
                     {
@@ -77,3 +77,56 @@
                         {message:"User Verified but Status is not updated in users collections"}
                     if user already verified 
                         {message:"User already verified"}
+
+4. Email OTP Verification
+
+    Method      : POST
+    
+    URL         : /user/emailverification
+
+    Input       :
+                    {
+                        emailID       : String,
+                        otp                 : String,
+                    }
+    Output      :
+                    if successful
+                        { message : "User Verified" }
+                    if fail (mobile number not found)
+                        { message : "Number not found" }
+                    if users collection is not updated
+                        {message:"User Verified but Status is not updated in users collections"}
+                    if user already verified 
+                        {message:"User already verified"}
+
+5. Send Email 
+
+    Method      : POST
+    
+    URL         : /send-email
+
+    Input       :
+                    {
+                        "email"		: "madhavir1982@gmail.com",
+                        "subject"  : "Testing Email Sending",
+                        "text"   : "WOW Its done",
+                        "mail"	: "I can do it"
+                    }
+    Output      :
+
+6. Update OTP
+
+    Method      : POST
+    
+    URL         : /user/updateotp
+
+    Input       :
+                    {
+                        "studentId"		: String,
+                        "sentOTP"  : "Testing Email Sending",
+                    }
+    Output      :
+                    if successful   
+                        { message : "OTP Updated"}
+                    else
+                        { message : "OTP not Updated"}
