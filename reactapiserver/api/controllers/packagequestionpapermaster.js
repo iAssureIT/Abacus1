@@ -17,51 +17,31 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                 .then(questionPaperDetails1 =>{
                                     questionPaperDetails = questionPaperDetails1;
                                     if(questionPaperDetails){
-                                        PackageManagementMaster .findOne({_id:questionPaperDetails.packageId,order_id:orderId})
-                                                            .exec()
-                                                            .then(PckgData=>{
-                                                                if(PckgData){
-                                                                    var attempts= PckgData.AttemptOfPracticeTest;
-                                                                    if(attempts){
-                                                                        PackageQuestionPaperMaster  .update(
-                                                                                                                {_id:questionPaperDetails._id,order_id:orderId,packageId:packageID,buyerId:studentID,questionPaper_id:qpid},
-                                                                                                                {
-                                                                                                                    $set:{
-                                                                                                                        ["noOfAttempts."+index+".status"]:true,
-                                                                                                                        ["noOfAttempts."+index+".attemptedAt"]:todayDate,
-                                                                                                                    }
-                                                                                                                }
-                                                                                                        )
-                                                                                                    .exec()
-                                                                                                    .then(data=>{
-                                                                                                        if(data.nModified == 1){
-                                                                                                            console.log('data updated');
-                                                                                                            res.status(200).json("Updated successfully");
-                                                                                                        }else{
-                                                                                                            console.log('data not updated');
-                                                                                                            res.status(200).json("Something went wrong");
-                                                                                                        }
-                                                                                                    })
-                                                                                                    .catch(err =>{
-                                                                                                        console.log(err);
-                                                                                                        res.status(500).json({
-                                                                                                            error: err
-                                                                                                        });
-                                                                                                    });
-                                                                    }
-                                                                    
+                                                        PackageQuestionPaperMaster  .update(
+                                                            {_id:questionPaperDetails._id,order_id:orderId,packageId:packageID,buyerId:studentID,questionPaper_id:qpid},
+                                                            {
+                                                                $set:{
+                                                                    ["noOfAttempts."+index+".status"]:true,
+                                                                    ["noOfAttempts."+index+".attemptedAt"]:todayDate,
                                                                 }
-                                                                                                
-                                                            })
-                                                            .catch(err =>{
-                                                                console.log(err);
-                                                                res.status(500).json({
-                                                                    error: err
-                                                                });
-                                                            });
-                                    }else{
-                                        console.log('wrong');
-                                        res.status(200).json("something went wrong");
+                                                            }
+                                                    )
+                                                .exec()
+                                                .then(data=>{
+                                                    if(data.nModified == 1){
+                                                        console.log('data updated');
+                                                        res.status(200).json("Updated successfully");
+                                                    }else{
+                                                        console.log('data not updated');
+                                                        res.status(200).json("Something went wrong");
+                                                    }
+                                                })
+                                                .catch(err =>{
+                                                    console.log(err);
+                                                    res.status(500).json({
+                                                        error: err
+                                                    });
+                                                });
                                     }
                                 })
                                 .catch(err =>{
