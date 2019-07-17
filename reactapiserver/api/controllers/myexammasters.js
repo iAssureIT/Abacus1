@@ -207,7 +207,7 @@ exports.fetch_exam_student_dashboard = (req,res,next) => {
     console.log('fetch_exam_student_dashboard');
     var studentId     = req.params.studentId;
     MyExamMaster.find({StudentId:studentId})
-            .select("competitionName category totalScore")
+            .select("competitionName category totalScore examStatus competitionId")
             .exec()
             .then(data =>{
             //   console.log('data ',data);
@@ -560,16 +560,8 @@ exports.saveimgs = (req,res,next) =>{
                 });
             });
 }
-exports.showCompetitionStatusForStudent = (req,res,next) =>{
-    var studentId       = req.params.studentId;
-    var competitionId   = req.params.competitionId;
-    var data = request({
-                        "method":"GET", 
-                        "uri": "http://abacusapi.iassureit.com/exammasters/exampurchase/"+"competitionId"+"/"+studentId,
-                        "json": true,
-                        "headers": {
-                        "User-Agent": "My little demo app"
-                        }
-                    });
-    res.status(200).json(data);
+
+exports.liststudentgivenexam = (req,res,next) =>{
+    MyExamMaster.find({competitionId:competitionList[i].competitionId,StudentId:req.studentId})
+    res.status(200).json(req.body)
 }

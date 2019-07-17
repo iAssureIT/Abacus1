@@ -62,107 +62,138 @@ class MultipleCompetition extends (Component)  {
 		
 	}
 	componentDidMount(){
-			console.log("studentId in list=====================================");
-
 		var i = 0;
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
 		var array=[];
+		var competitions 		= [];
+		var studentCompetitions = [];
+		var today           = new Date();
+		var todayDate       = moment(today).format('L');
+		var currentTime     = moment(today).format('LT');
 		if(studentId){
 			var k = 0;
 			console.log("studentId in list",studentId);
 			axios
 				.get('/studentmaster/details/'+studentId)
-				.then((student)=>{
-					console.log('student ',student);
-					const data = { 
-							"studentId"  : studentId,
-							"todaydate" 	: new Date(),
-							"subCategory"	: student.data.subCategory,
-					};
-					console.log("data.todaydate ====> ",data.todaydate);
-					if(data){
-						console.log('todatdate ',data);
-						axios
-							.post('/exammasters/listmainexam',data)
-							.then(data=>{
-								console.log('data ',data);
-							})
-							.catch(function(error){
-								console.log("error",error);
-							});			
-						// axios
-						// 	.post('/exammasters/listmainexam/'+studentId , data)
-						// 	.then((myexamlist)=>{
-						// 		console.log('myexamlist ',myexamlist.data);
-						// 		// this.setState({
-						// 		// 	competitionData : myexamlist.data
-						// 		// });
-						// 		var allCompetitions = myexamlist.data;
-						// 		axios
-						// 				// .get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
-						// 				.get('/competitionregisterorder/mainexam/'+studentId)
-						// 				.then((response)=>{
-						// 					console.log('response=-----> ',response.data);
-						// 					var studentCompetitions = response.data;
-						// 					for(k = 0 ; k < studentCompetitions.length; k++){
-						// 						var index = allCompetitions.findIndex((data)=>{
-						// 							return data._id == studentCompetitions[k].competitionId
-						// 						});
-						// 						if(index > -1){
-						// 							// console.log('index ',index);
-						// 							allCompetitions[index].studentPaymentStatus = "paid";
-						// 							var compData = allCompetitions[index];
-						// 							axios
-						// 									.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId+'/'+index)
-						// 									.then((myexamres)=>{
-						// 										console.log("myexamres---->",myexamres);
-						// 										var myexamresData = myexamres.data;
-						// 										if(myexamresData.data.length > 0){
-						// 										if(allCompetitions[myexamresData.index]){
-						// 											allCompetitions[myexamresData.index].examDataStatus = myexamresData.data[0].examStatus;
-						// 											allCompetitions[myexamresData.index].examId  = myexamresData.data[0]._id;
-						// 										}
-						// 											// array.push(allCompetitions[myexamresData.index]);
-
-						// 										}
-						// 										// console.log('in array ',array);
-						// 										// this.setState({
-						// 										// 	competitionData :array
-						// 										// 	// competitionData :allCompetitions
-						// 										// },()=>{
-						// 										// 	// console.log("in callback---->",this.state.competitionData[0].examDataStatus);
-						// 										// });
-
-						// 									})
-						// 									.catch(function(error){
-						// 										console.log("error",error);
-						// 									});
-						// 						}//end of index
-						// 										// console.log("all comp---array->",array);
-
-
-						// 					};//end of for
-						// 					// console.log('k ',k);
-						// 					// console.log('allCompetitions ',allCompetitions);
-						// 					if(k >= studentCompetitions.length){
-						// 						var dataArray = this.state.competitionData;
-						// 						dataArray = [...allCompetitions,...dataArray]
-						// 						console.log('in array ',dataArray);
-						// 						this.setState({
-						// 							competitionData :allCompetitions
-						// 						},()=>{
-						// 							console.log("in callback---->",this.state.competitionData[1].examDataStatus);
-						// 						});
-						// 					}		
-						// 				})
-						// 				.catch(function(error){
-						// 					console.log("error",error);
-						// 				});
-						// 	})
-						// 	.catch(function(error){
-						// 		console.log("error",error);
-						// 	});
-					}
+				.then((studentdata)=>{
+						console.log('student ',studentdata);
+						var studentData = studentdata.data;
+						if(studentData){
+							axios
+								.get('/exammasters/list')
+								.then((competitionData)=>{
+									console.log('competitionData ',competitionData);
+										var competitionData = competitionData.data;
+										if(competitionData){
+											if(currentTime){
+												for(i=0;i<competitionData.length;i++){
+													if(competitionData[i] && studentData){
+														competitionData[i].examDate = moment(competitionData[i].competitionDate).format('L');
+														competitionData[i].EXAMDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
+														competitionData[i].viewStatus = competitionData[i].competitionView;
+														var ExamStartTime = moment(currentTime, 'h:mma');
+														var ExamEndTime   = moment(competitionData[i].endTime, 'h:mma');
+														if(today.getTime()<new Date(competitionData[i].competitionDate).getTime()){
+															competitionData[i].examYear = "Accept";
+														}else{
+															competitionData[i].examYear = "NotAccept";
+														}
+														if(todayDate>competitionData[i].examDate){
+															competitionData[i].examTimeStatus = "OldExam";
+														}else if(todayDate<=competitionData[i].examDate){
+															competitionData[i].examTimeStatus = "NewExam";
+														}
+														if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
+															competitionData[i].timeStatus = "invalid";
+														}else if(todayDate==competitionData[i].examDate && ExamStartTime<ExamEndTime){
+															competitionData[i].timeStatus = "valid";
+														}else{
+															competitionData[i].timeStatus = "nextCompetition";
+														}
+														var studentCategory = competitionData[i].competitionExams;
+														if(todayDate<=competitionData[i].examDate){
+																competitionData[i].nextExamStatus = "Present"
+														}else{
+															competitionData[i].nextExamStatus = "Absent"
+														}
+														if(studentCategory){
+															var index                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
+															var categoryWiseExamData = studentCategory[index];
+															if(categoryWiseExamData){
+																competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+															}
+														}
+														competitions.push({
+															'_id'                   : competitionData[i]._id,
+															'competitionName'       : competitionData[i].competitionName,
+															'competitionDate'       : competitionData[i].competitionDate,
+															'startTime'             : competitionData[i].startTime,
+															'endTime'               : competitionData[i].endTime,
+															'examYear'              : competitionData[i].examYear,
+															'examTimeStatus'        : competitionData[i].examTimeStatus,
+															'timeStatus'            : competitionData[i].timeStatus,
+															'nextExamStatus'        : competitionData[i].nextExamStatus,
+															'examStartStatus'       : competitionData[i].examStartStatus,
+															'competitionFees'       : competitionData[i].competitionFees,
+															'competitionStatus'     : competitionData[i].competitionStatus,
+															'examDate'              : competitionData[i].examDate,
+															'studentPaymentStatus'  : 'unPaid',
+															'lastInCompExamIdStatus' : '',
+															'examDataStatus'        : '',
+															'examId'                : '',
+														});
+													}//end of competitionData[i] && studentData
+												}//end of for llo[]
+												if(competitionData.length == competitions.length){
+														console.log("competitionData =>>>> ",competitions);		
+													axios
+															.get('/competitionregisterorder/mainexam/'+studentId)
+															.then((competitionsList)=>{
+																console.log('competitionsList ',competitionsList.data);
+																studentCompetitions = competitionsList.data;
+																axios
+																		.get('/myexammasters/dashboard/'+studentId)
+																		.then((myexamres)=>{
+																			console.log("competitions Data=====> ",competitions);
+																			console.log("studentCompetitions Data=====> ",studentCompetitions);
+																			console.log("myexamres Data=====> ",myexamres.data);
+																			var myexammasters = myexamres.data;
+																			for(var sc = 0; sc < studentCompetitions.length; sc++){
+																				var scindex = competitions.findIndex((data)=>{
+																												return data._id == studentCompetitions[sc].competitionId
+																											});
+																				if(scindex > -1){
+																					competitions[scindex].studentPaymentStatus = "paid";
+																					var myemindex = myexammasters.findIndex((data)=>{
+																									return data._id == studentCompetitions[sc].competitionId
+																								});
+																					if(myemindex > -1){
+																						competitions[scindex].examDataStatus = myexammasters[myemindex].examStatus;
+																						competitions[scindex].examId = myexammasters[myemindex].examId;
+																					}
+																				}
+																			}//end of for sc
+																			if(sc >= studentCompetitions.length){
+																				this.setState({
+																					competitionData :competitions
+																				});
+																			}
+																		})
+																		.catch(function(error){
+																			console.log("error",error);
+																		});			
+															})
+															.catch(function(error){
+																console.log("error",error);
+															});							
+												 }
+											}//end of currentTime
+										}
+								})
+								.catch(function(error){
+									console.log("error",error);
+								});
+						}
 				})
 				.catch(function(error){
 					console.log("error",error);

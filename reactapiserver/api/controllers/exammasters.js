@@ -121,7 +121,10 @@ exports.competitionDetails = (req,res,next)=>{
 
 exports.fetch_exam_details_mainexam = (req,res,next)=>{
   console.log('body ',req.body);
-  var today           = new Date(req.body.todaydate);
+  var indiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+  var today = new Date(indiaTime);
+  console.log('today ',today,'changed ',today.toLocaleString());
+
   var todayDate       = moment(today).format('L');
   var currentTime     = moment(today).format('LT');
   ExamMaster.find({competitionView:"Show"})
@@ -192,6 +195,7 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                 if(competitionData.length == competitions.length){
                  var CompetitionRegOrder =  CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"});
                   if(CompetitionRegOrder) {
+                    
                     res.status(200).json({CompetitionRegOrder ,competitionData})
                   }
                   // res.status(200).json(competitions);
