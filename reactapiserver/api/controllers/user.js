@@ -64,8 +64,10 @@ exports.mobile_optverify = (req, res, next)=>{
 									error: err
 								});
 							});				
+					}else if(user.profile.sentEmailOTP == 0){
+						res.status(200).json({message:"User already verified"})
 					}else{
-
+						res.status(200).json({message:"Wrong OTP"})
 					}
 				}else{
 					res.status(200).json({message:"Number not found"})

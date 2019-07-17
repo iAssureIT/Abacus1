@@ -73,5 +73,7 @@
                         { message : "User Verified" }
                     if fail (mobile number not found)
                         { message : "Number not found" }
-                    else user is not updated
+                    if users collection is not updated
                         {message:"User Verified but Status is not updated in users collections"}
+                    if user already verified 
+                        {message:"User already verified"}
