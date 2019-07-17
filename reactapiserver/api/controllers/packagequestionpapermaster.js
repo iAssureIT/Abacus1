@@ -22,29 +22,32 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                                             .then(PckgData=>{
                                                                 if(PckgData){
                                                                     var attempts= PckgData.AttemptOfPracticeTest;
-                                                                    PackageQuestionPaperMaster  .update(
-                                                                                                        {_id:questionPaperDetails._id,order_id:orderId,packageId:packageID,buyerId:studentID,questionPaper_id:qpid},
-                                                                                                        {
-                                                                                                            $set:{
-                                                                                                                ["noOfAttempts."+index+".status"]:true,
-                                                                                                                ["noOfAttempts."+index+".attemptedAt"]:todayDate,
-                                                                                                            }
+                                                                    if(attempts){
+                                                                        PackageQuestionPaperMaster  .update(
+                                                                                                                {_id:questionPaperDetails._id,order_id:orderId,packageId:packageID,buyerId:studentID,questionPaper_id:qpid},
+                                                                                                                {
+                                                                                                                    $set:{
+                                                                                                                        ["noOfAttempts."+index+".status"]:true,
+                                                                                                                        ["noOfAttempts."+index+".attemptedAt"]:todayDate,
+                                                                                                                    }
+                                                                                                                }
+                                                                                                        )
+                                                                                                    .exec()
+                                                                                                    .then(data=>{
+                                                                                                        if(data.nModified == 1){
+                                                                                                            res.status(200).json("Updated successfully");
+                                                                                                        }else{
+                                                                                                            res.status(200).json("Something went wrong");
                                                                                                         }
-                                                                                                   )
-                                                                                            .exec()
-                                                                                            .then(data=>{
-                                                                                                if(data.nModified == 1){
-                                                                                                    res.status(200).json("Updated successfully");
-                                                                                                }else{
-                                                                                                    res.status(200).json("Something went wrong");
-                                                                                                }
-                                                                                            })
-                                                                                            .catch(err =>{
-                                                                                                console.log(err);
-                                                                                                res.status(500).json({
-                                                                                                    error: err
-                                                                                                });
-                                                                                            });
+                                                                                                    })
+                                                                                                    .catch(err =>{
+                                                                                                        console.log(err);
+                                                                                                        res.status(500).json({
+                                                                                                            error: err
+                                                                                                        });
+                                                                                                    });
+                                                                    }
+                                                                    
                                                                 }
                                                                                                 
                                                             })
