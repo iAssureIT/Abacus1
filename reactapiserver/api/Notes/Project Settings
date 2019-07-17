@@ -1,0 +1,19 @@
+1. Fetch Data from Project Settings
+
+    Method      : GET
+    
+    URL         : /projectsettings
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            "_id"       : String,
+                            "key"       : String,
+                            "secret"    : String,
+                            "bucket"    : String,
+                            "region"    : String,
+                            "type"      : String
+                        }
+                    

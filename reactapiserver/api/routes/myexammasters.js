@@ -8,8 +8,6 @@ router.get('/dashboard/:studentId',MyExamMastersController.fetch_exam_student_da
 
 router.get('/examresult/:competitionId',MyExamMastersController.practiceExamResult);
 
-router.post('/exammarksupdate/:examId/:examsolvingtime',MyExamMastersController.ExamMarksUpdate);
-
 router.get('/getalreadysolvedquesans/:examId/:index',MyExamMastersController.getAlreadySolvedQuesAns);
 
 router.get('/getmainexamlastvisitedquestion/:competitionId',MyExamMastersController.getmainexamlastvisitedquestion);
@@ -34,5 +32,7 @@ router.get('/:categoryname/:studentname/:competitionId',MyExamMastersController.
 
 router.post('/updateexamtimeAndstudenanswer',MyExamMastersController.updateExamTimeAndStudenAnswer);
 
+router.post('/exammarksupdate/:examId/:examsolvingtime',MyExamMastersController.ExamMarksUpdate);
 
+router.post('/finishexam/:examId',MyExamMastersController.FinishExam);
 module.exports = router;

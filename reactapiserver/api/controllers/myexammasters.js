@@ -504,7 +504,57 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                 });
 }
 
+exports.FinishExam = (req,res,next) =>{
+    MyExamMaster.update(
+                        {_id: req.params.examId},
+                        {
+                            $set:{
+                                "examStatus"        : "Completed",
+                            }
+                        }
+                )
+                .exec()
+                .then(data=>{
+                    if(data.nModified){
+                        res.status(200).json({message:"Exam Completed"});
+                    }else{
+                        res.status(200).json({message:"Exam not Completed"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
 
+exports.saveimgs = (req,res,next) =>{
+    MyExamMaster.update(
+                    {_id: req.body.examId},
+                    {
+                        $push:{
+                            'studentImageArray':{
+                                'studentImage':req.body.link
+                            }
+                          }
+                    }
+            )
+            .exec()
+            .then(data=>{
+                if(data.nModified){
+                    res.status(200).json({message:"Exam Completed"});
+                }else{
+                    res.status(200).json({message:"Exam not Completed"});
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.status(500).json({
+                    error: err
+                });
+            });
+}
 exports.showCompetitionStatusForStudent = (req,res,next) =>{
     var studentId       = req.params.studentId;
     var competitionId   = req.params.competitionId;

@@ -31,6 +31,8 @@ const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
 const startexamcategorywiseRouters	= require('./api/routes/startexamcategorywise');
 const multiplCompetitionRouters		= require('./api/routes/multiplCompetition');
 const sendemail						= require('./api/routes/sendemail');
+const projectsettingsRouters		= require('./api/routes/projectsettings');
+
 
 mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 // mongoose.connect('mongodb://localhost/onlineExamSystem',{
@@ -83,6 +85,7 @@ app.use("/latestcompetitions",latestCompetitionsRouters);
 app.use("/startexamcategorywise",startexamcategorywiseRouters);
 app.use('/multiplCompetition',multiplCompetitionRouters);
 app.use("/sendemail",sendemail);
+app.use("/projectsettings",projectsettingsRouters);
 // handle all other request which not found 
 app.use((req, res, next) => {
 	const error = new Error('Not Found Manual ERROR');

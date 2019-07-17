@@ -203,7 +203,7 @@
     URL         : /myexammasters/exammarksupdate/:examId/:examsolvingtime
 
     Input       : 
-                    {
+                    { examStatus
                         examId          : String,
                         index           : String,
                         studAnswer      : String,
@@ -257,6 +257,46 @@
                     else 
                         {
                             false
+                        }
+
+13. Finish Exam
+
+    Method      : POST
+    
+    URL         : /myexammasters/finishexam/:examId
+
+    Input       : - NA -
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Exam Completed"
+                        }
+                    else 
+                        {
+                            message : "Exam Not Completed"
+                        }
+
+14. Save camara images to S3
+
+    Method      : POST
+    
+    URL         : /myexammasters/saveimgs
+
+    Input       : 
+                    {
+                        "examId" : String,
+                        "link"   : String
+                    }
+
+    Output      : 
+                    if successfully
+                        {
+                            message : "Exam Completed"
+                        }
+                    else 
+                        {
+                            message : "Exam Not Completed"
                         }
 ------------------------------------------------------------------------------------------
                         2. Main Exam Reports
