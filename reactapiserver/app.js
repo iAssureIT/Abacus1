@@ -102,7 +102,8 @@ app.use((error, req, res, next) => {
 		error:{
 			message:error.message
 		}
-	})
+	});
+	res.end();
 });
 
 module.exports = app;

@@ -151,10 +151,12 @@ exports.competitionDetails = (req,res,next)=>{
 }
 
 exports.fetch_exam_details_mainexam = (req,res,next)=>{
+  console.log('body ',req.body);
   var today           = new Date(req.body.todaydate);
   var todayDate       = moment(today).format('L');
   var currentTime     = moment(today).format('LT');
   ExamMaster.find({competitionView:"Show"})
+            .select("competitionName competitionDate startTime endTime competitionFees franchiseShare maatsShare createdAt competitionStatus competitionExams.examStatus")
             .sort( { competitionDate:-1} )
             .exec()
             .then(competitionData =>{
@@ -190,14 +192,14 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                   }else{
                     competitionData[index].nextExamStatus = "Absent"
                   }
-                  var studentCategory = competitionData[index].competitionExams;
-                  if(studentCategory){
-                    var i  = studentCategory.findIndex(data => data.subCategory ==req.body.subCategory);
-                    var categoryWiseExamData = studentCategory[i];
-                    if(categoryWiseExamData){
-                      competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
-                    }
-                  }
+                  // var studentCategory = competitionData[index].competitionExams;
+                  // if(studentCategory){
+                  //   var i  = studentCategory.findIndex(data => data.subCategory ==req.body.subCategory);
+                  //   var categoryWiseExamData = studentCategory[i];
+                  //   if(categoryWiseExamData){
+                  //     competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+                  //   }
+                  // }
                   // var dataID = competitionData[index]._id;
                   // console.log('dataID ',dataID);
                   // var data = getStudentStatus(req.params.studentId,dataID);
