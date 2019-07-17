@@ -5,42 +5,11 @@ const StudentMaster             = require('../models/studentmasters');
 const CompetitionRegisterOrder  = require('../models/competitionregisterorders');
 const MyExamMaster              = require('../models/myexammasters');
 
-getStudentStatus = function(studentID,competitionId){
-  CompetitionRegisterOrder.findOne({studentId:studentID,competitionId:competitionId,status:"paid"})
+getStudentStatus = function(studentID){
+  CompetitionRegisterOrder.find({studentId:studentID,status:"paid"})
                           .exec()
                           .then(isStudentRegisterForComp=>{
-                            if(isStudentRegisterForComp && isStudentRegisterForComp._id){
-                              var studentPaymentStatus = "Paid";
-                              MyExamMaster.findOne({competitionId:isStudentRegisterForComp.competitionId,StudentId:studentID})
-                                          .exec()
-                                          .then(examData=>{
-                                            if(examData){
-                                              return {
-                                                studentPaymentStatus  : "Paid",
-                                                examDataStatus        : examData.examStatus,
-                                                examId                : examData._id,
-                                              }
-                                            }else{
-                                              return {
-                                                studentPaymentStatus  : "unPaid",
-                                                examDataStatus        : "",
-                                                examId                : "",
-                                              };
-                                            }
-                                          })
-                                          .catch(err =>{
-                                            console.log(err);
-                                            return({
-                                              error: err
-                                              });
-                                          });                
-                            }else{
-                              return {
-                                studentPaymentStatus  : "unPaid",
-                                examDataStatus        : "",
-                                examId                : "",
-                              };
-                            }
+                              return isStudentRegisterForComp
                           })
                           .catch(err =>{
                             console.log(err);
@@ -156,12 +125,11 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
   var todayDate       = moment(today).format('L');
   var currentTime     = moment(today).format('LT');
   ExamMaster.find({competitionView:"Show"})
-            .select("competitionName competitionDate startTime endTime competitionFees franchiseShare maatsShare createdAt competitionStatus competitionExams.examStatus")
             .sort( { competitionDate:-1} )
             .exec()
             .then(competitionData =>{
               if(competitionData){
-                console.log('competitionData ',competitionData);
+                // console.log('competitionData ',competitionData);
                 var competitions = [];
                 for(index = 0 ; index < competitionData.length ; index++){
                   var competitionDate = new Date(competitionData[index].competitionDate);
@@ -192,18 +160,14 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                   }else{
                     competitionData[index].nextExamStatus = "Absent"
                   }
-                  // var studentCategory = competitionData[index].competitionExams;
-                  // if(studentCategory){
-                  //   var i  = studentCategory.findIndex(data => data.subCategory ==req.body.subCategory);
-                  //   var categoryWiseExamData = studentCategory[i];
-                  //   if(categoryWiseExamData){
-                  //     competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
-                  //   }
-                  // }
-                  // var dataID = competitionData[index]._id;
-                  // console.log('dataID ',dataID);
-                  // var data = getStudentStatus(req.params.studentId,dataID);
-                  // if(data){
+                  var studentCategory = competitionData[index].competitionExams;
+                  if(studentCategory){
+                    var i  = studentCategory.findIndex(data => data.subCategory ==req.body.subCategory);
+                    var categoryWiseExamData = studentCategory[i];
+                    if(categoryWiseExamData){
+                      competitionData[index].examStartStatus = categoryWiseExamData.examStatus;
+                    }
+                  }
                     competitions.push({
                       '_id'                   : competitionData[index]._id,
                       'competitionName'       : competitionData[index].competitionName,
@@ -225,12 +189,20 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                     });
                   // }
                   if(competitionData.length == competitions.length){
-                    res.status(200).json(competitions);
+                    CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"})
+                                            .exec()
+                                            .then(isStudentRegisterForComp=>{
+                                                res.status(200).json({isStudentRegisterForComp,competitions})
+                                            })
+                                            .catch(err =>{
+                                              console.log(err);
+                                              return({
+                                                error: err
+                                                });
+                                            }); 
+                    // res.status(200).json(competitions);
                   }
                 }//End of For
-                // if(competitionData.length == competitions.length){
-                //   res.status(200).json(competitions);
-                // }
               }
               // res.status(200).json(competitionData);
             })
