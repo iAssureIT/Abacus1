@@ -19,8 +19,8 @@ router.get('/', (req,res,next)=>{
             })
             .then(allCompetitions=>{
                 res.header("Access-Control-Allow-Origin","*");
-                if(allCompetitions.data){
-                    console.log('allCompetitions ',allCompetitions.data);
+                if(allCompetitions){
+                    console.log('allCompetitions ',allCompetitions);
                     var studentCompetitions = request({
                                                     "method"    :"GET", 
                                                     "url"       : "http://localhost:3042/competitionregisterorder/mainexam/"+studentId,
@@ -29,9 +29,9 @@ router.get('/', (req,res,next)=>{
                                                                     "User-Agent": "My little demo app"
                                                                 }
                                                 });
-                    if(studentCompetitions.data){
-                        console.log('studentCompetitions ',studentCompetitions.data);
-                        for(k = 0 ; k < studentCompetitions.data.length; k++){
+                    if(studentCompetitions){
+                        console.log('studentCompetitions ',studentCompetitions);
+                        for(k = 0 ; k < studentCompetitions.length; k++){
                             var index = allCompetitions.findIndex(data => data._id == studentCompetitions[k].competitionId)
                             if(index > -1){
                                 allCompetitions[index].studentPaymentStatus = "paid";
