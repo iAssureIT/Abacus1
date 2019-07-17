@@ -8,7 +8,7 @@ router.get('/dashboard/:studentId',MyExamMastersController.fetch_exam_student_da
 
 router.get('/examresult/:competitionId',MyExamMastersController.practiceExamResult);
 
-router.post('/exammarksupdate//:examId/:examsolvingtime',MyExamMastersController.ExamMarksUpdate);
+router.post('/exammarksupdate/:examId/:examsolvingtime',MyExamMastersController.ExamMarksUpdate);
 
 router.get('/getalreadysolvedquesans/:examId/:index',MyExamMastersController.getAlreadySolvedQuesAns);
 
