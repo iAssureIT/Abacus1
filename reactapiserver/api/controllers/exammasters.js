@@ -190,17 +190,10 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                   // }
                 }//End of For
                 if(competitionData.length == competitions.length){
-                  CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"})
-                                          .exec()
-                                          .then(isStudentRegisterForComp=>{
-                                              res.status(200).json({isStudentRegisterForComp,competitions})
-                                          })
-                                          .catch(err =>{
-                                            console.log(err);
-                                            return({
-                                              error: err
-                                              });
-                                          }); 
+                 var CompetitionRegOrder =  CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"});
+                  if(CompetitionRegOrder) {
+                    res.status(200).json({CompetitionRegOrder ,competitionData})
+                  }
                   // res.status(200).json(competitions);
                 }
               }
