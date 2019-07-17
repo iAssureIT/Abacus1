@@ -412,6 +412,7 @@ exports.getAlreadySolvedQuesAns = (req,res,next) =>{
 }
 
 exports.ExamMarksUpdate = (req,res,next) =>{
+    console.log('ExamMarksU[pdate');
     MyExamMaster.findOne({"_id":req.params.examId})
                 .exec()
                 .then(myExamMasterData=>{
