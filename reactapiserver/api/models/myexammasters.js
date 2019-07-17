@@ -55,7 +55,9 @@ const myexammastersSchema = mongoose.Schema({
             studentImage : String
         }
     ],
-    rank : String
+    rank : String,
+    lastVisitedQuestion : Number,
+    lastVisitedQAnswer : String,
 });
 
 module.exports = mongoose.model('myexammasters',myexammastersSchema);
