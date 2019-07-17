@@ -303,20 +303,21 @@ exports.practiceExamResult = (req,res,next)=>{
     MyExamMaster.findOne({_id:req.params.competitionId})
                 .select("originalTime examTime examName category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks")
                 .exec()
-                .then(studentAnserSheet=>{
-                    if(studentAnserSheet){
+                .then(studentAnswerSheet=>{
+                    if(studentAnswerSheet){
                         var data = {
-                            "originalTime"  : studentAnserSheet.originalTime,
-                            "examTime"      : studentAnserSheet.examTime,
-                            "examName"      : studentAnserSheet.examName,
-                            "category"      : studentAnserSheet.category,
-                            "totalQuestion" : studentAnserSheet.totalQuestion,
-                            "attemptedQues" : studentAnserSheet.attemptedQues,
-                            "correctAnswer" : studentAnserSheet.correctAnswer,
-                            "wrongAnswer"   : studentAnserSheet.wrongAnswer,
-                            "totalScore"    : studentAnserSheet.totalScore,
-                            "date"          : studentAnserSheet.date,
-                            "percentage"    : (parseInt(studentAnserSheet.totalScore) / parseInt(studentAnserSheet.totalMarks)) * 100
+                            "totalScore"    : studentAnswerSheet.totalScore,
+                            "totalMarks"    : studentAnswerSheet.totalMarks,
+                            "originalTime"  : studentAnswerSheet.originalTime,
+                            "examTime"      : studentAnswerSheet.examTime,
+                            "examName"      : studentAnswerSheet.examName,
+                            "category"      : studentAnswerSheet.category,
+                            "totalQuestion" : studentAnswerSheet.totalQuestion,
+                            "attemptedQues" : studentAnswerSheet.attemptedQues,
+                            "correctAnswer" : studentAnswerSheet.correctAnswer,
+                            "wrongAnswer"   : studentAnswerSheet.wrongAnswer,
+                            "date"          : studentAnswerSheet.date,
+                            "percentage"    : (parseInt(studentAnswerSheet.totalScore) / parseInt(studentAnswerSheet.totalMarks)) * 100
                         };
                         if(data){
                             res.status(200).json(data);

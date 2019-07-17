@@ -20,7 +20,7 @@ function sendSMSMsg (firstname,toNumber,otp){
 	if(text && toNum){
 		const sendOtp = new SendOtp('218126Ah3sKTCFpXF5b0fbf06',text);
 		if(sendOtp){
-			sendOtp.send("919850398986","MAATS",otp.toString(),function(e,r){
+			sendOtp.send(toNum,"MAATS",otp.toString(),function(e,r){
 				if(e){
 					console.log('e',e);
 					return e;
