@@ -328,7 +328,7 @@ exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
                                             if(data.nModified == 1){
                                                 res.status(200).json({message:"Answer updated"})
                                             }else{
-                                                res.status(409).json({message:"Something Went wrong."});                                                
+                                                res.status(200).json({message:"Answer not updated"});                                                
                                             }
                                         })
                                         .catch(err =>{
@@ -339,7 +339,7 @@ exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
                                         });                        
                         }
                     }else{
-                        res.status(409).json({message:"Something Went wrong."});
+                        res.status(200).json({message:"Exam Not found"});
                     }
                 })
                 .catch(err =>{

@@ -1,9 +1,34 @@
 const mongoose	= require("mongoose");
 const bcrypt	= require("bcrypt");
 const jwt		= require("jsonwebtoken");
-
+const SendOtp = require('sendotp');
 const User = require('../models/users');
 const TempImg        = require('../models/tempimages');
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function sendSMSMsg (firstname,toNumber,otp){
+	var toNum = '91'+toNumber.replace(/-/g, '');
+	var text = "Dear "+firstname+','+'\n'+"To verify your account on Abacus Online System, Please Enter the verification code : "+otp; // Your SMS Text Message - English;
+	console.log('otp ',otp);
+	console.log('text ',text);
+	console.log('toNum ',toNum);
+	const sendOtp = new SendOtp('218126Ah3sKTCFpXF5b0fbf06',text);
+
+	sendOtp.send(toNum,"MAATS",otp.toString(),function(e,r){
+		if(e){
+			console.log('e',e);
+			return e;
+		}else if(r){
+			console.log('r ',r);
+			return r;
+		}
+	});
+}
 
 exports.mobile_optverify = (req, res, next)=>{
 	var mobileNum = req.body.mobileNumber;
@@ -73,6 +98,7 @@ exports.change_pwd = (req, res, next)=>{
 }
 
 exports.user_signup = (req,res,next)=>{
+	console.log('signup');
 	User.find(
 				{
 					"emails"				: {$elemMatch:{address:req.body.email}},
@@ -83,7 +109,7 @@ exports.user_signup = (req,res,next)=>{
 		.then(user =>{
 			if(user.length >= 1){
 				return res.status(409).json({
-					message: ' Email Id already exits.'
+					message: ' Email Id or Mobile Number already exits.'
 				});
 			}else{
 				bcrypt.hash(req.body.password,10,(err,hash)=>{
@@ -92,7 +118,7 @@ exports.user_signup = (req,res,next)=>{
 							error:err
 						});
 					}else{
-						const OTP = getRandomInt(1000,9999);
+						const OTP = getRandomInt(100000,999999);
 						const user = new User({
 										_id: new mongoose.Types.ObjectId(),
 										createdAt	: new Date,
@@ -127,29 +153,17 @@ exports.user_signup = (req,res,next)=>{
 			            });	
 						user.save()
 							.then(result =>{
-								const client = new plivo.Client('MAMZU2MWNHNGYWY2I2MZ', 'MWM1MDc4NzVkYzA0ZmE0NzRjMzU2ZTRkNTRjOTcz');
-								const sourceMobile = "+919923393733";
-								var text = "Dear "+result.profile.firstname+','+'\n'+"To verify your account on Abacus Online System, Enter the verification code : "+OTP; 
+								
+								if(OTP){
+									sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
 
-								client.messages.create(
-									src=sourceMobile,
-									dst='91'+req.body.mobNumber,
-									text=text
-								).then((result)=> {
-									console.log("src = ",src," | DST = ", dst, " | result = ", result);
-									// return res.status(200).json("OTP "+OTP+" Sent Successfully ");
 									return res.status(200).json({
 										"message" : 'NEW-USER-CREATED',
-										"user_id" : newUser._id,
+										"user_id" : result._id,
 										"otp"     : OTP,
-									});			
-								})
-								.catch(otpError=>{
-									return res.status(501).json({
-										message: "Some Error Occurred in OTP Send Function",
-										error: otpError
-									});        
-								});
+									});
+								}
+											
 							})
 							.catch(err =>{
 								console.log(err);
