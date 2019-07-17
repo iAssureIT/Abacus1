@@ -298,6 +298,41 @@ exports.getmainexamlastvisitedquestion = (req,res,next)=>{
                 });
 }
 
+exports.practiceExamResult = (req,res,next)=>{
+    console.log('practiceExamResult');
+    MyExamMaster.findOne({_id:req.params.competitionId})
+                .select("originalTime examTime examName category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks")
+                .exec()
+                .then(studentAnserSheet=>{
+                    if(studentAnserSheet){
+                        var data = {
+                            "originalTime"  : studentAnserSheet.originalTime,
+                            "examTime"      : studentAnserSheet.examTime,
+                            "examName"      : studentAnserSheet.examName,
+                            "category"      : studentAnserSheet.category,
+                            "totalQuestion" : studentAnserSheet.totalQuestion,
+                            "attemptedQues" : studentAnserSheet.attemptedQues,
+                            "correctAnswer" : studentAnserSheet.correctAnswer,
+                            "wrongAnswer"   : studentAnserSheet.wrongAnswer,
+                            "totalScore"    : studentAnserSheet.totalScore,
+                            "date"          : studentAnserSheet.date,
+                            "percentage"    : (parseInt(studentAnserSheet.totalScore) / parseInt(studentAnserSheet.totalMarks)) * 100
+                        };
+                        if(data){
+                            res.status(200).json(data);
+                        }
+                    }else{
+                        res.status(200).json({message:"Exam not found"});
+                    }
+                })
+                .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+}
+
 exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
     var answer = "";
     console.log('updateExamTimeAndStudenAnswer body ',req.body);
@@ -411,6 +446,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                     });
                 });
 }
+
 
 exports.showCompetitionStatusForStudent = (req,res,next) =>{
     var studentId       = req.params.studentId;

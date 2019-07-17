@@ -6,6 +6,8 @@ router.get('/allexam',MyExamMastersController.fetch_all_show_exam);
 
 router.get('/dashboard/:studentId',MyExamMastersController.fetch_exam_student_dashboard);
 
+router.get('/examresult/:competitionId',MyExamMastersController.practiceExamResult);
+
 router.get('/getalreadysolvedquesans/:examId/:index',MyExamMastersController.getAlreadySolvedQuesAns);
 
 router.get('/getmainexamlastvisitedquestion/:competitionId',MyExamMastersController.getmainexamlastvisitedquestion);

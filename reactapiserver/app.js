@@ -30,11 +30,12 @@ const questionpapermastersRouters	= require('./api/routes/questionpapermasters')
 const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
 const startexamcategorywiseRouters	= require('./api/routes/startexamcategorywise');
 const multiplCompetitionRouters		= require('./api/routes/multiplCompetition');
+// const sendemail						=
 
 mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 // mongoose.connect('mongodb://localhost/onlineExamSystem',{
 	useNewUrlParser: true
-})
+ })
 mongoose.promise =global.Promise;
 
 // process.env.MANGO_ATLAS_PW envirnmaent variable name
