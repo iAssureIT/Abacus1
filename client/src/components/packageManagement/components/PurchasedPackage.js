@@ -371,7 +371,7 @@ class PurchasedPackage extends Component {
                               <div>
                                 Loading please wait...!!!
                               </div>
-                              <img src="/images/preloader.gif"/>
+                              {/*<img src="/images/preloader.gif"/>*/}
                             </div>
                             
                         }

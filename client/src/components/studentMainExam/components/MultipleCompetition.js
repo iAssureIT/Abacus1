@@ -171,9 +171,9 @@ class MultipleCompetition extends (Component)  {
 		navigator.getMedia({video: true}, function() {
 		  console.log("webcam is available");
 		  	const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
-				var compId = this.props.match.params.compId;
-			  	console.log("/"+compId+'/'+studentId);
-
+				// var compId = this.props.match.params.compId;
+			  	// console.log("/"+compId+'/'+studentId);
+var compId;
 				axios
 			        .post('/startexamcategorywise/'+compId+'/'+studentId)
 			        .then((response)=>{

@@ -112,7 +112,7 @@ class StartPracticeExam extends (Component)  {
 		axios
 			.get('/mypracticeexammasters/practiceExam/'+practiceExamId)
 			.then((response)=>{
-				console.log("visited Q  = ",response.data.lastVisitedQuestion);
+				// console.log("visited Q  = ",response.data.lastVisitedQuestion);
 				console.log("visited Q answer = ",response.data.lastVisitedQAnswer);
 			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
 

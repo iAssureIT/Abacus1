@@ -75,28 +75,28 @@ class CreateStudentRegistration extends (Component)  {
             .then((response)=>{
 							console.log('response sinfo ',response.data);
             	this.setState({
-														submitButtonMsg 	: response.data.submitButtonMsg,
-														categoryDisabled 	: response.data.categoryDisabled,
-														_id 							: response.data._id,
-														studentFirstName 	: response.data.studentFirstName,
-														studentMiddleName : response.data.studentMiddleName,
-														studentLastName 	: response.data.studentLastName,
-														studentDOB 				: response.data.studentDOB,
-														schoolName 				: response.data.schoolName,
-														genderType 				: response.data.genderType,
-														profileEditStatus : response.data.profileEditStatus,
-														mobileNumber 			: response.data.mobileNumber,
-														studentAddress 		: response.data.studentAddress,
-														studentEmail 			: response.data.studentEmail,
-														studentCountry 		: response.data.studentCountry,
-														studentState 			: response.data.studentState,
-														studentCity 			: response.data.studentCity,
-														pincode 					: response.data.pincode,
-														category 					: response.data.category,
-														companyId 				: response.data.companyId,
-														franchiseUserId 	: response.data.franchiseId,
-														franchiseName   	: response.data.franchiseName,
-														contactNo 			  : response.data.franchiseMobileNumber,
+								submitButtonMsg 	: response.data.submitButtonMsg,
+								categoryDisabled 	: response.data.categoryDisabled,
+								_id 				: response.data._id,
+								studentFirstName 	: response.data.studentFirstName,
+								studentMiddleName 	: response.data.studentMiddleName,
+								studentLastName 	: response.data.studentLastName,
+								studentDOB 			: response.data.studentDOB,
+								schoolName 			: response.data.schoolName,
+								genderType 			: response.data.genderType,
+								profileEditStatus 	: response.data.profileEditStatus,
+								mobileNumber 		: response.data.mobileNumber,
+								studentAddress 		: response.data.studentAddress,
+								studentEmail 		: response.data.studentEmail,
+								studentCountry 		: response.data.studentCountry,
+								studentState 		: response.data.studentState,
+								studentCity 		: response.data.studentCity,
+								pincode 			: response.data.pincode,
+								category 			: response.data.category,
+								companyId 			: response.data.companyId,
+								franchiseUserId 	: response.data.franchiseId,
+								franchiseName   	: response.data.franchiseName,
+								contactNo 			: response.data.franchiseMobileNumber,
 							 });
 							 console.log('updateProfilePermission',response.data.updateProfilePermission);
 							 if(response.data.updateProfilePermission == "Blocked"){
@@ -202,8 +202,8 @@ class CreateStudentRegistration extends (Component)  {
   			pincode        				: this.refs.pincode.value.trim(),
   			category       				: this.refs.category.value.trim(),
   			studentEmail   				: this.refs.studentEmail.value.trim(),  			
-				genderType     				: $("input[name='genderType']:checked").val(),
-				studUserId						: localStorage.getItem("user_ID")
+			genderType     				: $("input[name='genderType']:checked").val(),
+			studUserId					: localStorage.getItem("user_ID")
 			}
 			
 			var dateofBirth = new Date(studFormValues.studentDOB); 

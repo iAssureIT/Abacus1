@@ -1,9 +1,13 @@
 import React, {Component} 	from 'react';
 import Webcam 				from 'react-webcam';
 import axios 				from 'axios';
-import $ 					from 'jquery';
 import swal 				from 'sweetalert';
+import { Link } 			from 'react-router-dom';
+import moment 				from 'moment';
+import $ 					from 'jquery';
 
+// import 'bootstrap/dist/js/bootstrap.min.js';
+declare var jQuery: any;
 
 
 class StartExam extends (Component)  {
@@ -116,14 +120,27 @@ class StartExam extends (Component)  {
 			}
 
 	componentDidMount(){
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
-		var id = this.props.match.params.id;
-
+		// if ( !$('body').hasClass('adminLte')) {
+		//   var adminLte = document.createElement("script");
+		//   adminLte.type="text/javascript";
+		//   adminLte.src = "/js/adminLte.js";
+		//   $("body").append(adminLte);
+		// }
+		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		var id = this.props.match.params.examId;
+		axios
+	        .get('/myexammasters/getmainexamquestions/'+id+'/'+studentId)
+	        .then((response)=>{
+				console.log('get Questions =',response.data);
+				this.setState({
+					noOfQuestion 		: response.data.noOfQuestion,
+					totalMarks 			: response.data.totalMarks,
+					questionArrayFromTC : response.data.questionArrayFromTC,
+				})
+	        })
+	        .catch(function(error){
+	          	console.log(error);
+	        })
 		// Meteor.call("getMainExamQuestions",id,(err,res)=>{
 		// 	if(err){
 		// 		console.log(err);
@@ -173,12 +190,47 @@ class StartExam extends (Component)  {
 // this function execute when student click on any option
 
 	getAnswerbyStud(event){
-		var getqNum = event.target.getAttribute('data-qNum');
-		var studAnswer = event.target.getAttribute('id');
-		var examTime = $('.countdownWrap').text();
-		var examId = this.props.match.params.id;
-		var num = parseInt(getqNum);
+		var checkedStatus 	= event.target.checked;
+		var index 			= event.target.getAttribute('data-qNum');
+		var studAnswer 		= event.target.getAttribute('id');
+		var correctAnswer 	= event.target.getAttribute('data-right');
+		var examTime 		= $('.countdownWrap').text();
+		var examId 			= this.props.match.params.id;
+		var nextQues		= parseInt(index) + 1;
+
+		if(studAnswer == correctAnswer){
+			var answer = "Correct";
+		}else{
+			var answer = "Wrong";			
+		}
+
+		var formValues = {
+			"examId"     : examId,
+			"index"      : index,
+			"studAnswer" : studAnswer,
+			"examTime"   : examTime,
+			"answer"     : answer,
+		};
+
+		console.log("getqNum = ",index," | studAnswer = ",studAnswer," | examTime = ",examTime," | examId = ",examId, " | Answer = ",answer);
+
+		$('#ind'+(this.state.qIndex)).hide();
 		$('.carousel-control-right').click();
+		$('.carousel-control-left').click();		
+			jQuery('#mySlideShow').carousel(nextQues);
+		
+		axios
+			.post('/myexammasters/updateexamtimeAndstudenanswer',formValues)
+			.then((response)=>{
+				console.log("updateexamtimeAndstudenanswer = ",response.data);
+				// this.fillcolorwhenanswer(index,studAnswer);
+				this.setState({
+					// questionArray : quesArray,
+				});
+			})
+			.catch(function(error){
+				console.log("Error while selected answer = ", error)
+			})
 		// Meteor.call("updateExamTimeAndStudenAnswer",examId,getqNum,studAnswer,examTime,(err,res)=>{
 		// 	if(err){
 
@@ -306,11 +358,10 @@ class StartExam extends (Component)  {
 
 	render(){
 		window.scroll(0,0);
-		// if(!this.props.loadingTest1){			
-		// if(this.state.questionArrayFromTC.length>1){
-		return(
-			
-		<div>
+	if(this.state.questionArrayFromTC){			
+	  if(this.state.questionArrayFromTC.length>1){
+		return(	
+		  <div>
 			<div className="CountIncrement">0</div>
 		        {/* Content Wrapper. Contains page content */}
 		        <div className="content-wrapper content-wrapperexampaper  content-wrapperexampaper1">
@@ -330,7 +381,6 @@ class StartExam extends (Component)  {
 			            :
 			            null
 			        }
-
 			        </div>
 		          {/* Main content */}
 		          <section className="content viewContent">
@@ -346,14 +396,13 @@ class StartExam extends (Component)  {
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examDetailsWrap marginAuto">
 								    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6"></div>
 									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap1">{/*this.props.answerData.competitionName*/}</div>
-									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap2">Total Questions : {/*this.state.noOfQuestion*/}</div>
-									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap3">Total Marks :  {/*this.state.totalMarks*/}</div>
+									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap2">Total Questions : {this.state.noOfQuestion}</div>
+									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap3">Total Marks :  {this.state.totalMarks}</div>
 
 									<div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 countdownWrapDiv">
 										<span className=" countdown countdownWrap"></span>
 									</div>
-									</div>
-											
+									</div>		
 								</div>
 								
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 recordWrap"> Recording... </div>
@@ -426,11 +475,10 @@ class StartExam extends (Component)  {
 
 												}
 											return (
-												
 												    <div className={"item itemCustomT "+ activeStatus} key={index}>
 												      
 												      <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 sliderTitles">
-												      	<div className="col-lg-6 col-lg-offset-2 col-md-offset-2 col-sm-6 col-sm-offset-2 col-md-6 col-xs-9 questionTitWrapp">Question No. <span className="questionTitsubWrap">{index+1} :</span> </div>
+												      	<div className="col-lg-7 col-lg-offset-2 col-md-offset-2 col-sm-6 col-sm-offset-2 col-md-6 col-xs-9 questionTitWrapp">Question No. <span className="questionTitsubWrap">{index+1} :</span> </div>
 														<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 questionTitsubWrap">{questionArray}</div>
 												      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 questionAnsWrapp2">
 												      	Answers : 
@@ -541,56 +589,57 @@ class StartExam extends (Component)  {
 				</div>
 			</div>
 			);
-		// }else{
-		// 	return (
-		// 		 <div>
+		}else{
+			return (
+				 <div>
 			
-		//         <div className="content-wrapper">
-		//           <section className="content-header">
-		//             {/*<h1>Answer Sheet</h1>*/}
-		//           </section>
-		//           <section className="content viewContent">
-		//             <div className="row">
-		//               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-		//                 <div className="box">
-		//                   <div className="box-header with-border boxMinHeight  loadingImgWrap">
-		// 					 <h3 className="examFinishedStatus examLoadingTimeDiv"> {this.tryLoadingAgain()} </h3>
-		// 					 {/*<img src="/images/preloader.gif"/>*/}
-		// 					 </div>
-		// 					  </div>
-		// 					</div>
-		// 				  </div>
+		        <div className="content-wrapper">
+		          <section className="content-header">
+		            {/*<h1>Answer Sheet</h1>*/}
+		          </section>
+		          <section className="content viewContent">
+		            <div className="row">
+		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+		                <div className="box">
+		                  <div className="box-header with-border boxMinHeight  loadingImgWrap">
+							 <h3 className="examFinishedStatus examLoadingTimeDiv"> {this.tryLoadingAgain()} </h3>
+							 {/*<img src="/images/preloader.gif"/>*/}
+							 </div>
+							  </div>
+							</div>
+						  </div>
 			
-		// 			  </section>
-		// 			</div>
-		// 		</div>
-		// 		);
-		// }
-		// }else{
-		// 	return (
-		// 		<div>
+					  </section>
+					</div>
+				</div>
+				);
+		}
+		}else{
+			return (
+				<div>
 			
-		//         <div className="content-wrapper ">
-		//           <section className="content-header">
-		//             <h1>Answer Sheet</h1>
-		//           </section>
-		//           <section className="content viewContent">
-		//             <div className="row">
-		//               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-		//                 <div className="box">
-		//                   <div className="box-header with-border boxMinHeight  loadingImgWrap">
-		// 					 <h3 className="examFinishedStatus examLoadingTimeDiv"> {this.tryLoadingAgain()} </h3>
-		// 					 {/*<img src="/images/preloader.gif"/>*/}
-		// 					 </div>
-		// 					  </div>
-		// 					</div>
-		// 				  </div>
+		        <div className="content-wrapper ">
+		          <section className="content-header">
+		            <h1>Answer Sheet</h1>
+		          </section>
+		          <section className="content viewContent">
+		            <div className="row">
+		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+		                <div className="box">
+		                  <div className="box-header with-border boxMinHeight loadingImgWrap">
+							 <h3 className="examFinishedStatus examLoadingTimeDiv"> {this.tryLoadingAgain()} </h3>
+							 	{/*<img src="/images/preloader.gif"/>*/}
+			   					<img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
+							 </div>
+							  </div>
+							</div>
+						  </div>
 			
-		// 			  </section>
-		// 			</div>
-		// 		</div>
-		// 		);
-		// }
+					  </section>
+					</div>
+				</div>
+				);
+		}
 	}
 }
 export default StartExam;

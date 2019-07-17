@@ -84,15 +84,11 @@ class IAgreeAndStartExam extends (Component)  {
 				var compId = this.props.match.params.compId;
 			  	console.log("/"+compId+'/'+studentId);
 
-
-			  	
-						this.props.history.push('/startExam/'+compId+'/ghjbk'/*+response.data*/);
-
 				axios
 			        .post('/startexamcategorywise/'+compId+'/'+studentId)
 			        .then((response)=>{
 						console.log('ID',response.data);
-						this.props.history.push('/startExam/'+compId+'/ghjbk'/*+response.data*/);
+						this.props.history.push('/startExam/'+compId+'/'+response.data.ID);
 			        })
 			        .catch(function(error){
 			          	console.log(error);

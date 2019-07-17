@@ -120,8 +120,6 @@ class MainLayout extends Component{
 										  		<Route path="/CreateStudReg"				exact strict component={ CreateStudentRegistration } />
 
 										  		<Route path="/MultipleComp"					exact strict component={ MultipleCompetition } />
-										  		<Route path="/MultipleComp/:compId"					exact strict component={ MultipleCompetition } />
-										  		<Route path="/IAgreeAndStartExam"			exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/IAgreeAndStartExam/:compId"	exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/StartExam/:compId/:examId"	exact strict component={ StartExam } />
 										  		<Route path="/PastExamReports"				exact strict component={ PastExamReports } />
