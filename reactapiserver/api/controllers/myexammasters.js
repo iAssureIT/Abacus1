@@ -255,9 +255,11 @@ exports.getMainExamQuestions = (req,res,next) =>{
                                             'finishSubtext': 'Please click on below button to finish the Exam.',
                                             'finish_button': 'Finish The  Exam' });
                             var dataObject = {
-                                "noOfQuestion": questionArrayFromTC.length-1,
-                                "totalMarks": postData.totalMarks,
-                                "questionArrayFromTC": questionArrayFromTC,
+                                "noOfQuestion"          : questionArrayFromTC.length-1,
+                                "totalMarks"            : postData.totalMarks,
+                                "questionArrayFromTC"   : questionArrayFromTC,
+                                "examName"              : postData.examName,
+                                "examStatus"            : postData.examStatus,
                             }
                             if(dataObject){
                                 res.status(200).json(dataObject);
