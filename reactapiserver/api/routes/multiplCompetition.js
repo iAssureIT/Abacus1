@@ -4,14 +4,14 @@ const express 	= require("express");
 const router 	= express.Router();
 var request = require('request-promise');
 
-router.post('/', (req,res,next)=>{
+router.get('/', (req,res,next)=>{
     var studentId   = req.body.studentId;
     var todayDate   = req.body.todaydate;
-
+    var subCategory = req.body.subCategory;
     request({
-                "method"    :"GET", 
-                "url"       : "http://localhost:3042/exammasters/listmainexam/"+studentId,
-                "body"      : {todaydate : todayDate },
+                "method"    : "GET", 
+                "url"       : "http://localhost:3042/exammasters/listmainexam",
+                "body"      : {todaydate : todayDate ,subCategory : subCategory},
                 "json"      : true,
                 "headers"   : {
                                 "User-Agent": "My little demo app"
@@ -19,7 +19,8 @@ router.post('/', (req,res,next)=>{
             })
             .then(allCompetitions=>{
                 res.header("Access-Control-Allow-Origin","*");
-                if(allCompetitions){
+                if(allCompetitions.data){
+                    console.log('allCompetitions ',allCompetitions.data);
                     var studentCompetitions = request({
                                                     "method"    :"GET", 
                                                     "url"       : "http://localhost:3042/competitionregisterorder/mainexam/"+studentId,
@@ -28,8 +29,9 @@ router.post('/', (req,res,next)=>{
                                                                     "User-Agent": "My little demo app"
                                                                 }
                                                 });
-                    if(studentCompetitions){
-                        for(k = 0 ; k < studentCompetitions.length; k++){
+                    if(studentCompetitions.data){
+                        console.log('studentCompetitions ',studentCompetitions.data);
+                        for(k = 0 ; k < studentCompetitions.data.length; k++){
                             var index = allCompetitions.findIndex(data => data._id == studentCompetitions[k].competitionId)
                             if(index > -1){
                                 allCompetitions[index].studentPaymentStatus = "paid";

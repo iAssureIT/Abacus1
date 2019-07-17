@@ -3,10 +3,12 @@ var request = require('request-promise');
 const MyExamMaster = require('../models/myexammasters');
 
 exports. fetch_all_show_exam = (req,res,next) =>{
+    console.log('fetch all');
     MyExamMaster.find({})
             // .select("examStatus")
             .exec()
             .then(data =>{
+                console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -16,6 +18,7 @@ exports. fetch_all_show_exam = (req,res,next) =>{
                 });
             });
 }
+
 exports.fetch_incomplete_exams = (req,res,next) => {
     var studentId       = req.params.studentId;
     MyExamMaster.find({StudentId:studentId,examStatus:"InCompleted"})
