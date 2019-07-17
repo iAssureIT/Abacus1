@@ -51,6 +51,7 @@ class Login extends Component {
             },()=>{
               console.log("loggedIn state = ", this.state.loggedIn);
               this.props.history.push("/dashboard");
+              window.location.reload();
             })        
           }
         })

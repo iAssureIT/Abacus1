@@ -73,12 +73,19 @@ class SignUp extends Component {
 		             document.getElementById("signUpBtn").value = 'Sign Up',
       				// browserHistory.push("/"),
 
+      				localStorage.setItem('mobileNumber',auth.mobNumber),
+
                 	 axios
                 	 	.post('/user/signup',auth,)
 			            .then((response)=> {
-			                console.log("-------userData------>>",response);
-		            		swal("Great","Information submitted successfully","success");
-			                this.props.history.push("/");
+			                console.log("-------userData--in signup---->>",response);
+			                var responseData = response.data;
+			                if(responseData.message=="NEW-USER-CREATED"){
+			                	swal("Great","Information submitted successfully","success");
+			                	this.props.history.push("/confirm-otp");
+			                }
+		            		
+			                // this.props.history.push("/");
 			                // this.setState({
 			                //   practiceExamReport : reconfirm-otpsponse.data
 			                // });

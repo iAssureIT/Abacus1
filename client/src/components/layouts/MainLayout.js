@@ -30,6 +30,7 @@ import PurchasedPackage 		from '../../components/packageManagement/components/Pu
 import StartPracticeExam 		from '../../components/practiceExams/components/StartPracticeExam.js';
 import PracticeExamResult 		from '../../components/practiceExams/components/PracticeExamResult.js';
 import PracticeStartExam 		from '../../components/practiceExams/components/PracticeStartExam.js';
+import PurchasedPracticeStartExam 		from '../../components/practiceExams/components/PurchasedPracticeStartExam.js';
 import PracticeExamReports 		from '../../components/practiceExams/components/PracticeExamReports.js';
 // Section: 5 - Certificate**********************************************************
 import Certificate 					from '../../components/certificate/components/Certificate.js';
@@ -51,7 +52,8 @@ class MainLayout extends Component{
     	loggedIn : false,
     	logout 	 : true
     }
-    this.updateState = this.updateState.bind(this);    
+    this.updateState = this.updateState.bind(this);
+    console.log("in constructor");
   }
    
   componentWillMount(){
@@ -84,9 +86,13 @@ class MainLayout extends Component{
     })
   }
 
+  componentDidUpdate() {
+	  console.log("in did update layout");
+	}
+
   render(){
-    // console.log("loggedIn status layput = ", this.state.loggedIn);
-    console.log("layout token----> ",localStorage.getItem("token"));
+   
+    console.log("local stoarage = ",localStorage.getItem("token"));
    if(localStorage.getItem("token")){
       return(
   		<Router>
@@ -110,6 +116,9 @@ class MainLayout extends Component{
 										  		<Route path="/practiceExam/:id" 			exact strict component={ StartPracticeExam } />
 										  		<Route path="/PracticeExamResult/:id"		exact strict component={ PracticeExamResult } />
 										  		<Route path="/PracticeStartExam"			exact strict component={ PracticeStartExam } />
+										  		<Route path="/startPurchasedPracticeExam"			exact strict component={ PurchasedPracticeStartExam } />
+										  		<Route path="/startPurchasedPracticeExam/:packageId"			exact strict component={ PurchasedPracticeStartExam } />
+										  		<Route path="/startPurchasedPracticeExam/:id"			exact strict component={ PurchasedPracticeStartExam } />
 										  		<Route path="/PractExamReports" 			exact strict component={ PracticeExamReports } />
 										  		
 										  		<Route path="/Certificate" 					exact strict component={ Certificate } />
@@ -155,6 +164,7 @@ class MainLayout extends Component{
 				  		<Route path="/signup" 								exact strict component={ SignUp } />
 				  		<Route path="/forgot-pwd" 							exact strict component={ ForgotPassword } />
 				  		<Route path="/reset-pwd" 							exact strict component={ ResetPassword } />
+				  		<Route path="/reset-pwd/:id" 							exact strict component={ ResetPassword } />
 				  		<Route path="/verify-account" 						exact strict component={ VerifyMobileAOS } />
 				  		<Route path="/otpFirstVarification/:mailId" 		exact strict component={ ConfirmOtp } />
 				  		<Route path="/otpVarification/:mailId" 				exact strict component={ ConfirmOtp } />

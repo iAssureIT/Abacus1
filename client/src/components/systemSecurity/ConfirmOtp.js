@@ -2,23 +2,63 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import $ from "jquery";
-
+import axios        from 'axios';
 import './SignUp.css';
 
  class ConfirmOtp extends Component {
     constructor(props){
       super(props);
       this.state ={
+        "mobileNumber" : "",
         // "subscription" : {
         //   user         : Meteor.subscribe("userfunction"), 
         // }
       }
     }
+
+    componentWillMount(){
+      
+      this.setState({
+        mobileNumber : localStorage.getItem('mobileNumber'),
+      },()=>{
+        console.log("in c otp---->",this.state.mobileNumber)
+    })
+    }  
+
+
     confirmOTP(event){
       console.log('confirm otp');
       event.preventDefault();
       var url = this.props.match.params;
       console.log('url = ',url);
+
+      var otpData =  {
+                        mobileNumber       : this.state.mobileNumber,
+                        otp                 : parseInt(this.refs.emailotp.value)
+                    }
+
+      // 
+          console.log("----in otpData--->>",otpData);
+
+
+      axios
+      .post('/user/mobileverification',otpData,)
+      .then((response)=> {
+          console.log("-------userData--in confirm otp---->>",response);
+          var responseData = response.data;
+          if(responseData.message=="User Verified"){
+           swal("Great","OTP Verified Successfully","success");
+           this.props.history.push("/");
+          }
+          else if(responseData.message=="User already verified"){
+              swal("User already verified","","success");
+              this.props.history.push("/");
+          }
+      })
+      .catch(function (error) {
+          console.log(error);
+        
+      })
 
       // var checkUserExist = FlowRouter.getParam("mailId");
       // var userData = Meteor.users.findOne({"_id":checkUserExist});
