@@ -76,6 +76,7 @@ class StudentHeader extends (Component){
   // }
   logout(){
     var token = localStorage.removeItem("token");
+    // localStorage.removeItem("justOnce");
     localStorage.clear();    
       // if(token !== null){
         console.log("Header Token = ",token);

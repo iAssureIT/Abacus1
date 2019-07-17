@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import $ from 'jquery';
-
+import swal from 'sweetalert';
+import axios        from 'axios';
 import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
@@ -12,15 +13,53 @@ class VerifyMobileAOS extends Component {
   constructor(){
     super();
     this.state ={
+      "mobileNumber": "",
       "subscription" : {
         // user             : Meteor.subscribe("userfunction"), 
       }
     }
   }
 
+  componentWillMount(){
+      
+      this.setState({
+        mobileNumber : localStorage.getItem('mobileNumber'),
+      },()=>{
+        console.log("in verify otp ---->",this.state.mobileNumber)
+    })
+    } 
+
   VerifyMobileAOS(event){
     event.preventDefault();
     var mobileVerifyAOS = this.refs.mobileVerifyAOS.value;
+    localStorage.getItem('mobileNumber',mobileVerifyAOS);
+
+    this.props.history.push("/confirm-otp");
+
+    // var otpData =  {
+    //                     mobileNumber       : this.state.mobileNumber,
+    //                     otp                 : parseInt(mobileVerifyAOS)
+    //                 }
+
+    //  axios
+    //   .post('/user/mobileverification',otpData,)
+    //   .then((response)=> {
+    //       console.log("-------userData--in verify otp---->>",response);
+    //       var responseData = response.data;
+    //       if(responseData.message=="User Verified"){
+    //        swal("Great","OTP Verified Successfully","success");
+    //        this.props.history.push("/");
+    //       }
+    //       else if(responseData.message=="User already verified"){
+    //           swal("User already verified","","success");
+    //           this.props.history.push("/");
+    //       }
+    //   })
+    //   .catch(function (error) {
+    //       console.log(error);
+        
+    //   })
+
      // Meteor.call('addVerifyOTP', mobileVerifyAOS, function(error,result){
      //    if(error){
      //      swal(error);
@@ -114,10 +153,11 @@ class VerifyMobileAOS extends Component {
                     </span>
                   </div>
                 </div>
-                <Link to='/otpFirstVarification/hgjhkjj'>
+             
                 <div className="submitButtonWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr">
                   <button type="submit" className="btn btn-info submitBtn col-lg-12 col-md-12 col-sm-12 col-xs-12 UMloginbutton">Submit</button>
-                </div></Link>
+                </div>
+
                 <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">
                   <Link to='/' className="UMGrey signInbtn pdleftclr col-lg-12 col-md-12 col-sm-12 col-xs-12">Sign In</Link>   
                 </div>

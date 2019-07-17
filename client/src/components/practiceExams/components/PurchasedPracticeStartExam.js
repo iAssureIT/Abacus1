@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-
+import axios                from 'axios';
+import $                  from 'jquery';
+import moment         from 'moment';
 // import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
 // import {PackageQuestionPaperMaster} from '/imports/paymentProcess/api/packageQuestionPaperMaster.js';
 // import {PackageManagementMaster} from '/imports/admin/packageManagement/api/packageManagementMaster.js';
@@ -17,18 +19,24 @@ class PurchasedPracticeStartExam extends Component {
     "PckgIndex":'',
     showstartExamBtn : true,
     'defaultBtnTime': '00:05',
-    "subscription" : {
-    packageManagementData : Meteor.subscribe("packageManagementData"),
+    packageID : "",
+    // "subscription" : {
+    // packageManagementData : Meteor.subscribe("packageManagementData"),
 
-    }
+    // }
     });
 
 }
     componentDidMount(){
       const studentID = localStorage.getItem("user_ID");
+      console.log("this.props---->",this.props.match.params.packageId);
+      this.setState({
+        packageID : this.props.match.params.packageId,
+      })
       axios
         .get('/instructions/Practice Exam')
         .then((response)=>{
+          console.log("instructions--->",response);
           this.setState({
             instruction :response.data[0].instruction
           });
@@ -135,6 +143,9 @@ class PurchasedPracticeStartExam extends Component {
     var btnIndex = event.target.getAttribute('data-index');
     var pckgIndex = event.target.getAttribute('data-text');
     var orderId = event.target.getAttribute('data-id');
+    const studentID     = localStorage.getItem("user_ID");
+
+    // console.log("indexex----------->",btnIndex,pckgIndex,orderId);
     this.setState({
        BtnIndex:btnIndex,
        PckgIndexPckgIndex:pckgIndex,
@@ -144,40 +155,77 @@ class PurchasedPracticeStartExam extends Component {
       showstartExamBtn:false,
     });
     var practiceExamId = event.target.value;
+    var inputData = {
+        quepaperID  : practiceExamId, //qpid
+        packageID   : pckgIndex, //urlPackageId
+        index       : parseInt(btnIndex), //BtnIndex
+        orderId     : orderId, //orderId
+        studentID   : studentID,
+        todayDate   : moment(new Date()).format("MMM Do YY"), //convert today date into moment().format("MMM Do YY") format
+    }
 
-    Meteor.call("updateQuestionPaperMasterAccordingtoPackages",practiceExamId,pckgIndex,btnIndex,orderId,(error,result)=>{
-    if(error){
-    console.log(error);
-    }else{
+     axios
+          .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
+          .then((response)=> {
+            console.log("startpracticeexam = ",response.data);
+            this.setState({
+              startpracticeexam : response.data,
+            });
+          var id = response.data.ID;
 
-    }
-    });
-    Meteor.call("StartPracticeExam",practiceExamId,(error,result)=>{
-    if(error){
-    swal(error);
-    }else{
-    var id = result;
-    if(id){
-    FlowRouter.go('/practiceExam/'+id+'/'+this.props.urlPackageId+'/'+this.state.BtnIndex);
-    }
-    }
-    });
+          console.log("indexex----------->",inputData);
+
+          axios
+              .post('/packagequestionpapermaster',inputData)
+              .then((response)=> {
+                  console.log("-------packagequestionpapermaster---->>",response);
+                  var responseData = response.data;
+               
+              })
+              .catch(function (error) {
+                  console.log(error);
+                
+              })
+
+            this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+
+    // Meteor.call("updateQuestionPaperMasterAccordingtoPackages",practiceExamId,pckgIndex,btnIndex,orderId,(error,result)=>{
+    // if(error){
+    // console.log(error);
+    // }else{
+
+    // }
+    // });
+    // Meteor.call("StartPracticeExam",practiceExamId,(error,result)=>{
+    // if(error){
+    // swal(error);
+    // }else{
+    // var id = result;
+    // if(id){
+    // FlowRouter.go('/practiceExam/'+id+'/'+this.props.urlPackageId+'/'+this.state.BtnIndex);
+    // }
+    // }
+    // });
   }
 
   gotoPreviousExam(event){
     var id = $(event.target).attr('id');
-    FlowRouter.go("/practiceExam/"+id);
+    // FlowRouter.go("/practiceExam/"+id);
     }
 
   ExamComplete(event){
       var id = $(event.target).attr('id');
-      Meteor.call("practiceExamFinished",id,(error,result)=>{
-      if(error){
+      // Meteor.call("practiceExamFinished",id,(error,result)=>{
+      // if(error){
 
-      }else{
-      FlowRouter.go("/startPracticeExam");
-      }
-      });
+      // }else{
+      // FlowRouter.go("/startPracticeExam");
+      // }
+      // });
       }
   tryPELoadingAgainforBtn(){
       var examTime = this.state.defaultBtnTime;
@@ -222,7 +270,7 @@ class PurchasedPracticeStartExam extends Component {
                     <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
                       <div className="box">
                        {
-                          (!this.props.LoadingTest && !this.props.loadingTest2 && !this.props.LoadingTest3 && !this.props.loadingTest4 && !this.props.LoadingPackage)?
+                          // (!this.props.LoadingTest && !this.props.loadingTest2 && !this.props.LoadingTest3 && !this.props.loadingTest4 && !this.props.LoadingPackage)?
 
                                           !this.props.lastExamId ?
                                              <div className="box-header with-border boxMinHeight ">
@@ -233,22 +281,25 @@ class PurchasedPracticeStartExam extends Component {
                                                         </div>
                                                         </div>
                                                         <div className="col-lg-12 col-md-11 col-sm-12 col-xs-12 instructionList instructionWrap">
-                                                        {this.props.PE_Instruction.instruction}
+                                                        {this.state.instruction}
                                                         </div>
                                                         <form>
-                                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrap paddingleftzero paddingrightzero">
+                                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC paddingleftzero paddingrightzero">
                                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examTable paddingleftzero paddingrightzero">
                                                               <table className="table">
                                                                 <thead>
                                                                 <tr className="tableHeader">
                                                                   <th className="col-lg-2 col-md-2"> Package Details </th>
                                                                   <th className="col-lg-2 col-md-2"> Paper Name </th>
-                                                                  <th colSpan={this.props.maxAttempt}> No. of Attempts : Press start button to start your exam </th>
+                                                                  <th colSpan={this.state.attemptOfpracticetest}> No. of Attempts : Press start button to start your exam </th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {this.props.PackageQPMData.map((questionPaper,indexx)=>{
-                                                                    return <tr className="" key={indexx}>
+                                                                    {this.state.PackageQPMData?
+                                                                      this.state.PackageQPMData.map((questionPaper,indexx)=>{
+
+                                                                        if(questionPaper.packageId==this.state.packageID){
+                                                                    return (<tr className="" key={indexx}>
                                                                     <td className="col-lg-2 col-md-2 qpTestTitle purchasedlabel">{questionPaper.packageName},{questionPaper.category}/{questionPaper.subCategory}</td>
                                                                     <td className="col-lg-2 col-md-2 qpTestTitle purchasedlabel">{questionPaper.questionPaperName}</td>
                                                                     
@@ -268,8 +319,15 @@ class PurchasedPracticeStartExam extends Component {
                                                                       })
                                                                      }
                                                                    
-                                                                    </tr>
-                                                                    })}
+                                                                    </tr>)
+                                                                    }else{
+                                                                    return (null)}
+
+
+                                                                    })
+
+                                                                      :null
+                                                                    }
                                                                     </tbody>
                                                               </table>    
                                                             </div>
@@ -294,13 +352,12 @@ class PurchasedPracticeStartExam extends Component {
                                                     </div>
                                                     <img src="/images/preloader.gif"/>
                                                   </div>
-                                                  :
+                                             /*     :
                                               <div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
                                                 <div>
                                                   Loading please wait...!!!
                                                 </div>
-                                               {/* <img src="/images/preloader.gif"/>*/}
-                                              </div>
+                                              </div>*/
 
                       
                       }
@@ -316,11 +373,9 @@ class PurchasedPracticeStartExam extends Component {
             <div>    
               <div className="content-wrapper">
                 <section className="content-header">
-                  {!this.props.examMasterData ?
+                 
                   <h1>Start Practice Exam </h1>
-                  :
-                  <h1>Start Practice Exam</h1>
-                  }
+                 
                 </section>
                 <section className="content viewContent">
                   <div className="row">

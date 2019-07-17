@@ -43,6 +43,7 @@ class StudentProfile extends Component{
 	        // content          	: '',
 	        // loginTime        	: '',
 	        loggedIn 				: false,
+	        refreshcnt : 0, 
 
 	    }
 
@@ -64,7 +65,18 @@ class StudentProfile extends Component{
     	// console.log("loggedIn",this.state.loggedIn);
     	// var token = localstorage.getItem('token');
     	// console.log("localstorage =",localstorage);
-    	// console.log("token =",token);
+    	
+  //   	console.log("location.pathname.match =",localStorage);
+  //   	 if (this.props.location.pathname=="/dashboard" && this.state.refreshcnt==0){
+		//    // window.location.reload()
+		//    window.onload = function () {
+		// 	    if (! localStorage.justOnce) {
+		// 	        localStorage.setItem("justOnce", "true");
+		// 	        window.location.reload();
+		// 	    }
+		// 	}
+		// }
+
     	axios
 	    	.get('/notificationmasters/Broadcast')
             .then((response)=> {
@@ -110,8 +122,14 @@ class StudentProfile extends Component{
 
 	componentDidMount(){
 
+		
+
 		const token = localStorage.getItem("token");
 		const studentID = localStorage.getItem("user_ID");
+
+		this.setState({
+			refreshcnt : 1
+		})
 	    // console.log("Dashboard Token = ",token);
 	    if(token!==null){
 	    console.log("Token Received");
@@ -251,10 +269,9 @@ class StudentProfile extends Component{
  //        });
   	}
   	
- //  	componentWillUnmount(){
- //    	$("script[src='/js/adminLte.js']").remove();
- //    	$("link[href='/css/dashboard.css']").remove();
- //  	}
+  	// componentWillUnmount(){
+   //  	localStorage.removeItem("justOnce");
+  	// }
 
 
  showPckgDescription(e){

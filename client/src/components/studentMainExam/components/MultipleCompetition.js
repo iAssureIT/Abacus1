@@ -62,12 +62,14 @@ class MultipleCompetition extends (Component)  {
 		
 	}
 	componentDidMount(){
-		var i = 0;
+			console.log("studentId in list=====================================");
 
+		var i = 0;
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
 		var array=[];
 		if(studentId){
 			var k = 0;
+			console.log("studentId in list",studentId);
 			axios
 				.get('/studentmaster/details/'+studentId)
 				.then((student)=>{
@@ -79,7 +81,7 @@ class MultipleCompetition extends (Component)  {
 					if(data){
 						console.log('todatdate ',data);
 						axios
-							.post('/exammasters/listmainexam' , data)
+							.post('/exammasters/listmainexam/'+studentId , data)
 							.then((myexamlist)=>{
 								console.log('myexamlist ',myexamlist.data);
 								// this.setState({
@@ -156,7 +158,6 @@ class MultipleCompetition extends (Component)  {
 					console.log("error",error);
 				});
 		}
-
 	}
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
@@ -173,9 +174,9 @@ class MultipleCompetition extends (Component)  {
 		navigator.getMedia({video: true}, function() {
 		  console.log("webcam is available");
 		  	const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
-				// var compId = this.props.match.params.compId;
-			  	// console.log("/"+compId+'/'+studentId);
-var compId;
+				var compId = this.props.match.params.compId;
+			  	console.log("/"+compId+'/'+studentId);
+
 				axios
 			        .post('/startexamcategorywise/'+compId+'/'+studentId)
 			        .then((response)=>{

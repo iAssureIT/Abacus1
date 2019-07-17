@@ -3,13 +3,18 @@ import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import swal from 'sweetalert';
 import $ from "jquery";
+import axios                from 'axios';
 
 import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
 
 class ResetPassword extends Component {
-
+  constructor(props){
+      super();
+        this.state = {           
+                   }
+  }
 
 
   showSignPass(){
@@ -31,6 +36,79 @@ class ResetPassword extends Component {
     $('.showPwdC').toggleClass('showPwd1C');
     $('.hidePwdC').toggleClass('hidePwd1C');
     return $('.inputTextPassC').attr('type', 'password');
+  }
+
+  changepassword(event) {
+    event.preventDefault();
+    var password        = this.refs.resetPassword.value;
+    var passwordConfirm = this.refs.resetPasswordConfirm.value;
+    // var newID = Session.get('newID');
+    var newID = this.props.match.params.id;
+    if(newID){
+      var resetPassword = newID;
+    }else{
+      var username = $('input[name="forgotEmail"]').val();
+      // var userOtp = Meteor.users.findOne({"username":username});
+      // if(userOtp){
+        var resetPassword = "E6BRdJtHMF9a6p7KF";
+      // }
+    }
+
+    var pwdData = {
+              userID:"E6BRdJtHMF9a6p7KF",
+              currentPwd: password,
+              changedpwd: passwordConfirm,
+    }
+    // console.log(resetPassword + password + passwordConfirm);
+
+    //Check password is at least 6 chars long
+    // var isValidPassword = function(password, passwordConfirm) {
+    //   if (password === passwordConfirm) {
+    //     return password.length >= 6 ? true : swal({
+    //       title: "Password should be at least 6 Characters Long",
+    //       text: "Please try again",
+    //       timer: 1700,
+    //       showConfirmButton: false,
+    //       type: "error"
+    //     });
+    //   }else{
+    //     return swal({
+    //       title: "Password doesn't Match",
+    //       text: 'Please try Again',
+    //       showConfirmButton: true,
+    //       type: 'error'
+    //     }); //End of error swal
+    //   } //End of else
+    // }
+
+    // if (isValidPassword(password, passwordConfirm)) {
+      // Meteor.call("resetPasswordUsingotp", resetPassword, password, function(err) {
+      //   if (err) {
+      //     console.log('We are sorry but something went Wrong.');
+      //   }else {
+                 
+      //     Meteor.logout();
+      //     FlowRouter.go('/');
+      //     swal("Password has been Changed Successfully!!");
+      //   }
+      // });
+
+      axios
+      .post('/user/changepwd',pwdData)
+      .then((response)=> {
+          console.log("-------pwdData---->>",response);
+          var responseData = response.data;
+       
+      })
+      .catch(function (error) {
+          console.log(error);
+        
+      })
+
+
+
+    // }
+    // return false;
   }
 
   render(){
@@ -71,7 +149,7 @@ class ResetPassword extends Component {
           <div className="divResetPasswordWrap">
             <h3 className="resetpwdNameTitle"> <span className="bordbt">RESET PASSWORD</span></h3>
             <div className="FormWrapper1 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <form id="resetPassword" /*onSubmit={this.changepassword.bind(this)}*/>
+              <form id="resetPassword" onSubmit={this.changepassword.bind(this)}>
                 <div className="form-group loginFormGroup pdleftclr veribtm col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div className="input-group">
                     <span className="input-group-addon addons glyphi-custommmLeft" id="basic-addon1"><i className="fa fa-lock" aria-hidden="true"></i></span>
