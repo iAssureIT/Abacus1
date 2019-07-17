@@ -432,7 +432,63 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                         var m1 = myExamMasterData.examTime;
                         var m2 = req.params.examSolvingTime;
                         if(m1 && m2){
-                            //Need to under standed                           
+                            var min1 = m1.split(":");
+                            var min2 = m2.split(":");
+                            if(min1[1] =="00" && min2[1]=="00"){
+                                var examSolvedTime = min1[0]-min2[0];
+                                var examSolvedTime =  examSolvedTime < 10 ? "0"+examSolvedTime : examSolvedTime;
+                                var examSolvedTime = examSolvedTime+":00";
+                            }else{  
+                                if(min1[1]=="00"){
+                                    min1[0]-=1;
+                                }
+                                var res1 = min1[0]-min2[0];
+                                res1 = res1 <10 ? "0"+res1 : res1;
+                                if(min1[1]>=min2[1]){
+                                    var res2 = (min1[1]=="00") ? 60-min2[1] : min1[1]-min2[1];
+                                }else{
+                                    var res2 = (min1[1]=="00") ? 60-min2[1] : min2[1]-min1[1];
+                                }
+                                res2 = res2 < 10 ? "0"+res2 : res2;
+                                if(res2==60){
+                                    res1+=1;res2=0;
+                                }
+                                var examSolvedTime = res1+":"+res2;
+                            }
+                            if(examSolvedTime){
+                                MyExamMaster.update(
+                                                {_id: req.params.examId},
+                                                {
+                                                    $set:{
+                                                        "totalQuestion"     : answeArrayLen,
+                                                        "attemptedQues"     : attepmted,
+                                                        "correctAnswer"     : correctAnswer,
+                                                        "wrongAnswer"       : wrongAnswer,
+                                                        "totalScore"        : totalScore,
+                                                        "examSolvedTime"    : examSolvedTime,
+                                                        "examSolvingTime"   : examSolvingTime,
+                                                        "examStatus"        : "Completed",
+                                                        "status"            : "Attempted",
+                                                    }
+                                                }
+                                        )
+                                        .exec()
+                                        .then(data=>{
+                                            if(data.nModified){
+                                                res.status(200).json({message:"Exam Updated"});
+                                            }else{
+                                                res.status(200).json({message:"Exam not Updated"});
+                                            }
+                                        })
+                                        .catch(err =>{
+                                            console.log(err);
+                                            res.status(500).json({
+                                                error: err
+                                            });
+                                        });
+                            }
+                            
+                                                            
                         }else{
                             res.status(409).json({message:"It seams there is some isssue with Time"});    
                         }
