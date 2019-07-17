@@ -31,6 +31,7 @@ function sendSMSMsg (firstname,toNumber,otp){
 }
 
 exports.mobile_optverify = (req, res, next)=>{
+	console.log('otp verify ',req.body);
 	var mobileNum 	= req.body.mobileNumber;
 	var otp 		= req.body.otp;
 	if(mobileNum && otp){
