@@ -75,83 +75,93 @@ class MultipleCompetition extends (Component)  {
 				.then((student)=>{
 					console.log('student ',student);
 					const data = { 
+							"studentId"  : studentId,
 							"todaydate" 	: new Date(),
 							"subCategory"	: student.data.subCategory,
 					};
+					console.log("data.todaydate ====> ",data.todaydate);
 					if(data){
 						console.log('todatdate ',data);
 						axios
-							.post('/exammasters/listmainexam/'+studentId , data)
-							.then((myexamlist)=>{
-								console.log('myexamlist ',myexamlist.data);
-								// this.setState({
-								// 	competitionData : myexamlist.data
-								// });
-								var allCompetitions = myexamlist.data;
-								axios
-										// .get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
-										.get('/competitionregisterorder/mainexam/'+studentId)
-										.then((response)=>{
-											console.log('response=-----> ',response.data);
-											var studentCompetitions = response.data;
-											for(k = 0 ; k < studentCompetitions.length; k++){
-												var index = allCompetitions.findIndex((data)=>{
-													return data._id == studentCompetitions[k].competitionId
-												});
-												if(index > -1){
-													// console.log('index ',index);
-													allCompetitions[index].studentPaymentStatus = "paid";
-													var compData = allCompetitions[index];
-													axios
-															.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId+'/'+index)
-															.then((myexamres)=>{
-																console.log("myexamres---->",myexamres);
-																var myexamresData = myexamres.data;
-																if(myexamresData.data.length > 0){
-																if(allCompetitions[myexamresData.index]){
-																	allCompetitions[myexamresData.index].examDataStatus = myexamresData.data[0].examStatus;
-																	allCompetitions[myexamresData.index].examId  = myexamresData.data[0]._id;
-																}
-																	// array.push(allCompetitions[myexamresData.index]);
-
-																}
-																// console.log('in array ',array);
-																// this.setState({
-																// 	competitionData :array
-																// 	// competitionData :allCompetitions
-																// },()=>{
-																// 	// console.log("in callback---->",this.state.competitionData[0].examDataStatus);
-																// });
-
-															})
-															.catch(function(error){
-																console.log("error",error);
-															});
-												}//end of index
-																// console.log("all comp---array->",array);
-
-
-											};//end of for
-											// console.log('k ',k);
-											// console.log('allCompetitions ',allCompetitions);
-											if(k >= studentCompetitions.length){
-												var dataArray = this.state.competitionData;
-												dataArray = [...allCompetitions,...dataArray]
-												console.log('in array ',dataArray);
-												this.setState({
-													competitionData :allCompetitions
-												},()=>{
-													console.log("in callback---->",this.state.competitionData[1].examDataStatus);
-												});
-											}		
-										})
-										.catch(function(error){
-											console.log("error",error);
-										});
+							.post('/exammasters/listmainexam',data)
+							.then(data=>{
+								console.log('data ',data);
 							})
 							.catch(function(error){
 								console.log("error",error);
-							});
+							});			
+						// axios
+						// 	.post('/exammasters/listmainexam/'+studentId , data)
+						// 	.then((myexamlist)=>{
+						// 		console.log('myexamlist ',myexamlist.data);
+						// 		// this.setState({
+						// 		// 	competitionData : myexamlist.data
+						// 		// });
+						// 		var allCompetitions = myexamlist.data;
+						// 		axios
+						// 				// .get('/competitionregisterorder/mainexam/2aWJfCyAeadLrvZ29')
+						// 				.get('/competitionregisterorder/mainexam/'+studentId)
+						// 				.then((response)=>{
+						// 					console.log('response=-----> ',response.data);
+						// 					var studentCompetitions = response.data;
+						// 					for(k = 0 ; k < studentCompetitions.length; k++){
+						// 						var index = allCompetitions.findIndex((data)=>{
+						// 							return data._id == studentCompetitions[k].competitionId
+						// 						});
+						// 						if(index > -1){
+						// 							// console.log('index ',index);
+						// 							allCompetitions[index].studentPaymentStatus = "paid";
+						// 							var compData = allCompetitions[index];
+						// 							axios
+						// 									.get('/myexammasters/participation/'+studentCompetitions[k].competitionId+'/'+studentId+'/'+index)
+						// 									.then((myexamres)=>{
+						// 										console.log("myexamres---->",myexamres);
+						// 										var myexamresData = myexamres.data;
+						// 										if(myexamresData.data.length > 0){
+						// 										if(allCompetitions[myexamresData.index]){
+						// 											allCompetitions[myexamresData.index].examDataStatus = myexamresData.data[0].examStatus;
+						// 											allCompetitions[myexamresData.index].examId  = myexamresData.data[0]._id;
+						// 										}
+						// 											// array.push(allCompetitions[myexamresData.index]);
+
+						// 										}
+						// 										// console.log('in array ',array);
+						// 										// this.setState({
+						// 										// 	competitionData :array
+						// 										// 	// competitionData :allCompetitions
+						// 										// },()=>{
+						// 										// 	// console.log("in callback---->",this.state.competitionData[0].examDataStatus);
+						// 										// });
+
+						// 									})
+						// 									.catch(function(error){
+						// 										console.log("error",error);
+						// 									});
+						// 						}//end of index
+						// 										// console.log("all comp---array->",array);
+
+
+						// 					};//end of for
+						// 					// console.log('k ',k);
+						// 					// console.log('allCompetitions ',allCompetitions);
+						// 					if(k >= studentCompetitions.length){
+						// 						var dataArray = this.state.competitionData;
+						// 						dataArray = [...allCompetitions,...dataArray]
+						// 						console.log('in array ',dataArray);
+						// 						this.setState({
+						// 							competitionData :allCompetitions
+						// 						},()=>{
+						// 							console.log("in callback---->",this.state.competitionData[1].examDataStatus);
+						// 						});
+						// 					}		
+						// 				})
+						// 				.catch(function(error){
+						// 					console.log("error",error);
+						// 				});
+						// 	})
+						// 	.catch(function(error){
+						// 		console.log("error",error);
+						// 	});
 					}
 				})
 				.catch(function(error){
