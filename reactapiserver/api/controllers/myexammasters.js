@@ -432,6 +432,7 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                         var totalScore = parseInt(correctAnswer ) * parseInt(myExamMasterData.marksPerQuestion);
                         var m1 = myExamMasterData.examTime;
                         var m2 = req.params.examSolvingTime;
+                        console.log('m2 ',m2);
                         if(m1 && m2){
                             var min1 = m1.split(":");
                             var min2 = m2.split(":");
