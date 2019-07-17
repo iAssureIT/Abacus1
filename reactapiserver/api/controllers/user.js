@@ -80,7 +80,7 @@ exports.mobile_optverify = (req, res, next)=>{
 				});
 			});
 	} 
-	res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
+	// res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
 }
 
 exports.email_optverify = (req, res, next)=>{
