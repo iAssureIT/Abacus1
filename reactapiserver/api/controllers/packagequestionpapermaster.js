@@ -11,7 +11,8 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
     var studentID   = req.body.studentID;
     var todayDate   = req.body.todayDate;
     var questionPaperDetails    = {}; 
-    PackageQuestionPaperMaster  .findOne({"questionPaper_id":qpid,"buyerId":studentID,"packageId":packageID,order_id:orderId})
+    if(todayDate){
+        PackageQuestionPaperMaster  .findOne({"questionPaper_id":qpid,"buyerId":studentID,"packageId":packageID,order_id:orderId})
 		                        .exec()
                                 .then(questionPaperDetails1 =>{
                                     questionPaperDetails = questionPaperDetails1;
@@ -19,13 +20,14 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                         PackageManagementMaster .findOne({_id:questionPaperDetails.packageId,order_id:orderId})
                                                             .exec()
                                                             .then(PckgData=>{
-                                                                var attempts= PckgData.AttemptOfPracticeTest;
-                                                                PackageQuestionPaperMaster  .update(
+                                                                if(PckgData){
+                                                                    var attempts= PckgData.AttemptOfPracticeTest;
+                                                                    PackageQuestionPaperMaster  .update(
                                                                                                         {_id:questionPaperDetails._id,order_id:orderId,packageId:packageID,buyerId:studentID,questionPaper_id:qpid},
                                                                                                         {
                                                                                                             $set:{
-                                                                                                                ["noOfAttempts."+BtnIndex+".status"]:true,
-                                                                                                                ["noOfAttempts."+BtnIndex+".attemptedAt"]:todayDate,
+                                                                                                                ["noOfAttempts."+index+".status"]:true,
+                                                                                                                ["noOfAttempts."+index+".attemptedAt"]:todayDate,
                                                                                                             }
                                                                                                         }
                                                                                                    )
@@ -42,7 +44,9 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                                                                                 res.status(500).json({
                                                                                                     error: err
                                                                                                 });
-                                                                                            });                                
+                                                                                            });
+                                                                }
+                                                                                                
                                                             })
                                                             .catch(err =>{
                                                                 console.log(err);
@@ -60,7 +64,9 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                         error: err
                                     });
                                 });
-    
+
+    }
+     
 }
 
 exports.fetch_student_pkgquemaster = (req,res,next)=>{
