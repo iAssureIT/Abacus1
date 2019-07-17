@@ -6,18 +6,6 @@ import moment 				from 'moment';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '../css/PracticeExam.css';
 declare var jQuery: any;
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import {withTracker} from 'meteor/react-meteor-data';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {QuestionPaperMaster} from '/imports/admin/forms/setQuestionPaper/api/questionPaperMaster.js';
-
-// // import {MyTempQuestionPaperMaster} from '/imports/admin/forms/student/api/myTempQuestionPaperMaster.js';
-// // import {MyPracticeExamMaster} from '/imports/admin/forms/student/api/myPracticeExamMaster.js';
-
-// import {MyTempQuestionPaperMaster} from '/imports/student/api/myTempQuestionPaperMaster.js';
-// import {MyPracticeExamMaster} from '/imports/student/api/myPracticeExamMaster.js';
-
-// import {Session} from 'meteor/session';
 
 class StartPracticeExam extends (Component)  {
 	constructor(props){
@@ -30,14 +18,9 @@ class StartPracticeExam extends (Component)  {
 			examTime           : '',
 			examName           : '',
 			myIndex            : '',
-			qIndex             : 0,
+			'qIndex'           : 0,
 			backarraowcnt      : '',
 			defaultTime 	   : '10:00',
- 			subscription    :{
-				// postHandle1 : Meteor.subscribe('showSinglePracticePaper',FlowRouter.getParam("id")),
-			 // 	postHandle :  Meteor.subscribe('showSingleAnsPaper',FlowRouter.getParam("id")),
-			 // 	postHandle2 :  Meteor.subscribe('showSingleTempQPaper'),
-			}
 		}
 		this.getTimefunction = this.getTimefunction.bind(this);	
 		// this.goToNextPage    = this.goToNextPage.bind(this);	
@@ -113,9 +96,9 @@ class StartPracticeExam extends (Component)  {
 			.get('/mypracticeexammasters/practiceExam/'+practiceExamId)
 			.then((response)=>{
 				// console.log("visited Q  = ",response.data.lastVisitedQuestion);
-				console.log("visited Q answer = ",response.data.lastVisitedQAnswer);
+				console.log("visited Q answer = ",response.data);
 			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
-
+				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1
 				if(!response.data.lastVisitedQuestion){
 						this.setState(
 						{
@@ -124,7 +107,7 @@ class StartPracticeExam extends (Component)  {
 					}else{
 						this.setState(
 						{
-							qIndex: parseInt(response.data.lastVisitedQuestion) + 1
+							qIndex: nextQ
 						})
 					}
 
@@ -268,7 +251,6 @@ class StartPracticeExam extends (Component)  {
 	}
 
 	endExam(){
-
 		console.log("end free exam");
 		if(this.props.match.params.orderId && this.props.match.params.packageId && this.props.match.params.btnIndex){
 		axios
@@ -280,15 +262,21 @@ class StartPracticeExam extends (Component)  {
 			.catch(function(error){
 				console.log(error)
 			})
-
-	   		var values ={
-                            quepaperID  : this.props.match.params.id,
-                            orderId     : this.props.match.params.orderId?this.props.match.params.orderId:"",
-                            packageID   : this.props.match.params.packageId?this.props.match.params.packageId:"",
-                            index       : this.props.match.params.btnIndex?this.props.match.params.btnIndex:"",
-                            studentID   : localStorage.getItem("user_ID"),
-                            todayDate   : moment().format("MMM Do YY"),
-                        }
+			var quepaperID  = this.props.match.params.id;
+            var orderId     = this.props.match.params.orderId?this.props.match.params.orderId:"";
+            var packageID   = this.props.match.params.packageId?this.props.match.params.packageId:"";
+            var index       = this.props.match.params.btnIndex?this.props.match.params.btnIndex:"";
+            var studentID   = localStorage.getItem("user_ID");
+	        var todayDate   = moment().format("MMM Do YY");
+	        console.log("quepaperID= ",quepaperID," | orderId= ",orderId," | packageID= ",packageID," | index= ",index," | studentID= ",studentID," | todayDate= ",todayDate,)
+	   		var values 		={
+	                            quepaperID  : quepaperID,
+	                            orderId     : orderId,
+	                            packageID   : packageID,
+	                            index       : index,
+	                            studentID   : studentID,
+	                            todayDate   : todayDate,
+	                         }
 		// console.log("values==== ",values)
 
         axios
@@ -312,9 +300,7 @@ class StartPracticeExam extends (Component)  {
 			.post('/mypracticeexammasters/finishexam/'+this.props.match.params.id)
 			.then((response)=>{
 				console.log("free paper response = ",response.data);
-
 				this.props.history.push("/practiceExamResult/"+this.props.match.params.id)
-				
 			})
 			.catch(function(error){
 				console.log(error)
@@ -431,12 +417,22 @@ class StartPracticeExam extends (Component)  {
 									  
 													<ol id="configuration_sidebar_content1" className="carousel-indicators oesCarouselIndicator">
 															{ this.state.questionArray.map( (slides,index)=>{
-																if(index == 0){
-																	var activeStatus = 'active';
-																}else{
-																	var activeStatus = '';
-																	var hideSlideDetail = "hideSlidDetails";
-																}
+																	if(this.state.qIndex!==0){
+																		if(index == this.state.qIndex){
+																			var activeStatus = 'active';
+																		}else{
+																			var activeStatus = '';
+																			var hideSlideDetail = "hideSlidDetails";
+																		}
+																	}else{
+																		if(index == 0){
+																			var activeStatus = 'active';
+																		}else{
+																			var activeStatus = '';
+																			var hideSlideDetail = "hideSlidDetails";
+																		}
+
+																	}
 																if(index <this.state.questionArray.length-1){
 																return (
 																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus, "A-"+index, slides.attempted} id={"qn"+slides.questionNumber} >{index+1}</li>

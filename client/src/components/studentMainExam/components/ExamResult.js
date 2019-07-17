@@ -2,11 +2,10 @@ import React ,{ Component }		from 'react';
 import $ 					from "jquery";
 import moment 					from "moment";
 import axios 				from 'axios';
-
 // import './StartPracticeExamHeader';
-import '../css/PracticeExam.css';
+import '../css/Exam.css';
 
-class PracticeExamResult extends(Component)  {
+class ExamResult extends(Component)  {
 	constructor(props){
 		super(props);
 		this.state={
@@ -18,12 +17,12 @@ class PracticeExamResult extends(Component)  {
 		}
 	}
 	componentDidMount(){
-		var practiceExamId = this.props.match.params.id;
+		var mainExamId = this.props.match.params.examId;
 
 		axios
-			.get('/mypracticeexammasters/getresult/'+practiceExamId)
+			.get('/myexammasters/examresult/'+mainExamId)
 			.then((response)=>{
-				console.log("practiceExam Result = ",response.data);
+				console.log("Main Exam Result = ",response.data);
 				this.setState({
 					practiceExamData : response.data,
 					percentage 		 : response.data.percentage
@@ -32,9 +31,6 @@ class PracticeExamResult extends(Component)  {
 			.catch(function(error){
 				console.log(error)
 			})
-		localStorage.removeItem("orderId");
-      	localStorage.removeItem("pckgIndex");
-      	localStorage.removeItem("btnIndex");
 	}
 	componentWillUnmount(){
     	// $("script[src='/js/adminLte.js']").remove();
@@ -42,6 +38,7 @@ class PracticeExamResult extends(Component)  {
   	}
 	
 	render(){
+	  if(this.state.practiceExamData){
 		return(
 			<div>
 			<div className="CountIncrement">0</div>
@@ -162,49 +159,55 @@ class PracticeExamResult extends(Component)  {
 									<img src="/images/rightsideimg.png"/>
 								</div>
 							</div>
-							{/*<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap4 pull-right">{moment().format('hh:mm a')} <br/>{moment().format("DD-MM-YYYY")}</div>*/}
-						  </div>
-						  :
-						  <div className="box-header with-border boxMinHeight ">
-						  	<h3 className="studDataNotExist"> Please check internet connection or refresh window </h3>
-						  </div>
+							<div className="col-lg-2 col-md-2 col-sm-2 examDetailsWrap4 pull-right">{moment().format('hh:mm a')} <br/>{moment().format("DD-MM-YYYY")}</div>
+								<div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
+									{this.props.studImages ? this.props.studImages.map((images, index)=>{
+										return <div key={index} className="col-lg-4 col-md-4 col-sm-4 imageWraper">
+											<img src={images.studentImage} className="col-lg-12 col-md-12 img-thumbnail"/>
+										</div>
+										}) : null
+									}
+								</div>
+						  	</div>
+						:null
 						}
 						</div>
-					  </div>
 					</div>
+				</div>
 				  </section>
 				</div>
 			</div>
-		);
+			);
+		}else{
+			return(
+			<div>
+				<div className="CountIncrement">0</div>
+				<div className="CountDecreBackArrow">0</div>
+		        {/* Content Wrapper. Contains page content */}
+		        <div className="content-wrapper">
+		          {/* Content Header (Page header) */}
+		          <section className="content-header">
+		            <h1>Exam Page</h1>
+		          </section>
+		          {/* Main content */}
+		          <section className="content viewContent">
+		            <div className="row">
+		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+		                <div className="box">
+		                  <div className="box-header with-border boxMinHeight ">
+		                  	<h1 className="col-lg-12 col-md-12 col-sm-12 examFinishedStatus">Loading... Please Wait </h1> 
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		          </section>
+		        </div>
+		    </div>
+		    );
+		}
 	}
 }
-export default PracticeExamResult;
-// export default PracticeExamResultContainer = withTracker(props=>{
-// 	var id = FlowRouter.getParam("id");
-// 	clearInterval(Session.get("interval"));
-// 	var practiceExamData = '';
-// 	const postHandle1     =  Meteor.subscribe('showSinglePracticePaper',id);
-// 	const loadingTest     = !postHandle1.ready();
-// 	// Meteor.call("practiceExamFinished",id);
-// 	Meteor.call("PracticeExamMarksUpdate",id,(error,result)=>{
-// 		if(error){
-// 			console.log(error);
-// 		}else{
+export default ExamResult;
 
-// 		}
-// 	});
-// 	practiceExamData  = MyPracticeExamMaster.findOne({"_id":id})||{};
-// 	// console.log(practiceExamData);
-// 	if(practiceExamData){
-// 		practiceExamData = practiceExamData;
-// 		var percentage = (parseInt(practiceExamData.totalScore)/parseInt(practiceExamData.totalMarks))*100;
-// 		// console.log(percentage);
-// 	}else{
-// 		practiceExamData = "Not return Marks";
-// 	}
-// 	return{
-// 		practiceExamData,
-// 		loadingTest,
-// 		percentage,
-// 	}
-// })(PracticeExamResult);
+
+

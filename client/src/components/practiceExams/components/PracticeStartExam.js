@@ -4,7 +4,6 @@ import $ 					from 'jquery';
 import axios				from 'axios';
 
 import '../css/PracticeExam.css';
-var id ;
 
 class PracticeStartExam extends Component {
 	constructor(props){

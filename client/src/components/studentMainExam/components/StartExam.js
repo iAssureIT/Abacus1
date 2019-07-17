@@ -9,7 +9,6 @@ import $ 					from 'jquery';
 // import 'bootstrap/dist/js/bootstrap.min.js';
 declare var jQuery: any;
 
-
 class StartExam extends (Component)  {
 	constructor(props){
 		super(props);
@@ -22,9 +21,10 @@ class StartExam extends (Component)  {
 			'backarraowcnt' 	: '',
 			noOfQuestion 		: '',
 			totalMarks 			: '',
+			competitionName		: '',
 			questionArrayFromTC : [],
 			'defaultTime'  		: '02:15',
-			examStatus : "",
+			examStatus 			: "",
 			// 'subscription':{
 			// 	'subscription':{
 			//  	'myExamMasterData' :  Meteor.subscribe('showSingleAnsPaper',this.props.id),
@@ -60,8 +60,10 @@ class StartExam extends (Component)  {
 	        .then((response)=>{
 				console.log('participation Info =',response.data);
 				var responseData = response.data;
+				this.showMainExamTime(responseData.data[0].examSolvingTime,responseData.data[0]._id);
 				this.setState({
-					examStatus : responseData.data[0].examStatus 
+					examStatus 		: responseData.data[0].examStatus,
+					competitionName : responseData.data[0].competitionName 
 				},()=>{
 					console.log("examStatus",this.state.examStatus);
 				})
@@ -73,63 +75,46 @@ class StartExam extends (Component)  {
 	          	$('.startExamBtn').css('display','Block');
 				$('.wrProcessing').css('display','none');
 	        })
-		// Meteor.call("getExamTimeData",examId,Meteor.userId(),(err,res)=>{
-		// 	if(err){
-
-		// 	}else{
-		// 		if(res[0]=="data"){
-		// 			this.showMainExamTime(res[1],examId);					
-		// 		}
-		// 	}
-		// });
 
 // this function is taking screenshot and save it to myExamMaster
-		var link = this;
-		// Meteor.setInterval(
-		//   	function(){
-		// 	  const screenshot = link.webcam.getScreenshot();
-		// 	  if(screenshot) {
-		// 		    var byteString;
-		// 		    if (screenshot.split(',')[0].indexOf('base64') >= 0)
-		// 		        byteString = atob(screenshot.split(',')[1]);
-		// 		    else
-		// 		        byteString = unescape(screenshot.split(',')[1]);
-
-		// 		    // separate out the mime component
-		// 		    var mimeString = screenshot.split(',')[0].split(':')[1].split(';')[0];
-
-		// 		    // write the bytes of the string to a typed array
-		// 		    var ia = new Uint8Array(byteString.length);
-		// 		    for (var i = 0; i < byteString.length; i++) {
-		// 		        ia[i] = byteString.charCodeAt(i);
-		// 		    }
-		// 		    var blob = new Blob([ia], {type:mimeString});
-		// 		    var imgFile = new File([blob], "studentImage.png");
-		// 		    console.log("fle-->",imgFile);
-		// 		        var file=imgFile;
-		// 		        var documentType=examId;
-		// 		        if(file){       
-		// 		        var fileName  = file.name;    
-		//                     if (file,documentType) { 
-		//                       addStudentExamAppearingImgsToS3Function(file,documentType);
-		//       			    }
-		// 		  }
-		// 		}
-		// 	}
-		// ,60000);
-			}
+		// var link = this;
+		setInterval(()=>{
+			  const screenshot = this.webcam.getScreenshot();
+			  if(screenshot) {
+				    var byteString;
+				    if (screenshot.split(',')[0].indexOf('base64') >= 0)
+				        byteString = atob(screenshot.split(',')[1]);
+				    else
+				        byteString = unescape(screenshot.split(',')[1]);
+				    // separate out the mime component
+				    var mimeString = screenshot.split(',')[0].split(':')[1].split(';')[0];
+				    // write the bytes of the string to a typed array
+				    var ia = new Uint8Array(byteString.length);
+				    for (var i = 0; i < byteString.length; i++) {
+				        ia[i] = byteString.charCodeAt(i);
+				    }
+				    var blob = new Blob([ia], {type:mimeString});
+				    var imgFile = new File([blob], "studentImage.png");
+				    console.log("fle-->",imgFile);
+				        var file=imgFile;
+				        var documentType=examId;
+				        if(file){       
+				        var fileName  = file.name;    
+		                    if (file,documentType) { 
+		                    	console.log('Screenshot Captured');
+		                      // addStudentExamAppearingImgsToS3Function(file,documentType);
+		      			    }
+				  }
+				}
+			},60000);
+	}
 
 	componentDidMount(){
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
+
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
-		var id = this.props.match.params.examId;
+		var examId = this.props.match.params.examId;
 		axios
-	        .get('/myexammasters/getmainexamquestions/'+id+'/'+studentId)
+	        .get('/myexammasters/getmainexamquestions/'+examId+'/'+studentId)
 	        .then((response)=>{
 				console.log('get Questions =',response.data);
 				this.setState({
@@ -158,6 +143,31 @@ class StartExam extends (Component)  {
 		// 		}
 		// 	}
 		// });
+		axios
+			.get('/myexammasters/getmainexamlastvisitedquestion/'+examId)
+			.then((response)=>{
+				console.log("Last visited Q  = ",response.data.lastVisitedQuestion);
+				console.log("Last visited Q answer = ",response.data.lastVisitedQAnswer);
+			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
+				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1
+
+				if(!response.data.lastVisitedQuestion){
+						this.setState(
+						{
+							qIndex: 0
+						})
+					}else{
+						this.setState(
+						{
+							qIndex: nextQ
+						})
+					}
+
+
+			})
+			.catch(function(error){
+				console.log(error)
+			})
 
 		// Meteor.call("getMainExamLastVisitedQuestion",id,(err,res)=>{
 		// 	if(err){
@@ -195,7 +205,7 @@ class StartExam extends (Component)  {
 		var studAnswer 		= event.target.getAttribute('id');
 		var correctAnswer 	= event.target.getAttribute('data-right');
 		var examTime 		= $('.countdownWrap').text();
-		var examId 			= this.props.match.params.id;
+		var examId 			= this.props.match.params.examId;
 		var nextQues		= parseInt(index) + 1;
 
 		if(studAnswer == correctAnswer){
@@ -212,18 +222,18 @@ class StartExam extends (Component)  {
 			"answer"     : answer,
 		};
 
-		console.log("getqNum = ",index," | studAnswer = ",studAnswer," | examTime = ",examTime," | examId = ",examId, " | Answer = ",answer);
+		console.log("index = ",index," | studAnswer = ",studAnswer," | examTime = ",examTime," | examId = ",examId, " | Answer = ",answer);
 
 		$('#ind'+(this.state.qIndex)).hide();
 		$('.carousel-control-right').click();
 		$('.carousel-control-left').click();		
-			jQuery('#mySlideShow').carousel(nextQues);
 		
 		axios
 			.post('/myexammasters/updateexamtimeAndstudenanswer',formValues)
 			.then((response)=>{
 				console.log("updateexamtimeAndstudenanswer = ",response.data);
-				// this.fillcolorwhenanswer(index,studAnswer);
+				jQuery('#mySlideShow').carousel(nextQues);
+				this.fillcolorwhenanswer(index,studAnswer);
 				this.setState({
 					// questionArray : quesArray,
 				});
@@ -249,7 +259,7 @@ class StartExam extends (Component)  {
 // after question solve question number will get filled by green color
 
 	fillcolorwhenanswer(getqNum,studAnswer){
-		$('#'+getqNum).addClass("greenClor");
+		$('#qn'+getqNum).addClass("greenClor");
 	}
 
 	componentDidUpdate(){
@@ -274,20 +284,47 @@ class StartExam extends (Component)  {
 		// 	  }
 		// });
 	}
+	RUSureWantTofinsh(event){
+		var examId = this.props.match.params.examId;
+		var examTime = $('.countdownWrap').text();
 
+		axios
+			.post('/myexammasters/exammarksupdate/'+examId+'/'+examTime)
+			.then((response)=>{
+				console.log("exammarksupdate = ",response.data);
+				this.props.history.push("/mainExamResult/"+examId);
+			})
+			.catch(function(error){
+				console.log("RUSureWantTofinsh = ", error)
+			})
+		// Meteor.call('ExamMarksUpdate',examId,examTime,(err,result)=>{
+		// 	if(err){
+		// 		console.log(err);
+		// 	}else{
+			// this.props.history.push("/mainExamResult/"+examId);
+
+		// 	 Meteor.call("resetCompetitionPaymentStatus",(err,res)=>{
+		// 		  if(err){
+		// 		  }else{
+				    
+		// 		  }
+		// 		});
+		// 	}
+		// });
+	}
 //--------------------- this function show clock ----------------//
 	showMainExamTime(examTime,id){
 	//--------------- execute function after 1 seconds. -------------------
-			// var intervalMain = setInterval(function() { 
+			var intervalMain = setInterval(function() { 
 			// Session.set("MainExaminterval",intervalMain);
-			//   var timer = examTime.split(':');
-			//   var minutes = parseInt(timer[0], 10);
-			//   var seconds = parseInt(timer[1], 10);
-			//   --seconds;
-			//   minutes = (seconds < 0) ? --minutes : minutes;
-			//   if (minutes < 0){
-			//   	clearInterval(intervalMain);
-			// 	var getExamTime = $('.countdownWrap').text();
+			  var timer = examTime.split(':');
+			  var minutes = parseInt(timer[0], 10);
+			  var seconds = parseInt(timer[1], 10);
+			  --seconds;
+			  minutes = (seconds < 0) ? --minutes : minutes;
+			  if (minutes < 0){
+			  	clearInterval(intervalMain);
+				var getExamTime = $('.countdownWrap').text();
 				// Meteor.call('ExamMarksUpdate',id,getExamTime,(err,res)=>{
 				// 	if(err){
 				// 		console.log(err);
@@ -297,15 +334,15 @@ class StartExam extends (Component)  {
 				// 	}
 				// });
 			  	
-			//   }else{
-			// 	  seconds = (seconds < 0) ? 59 : seconds;
-			// 	  seconds = (seconds < 10) ? '0' + seconds : seconds;
-			// 	  minutes = (minutes < 10) ?  minutes : minutes;
-			// 	  $('.countdown').html(minutes + ':' + seconds);
-			// 	  examTime = minutes + ':' + seconds;
-			// }
+			  }else{
+				  seconds = (seconds < 0) ? 59 : seconds;
+				  seconds = (seconds < 10) ? '0' + seconds : seconds;
+				  minutes = (minutes < 10) ?  minutes : minutes;
+				  $('.countdown').html(minutes + ':' + seconds);
+				  examTime = minutes + ':' + seconds;
+			}
 
-			// }, 1000);
+			}, 1000);
 	}
 
 // this function is assuming due to bab internet or internet is not available this function will execute
@@ -324,36 +361,17 @@ class StartExam extends (Component)  {
 			$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
 
 		  }else{
-		  	 seconds = (seconds < 0) ? 59 : seconds;
-			  seconds = (seconds < 10) ? '0' + seconds : seconds;
+		  	seconds = (seconds < 0) ? 59 : seconds;
+			seconds = (seconds < 10) ? '0' + seconds : seconds;
 
-			  minutes = (minutes < 10) ?  minutes : minutes;
-			 $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
-			  examTime = minutes + ':' + seconds;
-			}
+			minutes = (minutes < 10) ?  minutes : minutes;
+			$('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
+			examTime = minutes + ':' + seconds;
+		  }
 		}
 
 		}, 1000);
 		
-	}
-
-	RUSureWantTofinsh(event){
-		var examId = this.props.match.params.id;
-		var examTime = $('.countdownWrap').text();
-		// Meteor.call('ExamMarksUpdate',examId,examTime,(err,result)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 	 FlowRouter.go("/examResult/"+examId);
-
-		// 	 Meteor.call("resetCompetitionPaymentStatus",(err,res)=>{
-		// 		  if(err){
-		// 		  }else{
-				    
-		// 		  }
-		// 		});
-		// 	}
-		// });
 	}
 
 	render(){
@@ -394,18 +412,19 @@ class StartExam extends (Component)  {
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 colpadding">
 
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examDetailsWrap marginAuto">
-								    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6"></div>
-									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap1">{/*this.props.answerData.competitionName*/}</div>
-									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap2">Total Questions : {this.state.noOfQuestion}</div>
-									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap3">Total Marks :  {this.state.totalMarks}</div>
+								    <div className="pull-right marg150">
+										<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap1"><div className="maxWidth">{this.state.competitionName}</div></div>
+										<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap2">Total Questions : {this.state.noOfQuestion}</div>
+										<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 examDetailsWrap3">Total Marks :  {this.state.totalMarks}</div>
 
-									<div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 countdownWrapDiv">
-										<span className=" countdown countdownWrap"></span>
-									</div>
+										<div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 countdownWrapDiv">
+											<span className=" countdown countdownWrap"></span>
+										</div>
 									</div>		
-								</div>
+								</div>		
+							</div>
 								
-								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 recordWrap"> Recording... </div>
+								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 recordWrap">&nbsp;&nbsp;&nbsp;Recording... </div>
 								<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 colpadding paddingTop">
 									<img src="/images/leftboy.png" className="examstdHeight"/>
 								</div>
@@ -414,16 +433,16 @@ class StartExam extends (Component)  {
 					  
 									<ol id="configuration_sidebar_content" className="carousel-indicators oesCarouselIndicator">
 										{ this.state.questionArrayFromTC.map( (slides,index)=>{
-											if(this.state.qIndex!=0){
-												if(index == 0){
-													var activeStatus = '';
+											if(this.state.qIndex!==0){
+												if(index == this.state.qIndex){
+													var activeStatus = 'active';
 												}else{
 													var activeStatus = '';
 													var hideSlideDetail = "hideSlidDetails";
 												}
 											}else{
 												if(index == 0){
-												var activeStatus = 'active';
+													var activeStatus = 'active';
 												}else{
 													var activeStatus = '';
 													var hideSlideDetail = "hideSlidDetails";
@@ -433,7 +452,7 @@ class StartExam extends (Component)  {
 											
 											if(index <this.state.questionArrayFromTC.length-1){
 											return (
-													<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+' '+slides.attempted} id={slides.questionNumber}>{index+1}</li>
+													<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+' '+slides.attempted} id={"qn"+slides.questionNumber}>{index+1}</li>
 												);
 											}else{
 												return (
@@ -487,7 +506,7 @@ class StartExam extends (Component)  {
 												      	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 answerOption">
 													      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
 													      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-															  <input type="radio" name="questionOption" id="A" className={"A-"+index} data-qNum={slides.questionNumber} onClick={this.getAnswerbyStud.bind(this)} />
+															  <input type="radio" name="questionOption" id="A" className={"A-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getAnswerbyStud.bind(this)} />
 															  <span className="checkmarkk"></span>
 															  <span className=" quesAnswerOpt">{slides.A}</span>
 															</label>
@@ -496,7 +515,7 @@ class StartExam extends (Component)  {
 													   	  
 													      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
 													      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-															  <input type="radio" name="questionOption" id="B" className={"B-"+index} data-qNum={slides.questionNumber} onClick={this.getAnswerbyStud.bind(this)} />
+															  <input type="radio" name="questionOption" id="B" className={"B-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getAnswerbyStud.bind(this)} />
 															  <span className="checkmarkk"></span>
 															  <span className=" quesAnswerOpt">{slides.B}</span>
 															</label>
@@ -505,7 +524,7 @@ class StartExam extends (Component)  {
 												      
 													      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 answerBottom">
 													      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-															  <input type="radio" name="questionOption" id="C" className={"C-"+index} data-qNum={slides.questionNumber} onClick={this.getAnswerbyStud.bind(this)} />
+															  <input type="radio" name="questionOption" id="C" className={"C-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getAnswerbyStud.bind(this)} />
 															  <span className="checkmarkk"></span>
 															  <span className=" quesAnswerOpt">{slides.C}</span>
 															</label>
@@ -513,7 +532,7 @@ class StartExam extends (Component)  {
 													      </div>
 													      <div className="col-lg-3 col-md-3 col-sm-3 col-xs-8 answerBottom">
 													      	<label className="col-lg-8 col-md-8 col-sm-8 col-xs-8 containerr">
-															  <input type="radio" name="questionOption" id="D" className={"D-"+index} data-qNum={slides.questionNumber} onClick={this.getAnswerbyStud.bind(this)} />
+															  <input type="radio" name="questionOption" id="D" className={"D-"+index} data-qNum={slides.questionNumber} data-right={slides.correctAnswer} onClick={this.getAnswerbyStud.bind(this)} />
 															  <span className="checkmarkk"></span>
 															  <span className=" quesAnswerOpt">{slides.D}</span>
 															</label>
@@ -532,17 +551,17 @@ class StartExam extends (Component)  {
 												      <div className="col-lg-9 col-lg-offset-2 col-md-9 col-md-offset-2 col-sm-9  col-sm-offset-2 col-xs-12 sliderTitles finishSlideWrap">
 														<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														      <div className="col-lg-12 col-md-12 col-sm-12 finishText">
-														      	{slides.finishText}
+														      	{/*slides.finishText*/}You are about to finish the Exam.
 														      </div>
 														</div>
 														<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 answerBottom finishsubText">
-														      	{slides.finishSubtext}
+														      	{/*slides.finishSubtext*/}Please click on below button to finish the Exam.
 														      </div>
 														</div>
 														<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finishBttn">
-																<button className="showNextWindowButtow btn btn-primary" onClick={this.RUSureWantTofinsh.bind(this)}>{slides.finish_button}</button>
+																<button className="showNextWindowButtow btn btn-primary" onClick={this.RUSureWantTofinsh.bind(this)}>Finish Exam{/*slides.finish_button*/}</button>
 															</div>
 														</div>
 													  </div>

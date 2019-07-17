@@ -203,6 +203,10 @@ class PurchasedPackage extends Component {
           .catch(function (error) {
               console.log(error);
           });
+      localStorage.setItem("orderId",orderId);
+      localStorage.setItem("pckgIndex",pckgIndex);
+      localStorage.setItem("btnIndex",btnIndex);
+
 
       // Meteor.call("updateQuestionPaperMasterAccordingtoPackages",practiceExamId,pckgIndex,btnIndex,orderId,(error,result)=>{
       // if(error){
@@ -224,8 +228,11 @@ class PurchasedPackage extends Component {
     }
 
     gotoPreviousExam(event){
-      var id = $(event.target).attr('id');
-      this.props.history.push("/practiceExam/"+id);
+      var id        = $(event.target).attr('id');
+      var orderId   = localStorage.getItem("orderId");
+      var pckgIndex = localStorage.getItem("pckgIndex");
+      var btnIndex  = localStorage.getItem("btnIndex");
+      this.props.history.push("/practiceExam/"+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
     }
 
     ExamComplete(event){

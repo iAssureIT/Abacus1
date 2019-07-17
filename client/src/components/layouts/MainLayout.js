@@ -20,6 +20,7 @@ import VerifyMobileAOS 			from '../../components/systemSecurity/VerifyAccount.js
 import MultipleCompetition 		from '../../components/studentMainExam/components/MultipleCompetition.js';
 import IAgreeAndStartExam 		from '../../components/studentMainExam/components/IAgreeAndStartExam.js';
 import StartExam 				from '../../components/studentMainExam/components/StartExam.js';
+import ExamResult 				from '../../components/studentMainExam/components/ExamResult.js';
 import PastExamReports 			from '../../components/studentMainExam/components/PastExamReports.js';
 import CompetitionResultReport 	from '../../components/studentMainExam/components/CompetitionResultReport.js';
 // Section: 3 - PackageManagement ***************************************************
@@ -105,7 +106,7 @@ class MainLayout extends Component{
 										  		<Route path="/PackageList" 				exact strict component={ PackageList } />
 										  		<Route path="/PackageList/:orderId" 	exact strict component={ PackageList } />
 
-										  		<Route path="/practiceExam/:id/:orderId/:PackageId/:BtnIndex" 		exact strict component={ StartPracticeExam } />
+										  		<Route path="/practiceExam/:id/:orderId/:packageId/:btnIndex" 		exact strict component={ StartPracticeExam } />
 										  		<Route path="/practiceExam/:id" 			exact strict component={ StartPracticeExam } />
 										  		<Route path="/PracticeExamResult/:id"		exact strict component={ PracticeExamResult } />
 										  		<Route path="/PracticeStartExam"			exact strict component={ PracticeStartExam } />
@@ -123,6 +124,7 @@ class MainLayout extends Component{
 										  		<Route path="/IAgreeAndStartExam"			exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/IAgreeAndStartExam/:compId"	exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/StartExam/:compId/:examId"	exact strict component={ StartExam } />
+										  		<Route path="/mainExamResult/:examId"		exact strict component={ ExamResult } />
 										  		<Route path="/PastExamReports"				exact strict component={ PastExamReports } />
 										  		<Route path="/CompResultReport"				exact strict component={ CompetitionResultReport } />
 										  		<Route path="/competitionDetails/:compId"	exact strict component={ CompetitionDetailsforPayment } />

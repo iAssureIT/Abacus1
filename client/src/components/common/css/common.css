@@ -24,7 +24,12 @@
 .greyText{
 	color:#777;
 }
-
+.marg150{
+  margin-right: 150px;
+}
+.maxWidth{
+  max-width: 395px;
+}
 
 
 
@@ -6523,16 +6528,9 @@ background-size:16px 16px;
   color: #ff8102;
   border-radius: 6px;
   font-weight: bold;
-  margin-top: 5%;
+  margin-top: 6%;
   margin-bottom: 1%;
-}
-/*.examDetailsWrap1,.examDetailsWrap2,.examDetailsWrap3{
-  padding-top: 14px;
-  padding-bottom: 14px;
-  box-shadow: 1px 0px 0px #222;
-  text-align: center;
-  
-}*/
+} 
 .examDetailsWrap1,.examDetailsWrap2,.examDetailsWrap3{
   padding: 16px;
   /*padding-bottom: 14px;*/
@@ -7228,8 +7226,9 @@ input:checked + .slider .off
   z-index: 1;
 }
 .innerWebCam{
-position: absolute;
-right: 15px;
+  position: absolute;
+  right: 15px;
+  margin-top: 55px;
 }
 .imageWraper{
   margin-top: 15px;
