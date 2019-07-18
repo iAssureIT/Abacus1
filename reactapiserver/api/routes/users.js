@@ -31,7 +31,7 @@ router.get('/profileimg/:studentId', UserController.user_profileimg);
 
 router.get('/:studentId',UserController.user_details);
 
-
+router.post('/forgotpwd',UserController.sendEmail_setOTP);
 // router.patch('/registration',UserController.registration);
 
 

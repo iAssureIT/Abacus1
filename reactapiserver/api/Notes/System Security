@@ -1,4 +1,4 @@
-1. SignUp                                               - WIP
+1. SignUp                                               - Done
     - Check if email and mobile               - Done
         - if exixt then show error
     - send opt to registered mobile mobNumber - Done
@@ -130,3 +130,19 @@
                         { message : "OTP Updated"}
                     else
                         { message : "OTP not Updated"}
+
+3. Forgot password
+
+    Method      : POST
+    
+    URL         : /user/forgotpwd
+
+    Input       :
+                    {
+                        "emailID"		: String
+                    }
+    Output      :
+                    if successful   
+                        { message:"OTP Sent and User Updated"}
+                    else
+                        message:"OTP Sent and User not Updated"

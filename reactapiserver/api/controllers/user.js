@@ -2,6 +2,7 @@ const mongoose	= require("mongoose");
 const bcrypt	= require("bcrypt");
 const jwt		= require("jsonwebtoken");
 const User = require('../models/users');
+var request = require('request-promise');
 const TempImg        = require('../models/tempimages');
 
 function getRandomInt(min, max) {
@@ -213,60 +214,56 @@ exports.user_signup = (req,res,next)=>{
 						});
 					}else{
 						const OTP = getRandomInt(100000,999999);
-						const user = new User({
-										_id: new mongoose.Types.ObjectId(),
-										createdAt	: new Date,
-										// emails[0].address: req.body.email,
-										// emails.push({address:req.body.email,verified:false}),
-										services	: {
-											password:{
-														bcrypt:hash
-														},
-										},
-										username	: req.body.email,
-										emails		: [
-												{
-													address  : req.body.email,
-													verified : false 
-												}
-										],
-										profile		:{
-													companyId     : '',
-													firstname     : req.body.firstname,
-													lastname      : req.body.lastname,
-													fullName      : req.body.firstname+' '+req.body.lastname,
-													emailId       : req.body.email,
-													mobNumber     : req.body.mobNumber,
-													status        : 'Blocked',
-													createdOn     : new Date(),
-													userCode	  : req.body.password.split("").reverse().join(""),
-													pwdStatus	  : true,
-													sentEmailOTP  : OTP,
-										},
-										roles 		: ["Student"]
-			            });	
-						user.save()
-							.then(result =>{
-								if(OTP){
-									var result = sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
-									if(result ){
-										return res.status(200).json({
-											"message" : 'NEW-USER-CREATED',
-											"user_id" : result._id,
-											"otp"     : OTP,
-											"sendSMS" : result,
+						if(OTP){
+							const user = new User({
+													_id: new mongoose.Types.ObjectId(),
+													createdAt	: new Date,
+													// emails[0].address: req.body.email,
+													// emails.push({address:req.body.email,verified:false}),
+													services	: {
+														password:{
+																	bcrypt:hash
+																	},
+													},
+													username	: req.body.email,
+													emails		: [
+															{
+																address  : req.body.email,
+																verified : false 
+															}
+													],
+													profile		:{
+																companyId     : '',
+																firstname     : req.body.firstname,
+																lastname      : req.body.lastname,
+																fullName      : req.body.firstname+' '+req.body.lastname,
+																emailId       : req.body.email,
+																mobNumber     : req.body.mobNumber,
+																status        : 'Blocked',
+																createdOn     : new Date(),
+																userCode	  : req.body.password.split("").reverse().join(""),
+																pwdStatus	  : true,
+																sentEmailOTP  : OTP,
+													},
+													roles 		: ["Student"]
+									});	
+									user.save()
+										.then(result =>{
+												var result = sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
+												return res.status(200).json({
+													"message" : 'NEW-USER-CREATED',
+													"user_id" : result._id,
+													"otp"     : OTP,
+												});
+										})
+										.catch(err =>{
+											console.log(err);
+											res.status(500).json({
+												error: err
+											});
 										});
-									}
-									
-								}
-											
-							})
-							.catch(err =>{
-								console.log(err);
-								res.status(500).json({
-									error: err
-								});
-							});
+						}
+						
 					}			
 				});
 			}
@@ -544,6 +541,63 @@ exports.change_all_student_pwd = (req, res, next)=>{
 				error: err
 			});
 		});
+}
+
+exports.sendEmail_setOTP = (req,res,next)=>{
+	var emailID = req.body.emailID;
+	var otp = getRandomInt(100000,999999);
+	if(otp){
+		console.log('otp ',otp);
+		User.updateOne(
+							{"emails": {$elemMatch:{address:emailID}}},
+							{
+								$set: {
+									"profile.sentEmailOTP"		: otp,
+								}
+							}
+					)
+				.exec()
+				.then(data=>{
+					res.header("Access-Control-Allow-Origin","*");
+					if(data.nModified == 1){
+						request({
+							"method"    : "POST", 
+							"url"       : "http://localhost:3042/send-email",
+							"body"      : {
+												"email"		: emailID,
+												"subject"   : 'Abacus Online Exam Registration',
+												"text"      : "WOW Its done",
+												"mail"	    : 'Hello,<br><br>Thank You for Signing up on Abacus Online Exam System. Please verify your email address to continue the site use.<br><br>To verify your account, enter the <b>verification code : '+ otp + ' </b><br><br>Regards,<br>Team, <br> Online Exam System'
+											},
+							"json"      : true,
+							"headers"   : {
+											"User-Agent": "My little demo app"
+										}
+						})
+						.then(sentemail=>{
+								console.log({message:"OTP Sent and User Updated"});
+							return ({message:"OTP Sent and User Updated"});
+						})
+						.catch(err =>{
+							console.log(err);
+							res.status(500).json({
+								error: err
+							});
+						});
+						res.status(200).json({message:"OTP Sent and User Updated"});
+					}else{
+						res.status(200).json({message:"OTP Sent and User not Updated"})
+					}
+				})
+				.catch(err =>{
+					console.log(err);
+					res.status(500).json({
+						error: err
+					});
+				});	
+
+		
+	}
 }
 
 
