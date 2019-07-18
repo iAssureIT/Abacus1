@@ -258,6 +258,8 @@ exports.getMainExamQuestions = (req,res,next) =>{
                                             'finishSubtext': 'Please click on below button to finish the Exam.',
                                             'finish_button': 'Finish The  Exam' });
                             var dataObject = {
+                                "_id"                   : postData._id,
+                                "examName"              : postData.competitionName,
                                 "noOfQuestion"          : questionArrayFromTC.length-1,
                                 "totalMarks"            : postData.totalMarks,
                                 "questionArrayFromTC"   : questionArrayFromTC,
