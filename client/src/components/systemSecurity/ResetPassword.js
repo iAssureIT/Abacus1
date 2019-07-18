@@ -42,73 +42,49 @@ class ResetPassword extends Component {
     event.preventDefault();
     var password        = this.refs.resetPassword.value;
     var passwordConfirm = this.refs.resetPasswordConfirm.value;
-    // var newID = Session.get('newID');
-    var newID = this.props.match.params.id;
-    if(newID){
-      var resetPassword = newID;
-    }else{
-      var username = $('input[name="forgotEmail"]').val();
-      // var userOtp = Meteor.users.findOne({"username":username});
-      // if(userOtp){
-        var resetPassword = "E6BRdJtHMF9a6p7KF";
-      // }
-    }
-
+    var email           = localStorage.getItem("mailId");
     var pwdData = {
-              userID:"E6BRdJtHMF9a6p7KF",
-              currentPwd: password,
-              changedpwd: passwordConfirm,
+              emailID    :email,
+              changedpwd : passwordConfirm,
     }
-    // console.log(resetPassword + password + passwordConfirm);
-
-    //Check password is at least 6 chars long
-    // var isValidPassword = function(password, passwordConfirm) {
-    //   if (password === passwordConfirm) {
-    //     return password.length >= 6 ? true : swal({
-    //       title: "Password should be at least 6 Characters Long",
-    //       text: "Please try again",
-    //       timer: 1700,
-    //       showConfirmButton: false,
-    //       type: "error"
-    //     });
-    //   }else{
-    //     return swal({
-    //       title: "Password doesn't Match",
-    //       text: 'Please try Again',
-    //       showConfirmButton: true,
-    //       type: 'error'
-    //     }); //End of error swal
-    //   } //End of else
-    // }
-
-    // if (isValidPassword(password, passwordConfirm)) {
-      // Meteor.call("resetPasswordUsingotp", resetPassword, password, function(err) {
-      //   if (err) {
-      //     console.log('We are sorry but something went Wrong.');
-      //   }else {
-                 
-      //     Meteor.logout();
-      //     FlowRouter.go('/');
-      //     swal("Password has been Changed Successfully!!");
-      //   }
-      // });
-
+ 
+    if(password==passwordConfirm){
+      if(password.length >= 6){
       axios
       .post('/user/changepwd',pwdData)
       .then((response)=> {
           console.log("-------pwdData---->>",response);
           var responseData = response.data;
+          if(responseData=="Password Changed successfully"){
+            swal("Your password has been updated!","","success"); 
+              
+            this.props.history.push('/');
+          }
        
       })
       .catch(function (error) {
           console.log(error);
+          swal("Invalid current password.","","warning");
         
       })
+       }else{ 
+              swal({
+                title: "password should be at least 6 characters long",
+                text: "Please try again",
+                timer: 1700,
+                showConfirmButton: false,
+                type: "error"
+            });
+          }
+    }else{
+       swal({
+              title: 'Passwords does not match',
+              text: 'Please try again',
+              showConfirmButton: true,
+              type: 'error'
+          });
+    }
 
-
-
-    // }
-    // return false;
   }
 
   render(){

@@ -44,6 +44,7 @@ class StudentProfile extends Component{
 	        // loginTime        	: '',
 	        loggedIn 				: false,
 	        refreshcnt : 0, 
+	        studentRegStatus        :"Registered",
 
 	    }
 
@@ -61,21 +62,25 @@ class StudentProfile extends Component{
  //  	}
 
 	componentWillMount(){
-    	// $('.sidebar').css({display:'block',background: '#222d32'});
-    	// console.log("loggedIn",this.state.loggedIn);
-    	// var token = localstorage.getItem('token');
-    	// console.log("localstorage =",localstorage);
-    	
-  //   	console.log("location.pathname.match =",localStorage);
-  //   	 if (this.props.location.pathname=="/dashboard" && this.state.refreshcnt==0){
-		//    // window.location.reload()
-		//    window.onload = function () {
-		// 	    if (! localStorage.justOnce) {
-		// 	        localStorage.setItem("justOnce", "true");
-		// 	        window.location.reload();
-		// 	    }
-		// 	}
-		// }
+ 		axios
+		  .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+		  .then((response)=> {
+		  	if(response.data==null){
+		  		this.setState({
+		  			studentRegStatus : "Not registered"
+		  		})
+		  	}else{
+		  		this.setState({
+		  			studentRegStatus : "Registered"
+		  		})
+
+		  	}
+		    
+		  })
+		  .catch(function (error){
+		    
+		  });
+
 
     	axios
 	    	.get('/notificationmasters/Broadcast')
@@ -92,27 +97,10 @@ class StudentProfile extends Component{
 				$('#showstatus').css('display','block');
 				$('#showstatus').css('overflow-y','auto');
     	 		$('#showstatus').addClass('fade in');
-		  //  //        	if(studData){
-				// 	// 	if(studData.notificationStatus=="Unread"){
-				// 	// 		Meteor.setTimeout(function() {
-				// 		    // $('#showstatus').show();
-				// 	// 		}, 300);
-				// 	// 	}else{
-				// 	// 		Meteor.setTimeout(function() {
-				// 	// 	    $('#showstatus').modal('hide');
-				// 	// 		}, 300);
-				// 	// 	}
-				// 	// }	
+		 	
 
 	          	}
-	   //        	else{
-    //             // console.log("-------in else------>>");
-
-				// 		// Meteor.setTimeout(function() {
-				// 	    	// $('#showstatus').hide();
-				// 		// }, 300);
-
-				// }
+	  
 
             })
             .catch(function (error) {
@@ -311,13 +299,8 @@ class StudentProfile extends Component{
 			return <redirect to="/login"/>
 		}else{
 		return(
-			<div>
-			{/*<div className="container-fluid cfcustom">
-		        <div className="content-wrapper marg-left0">
-				  <section className="content-header1">*/}
-				    {/*<h1>Start Purchased Practice Exam</h1>*/}
-				    
-				  {/*</section>*/}
+			(this.state.studentRegStatus=="Registered")?
+			<div>			
 		          	<section className={"content viewContent bgmyprofile"/*+bgimg*/}>
 		           		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 							{this.state.packageordermasters.length>0?
@@ -563,60 +546,21 @@ class StudentProfile extends Component{
 	                                </div>
 	                            </div>
 
-								{/*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showstatus">After login modal status</button>
-								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showNotice">After login modal Notice</button>*/}
-
 						</div>
 					</div>
 				  </section>
 				</div>
+			:
+				<div>
+					<div>
+						<div className="box-header with-border boxMinHeight  studDataNotExist whitebackground">
+						 	Please Fill Registration Form <a href="/CreateStudReg"> Click Here </a> to Register.
+						</div>
+					</div>
+				</div>
+
 			/*</div>
 		</div>*/
 	  )}
 	}
 }export default StudentProfile;
-// export default StudentProfileContainer = withTracker(props=>{
-// 	var id = Meteor.userId();
-// 	const postHandle              = Meteor.subscribe('LoginInStudent',id);
-// 	const loadingTest             = !postHandle.ready();
-// 	var studentData               = StudentMaster.findOne({"studentId":id})||{};
-
-// 	var myExamHandle              = Meteor.subscribe("showAllStudExams",Meteor.userId());
-// 	var loadingTestExam           = !myExamHandle.ready();
-// 	var mainExamReport            = MyExamMaster.find({"StudentId":Meteor.userId()},{fields:{"competitionName":1,"category":1,"totalScore":1}}).fetch()||{};	
-
-// 	const postPackageHandle       = Meteor.subscribe('packageManagementData');
-//     const packageloading          = !postPackageHandle.ready();
-//     const packageData             = PackageManagementMaster.find({},{sort: {createdAt: 1}}).fetch();
-	
-// 	const postPackageOrderHandle  = Meteor.subscribe('showLoginStuddntOrders');
-//     const packageloading1         = !postPackageOrderHandle.ready();
-//     const packageOrderData        = PackageOrderMaster.find({"buyerId":Meteor.userId(),"status":"paid"},{sort: {paymentDate: -1},fields:{"packages":1}}).fetch()||{};
-
-// 	const postHandle1             = Meteor.subscribe('NotificationMasterstatus');
-// 	const loading1                = !postHandle1.ready();
-// 	const Notificationstatus      = NotificationMaster.find({}).fetch();
-	
-// 	const postHandle2             = Meteor.subscribe('SiteDowntimeInfo');
-// 	const loading2                = !postHandle2.ready();
-// 	const downtimestatus     	  =  SiteDowntime.findOne({"timeStatus":"Broadcasted"})||{};
-	
-//     if(packageData){
-//     	var totalPackagesCount    = packageData.length;
-//     	// var totalPackagesCount    = packageData.length;
-//     }
-
-//  	return{
-// 		studentData,
-// 		mainExamReport,
-// 		loadingTest,
-// 		totalPackagesCount,
-// 		packageData,
-// 		packageOrderData,
-// 		Notificationstatus,
-// 		loading1,
-// 		loading2,
-// 		downtimestatus
-		
-// 	}
-// })(StudentProfile);

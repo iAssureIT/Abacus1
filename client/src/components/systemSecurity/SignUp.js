@@ -74,6 +74,7 @@ class SignUp extends Component {
       				// browserHistory.push("/"),
 
       				localStorage.setItem('mobileNumber',auth.mobNumber),
+      				localStorage.setItem('firstName',auth.firstname),
 
                 	 axios
                 	 	.post('/user/signup',auth,)
@@ -83,14 +84,8 @@ class SignUp extends Component {
 			                if(responseData.message=="NEW-USER-CREATED"){
 			                	swal("Great","Information submitted successfully","success");
 			                	this.props.history.push("/confirm-otp");
-			                }
-		            		
-			                // this.props.history.push("/");
-			                // this.setState({
-			                //   practiceExamReport : reconfirm-otpsponse.data
-			                // });
-			                // localStorage.setItem("token",response.data.token);
-			                // direct.setState({loggedIn:response.data.token})
+			                }		            		
+			               
 			            })
 			            .catch(function (error) {
 			                console.log(error);

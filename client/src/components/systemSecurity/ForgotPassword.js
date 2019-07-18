@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import swal from 'sweetalert';
 import $ from "jquery";
+import axios        from 'axios';
 
 import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +14,7 @@ class ForgotPassword extends Component {
       super();
       this.state ={
         email  : '',
-        mobile  : '',
+        // mobile  : '',
         // subscription    : {
         //   user: Meteor.subscribe("userfunction"), 
         // }
@@ -27,18 +28,34 @@ class ForgotPassword extends Component {
       console.log('forgotpassword');
       event.preventDefault();
       var email = this.refs.enterEmail.value;
-      var mobile = this.refs.enterMobNo.value;
-      // console.log("email: ",email);
-     this.setState({
-      email : email,
-      mobile : mobile,
-     });
-      var userOtp = 1 /*Meteor.users.findOne({"username":email})*/;
-      // console.log("userOtp: ",userOtp);
+      localStorage.setItem("mailId",email);
+      var emailData = {
+          "emailID" : email
+      }
+
+      axios
+        .post('/user/forgotpwd',emailData)
+        .then((response)=> {
+          console.log("-------emailData frgt pwd------>>",response);
+          var data = response.data;
+          if(data.message=="OTP Sent and User Updated"){
+            this.props.history.push('/confirm-otp/forgot');
+          }
+        })
+        .catch(function (error){
+          
+        });
+  
+     // this.setState({
+     //  email : email,
+     //  mobile : mobile,
+     // });
+     //  var userOtp = 1 /*Meteor.users.findOne({"username":email})*/;
+     //  // console.log("userOtp: ",userOtp);
      
-     if(userOtp==1){
-      var mobileotp = Math.floor(1000 + Math.random() * 9000);
-      var emailotp = Math.floor(100000 + Math.random() * 900000);
+     // if(userOtp==1){
+     //  var mobileotp = Math.floor(1000 + Math.random() * 9000);
+     //  var emailotp = Math.floor(100000 + Math.random() * 900000);
   //       // Session.set('mobotp',mobileotp);
   ///////////////
   //       // Session.set('mailotp',emailotp);
@@ -79,9 +96,10 @@ class ForgotPassword extends Component {
         // // $('.confirnModalWrap').addClass('newPassword');
         // // $('.NewForgotPasswordWrap').css('display','none');
 
-      }else{
-        swal('Email Address not found',"Please enter valid Email Id","warning");                  
-      }
+      // }else{
+      //   swal('Email Address not found',"Please enter valid Email Id","warning");                  
+      // }
+
     }
 
     inputEffect(event){
@@ -146,9 +164,9 @@ class ForgotPassword extends Component {
                     </div>
                   </div>
                   <div className="submitButtonWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr">
-                    <Link to='/forgotOTPVarification/hgjhnk'>
+                    
                       <button type="submit" className="btn col-lg-12 col-md-12 col-sm-12 col-xs-12 submitBtn UMloginbutton">Send Verification Code</button>
-                    </Link>
+                    
                   </div>
                   <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">
                     <Link to='/' className="UMGrey signInbtn col-lg-12 col-md-12 col-sm-12 col-xs-12">Sign In</Link>   

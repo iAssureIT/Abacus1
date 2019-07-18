@@ -21,7 +21,7 @@ import './SignUp.css';
       this.setState({
         mobileNumber : localStorage.getItem('mobileNumber'),
       },()=>{
-        console.log("in c otp---->",this.state.mobileNumber)
+        console.log("in c otp---->",localStorage.getItem('mailId'))
     })
     }  
 
@@ -29,19 +29,44 @@ import './SignUp.css';
     confirmOTP(event){
       console.log('confirm otp');
       event.preventDefault();
-      var url = this.props.match.params;
-      console.log('url = ',url);
+       var otpData;
+      var url = this.props.location.pathname;
+      if(url== "/confirm-otp/forgot"){
+         otpData =  {
+                        email               : localStorage.getItem('mailId'),
+                        otp                 : parseInt(this.refs.emailotp.value)
+                    }
 
-      var otpData =  {
+      }else{
+        otpData =  {
                         mobileNumber       : this.state.mobileNumber,
                         otp                 : parseInt(this.refs.emailotp.value)
                     }
 
-      // 
-          console.log("----in otpData--->>",otpData);
+      }    
 
-
+  if(url== "/confirm-otp/forgot"){
       axios
+      .post('/user/checkotp',otpData,)
+      .then((response)=> {
+          console.log("-------userData--in checkotp---->>",response);
+          var responseData = response.data;
+          if(responseData.message=="Success"){
+           swal("Great","OTP Verified Successfully","success");
+           this.props.history.push("/reset-pwd");
+          }
+          else if(responseData.message=="Failed"){
+              swal("OTP not verified","Please try again","error");
+              this.props.history.push("/");
+          }
+      })
+      .catch(function (error) {
+          console.log(error);
+        
+      })
+    }else{
+
+       axios
       .post('/user/mobileverification',otpData,)
       .then((response)=> {
           console.log("-------userData--in confirm otp---->>",response);
@@ -59,6 +84,8 @@ import './SignUp.css';
           console.log(error);
         
       })
+
+    }
 
       // var checkUserExist = FlowRouter.getParam("mailId");
       // var userData = Meteor.users.findOne({"_id":checkUserExist});
@@ -167,38 +194,31 @@ import './SignUp.css';
       var element = document.getElementById("resendOtpBtn");
       element.classList.add("btn-success");
       element.classList.remove("resendOtpColor");
-      // var checkUserExist = FlowRouter.getParam("mailId");
-      // var userData = Meteor.users.findOne({"_id":checkUserExist});
-      // if(userData){
-      //   var userProfile = userData.profile;    
-      //   if(userProfile){
-      //     var sessionValue2 = userProfile.sentEmailOTP;
-      //     var mobNumber = userProfile.mobNumber;
-      //     var firstName  = userProfile.firstname;
 
-      //   }
-      //    var emailotp = Math.floor(100000 + Math.random() * 900000);
+      var data = {
+          mobNumber : localStorage.getItem('mobileNumber'),
+          firstname : localStorage.getItem('firstname'),
+      }
 
-      //   Meteor.call('addOTP', userData._id, emailotp, function(error,result){
-      //     if(error){
-      //       console.log(error);
-      //     }else{
+       axios
+      .post('/user/resendotp',data)
+      .then((response)=> {
+          console.log("-------resend otp ---->>",response);
+          var responseData = response.data;
+          if(responseData=="OTP updated"){
+           swal("Great","OTP resend Successfully","success");         
+          }
+          else{
+              swal("Something went wrong","","error");              
+          }
+      })
+      .catch(function (error) {
+          console.log(error);
+        
+      })
 
-      //       Meteor.call("sendSMSMsg",firstName,mobNumber,emailotp,(error,result)=>{
-      //         if(error){
 
-      //         }else{
-      //           swal("We have sent OTP to your registered mobile number","","success");
-      //              $("input[name=emailotp]").val('');   
-      //           element.classList.add("resendOtpColor");
-      //           element.classList.remove("btn-success");
-      //         }
-      //       });
-      //     }
-      //   });
-      // }else{
-      //   swal("You are not registered","","warning");
-      // }
+   
 
     }
 
