@@ -257,6 +257,7 @@ exports.getMainExamQuestions = (req,res,next) =>{
                             questionArrayFromTC.push({'finishText' : 'You are about to finish the Exam.', 
                                             'finishSubtext': 'Please click on below button to finish the Exam.',
                                             'finish_button': 'Finish The  Exam' });
+                            console.log('postData.competitionName ',postData.competitionName);                            
                             var dataObject = {
                                 "_id"                   : postData._id,
                                 "examName"              : postData.competitionName,
