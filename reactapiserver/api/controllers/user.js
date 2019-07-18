@@ -134,10 +134,10 @@ exports.email_optverify = (req, res, next)=>{
 }
 exports.change_pwd = (req, res, next)=>{
 	console.log('change_pwd');
-	var userID 		= req.body.userID;
+	var emailID 		= req.body.emailID;
 	var currentPwd 	= req.body.currentPwd.split("").reverse().join(""); 
 	var changedpwd	= req.body.changedpwd;
-	User.findOne({_id:userID})
+	User.findOne({"emails":{$elemMatch:{address:emailID}}})
 		.exec()
 		.then(user =>{
 			if(user){
