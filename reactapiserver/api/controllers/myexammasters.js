@@ -250,7 +250,6 @@ exports.getMainExamQuestions = (req,res,next) =>{
     MyExamMaster.findOne({_id:req.params.competitionId,StudentId: req.params.studentId,examType:"Final Exam"})
                 .exec()
                 .then(postData=>{
-                    console.log('postData ',postData);
                     if(postData){
                         var questionArrayFromTC = postData.answerArray;
                         if(questionArrayFromTC){
@@ -266,6 +265,7 @@ exports.getMainExamQuestions = (req,res,next) =>{
                                 "examName"              : postData.examName,
                                 "examStatus"            : postData.examStatus,
                             }
+                            console.log('dataObject ',dataObject);
                             if(dataObject){
                                 res.status(200).json(dataObject);
                             }else{
