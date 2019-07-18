@@ -59,7 +59,6 @@ app.use((req, res, next) => {
 });
 
 //URL's collection wise
-<<<<<<< Updated upstream
 app.use("/user", userRoutes);
 app.use("/exammasters", exammasterRouter);
 app.use("/myexammasters",myexammasterRouter);
@@ -75,19 +74,6 @@ app.use('/notificationmasters',notificationmastersRoutes)
 app.use('/questionpapermasters',questionpapermastersRouters);
 app.use("/packagemanagementmasters",packagemanagementmastersRoutes);
 app.use("/quickwalletmasters",quickwalletmastersRoutes);
-=======
-app.use("/api/user", userRoutes);
-app.use("/api/exammasters", exammasterRouter);
-app.use("/api/myexammasters",myexammasterRouter);
-app.use("/api/mypracticeexammasters",mypracticeexammastersRouter);
-app.use("/api/categories",categoresmasterRouter);
-app.use("/api/franchisedetails",franchisedetailsRouter);
-app.use("/api/competitionregisterorder",competitionregisterorderRouter);
-app.use("/api/packageordermasters",packageordermastersRouter);
-app.use('/api/instructions',instructionRoutes);
-app.use('/api/studentmaster',studentMasterRoutes);
-app.use('/api/tempimg',tempImgRouters);
->>>>>>> Stashed changes
 
 app.use("/registration",registrationRouters);
 app.use("/purchasedpackage",purchasedpackageRouters);
