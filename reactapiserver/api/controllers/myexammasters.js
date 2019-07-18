@@ -548,9 +548,9 @@ exports.saveimgs = (req,res,next) =>{
             .exec()
             .then(data=>{
                 if(data.nModified){
-                    res.status(200).json({message:"Exam Completed"});
+                    res.status(200).json({message:"Exam updated"});
                 }else{
-                    res.status(200).json({message:"Exam not Completed"});
+                    res.status(200).json({message:"Exam not updated"});
                 }
             })
             .catch(err =>{
