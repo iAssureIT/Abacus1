@@ -20,7 +20,7 @@ export default class CompetitionResultReport extends (Component) {
 			counter 				: 1,
 			competitionId 			: '',
 			categoryName  			: 'ALL',
-			subCategory 			: 'A1',
+			subCategory 			: 'All',
 			studentNameCWTM 		: '',
 			franchiseId 			: '',
 			franchise 				: '',
@@ -36,6 +36,7 @@ export default class CompetitionResultReport extends (Component) {
 		this.getSWTMTextValue = this.getSWTMTextValue.bind(this);
 		this.showGridView 	  = this.showGridView.bind(this);
 		this.showListView 	  = this.showListView.bind(this);
+		this.getResultData 	  = this.getResultData.bind(this);
 	}
 
 	componentWillMount(){
@@ -137,25 +138,28 @@ export default class CompetitionResultReport extends (Component) {
 		// });
 		this.setState({
 			competitionId : competitionId,
-		},()=>{/*this.studWiseTestMonthlyData()*/});
+		},()=>{this.getResultData();});
 	}
 
   	getCategoryName(event){
 		var categoryName = $(event.target).val();
 		this.setState({
 			categoryName : categoryName,
+		},()=>{
+			this.getResultData();
 		});
 		axios
 			.get('/categories/'+categoryName)
             .then((response)=> {
+
                 var	totalSubCatg = response.data.levels.length;
-                console.log("totalSubCatg = ",totalSubCatg);
 				if(totalSubCatg > 0){
 					var subCatarray =[];
 					for(var i=1; i<=totalSubCatg;i++){
 						var subCat = categoryName+i;
 						subCatarray.push(subCat);
 					}
+            	console.log("subCatarray response--->",subCatarray);
 					this.setState({
 						subCatarray : subCatarray,
 					});
@@ -172,7 +176,28 @@ export default class CompetitionResultReport extends (Component) {
 			subCategory : categorySubName,
 			startRange:0,
 			counter: 1,
-		},()=>{/*this.studWiseTestMonthlyData()*/});		
+		},()=>{this.getResultData();
+		});		
+	}
+
+
+	getResultData(){
+
+		axios
+	 		.get('/myexammasters/'+this.state.categoryName+'/'+this.state.subCategory+'/'+this.state.competitionId+'/'+this.state.startRange+'/'+this.state.dataRange)
+            .then((response)=> {
+                console.log("-------res exam------>>",response.data);
+                this.setState({
+		 			allCategoryWiseStudent : response.data
+		 		});
+                // localStorage.setItem("token",response.data.token);
+                // direct.setState({loggedIn:response.data.token})
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
 	}
 
 	showhideSubCatDetails(event){		
@@ -539,6 +564,7 @@ export default class CompetitionResultReport extends (Component) {
 															<option value="">-- Select Sub Category --</option>
 															<option value="all" id="all">ALL</option>
 															{subCatgArray ? subCatgArray.map((subcat,index) =>{ 
+																console.log("subcat render",subcat)
 																return (<option key={index}> {subcat} </option>);
 															 }) : '<option> No Data </option>' }
 														</select>
@@ -567,7 +593,7 @@ export default class CompetitionResultReport extends (Component) {
 											    		<div key={ind}className="col-lg-2 col-md-2 col-xs-12 col-sm-12 resultViewDiv">
 											    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
 												    			{/*<div className="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1 col-xs-12 col-sm-12 profileCircle"></div>*/}
-												    			<img className="col-lg-12 col-md-12 profileCircle" src={allStudentView.studImg}/>
+												    			<img className="col-lg-12 col-md-12 profileCircle" src={allStudentView.studImg+'.png'}/>
 												    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center">
 													    			<div className="studName">{allStudentView.firstName}</div>
 													    			<div className="studName">{allStudentView.lastName}</div>
