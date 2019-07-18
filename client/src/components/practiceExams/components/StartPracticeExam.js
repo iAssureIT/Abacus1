@@ -253,15 +253,7 @@ class StartPracticeExam extends (Component)  {
 	endExam(){
 		console.log("end free exam");
 		if(this.props.match.params.orderId && this.props.match.params.packageId && this.props.match.params.btnIndex){
-		axios
-			.post('/purchasedpackage/updatequespaper')
-			.then((response)=>{
-				console.log("updatequespaper = ",response.data);
-				
-			})
-			.catch(function(error){
-				console.log(error)
-			})
+		
 
 			var quepaperID  = this.props.match.params.id;
             var orderId     = this.props.match.params.orderId?this.props.match.params.orderId:"";
@@ -271,17 +263,36 @@ class StartPracticeExam extends (Component)  {
 	        var todayDate   = moment().format("MMM Do YY");
 	        console.log("quepaperID= ",quepaperID," | orderId= ",orderId," | packageID= ",packageID," | index= ",index," | studentID= ",studentID," | todayDate= ",todayDate,)
 	   		var values 		={
-	                            quepaperID  : quepaperID,
-	                            orderId     : orderId,
-	                            packageID   : packageID,
-	                            index       : index,
-	                            studentID   : studentID,
-	                            todayDate   : todayDate,
+	                            "practiceExamId"  : quepaperID,
+	                            "orderId"     : orderId,
+	                            "packageId"   : packageID,
+	                            "pckgIndex"       : index,
+	                            "studentId"   : studentID,
+	                            "todayDate"   : todayDate,
+	                         }
+
+             axios
+			.post('/purchasedpackage/updatequespaper',values)
+			.then((response)=>{
+				console.log("updatequespaper = ",response.data);
+				
+			})
+			.catch(function(error){
+				console.log(error)
+			})
+
+			var values1 		={
+	                            "practiceExamId"  : quepaperID,
+	                            "orderId"     : orderId,
+	                            "packageId"   : packageID,
+	                            "pckgIndex"       : index,
+	                            "studentID"   : studentID,
+	                            "todayDate"   : todayDate,
 	                         }
 
 
         axios
-			.post('/packagequestionpapermaster',values)
+			.post('/packagequestionpapermaster',values1)
 			.then((response)=>{
 				console.log("updatequespaper = ",response.data);
 				if("result" =="returnTrue"){

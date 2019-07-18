@@ -18,7 +18,7 @@ class PracticeStartExam extends Component {
 			mypracticeexamstatus : [],
 		});
 	}
-	componentDidMount(){
+	componentWillMount(){
 		const studentID = localStorage.getItem("user_ID");
 		
 		axios
@@ -145,23 +145,23 @@ class PracticeStartExam extends Component {
 
 
 	}
-	componentWillMount(){
-  // 		 Meteor.call("isAuthenticated","PracticeExam","StartFreePracticeExam",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res==true){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }else if(res==false){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }
-		// 	}
-		// });
-  	}
+	// componentWillMount(){
+ //  // 		 Meteor.call("isAuthenticated","PracticeExam","StartFreePracticeExam",(err,res)=>{
+	// 	// 	if(err){
+	// 	// 		console.log(err);
+	// 	// 	}else{
+	// 	// 		if(res==true){
+	// 	//           this.setState({
+	// 	//              facilityPermission : res,
+	// 	//           });
+	// 	//         }else if(res==false){
+	// 	//           this.setState({
+	// 	//              facilityPermission : res,
+	// 	//           });
+	// 	//         }
+	// 	// 	}
+	// 	// });
+ //  	}
 	componentWillUnmount(){
     	// $("script[src='/js/adminLte.js']").remove();
     	// $("link[href='/css/dashboard.css']").remove();
