@@ -441,7 +441,7 @@ exports.user_profileimg = (req,res,next)=>{
 }
 
 exports.fetch_otp = (req,res,next)=>{
-	var sId = req.body.studentId;
+	var sId = req.body.emailID;
 	User.findOne({_id:sId})
 		.select("profile.sentEmailOTP profile.receivedEmailOTP")
 		.exec()
@@ -598,6 +598,28 @@ exports.sendEmail_setOTP = (req,res,next)=>{
 
 		
 	}
+}
+
+exports.check_otp = (req,res,next) =>{
+	User.updateOne(
+						{	"emails" : {$elemMatch:{address:req.body.email}},
+							"profile.sentEmailOTP": req.body.otp
+						}
+					)
+		.exec()
+		.then(data=>{
+			if(data.nModified == 1){
+				res.status(200).json({message:"Success"});
+			}else{
+				res.status(200).json({message:"Failed"});
+			}
+		})
+		.catch(err =>{
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
 }
 
 
