@@ -20,10 +20,10 @@ function sendSMSMsg (firstname,toNumber,otp){
 	msg91.send(toNum, text, function(err,status) {
 		if(err){
 			console.log('e',e);
-			return e;
+			return "Failed";
 		}else if(status){
-			console.log('r ',r);
-			return r;
+			console.log('r ',status);
+			return "Success";
 		}
 	});
 }
@@ -247,15 +247,17 @@ exports.user_signup = (req,res,next)=>{
 			            });	
 						user.save()
 							.then(result =>{
-								
 								if(OTP){
-									sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
-
-									return res.status(200).json({
-										"message" : 'NEW-USER-CREATED',
-										"user_id" : result._id,
-										"otp"     : OTP,
-									});
+									var result = sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
+									if(result ){
+										return res.status(200).json({
+											"message" : 'NEW-USER-CREATED',
+											"user_id" : result._id,
+											"otp"     : OTP,
+											"sendSMS" : result,
+										});
+									}
+									
 								}
 											
 							})
