@@ -5,8 +5,6 @@ const router 	= express.Router();
 var request = require('request-promise');
 
 router.get('/', (req,res,next)=>{
-    
-    // var studentId   = req.body.studentId;
     var todayDate   = req.body.todaydate;
     var subCategory = req.body.subCategory;
     request({

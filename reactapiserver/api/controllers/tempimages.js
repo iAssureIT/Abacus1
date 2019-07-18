@@ -7,7 +7,6 @@ exports.fetch_tempimg = (req,res,next)=>{
     TempImagesMaster.findOne({userId:studentId})
 		    .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{

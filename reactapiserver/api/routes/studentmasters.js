@@ -8,7 +8,6 @@ router.get('/sinfo/:studentId',StudentMasterController.studentInfo);
 router.post('/insertstudent',StudentMasterController.insert_student_registration);
 router.get('/notifyndowntime/:studentId',StudentMasterController.fetch_notification_student);
 router.post('/update/notifyndowntime/:studentId/:statustype/:status',StudentMasterController.update_notificationStatus)
-// router.patch('/registration',StudentMasterController.registration);
 
 module.exports = router;
 

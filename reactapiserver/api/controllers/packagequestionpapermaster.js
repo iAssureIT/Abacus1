@@ -29,10 +29,8 @@ exports.update_packagequestionpapermaster = (req,res,next)=>{
                                                 .exec()
                                                 .then(data=>{
                                                     if(data.nModified == 1){
-                                                        console.log('data updated');
                                                         res.status(200).json("Updated successfully");
                                                     }else{
-                                                        console.log('data not updated');
                                                         res.status(200).json("Something went wrong");
                                                     }
                                                 })
@@ -59,7 +57,6 @@ exports.fetch_student_pkgquemaster = (req,res,next)=>{
     PackageQuestionPaperMaster  .find({buyerId:req.params.studentID})
                                 .exec()
                                 .then(data =>{
-                                    //   console.log('data ',data);
                                     res.status(200).json(data);
                                 })
                                 .catch(err =>{

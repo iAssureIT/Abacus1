@@ -23,7 +23,6 @@ exports.fetch_exam_details = (req,res,next)=>{
           .sort( { competitionDate:-1} )
           .exec()
           .then(data =>{
-          //   console.log('data ',data);
             res.status(200).json(data);
           })
           .catch(err =>{
@@ -39,7 +38,6 @@ exports.fetch_all = (req,res,next)=>{
             .select("competitionName competitionView")
 		        .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{
@@ -51,12 +49,9 @@ exports.fetch_all = (req,res,next)=>{
 }
 exports.fetch_statu_exam = (req,res,next)=>{
   var competitionId = req.params.competitionId;
-  console.log('competitionId ',competitionId);
   ExamMaster.find({_id:competitionId})
-          // .select("result ")
           .exec()
           .then(data =>{
-          //   console.log('data ',data);
             res.status(200).json(data);
           })
           .catch(err =>{
@@ -78,9 +73,6 @@ exports.competitionDetails = (req,res,next)=>{
                                     var dateformat = moment(new Date(competitionData.competitionDate)).format('MMM Do YYYY');
                                     var CompetitionExamData = competitionData.competitionExams;
                                     if(CompetitionExamData){
-                                      console.log('student cat ', studentMasterData.category);
-                                      console.log('student subcat ', studentMasterData.subCategory);
-                                      console.log('CompetitionExamData ',CompetitionExamData);
                                       var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
                                       if(arrIndex){
                                         res.status(200).json({
@@ -90,8 +82,6 @@ exports.competitionDetails = (req,res,next)=>{
                                                                 studentMasterData   : studentMasterData,
                                                               });
                                       }else{
-                                      console.log('comp 1 not found');
-
                                         res.status(404).json({message:"competition Exam does not exist"})  
                                       }
                                     }else{
@@ -120,11 +110,8 @@ exports.competitionDetails = (req,res,next)=>{
 }
 
 exports.fetch_exam_details_mainexam = (req,res,next)=>{
-  console.log('body ',req.body);
   var indiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
   var today = new Date(indiaTime);
-  console.log('today ',today,'changed ',today.toLocaleString());
-
   var todayDate       = moment(today).format('L');
   var currentTime     = moment(today).format('LT');
   ExamMaster.find({competitionView:"Show"})
@@ -132,7 +119,6 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
             .exec()
             .then(competitionData =>{
               if(competitionData){
-                // console.log('competitionData ',competitionData);
                 var competitions = [];
                 for(index = 0 ; index < competitionData.length ; index++){
                   var competitionDate = new Date(competitionData[index].competitionDate);
@@ -190,18 +176,14 @@ exports.fetch_exam_details_mainexam = (req,res,next)=>{
                       'examDataStatus'        : '',
                       'examId'                : '',
                     });
-                  // }
                 }//End of For
                 if(competitionData.length == competitions.length){
                  var CompetitionRegOrder =  CompetitionRegisterOrder.find({studentId:req.body.studentID,status:"paid"});
                   if(CompetitionRegOrder) {
-                    
                     res.status(200).json({CompetitionRegOrder ,competitionData})
                   }
-                  // res.status(200).json(competitions);
                 }
               }
-              // res.status(200).json(competitionData);
             })
             .catch(err =>{
               console.log(err);

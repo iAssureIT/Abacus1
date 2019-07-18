@@ -7,7 +7,6 @@ exports.fetch_categoriesName = (req,res,next)=>{
             .select("categoryName")
 		    .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{
@@ -24,7 +23,6 @@ exports.fetch_categorydetails = (req,res,next)=>{
             .select("categoryName categoryMarks levels")
 		    .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{

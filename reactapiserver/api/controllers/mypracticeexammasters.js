@@ -10,7 +10,6 @@ exports.fetch_practice_student = (req,res,next)=>{
             .select("examName date category totalQuestion attemptedQues correctAnswer wrongAnswer originalTime totalScore examTime")
 		    .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{
@@ -28,7 +27,6 @@ exports.fetch_incomplete_student = (req,res,next)=>{
           .select("examName date category totalQuestion attemptedQues correctAnswer wrongAnswer originalTime totalScore examTime")
       .exec()
           .then(data =>{
-          //   console.log('data ',data);
             res.status(200).json(data);
           })
           .catch(err =>{
@@ -46,7 +44,6 @@ exports.fetch_exampaper_student = (req,res,next)=>{
                       .select("examStatus")
                       .exec()
                       .then(data =>{
-                      //   console.log('data ',data);
                         res.status(200).json(data);
                       })
                       .catch(err =>{
@@ -64,7 +61,6 @@ exports.fetch_practice_exam_student = (req,res,next)=>{
                       .select("examTime totalQuestion answerArray totalMarks examTime examName lastVisitedQuestion lastVisitedQAnswer examStatus")
                       .exec()
                       .then(data =>{
-                      //   console.log('data ',data);
                         res.status(200).json(data);
                       })
                       .catch(err =>{
@@ -80,7 +76,6 @@ exports.fetch_practice = (req,res,next)=>{
   MyPracticeExamMaster.findOne({_id:practiceExamId})
                       .exec()
                       .then(data =>{
-                      //   console.log('data ',data);
                         res.status(200).json(data);
                       })
                       .catch(err =>{
@@ -190,7 +185,6 @@ exports.ExamMarksUpdate = (req,res,next) =>{
 }
 
 exports.completeExam = (req,res,next) =>{
-  console.log('completeexam');
   MyPracticeExamMaster.updateOne(
                               {"_id":req.params.examId},
                               {
@@ -200,7 +194,6 @@ exports.completeExam = (req,res,next) =>{
                               })
                           .exec()
                           .then(d => {
-                            console.log('d ',d);
                             if(d.nModified == 1){
                               res.status(200).json("Updated successfully");                                                
                             }else{

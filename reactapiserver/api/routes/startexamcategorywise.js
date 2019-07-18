@@ -1,14 +1,9 @@
-
 const express 	= require("express");
 const router 	= express.Router();
 const mongoose	= require("mongoose");
 var moment      = require('moment');
-
 const StudentMaster                 = require('../models/studentmasters'); 
 const ExamMaster                    = require('../models/exammasters');
-// const PackageOrderMaster            = require('../models/packageordermasters');
-// const PackageManagementMaster       = require('../models/packagemanagementmasters');
-// const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 const MyExamMaster                  = require('../models/myexammasters');
 
@@ -28,18 +23,14 @@ shuffle = function(array) {
 }
 
 router.post('/:compId/:studentID', (req,res,next)=>{
-    // res.status(200).json('request');
-    console.log('/startexamcategorywise',req.params);
     StudentMaster.findOne({studentId:req.params.studentID})
                  .exec()
                  .then(studentData=>{
                      if(studentData){
-                         console.log('studentData ',studentData);
                         ExamMaster  .findOne({_id:req.params.compId,competitionStatus:"start"})
                                     .exec()
                                     .then(examMasterData=>{
                                         if(examMasterData){
-                                            console.log('examMasterData ',examMasterData);
                                             var studentCategory = 	examMasterData.competitionExams;
                                             if(studentCategory){
                                                 var i = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
@@ -50,7 +41,6 @@ router.post('/:compId/:studentID', (req,res,next)=>{
                                                                             .exec()
                                                                             .then(quesPaperData=>{
                                                                                 if(quesPaperData){
-                                                                                    console.log('quesPaperData ',quesPaperData);
                                                                                     var questionArray =  quesPaperData.questionsArray;
                                                                                     if(questionArray){
                                                                                         var questionArray1 = shuffle(questionArray);

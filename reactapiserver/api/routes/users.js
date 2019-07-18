@@ -37,7 +37,5 @@ router.post('/resendotp',UserController.resend_otp);
 
 router.delete('/:userId', checkAuth, UserController.user_delete);
 
-// router.patch('/registration',UserController.registration);
-
 
 module.exports = router;

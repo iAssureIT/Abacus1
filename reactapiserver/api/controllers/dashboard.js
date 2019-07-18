@@ -7,7 +7,6 @@ exports.purchased_packaged = (req,res,next)=>{
     PackageOrderMaster.find({userId:studentId})
 		    .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{

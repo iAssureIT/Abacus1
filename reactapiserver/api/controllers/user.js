@@ -30,7 +30,6 @@ function sendSMSMsg (firstname,toNumber,otp){
 }
 
 exports.mobile_optverify = (req, res, next)=>{
-	console.log('otp verify ',req.body);
 	var mobileNum 	= req.body.mobileNumber;
 	var otp 		= req.body.otp;
 	if(mobileNum && otp){
@@ -80,7 +79,6 @@ exports.mobile_optverify = (req, res, next)=>{
 				});
 			});
 	} 
-	// res.status(200).json({ message: "Mobile Number ", mobile:mobileNum});
 }
 
 exports.email_optverify = (req, res, next)=>{
@@ -133,7 +131,6 @@ exports.email_optverify = (req, res, next)=>{
 	}
 }
 exports.change_pwd = (req, res, next)=>{
-	console.log('change_pwd',req.body);
 	var emailID 		= req.body.emailID;
 	var changedpwd		= req.body.changedpwd;
 	bcrypt.hash(changedpwd,10,(err,hash)=>{
@@ -170,7 +167,6 @@ exports.change_pwd = (req, res, next)=>{
 }
 
 exports.user_signup = (req,res,next)=>{
-	console.log('signup');
 	User.find(
 				{ $or : 
 					[
@@ -197,8 +193,6 @@ exports.user_signup = (req,res,next)=>{
 							const user = new User({
 													_id: new mongoose.Types.ObjectId(),
 													createdAt	: new Date,
-													// emails[0].address: req.body.email,
-													// emails.push({address:req.body.email,verified:false}),
 													services	: {
 														password:{
 																	bcrypt:hash
@@ -257,12 +251,10 @@ exports.user_signup = (req,res,next)=>{
 }; 
 
 exports.user_login = (req,res,next)=>{
-	console.log('login');
 	User.findOne(
 						{ $and : 
 							[
 								{"emails"				: {$elemMatch:{address:req.body.email}}},
-								// {"emails"				: {$elemMatch:{verified:true}}},
 								{"profile.status"		: 'Active'}	
 							]
 						}
@@ -280,10 +272,8 @@ exports.user_login = (req,res,next)=>{
 							});		
 						}
 						if(result){
-							console.log('result ',result);
 							const token = jwt.sign({
 								email 	: req.body.email,
-								// userId	: mongoose.Types.ObjectId(user._id) ,
 								userId	: user._id ,
 							},global.JWT_KEY,
 							{
@@ -300,7 +290,6 @@ exports.user_login = (req,res,next)=>{
 								userProfileImg 		: user.profile.userProfile,
 							});	
 						}
-						console.log({message:"Neither err nor result"});
 						return res.status(401).json({
 							message: 'Error and Result Auth failed'
 						});
@@ -321,11 +310,9 @@ exports.user_login = (req,res,next)=>{
 };
 
 exports.user_delete = (req,res,next)=>{
-	console.log('user id ',req.params.userId);
 	User.remove({_id:req.params.userId})
 		.exec()
 		.then(result =>{
-			console.log('user delete ',result);
 			res.status(200).json({
 				message: 'User deleted'
 			});
@@ -342,7 +329,6 @@ exports.users_list = (req,res,next)=>{
 	User.find({})
 		.exec()
 		.then(users =>{
-			// console.log('users ',users);
 			res.status(200).json(users);
 		})
 		.catch(err =>{
@@ -360,7 +346,6 @@ exports.user_details = (req, res, next)=>{
 		.select("profile")
 		.exec()
 		.then(users =>{
-			// console.log('users ',users);
 			res.status(200).json(users);
 		})
 		.catch(err =>{
@@ -372,7 +357,6 @@ exports.user_details = (req, res, next)=>{
 }
 
 exports.user_profileimg = (req,res,next)=>{
-	console.log('user_profileimg');
     var studentId = req.params.studentId;
 	TempImg.findOne({userId:studentId})
 			.select("imagePath")
@@ -384,22 +368,16 @@ exports.user_profileimg = (req,res,next)=>{
 						.exec()
 						.then(users =>{
 							if(users){
-								// console.log('img 1',users);
-								// console.log('img 2',users.profile);								
-								// console.log('img 3',users.profile.userProfile);
 								var imgdata = {
 									"_id": users._id,
 									"imagePath":users.profile.userProfile,
 								};
 								if(imgdata.imagePath){
-									// console.log('imgdata if',imgdata);
 									res.status(200).json(imgdata);
 								}else{
-									// console.log('imgdata else',imgdata);
 									res.status(200).json(imgdata);
 								}
 							}
-							
 						})
 						.catch(err =>{
 							console.log(err);
@@ -440,7 +418,6 @@ exports.fetch_otp = (req,res,next)=>{
 }
 
 exports.update_otp =(req,res,next) =>{
-	console.log('update otp');
 	var sId 		= req.body.studentId;
 	var sentOTP		= req.body.sentOTP;
 	User.updateOne(
@@ -492,11 +469,7 @@ exports.change_all_student_pwd = (req, res, next)=>{
 									}
 								)
 								.then(data =>{
-									// if(data){
-									// 	res.status(200).json("Password Changed successfully");
-									// }else{
-									// 	res.status(200).json("Something went wrong. Please check the data passed");
-									// }
+		
 								})
 								.catch(err =>{
 									console.log('password ',err);
@@ -526,7 +499,6 @@ exports.sendEmail_setOTP = (req,res,next)=>{
 	var emailID = req.body.emailID;
 	var otp = getRandomInt(100000,999999);
 	if(otp){
-		console.log('otp ',otp);
 		User.updateOne(
 							{"emails": {$elemMatch:{address:emailID}}},
 							{
@@ -554,7 +526,6 @@ exports.sendEmail_setOTP = (req,res,next)=>{
 										}
 						})
 						.then(sentemail=>{
-								console.log({message:"OTP Sent and User Updated"});
 							return ({message:"OTP Sent and User Updated"});
 						})
 						.catch(err =>{

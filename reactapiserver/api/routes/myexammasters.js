@@ -37,4 +37,5 @@ router.post('/saveimgs',MyExamMastersController.saveimgs);
 router.post('/exammarksupdate/:examId/:examsolvingtime',MyExamMastersController.ExamMarksUpdate);
 
 router.post('/finishexam/:examId',MyExamMastersController.FinishExam);
+
 module.exports = router;

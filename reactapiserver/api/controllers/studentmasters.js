@@ -22,7 +22,6 @@ exports.fetch_student = (req,res,next)=>{
 }
 exports.studentInfo = (req,res,next)=>{
   var sId = req.params.studentId;
-  console.log('studentInfo sId',sId);
   StudentMaster.findOne({studentId:sId})
                .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId updateProfilePermission")
                .exec()
@@ -57,16 +56,13 @@ exports.studentInfo = (req,res,next)=>{
                    }
                    studentInfo.submitButtonMsg         = 'Confirm & Update';
                    if(studentInfo.submitButtonMsg){
-                    console.log('student found ',studentInfo.submitButtonMsg);
                     res.status(200).json(studentInfo);
                    }
                  }else{
-                   console.log('Student not found');
                    User.findOne({_id:sId})
                       .select("profile")
                       .exec()
                       .then(user =>{
-                        console.log('users ',user);
                         var studentInfo = {
                           _id                   : '',
                           studentFirstName      : user.profile.firstname,
@@ -100,7 +96,6 @@ exports.studentInfo = (req,res,next)=>{
                           error: err
                         });
                       });
-                  //  res.status(200).json('No student found');
                  }
                })
                .catch(err =>{
@@ -161,12 +156,10 @@ exports.insert_student_registration = (req,res,next) =>{
       pincode             : req.body.pincode,
       studentEmail        : req.body.studentEmail,
       genderType          : req.body.genderType,
-      // imgSrc         : req.body.imgSrc,
       examFee             : 0,
       categoryArray:[
                       {
                       category       : req.body.category,
-                      // category       : 'req.body.category',
                       subCategory    : req.body.subCategory,
                       examStatus     : 'Not Completed',
                       status         : "UnPaid",
@@ -177,7 +170,6 @@ exports.insert_student_registration = (req,res,next) =>{
     });
     studentMaster.save()
                 .then(data =>{
-                  console.log('data ',data);
                   res.status(200).json("User created");
                 })
                 .catch(err => {
@@ -203,9 +195,9 @@ exports.update_notificationStatus = (req,res,next) =>{
                     .exec()
                     .then(data=>{
                       if(data.nModified == 1){
-                        res.status(409).json({message:"Status Updated"})
+                        res.status(200).json({message:"Status Updated"})
                       }else{
-                        res.status(409).json({message:"Something went wrong"})
+                        res.status(200).json({message:"Something went wrong"})
                       }
                     })
                     .catch(err => {
@@ -227,9 +219,9 @@ exports.update_notificationStatus = (req,res,next) =>{
                     .exec()
                     .then(data=>{
                       if(data.nModified == 1){
-                        res.status(409).json({message:"Status Updated"})
+                        res.status(200).json({message:"Status Updated"})
                       }else{
-                        res.status(409).json({message:"Something went wrong"})
+                        res.status(200).json({message:"Something went wrong"})
                       }
                     })
                     .catch(err => {
@@ -240,10 +232,8 @@ exports.update_notificationStatus = (req,res,next) =>{
                     });
       break;
     default                   :
-      res.status(409).json({message:"Invalid statustype"})
+      res.status(200).json({message:"Invalid statustype"})
   }
-  
-
 }
 
 exports.fetch_notification_student = (req,res,next) =>{
@@ -313,12 +303,8 @@ exports.fetch_notification_student = (req,res,next) =>{
                   error: err
                 });
               });
-
 }
 
-// exports.studentmaster_registraton = (req,res,next) =>{
-//   var 
-// }
 
 
 

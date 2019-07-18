@@ -8,7 +8,6 @@ exports.fetch_instructions = (req,res,next)=>{
             .select("instruction")
 		        .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{

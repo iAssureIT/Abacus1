@@ -8,7 +8,6 @@ exports.fetch_frachiseName = (req,res,next)=>{
             .select("franchiseName")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{

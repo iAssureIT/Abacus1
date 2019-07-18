@@ -5,5 +5,4 @@ const ProjectSettingsController = require('../controllers/projectsettings');
 
 router.get('/',ProjectSettingsController.fetch_projectsettings);
 
-
 module.exports = router;

@@ -11,18 +11,6 @@ const PackageManagementMaster       = require('../models/packagemanagementmaster
 const PackageQuestionPaperMaster    = require('../models/packagequestionpapermasters');
 const QuestionPaperMaster           = require('../models/questionpapermasters');
 
-// PackageManagementMasterFunction = function(packageID){
-//     var data =  request({
-//         "method":"GET", 
-//         "url": "http://abacusapi.iassureit.com/packagemanagementmasters/attemptOfpracticetest/"+packageID,
-//         "json": true,
-//         "headers": {
-//         "User-Agent": "My little demo app"
-//         }
-//     });
-//     console.log('data ',data);
-// }
-
 shuffle = function(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	// While there remain elements to shuffle...
@@ -208,7 +196,6 @@ router.post('/startpracticeexam/:examPaperId/:studentID', (req,res,next)=>{
                                 var questionArray =  questionPaperMasterData.questionsArray;
                                 if(questionArray){
                                     var questionArray1 = shuffle(questionArray);
-                                    // var questionArray1 = questionArray;
                                     var tempQueArray = [];
                                     for(i = 0 ; i < questionArray1.length ;i++){
                                         tempQueArray.push({

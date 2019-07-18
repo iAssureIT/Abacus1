@@ -24,7 +24,7 @@ exports.fetch_mycompetitionorder = (req,res,next)=>{
 exports.fetch_mycompetitionorderreceipt = (req,res,next)=>{
   var sId = req.params.studentId;
   var compId = req.params.competitionId;
-  CompetitionOrderMaster.findOne({competitionId:compId , studentId:sId,status:"paid"})
+  CompetitionOrderMaster.findOne({competitionId:compId,studentId:sId,status:"paid"})
           .select("receiptType status competitionId competitionFees transactionId billnumbers paymentDate")
           .exec()
           .then(competitionorderreceipt =>{

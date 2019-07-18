@@ -3,8 +3,6 @@
 const mongoose = require("mongoose");
 const express 	= require("express");
 const router 	= express.Router();
-
-
 const TempImages        = require('../models/tempimages');
 const StudentMaster     = require('../models/studentmasters'); 
 const FranchiseDetails  = require('../models/franchisedetails');
@@ -13,7 +11,6 @@ const CategoryMasters   = require('../models/categorymasters');
 
 router.post('/', (req,res,next) => {
     var data = req.body;
-    console.log('data ',data);
     FranchiseDetails.findOne({"companyId":parseInt(req.body.companyId)})
                     .exec()
                     .then(franchiseData=>{
@@ -47,7 +44,6 @@ router.post('/', (req,res,next) => {
                                                             }else if(req.body.age>11){
                                                                 var subCategory = subCategory+'4';
                                                             }
-                                                            console.log('subcategory ',subCategory);
                                                             if(req.body._id){
                                                                 StudentMaster   .updateOne(
                                                                                         {"_id":req.body._id},
@@ -74,7 +70,6 @@ router.post('/', (req,res,next) => {
                                                                                                 'subCategory'    			: subCategory,
                                                                                                 'studentEmail'   			: req.body.studentEmail,
                                                                                                 'genderType'     			: req.body.genderType,
-                                                                                                // 'imgSrc'         			: imgSrc
                                                                                             }
                                                                                         }
                                                                                     )
@@ -116,7 +111,6 @@ router.post('/', (req,res,next) => {
                                                                                                     'createdAt'      			: new Date(),
                                                                                                     'updateProfilePermission'   : "Blocked",
                                                                                                     'profileEditStatus'         : "Blocked",
-                                                                                                    // 'imgSrc'         			: imgSrc,
                                                                                                 });   
                                                                 studentmaster.save()
                                                                              .then(sdata=>{

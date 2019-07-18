@@ -3,12 +3,9 @@ var request = require('request-promise');
 const MyExamMaster = require('../models/myexammasters');
 
 exports. fetch_all_show_exam = (req,res,next) =>{
-    console.log('fetch all');
     MyExamMaster.find({})
-            // .select("examStatus")
             .exec()
             .then(data =>{
-                console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -25,7 +22,6 @@ exports.fetch_incomplete_exams = (req,res,next) => {
             .select("examStatus")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -42,7 +38,6 @@ exports.fetch_student_incomplete_exams = (req,res,next) => {
             .select("competitionName examDate")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -59,7 +54,6 @@ exports.fetch_mainexam_certificate = (req,res,next)=>{
             .select("fullName rank competitionName examDate")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -77,8 +71,6 @@ exports.fetch_participationexam_certificate = (req,res,next) => {
             .select("fullName competitionName examDate examSolvingTime examStatus")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
-                
                 res.status(200).json({data : data,index:req.params.index});
             })
             .catch(err =>{
@@ -95,7 +87,6 @@ exports.fetch_mainexam_student = (req,res,next) => {
             .select("competitionName examDate category totalQuestion attemptedQues correctAnswer wrongAnswer examSolvedTime totalScore")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -113,7 +104,6 @@ exports.fetch_competition_result_view = (req,res,next) =>{
     var competitionId   = req.params.competitionId;
     var startRange      = parseInt(req.params.startRange);
     var dataRange       = parseInt(req.params.dataRange);
-    
     if(categoryName == "all"){
         MyExamMaster.find({competitionId:competitionId})
                     .sort({totalScore:-1,examSolvedTime:1})
@@ -171,9 +161,7 @@ exports.search_student_competition_result_view = (req,res,next) =>{
     var categoryName    = req.params.categoryname;
     var studenName     = req.params.studentname;
     var competitionId   = req.params.competitionId;
-    console.log('categoryName -> ',categoryName,' studenName -> ',studenName,' competitionId -> ',competitionId);    
     if(categoryName == "all"){
-        console.log('category name is all');
         MyExamMaster.find({competitionId:competitionId,fullName:studenName})
                     .select("totalMarks StudentId attemptedQues competitionName firstName lastName totalQuestion totalScore examSolvedTime status rank category subCategory studImg")
                     .exec()
@@ -187,7 +175,6 @@ exports.search_student_competition_result_view = (req,res,next) =>{
                         });
                     });
     }else{
-        console.log('category name is not all');
         MyExamMaster.find({competitionId:competitionId,category:categoryName,fullName:studenName})
                     .select("totalMarks StudentId attemptedQues competitionName firstName lastName totalQuestion totalScore examSolvedTime status rank category subCategory studImg")
                     .exec()
@@ -204,13 +191,11 @@ exports.search_student_competition_result_view = (req,res,next) =>{
 }
 
 exports.fetch_exam_student_dashboard = (req,res,next) => {
-    console.log('fetch_exam_student_dashboard');
     var studentId     = req.params.studentId;
     MyExamMaster.find({StudentId:studentId})
             .select("competitionName category totalScore examStatus competitionId")
             .exec()
             .then(data =>{
-            //   console.log('data ',data);
                 res.status(200).json(data);
             })
             .catch(err =>{
@@ -247,7 +232,6 @@ exports.update_myexammaster = (req,res,next) =>{
 }
 
 exports.getMainExamQuestions = (req,res,next) =>{
-    
     MyExamMaster.findOne({_id:req.params.competitionId,StudentId: req.params.studentId,examType:"Final Exam"})
                 .exec()
                 .then(postData=>{
@@ -307,7 +291,6 @@ exports.getmainexamlastvisitedquestion = (req,res,next)=>{
 }
 
 exports.practiceExamResult = (req,res,next)=>{
-    console.log('practiceExamResult');
     MyExamMaster.findOne({_id:req.params.competitionId})
                 .select("originalTime examTime examName category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks studentImageArray")
                 .exec()
@@ -344,7 +327,6 @@ exports.practiceExamResult = (req,res,next)=>{
 
 exports.updateExamTimeAndStudenAnswer = (req,res,next)=>{
     var answer = "";
-    console.log('updateExamTimeAndStudenAnswer body ',req.body);
     MyExamMaster.findOne({"_id":req.body.examId})
                 .exec()
                 .then(examAnswerData=>{
@@ -420,7 +402,6 @@ exports.getAlreadySolvedQuesAns = (req,res,next) =>{
 }
 
 exports.ExamMarksUpdate = (req,res,next) =>{
-    console.log('ExamMarksU[pdate');
     MyExamMaster.findOne({"_id":req.params.examId})
                 .exec()
                 .then(myExamMasterData=>{
@@ -440,7 +421,6 @@ exports.ExamMarksUpdate = (req,res,next) =>{
                         var totalScore = parseInt(correctAnswer ) * parseInt(myExamMasterData.marksPerQuestion);
                         var m1 = myExamMasterData.examTime;
                         var m2 = req.params.examsolvingtime;
-                        console.log('m2 ',m2);
                         if(m1 && m2){
                             var min1 = m1.split(":");
                             var min2 = m2.split(":");
@@ -538,6 +518,7 @@ exports.FinishExam = (req,res,next) =>{
 }
 
 exports.saveimgs = (req,res,next) =>{
+    console.log('req.body ',req.body);
     MyExamMaster.updateOne(
                     {_id: req.body.examId},
                     {
@@ -550,7 +531,7 @@ exports.saveimgs = (req,res,next) =>{
             )
             .exec()
             .then(data=>{
-                if(data.nModified){
+                if(data.nModified == 1){
                     res.status(200).json({message:"Exam updated"});
                 }else{
                     res.status(200).json({message:"Exam not updated"});
@@ -562,9 +543,4 @@ exports.saveimgs = (req,res,next) =>{
                     error: err
                 });
             });
-}
-
-exports.liststudentgivenexam = (req,res,next) =>{
-    MyExamMaster.find({competitionId:competitionList[i].competitionId,StudentId:req.studentId})
-    res.status(200).json(req.body)
 }

@@ -8,7 +8,6 @@ exports.findall_packages = (req, res, next)=>{
                             .select("packageName categoryName subCategory NoOfPracticeTest AttemptOfPracticeTest PackagePrice Description")
                             .exec()
                             .then(data=>{
-                                // console.log('packagemanagementmasters ',data);
                                 res.status(200).json(data);
                             })
                             .catch(err=>{
@@ -23,7 +22,6 @@ exports.fetch_package = (req,res,next)=>{
     PackageManagementMasters.findOne({_id:req.params.packageID})
                             .exec()
                             .then(data=>{
-                                console.log('packagemanagementmasters ',data);
                                 res.status(200).json(data);
                             })
                             .catch(err=>{

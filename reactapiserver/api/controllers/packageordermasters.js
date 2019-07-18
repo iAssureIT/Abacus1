@@ -9,7 +9,6 @@ exports.fetch_mypackageorder = (req,res,next)=>{
             .sort({paymentDate: -1})
             .exec()
             .then(data =>{
-              console.log('data ',data);
               res.status(200).json(data);
             })
             .catch(err =>{
@@ -21,14 +20,12 @@ exports.fetch_mypackageorder = (req,res,next)=>{
 }
 
 exports.fetch_mypackageorderreceipt = (req,res,next)=>{
-  console.log('In package Receipt');
   var sId = req.params.studentId;
   var receiptId = req.params.receiptId;
   PackageOrderMaster.findOne({_id:receiptId , buyerId:sId,status:"paid"})
           .select("status amount transactionId billnumbers paymentDate")
           .exec()
           .then(data =>{
-            console.log('data ',data);
             res.status(200).json(data);
           })
           .catch(err =>{
@@ -44,10 +41,8 @@ exports.check_packageorder = (req,res,next)=>{
           .exec()
           .then(data =>{
             if(data.packages.length > 0){
-              console.log('packageorder found ');
               res.status(200).json("packagesAdded");
             }else{
-              console.log('packageorder not found ');
               res.status(200).json("notAdded");
             }
           })
@@ -60,7 +55,6 @@ exports.check_packageorder = (req,res,next)=>{
 }
 
 exports.invoice_display = (req,res,next)=>{
-  console.log('invoice_ID ',req.params.invoice_ID);
   PackageOrderMaster.findOne({_id:req.params.invoice_ID})
           .exec()
           .then(data =>{
@@ -84,7 +78,6 @@ exports.invoice_display = (req,res,next)=>{
 }
 
 exports.find_packagID = (req,res,next)=>{
-
   PackageOrderMaster.findOne({"_id":req.params.ID,"packages.packageId":req.params.packageId})
           .exec()
           .then(data =>{
@@ -226,5 +219,4 @@ exports.update_package = (req,res,next) =>{
       res.status(500).json("Invalid action option")
       break;
   }
-  
 }

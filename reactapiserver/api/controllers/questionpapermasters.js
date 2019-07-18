@@ -9,7 +9,6 @@ exports.fetch_quespapers = (req,res,next)=>{
                         .select("quePaperTitle")
                         .exec()
                         .then(data =>{
-                        //   console.log('data ',data);
                         res.status(200).json(data);
                         })
                         .catch(err =>{
