@@ -1,17 +1,10 @@
 import React, {Component} 	from 'react';
-// import Webcam 				from 'react-webcam';
+import Webcam 				from 'react-webcam';
 import axios 				from 'axios';
 import swal 				from 'sweetalert';
 import $ 					from 'jquery';
 
-// import {withTracker} from 'meteor/react-meteor-data';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
-// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-// import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import CompetitionDetailsforPayment from '/imports/student/components/CompetitionDetailsforPayment.jsx'; 
-// import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
+import CompetitionDetailsforPayment from '../../../components/myAccount/components/CompetitionDetailsforPayment.js';
 
 class IAgreeAndStartExam extends (Component)  {
 
@@ -28,12 +21,8 @@ class IAgreeAndStartExam extends (Component)  {
 	}
 	
 	componentDidMount(){
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
+		clearInterval(localStorage.getItem("MainExaminterval"));
+		localStorage.removeItem("MainExaminterval")
 		axios
 	        .get('/instructions/Main Exam')
 	        .then((response)=>{

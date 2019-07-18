@@ -491,7 +491,7 @@ export default class CompetitionResultReport extends (Component) {
 					            <h3 className="box-title">Competition Result View</h3>
 					        </div>
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamReportTable">
+								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 topSpace">
 											<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 selectCatSubCatListt paddingleftzero tableAlignment">
 

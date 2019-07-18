@@ -112,14 +112,14 @@ class MainLayout extends Component{
 										  		<Route path="/PackageList" 				exact strict component={ PackageList } />
 										  		<Route path="/PackageList/:orderId" 	exact strict component={ PackageList } />
 
-										  		<Route path="/practiceExam/:id/:orderId/:packageId/:btnIndex" 		exact strict component={ StartPracticeExam } />
-										  		<Route path="/practiceExam/:id" 			exact strict component={ StartPracticeExam } />
-										  		<Route path="/PracticeExamResult/:id"		exact strict component={ PracticeExamResult } />
-										  		<Route path="/PracticeStartExam"			exact strict component={ PracticeStartExam } />
-										  		<Route path="/startPurchasedPracticeExam"			exact strict component={ PurchasedPracticeStartExam } />
+										  		<Route path="/practiceExam/:id/:orderId/:packageId/:btnIndex" 	exact strict component={ StartPracticeExam } />
+										  		<Route path="/practiceExam/:id" 								exact strict component={ StartPracticeExam } />
+										  		<Route path="/PracticeExamResult/:id"							exact strict component={ PracticeExamResult } />
+										  		<Route path="/PracticeStartExam"								exact strict component={ PracticeStartExam } />
+										  		<Route path="/startPurchasedPracticeExam"						exact strict component={ PurchasedPracticeStartExam } />
 										  		<Route path="/startPurchasedPracticeExam/:packageId"			exact strict component={ PurchasedPracticeStartExam } />
-										  		<Route path="/startPurchasedPracticeExam/:id"			exact strict component={ PurchasedPracticeStartExam } />
-										  		<Route path="/PractExamReports" 			exact strict component={ PracticeExamReports } />
+										  		<Route path="/startPurchasedPracticeExam/:id"					exact strict component={ PurchasedPracticeStartExam } />
+										  		<Route path="/PractExamReports" 								exact strict component={ PracticeExamReports } />
 										  		
 										  		<Route path="/Certificate" 					exact strict component={ Certificate } />
 										  		<Route path="/ParticipCert" 				exact strict component={ ParticipationCertificate } />
@@ -129,8 +129,6 @@ class MainLayout extends Component{
 										  		<Route path="/CreateStudReg"				exact strict component={ CreateStudentRegistration } />
 
 										  		<Route path="/MultipleComp"					exact strict component={ MultipleCompetition } />
-										  		<Route path="/MultipleComp/:compId"					exact strict component={ MultipleCompetition } />
-										  		<Route path="/IAgreeAndStartExam"			exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/IAgreeAndStartExam/:compId"	exact strict component={ IAgreeAndStartExam } />
 										  		<Route path="/StartExam/:compId/:examId"	exact strict component={ StartExam } />
 										  		<Route path="/mainExamResult/:examId"		exact strict component={ ExamResult } />

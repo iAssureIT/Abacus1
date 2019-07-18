@@ -63,6 +63,9 @@ class MultipleCompetition extends (Component)  {
 		
 	}
 	componentDidMount(){
+		clearInterval(localStorage.getItem("MainExaminterval"));
+		localStorage.removeItem("MainExaminterval");
+		
 		var i = 0;
 
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
@@ -220,8 +223,8 @@ class MultipleCompetition extends (Component)  {
 		}
 	}
 	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
   	}
 
 	startExam(event){
@@ -234,7 +237,7 @@ class MultipleCompetition extends (Component)  {
 		navigator.getMedia({video: true}, function() {
 		  console.log("webcam is available");
 		  	const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
-				var compId = this.props.match.params.compId;
+				var compId = $(event.target).attr('data-id');
 			  	console.log("/"+compId+'/'+studentId);
 
 				axios
@@ -397,8 +400,7 @@ class MultipleCompetition extends (Component)  {
 										            <th className="col-lg-3">Competition Name </th>										           
 										            <th className="col-lg-2">Competition Date </th>										           
 										            <th className="col-lg-2">Competition Time </th>										           
-										            <th className="col-lg-4"> Status </th>
-										            
+										            <th className="col-lg-4">Status </th>
 										        </tr>
 										    </thead>
 										    {this.state.competitionData/*.length>0*/ ?
@@ -432,7 +434,7 @@ class MultipleCompetition extends (Component)  {
 																								competitionInfo.examStartStatus=="start"?
 																									<td >
 																									{competitionInfo.examDataStatus}
-																										<button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1"><Link to={"/iAgreeAndStartExam/"+competitionInfo._id} className="startexambtn1"> Start Exam </Link></button>
+																										<button type="submit" data-id={competitionInfo._id} onClick={this.startExam.bind(this)} className="btn startexambtn1"><Link to={"/iAgreeAndStartExam/"+competitionInfo._id} className="startexambtn1"> Start Exam </Link></button>
 																									
 																									</td>
 																									:	

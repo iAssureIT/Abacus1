@@ -1,6 +1,6 @@
-import React ,{ Component }		from 'react';
+import React ,{ Component }	from 'react';
 import $ 					from "jquery";
-import moment 					from "moment";
+import moment 				from "moment";
 import axios 				from 'axios';
 // import './StartPracticeExamHeader';
 import '../css/Exam.css';
@@ -12,8 +12,9 @@ class ExamResult extends(Component)  {
 			'myIndex'      		: '',
 			'backarraowcnt'		: '',
 			percentage 			: '',
-			practiceExamData 	: [],
-			'subscription'		: {}
+			mainExamResultData 	: [],
+			'subscription'		: {},
+			studImages 			: []
 		}
 	}
 	componentDidMount(){
@@ -24,8 +25,9 @@ class ExamResult extends(Component)  {
 			.then((response)=>{
 				console.log("Main Exam Result = ",response.data);
 				this.setState({
-					practiceExamData : response.data,
-					percentage 		 : response.data.percentage
+					mainExamResultData  : response.data,
+					percentage 		 	: response.data.percentage,
+					studImages 			: response.data.studentImageArray
 				})
 			})
 			.catch(function(error){
@@ -38,7 +40,7 @@ class ExamResult extends(Component)  {
   	}
 	
 	render(){
-	  if(this.state.practiceExamData){
+	  if(this.state.mainExamResultData){
 		return(
 			<div>
 			<div className="CountIncrement">0</div>
@@ -50,13 +52,13 @@ class ExamResult extends(Component)  {
 		            <div className="row">
 		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 		                <div className="box">
-		                {this.state.practiceExamData !=="Not return Marks" ? 
+		                {this.state.mainExamResultData !=="Not return Marks" ? 
 		                  <div>
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div className="col-lg-12 col-md-12 col-md-offset-3 examDetailsWrap">
-									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap1">{this.state.practiceExamData.examType}</div>
-									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap2">Total Questions :{this.state.practiceExamData.totalQuestion}</div>
-									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap3">Total Marks :{this.state.practiceExamData.totalMarks}</div>
+									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap1">{this.state.mainExamResultData.examName}</div>
+									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap2">Total Questions :{this.state.mainExamResultData.totalQuestion}</div>
+									<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 examDetailsWrap3">Total Marks :{this.state.mainExamResultData.totalMarks}</div>
 									<div className="col-lg-3  col-md-3 col-sm-3 col-xs-2"></div>
 								</div>
 								
@@ -86,7 +88,7 @@ class ExamResult extends(Component)  {
 													null
 									    	}
 									    </div>
-									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examresultWrap">{moment().format('hh:mm a')} , {moment().format('DD MMM YYYY')} - {this.state.practiceExamData.examType} Results</div>
+									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examresultWrap">{moment().format('hh:mm a')} , {moment().format('DD MMM YYYY')} - {this.state.mainExamResultData.examType} Results</div>
 										
 										<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
 											<div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 congratsImgWrap congrats nopadding">
@@ -108,7 +110,7 @@ class ExamResult extends(Component)  {
 											<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 resultSecWrap">
 												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 totalScore">
-														Total Score : {this.state.practiceExamData.totalScore}
+														Total Score : {this.state.mainExamResultData.totalScore}
 													</div>
 											   	</div>
 												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 markksWrap">
@@ -139,19 +141,19 @@ class ExamResult extends(Component)  {
 									  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Total Questions</div>
-												<span className="marksSec1">{this.state.practiceExamData.totalQuestion}</span>
+												<span className="marksSec1">{this.state.mainExamResultData.totalQuestion}</span>
 											</div>
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Attempted Questions</div>
-												<span className="marksSec2">{this.state.practiceExamData.attemptedQues}</span>
+												<span className="marksSec2">{this.state.mainExamResultData.attemptedQues}</span>
 											</div>
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Correct Answers</div>
-												<span className="marksSec3">{this.state.practiceExamData.correctAnswer}</span>
+												<span className="marksSec3">{this.state.mainExamResultData.correctAnswer}</span>
 											</div>
 											<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 studmarksSec">
 												<div className="marksNameSec">Wrong Answers</div>
-												<span className="marksSec4">{this.state.practiceExamData.wrongAnswer}</span>
+												<span className="marksSec4">{this.state.mainExamResultData.wrongAnswer}</span>
 											</div>
 							        	</div>									  
 								</div>
@@ -161,7 +163,7 @@ class ExamResult extends(Component)  {
 							</div>
 							<div className="col-lg-2 col-md-2 col-sm-2 examDetailsWrap4 pull-right">{moment().format('hh:mm a')} <br/>{moment().format("DD-MM-YYYY")}</div>
 								<div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
-									{this.props.studImages ? this.props.studImages.map((images, index)=>{
+									{this.state.studImages ? this.state.studImages.map((images, index)=>{
 										return <div key={index} className="col-lg-4 col-md-4 col-sm-4 imageWraper">
 											<img src={images.studentImage} className="col-lg-12 col-md-12 img-thumbnail"/>
 										</div>

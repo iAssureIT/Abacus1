@@ -4,24 +4,11 @@ import swal 				from 'sweetalert';
 import $ 					from "jquery";
 import { Link } 			from 'react-router-dom';
 import axios 				from 'axios';
-import moment from 'moment';
+import moment 				from 'moment';
+import Webcam 				from 'react-webcam';
 
 import '../css/common.css';
-
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import Webcam from 'react-webcam';
-
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-// import CompetitionDetailsforPayment from '/imports/student/components/CompetitionDetailsforPayment.jsx'; 
-// import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
-
-// import {withTracker} from 'meteor/react-meteor-data';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
-// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-
-
+import CompetitionDetailsforPayment from '../../../components/myAccount/components/CompetitionDetailsforPayment.js';
 
 class StudentRegistrationforCompetition extends Component  {
 
@@ -38,6 +25,7 @@ class StudentRegistrationforCompetition extends Component  {
 	    	competitionData 	 	: [],
 	    }
 	}
+
 	// componentDidMount(){
 
 	// 	axios

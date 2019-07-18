@@ -527,12 +527,12 @@ class StartPracticeExam extends (Component)  {
 																      <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 sliderTitles finishSlideWrap">
 																		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 																		      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finishText">
-																		      	{slides.finishText}
+																		      	{/*slides.finishText*/}You are about to finish the Test.
 																		      </div>
 																		</div>
 																		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 																		      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 answerBottom finishsubText">
-																		      	{slides.finishSubtext}
+																		      	{/*slides.finishSubtext*/}Please click on below button to finish the Test.
 																		      </div>
 																		</div>
 																		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

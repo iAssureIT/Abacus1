@@ -4,6 +4,7 @@ import axios 				from 'axios';
 import swal 				from 'sweetalert';
 import { Link } 			from 'react-router-dom';
 import moment 				from 'moment';
+import S3FileUpload 		from 'react-s3';
 import $ 					from 'jquery';
 
 // import 'bootstrap/dist/js/bootstrap.min.js';
@@ -17,6 +18,7 @@ class StartExam extends (Component)  {
 			'screenshot'		: null,
           	'tab'       		: 0,
           	'qIndex'    		: 0,
+			config   			: '',
 			'myIndex'   		: '',
 			'backarraowcnt' 	: '',
 			noOfQuestion 		: '',
@@ -25,12 +27,34 @@ class StartExam extends (Component)  {
 			questionArrayFromTC : [],
 			'defaultTime'  		: '02:15',
 			examStatus 			: "",
+			examStatus1			: "",
 			// 'subscription':{
 			// 	'subscription':{
 			//  	'myExamMasterData' :  Meteor.subscribe('showSingleAnsPaper',this.props.id),
 			// }
 			// }
-		}		
+		}
+		axios
+	        .get('/projectsettings')
+	        .then((response)=>{
+				const config = {
+							        bucketName 		: response.data.bucket,
+							        dirName  		: 'photos',
+							        region 			: response.data.region,
+							        accessKeyId 	: response.data.key,
+							        secretAccessKey : response.data.secret,
+							    }
+							    
+				this.setState({
+					config : config
+				})
+				console.log('S3 Details =',response.data);
+				console.log('S3 Details1 =',config);
+
+	        })
+	        .catch(function(error){
+	          	console.log(error);
+	        })
 	}
 
 	componentWillMount(){
@@ -60,53 +84,85 @@ class StartExam extends (Component)  {
 	        .then((response)=>{
 				console.log('participation Info =',response.data);
 				var responseData = response.data;
-				this.showMainExamTime(responseData.data[0].examSolvingTime,responseData.data[0]._id);
+				var i = parseInt(response.data.data.length)- 1;
+				
+				this.showMainExamTime(responseData.data[i].examSolvingTime,responseData.data[i]._id);
+				console.log(responseData.data[i].examSolvingTime,' = ',responseData.data[i]._id);
+				
 				this.setState({
-					examStatus 		: responseData.data[0].examStatus,
-					competitionName : responseData.data[0].competitionName 
-				},()=>{
-					console.log("examStatus",this.state.examStatus);
-				})
+					competitionName : responseData.data[i].competitionName 
+				},()=>{})
 				// this.props.history.push('/startExam/'+response.data);
-
 	        })
 	        .catch(function(error){
 	          	console.log(error);
 	          	$('.startExamBtn').css('display','Block');
 				$('.wrProcessing').css('display','none');
 	        })
+	    axios
+	        .get('/myexammasters/getmainexamquestions/'+examId+'/'+studentId)
+	        .then((response)=>{	      
+	          	console.log("111",response.data.examStatus);
 
 // this function is taking screenshot and save it to myExamMaster
-		// var link = this;
-		setInterval(()=>{
-			  const screenshot = this.webcam.getScreenshot();
-			  if(screenshot) {
-				    var byteString;
-				    if (screenshot.split(',')[0].indexOf('base64') >= 0)
-				        byteString = atob(screenshot.split(',')[1]);
-				    else
-				        byteString = unescape(screenshot.split(',')[1]);
-				    // separate out the mime component
-				    var mimeString = screenshot.split(',')[0].split(':')[1].split(';')[0];
-				    // write the bytes of the string to a typed array
-				    var ia = new Uint8Array(byteString.length);
-				    for (var i = 0; i < byteString.length; i++) {
-				        ia[i] = byteString.charCodeAt(i);
-				    }
-				    var blob = new Blob([ia], {type:mimeString});
-				    var imgFile = new File([blob], "studentImage.png");
-				    console.log("fle-->",imgFile);
-				        var file=imgFile;
-				        var documentType=examId;
-				        if(file){       
-				        var fileName  = file.name;    
-		                    if (file,documentType) { 
-		                    	console.log('Screenshot Captured');
-		                      // addStudentExamAppearingImgsToS3Function(file,documentType);
-		      			    }
-				  }
-				}
-			},60000);
+		if(this.state.examStatus1!=='Completed'){
+		this.screenshotInterval = setInterval(()=>{
+			const screenshot = this.webcam.getScreenshot();
+			if(screenshot) {
+			    var byteString;
+			    if (screenshot.split(',')[0].indexOf('base64') >= 0)
+			        byteString = atob(screenshot.split(',')[1]);
+			    else
+			        byteString = unescape(screenshot.split(',')[1]);
+			    // separate out the mime component
+			    var mimeString = screenshot.split(',')[0].split(':')[1].split(';')[0];
+			    // write the bytes of the string to a typed array
+			    var ia = new Uint8Array(byteString.length);
+			    for (var i = 0; i < byteString.length; i++) {
+			        ia[i] = byteString.charCodeAt(i);
+			    }
+			    var blob = new Blob([ia], {type:mimeString});
+			    var x = Math.floor((Math.random() * 1000000000) + 10);
+			    var imgFile = new File([blob], x+"studentImage.png");
+			    console.log("file-->",imgFile);
+			        var file=imgFile;
+			        var documentType=examId;
+			        if(file){       
+			        var fileName  = file.name;    
+	                    if (file,documentType) { 
+	                    	console.log('Screenshot Captured');
+	                    	S3FileUpload
+							    .uploadFile(file,this.state.config)
+							    .then((Data)=>{
+							    	console.log("Data = ",Data);
+							    	var input = {
+							                        examId : examId,
+							                        link   : Data.location,
+							                    }
+							    	axios
+								        .post('/myexammasters/saveimgs',input)
+								        .then((response)=>{
+											console.log('Image uploded Successfully',response.data);
+											console.log('Image uploded Successfully');
+										})
+								        .catch(function(error){
+								          	console.log(error);
+								        })
+							    })
+							    .catch((error)=>{
+							    	console.log(error);
+							    })
+	      			    }
+			  		}   
+		    }
+		},10000);
+	  }
+
+
+	    })
+	        .catch(function(error){
+	          	console.log(error);
+	        })
 	}
 
 	componentDidMount(){
@@ -121,7 +177,8 @@ class StartExam extends (Component)  {
 					noOfQuestion 		: response.data.noOfQuestion,
 					totalMarks 			: response.data.totalMarks,
 					questionArrayFromTC : response.data.questionArrayFromTC,
-				})
+					examStatus 			: response.data.examStatus,
+				},()=>{console.log("examStatus",this.state.examStatus)})
 	        })
 	        .catch(function(error){
 	          	console.log(error);
@@ -168,33 +225,11 @@ class StartExam extends (Component)  {
 			.catch(function(error){
 				console.log(error)
 			})
-
-		// Meteor.call("getMainExamLastVisitedQuestion",id,(err,res)=>{
-		// 	if(err){
-		// 	}else{
-		// 		if(res){
-		// 			// console.log("last Visited----->",res.lastVisitedQAnswer);
-					
-		// 			if(!res.lastVisitedQuestion){
-		// 				this.setState(
-		// 				{
-		// 					qIndex: 0
-		// 				})
-		// 			}else{
-		// 				this.setState(
-		// 				{
-		// 					qIndex: res.lastVisitedQuestion+1
-		// 				})
-		// 			}
-		// 		}
-
-		// 	}
-		// });
 	}
 
 	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
+    	// $("script[src='/js/adminLte.js']").remove();
+    	// $("link[href='/css/dashboard.css']").remove();
   	}
 	
 // this function execute when student click on any option
@@ -234,26 +269,11 @@ class StartExam extends (Component)  {
 				console.log("updateexamtimeAndstudenanswer = ",response.data);
 				jQuery('#mySlideShow').carousel(nextQues);
 				this.fillcolorwhenanswer(index,studAnswer);
-				this.setState({
-					// questionArray : quesArray,
-				});
 			})
 			.catch(function(error){
-				console.log("Error while selected answer = ", error)
+				console.log("Error while selected answer = ", error);
+				alert( 'Please check internet connection. Previous question was not solved', 'danger');
 			})
-		// Meteor.call("updateExamTimeAndStudenAnswer",examId,getqNum,studAnswer,examTime,(err,res)=>{
-		// 	if(err){
-
-		// 	}else{
-		// 		if(res==1){
-		// 			this.fillcolorwhenanswer(getqNum,studAnswer);
-		// 			
-		// 			$('.carousel').carousel((num+1),{duration: 5000});
-		// 		}else{
-		// 			Bert.alert( 'Please check internet connection. Previous question was not solved', 'danger');
-		// 		}
-		// 	}
-		// });
 	}
 
 // after question solve question number will get filled by green color
@@ -261,28 +281,8 @@ class StartExam extends (Component)  {
 	fillcolorwhenanswer(getqNum,studAnswer){
 		$('#qn'+getqNum).addClass("greenClor");
 	}
-
 	componentDidUpdate(){
 		$('.Yes').addClass("greenClor");
-		// -------------------- Left Right carousel show hide ----------------//
-		// $('.carousel').carousel({
-		// 	  wrap: false
-		// 	}).on('slid.bs.carousel', function () {
-		// 		curSlide = $('.active');
-		// 	  if(curSlide.is( ':first-child' )) {
-		// 		 $('.left').show();
-		// 		 return;
-		// 	  } else {
-		// 		 $('.left').show();	  
-		// 	  }
-		// 	  if (curSlide.is( ':last-child' )) {
-		// 		 $('.right').hide();
-		// 		 return;
-		// 	  } else {
-		// 	  	$('.showNextWindowButtow').show();
-		// 		 $('.right').show();	  
-		// 	  }
-		// });
 	}
 	RUSureWantTofinsh(event){
 		var examId = this.props.match.params.examId;
@@ -293,15 +293,12 @@ class StartExam extends (Component)  {
 			.then((response)=>{
 				console.log("exammarksupdate = ",response.data);
 				this.props.history.push("/mainExamResult/"+examId);
+				clearInterval(this.screenshotInterval);
+				localStorage.removeItem("screenshot")
 			})
 			.catch(function(error){
 				console.log("RUSureWantTofinsh = ", error)
 			})
-		// Meteor.call('ExamMarksUpdate',examId,examTime,(err,result)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-			// this.props.history.push("/mainExamResult/"+examId);
 
 		// 	 Meteor.call("resetCompetitionPaymentStatus",(err,res)=>{
 		// 		  if(err){
@@ -315,8 +312,9 @@ class StartExam extends (Component)  {
 //--------------------- this function show clock ----------------//
 	showMainExamTime(examTime,id){
 	//--------------- execute function after 1 seconds. -------------------
+			var examId = this.props.match.params.examId;
 			var intervalMain = setInterval(function() { 
-			// Session.set("MainExaminterval",intervalMain);
+			localStorage.setItem("MainExaminterval",intervalMain);
 			  var timer = examTime.split(':');
 			  var minutes = parseInt(timer[0], 10);
 			  var seconds = parseInt(timer[1], 10);
@@ -325,14 +323,17 @@ class StartExam extends (Component)  {
 			  if (minutes < 0){
 			  	clearInterval(intervalMain);
 				var getExamTime = $('.countdownWrap').text();
-				// Meteor.call('ExamMarksUpdate',id,getExamTime,(err,res)=>{
-				// 	if(err){
-				// 		console.log(err);
-				// 	}else{
-				// 		//location.reload();
-			 //  			FlowRouter.go("/examResult/"+id);
-				// 	}
-				// });
+				clearInterval(this.screenshotInterval);
+				localStorage.removeItem("screenshot")
+				axios
+					.post('/myexammasters/exammarksupdate/'+examId+'/'+getExamTime)
+					.then((response)=>{
+						console.log("exammarksupdate = ",response.data);
+						this.props.history.push("/mainExamResult/"+examId);
+					})
+					.catch(function(error){
+						console.log("RUSureWantTofinsh = ", error)
+					})
 			  	
 			  }else{
 				  seconds = (seconds < 0) ? 59 : seconds;
@@ -406,7 +407,7 @@ class StartExam extends (Component)  {
 		        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 		            <div className="box">
 		                <div>
-		                   	{this.state.examStatus !="Completed" && this.state.examStatus != "notExist"?
+		                   	{this.state.examStatus !=="Completed" && this.state.examStatus !== "notExist"?
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 colpadding">
