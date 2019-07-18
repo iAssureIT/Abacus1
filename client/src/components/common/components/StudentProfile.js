@@ -127,9 +127,11 @@ class StudentProfile extends Component{
 		const token = localStorage.getItem("token");
 		const studentID = localStorage.getItem("user_ID");
 
+
 		this.setState({
 			refreshcnt : 1
 		})
+
 	    // console.log("Dashboard Token = ",token);
 	    if(token!==null){
 	    console.log("Token Received");

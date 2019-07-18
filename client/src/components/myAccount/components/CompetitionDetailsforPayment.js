@@ -23,11 +23,15 @@ class CompetitionDetailsforPayment extends Component{
 		//   $("body").append(adminLte);
 		// }
 
+
 		var id = localStorage.getItem("user_ID");
+
 		var competitionId = this.props.match.params.compId;
 		
 		axios
+
 			.get('/exammasters/exampurchase/'+competitionId+'/'+id)
+
 			.then((response)=>{
 				console.log('response123 = ',response.data);
 				var competitionExams =response.data.competitionData.competitionExams[0];
@@ -56,6 +60,7 @@ class CompetitionDetailsforPayment extends Component{
 
   	confirmPayment(event){
   		event.preventDefault();
+
 		const studentID 	= localStorage.getItem("user_ID");
   		var competitionFees = this.refs.competitionFees.value;
   		var comp_id 		= this.refs.comp_id.value;
@@ -73,6 +78,7 @@ class CompetitionDetailsforPayment extends Component{
 
   		axios
 			.post('/quickwalletmasters/exampurchase/'+studentId/*+studentId*/+'/'+comp_id+'/'+competitionFees,data)
+
 			.then((response)=>{
 				console.log('payment res = ',response.data);
 				this.setState({

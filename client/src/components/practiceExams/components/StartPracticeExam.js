@@ -262,6 +262,7 @@ class StartPracticeExam extends (Component)  {
 			.catch(function(error){
 				console.log(error)
 			})
+
 			var quepaperID  = this.props.match.params.id;
             var orderId     = this.props.match.params.orderId?this.props.match.params.orderId:"";
             var packageID   = this.props.match.params.packageId?this.props.match.params.packageId:"";
@@ -277,7 +278,7 @@ class StartPracticeExam extends (Component)  {
 	                            studentID   : studentID,
 	                            todayDate   : todayDate,
 	                         }
-		// console.log("values==== ",values)
+
 
         axios
 			.post('/packagequestionpapermaster',values)
