@@ -250,19 +250,14 @@ exports.getMainExamQuestions = (req,res,next) =>{
     
     MyExamMaster.findOne({_id:req.params.competitionId,StudentId: req.params.studentId,examType:"Final Exam"})
                 .exec()
-                .then((postData)=>{
+                .then(postData=>{
                     if(postData){
-                        console.log('postData.competitionName ',postData.competitionName);
                         var questionArrayFromTC = postData.answerArray;
                         var compName = postData.competitionName;
-
                         if(questionArrayFromTC && compName){
-                            console.log('compName ',compName);
-
                             questionArrayFromTC.push({'finishText' : 'You are about to finish the Exam.', 
                                             'finishSubtext': 'Please click on below button to finish the Exam.',
                                             'finish_button': 'Finish The  Exam' });
-                            console.log('postData.competitionName ',postData.competitionName);                            
                             var dataObject = {
                                 "_id"                   : postData._id,
                                 "noOfQuestion"          : questionArrayFromTC.length-1,
@@ -272,9 +267,6 @@ exports.getMainExamQuestions = (req,res,next) =>{
                                 "examStatus"            : postData.examStatus,
                                 "examName"              : compName,
                             };
-                            console.log('dataObject ',dataObject);
-                            console.log('postData.competitionName ',postData.competitionName);                            
-
                             if(dataObject){
                                 res.status(200).json(dataObject);
                             }else{
