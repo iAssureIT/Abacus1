@@ -25,67 +25,58 @@ exports.fetch_details = (req,res,next)=>{
 exports.makepayment = (req,res,next) =>{
     var mobileNumber    = req.body.mobileNumber;
     var packageTotal    = req.body.packageTotal;
-    QuickWalletMasters  .find()
+    QuickWalletMasters  .findOne({})
                         .exec()
                         .then(QWCredential =>{
                             if(QWCredential){
-                                console.log('QWCredential ',QWCredential);
-                                // if(QWCredential.environment=="production"){
-                                //     var API         = QWCredential.prodAPI;
-                                //     var partnerid   = QWCredential.prodKey;
-                                //     var secret      = QWCredential.prodSecret;
-                                // }else{
-                                //     var API       = QWCredential.sandboxAPI;
-                                //     var partnerid = QWCredential.sandboxKey;
-                                //     var secret    = QWCredential.sandboxSecret;
-                                // }
-                                // if(quickWalletInput && API && partnerid && secret){
-                                    var quickWalletInput = {
-                                               "partnerid"      : '366',
-                                               "mobile"         : mobileNumber,
-                                               "secret"         : 'wLunwmCYLTVqvpbcZEMvXNznpPYVTFMmp',
-                                               "amount"         : packageTotal,
-                                               "redirecturl"    : 'http://localhost:3042/'+'packagePayment-response/'+req.body.OrderId,          
-                                    };
-                                    // console.log('quickWalletInput ',quickWalletInput);
-                                    // console.log('API ',API);
-                                    // console.log('partnerid ',partnerid);
-                                    // console.log('secret ',secret);
-    
-                                    request({
-                                                "method":"POST", 
-                                                "uri": "https://uat.quikwallet.com/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
-                                                "params" : quickWalletInput,
-                                                "json": true,
-                                                "headers": {
-                                                    "User-Agent": "My little demo app",
-                                                    "Authorization": "Bearer " + "secrect",
-                                                }
-                                            }).then(payresponse=>{
-                                                console.log('payresponse ',payresponse);
-                                                if(payresponse.status == 'success'){
-                                                    var paymentUrl = payresponse.data.url;
-
-                                                    res.status(200).json(paymentUrl);
-                                                }else{
-                                                    res.status(200).json(false);
-                                                }
-                                                res.status(200).json("Something went wrong");
-                                            });
-                                        // var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
-                                        //            {params: quickWalletInput});
-                                        // if(result.data.status == 'success'){
-                                        //     var paymentUrl = result.data.data.url;
-                                        //     res.status(200).json({message : "Payment successfully",paymentUrl : paymentUrl});
-                                        // }else{
-                                        //     res.status(200).json({message : "Payment failed",paymentUrl : null});
-                                        // }
-                                    // }else{
-                                    //     res.status(200).json('Failed')
-                                    // }
-                            }
-                            
                                 
+                                if(QWCredential.environment=="production"){
+                                    var API         = QWCredential.prodAPI;
+                                    var partnerid   = QWCredential.prodKey;
+                                    var secret      = QWCredential.prodSecret;
+                                }else{
+                                    var API       = QWCredential.sandboxAPI;
+                                    var partnerid = QWCredential.sandboxKey;
+                                    var secret    = QWCredential.sandboxSecret;
+                                }
+                                var quickWalletInput = {
+                                    "partnerid"      : partnerid,
+                                    "mobile"         : mobileNumber,
+                                    "secret"         : secret,
+                                    "amount"         : packageTotal,
+                                    "redirecturl"    : API+'packagePayment-response/'+req.body.OrderId,          
+                                };
+                                request({
+                                    "method":"POST", 
+                                    "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
+                                    "params" : quickWalletInput,
+                                    "json": true,
+                                    // "headers": {
+                                    //     "User-Agent": "My little demo app",
+                                    //     "Authorization": "Bearer " + "secrect",
+                                    // }
+                                })
+                                .then(payresponse=>{
+                                    console.log('payresponse ',payresponse);
+                                    if(payresponse.status == 'success'){
+                                        var paymentUrl = payresponse.data.url;
+                                        res.header("Access-Control-Allow-Origin","*");
+                                        res.status(200).json(paymentUrl);
+                                    }else{
+                                        res.status(200).json(false);
+                                    }
+                                    res.status(200).json("Something went wrong");
+                                })
+                                .catch(err =>{
+                                    console.log(err);
+                                    res.status(500).json({
+                                        error: err
+                                    });
+                                });
+                                // res.status(200).json({quickWalletInput});
+                            }else{
+                                res.status(200).json({message:"Qucikwalletmaster data not found"});
+                            }
                         })
                         .catch(err =>{
                             console.log(err);

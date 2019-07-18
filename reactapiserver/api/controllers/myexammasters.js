@@ -301,7 +301,7 @@ exports.practiceExamResult = (req,res,next)=>{
                             "totalMarks"    : studentAnswerSheet.totalMarks,
                             "originalTime"  : studentAnswerSheet.originalTime,
                             "examTime"      : studentAnswerSheet.examTime,
-                            "examName"      : studentAnswerSheet.examName,
+                            // "examName"      : studentAnswerSheet.examName,
                             "category"      : studentAnswerSheet.category,
                             "totalQuestion" : studentAnswerSheet.totalQuestion,
                             "attemptedQues" : studentAnswerSheet.attemptedQues,
