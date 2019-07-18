@@ -133,12 +133,12 @@ exports.email_optverify = (req, res, next)=>{
 	}
 }
 exports.change_pwd = (req, res, next)=>{
-	console.log('change_pwd');
+	console.log('change_pwd',req.body);
 	var emailID 		= req.body.emailID;
 	var changedpwd		= req.body.changedpwd;
 	bcrypt.hash(changedpwd,10,(err,hash)=>{
 		if(err){
-			return res.status(500).json({
+			return res.status(200).json({
 				error:err
 			});
 		}else{
@@ -160,7 +160,7 @@ exports.change_pwd = (req, res, next)=>{
 			})
 			.catch(err =>{
 				console.log('password ',err);
-				res.status(500).json({
+				res.status(200).json({
 					error: err
 				});
 			});	
