@@ -39,7 +39,7 @@ exports.makepayment = (req,res,next) =>{
                                 //     var partnerid = QWCredential.sandboxKey;
                                 //     var secret    = QWCredential.sandboxSecret;
                                 // }
-                                if(quickWalletInput && API && partnerid && secret){
+                                // if(quickWalletInput && API && partnerid && secret){
                                     var quickWalletInput = {
                                                "partnerid"      : '366',
                                                "mobile"         : mobileNumber,
@@ -47,42 +47,42 @@ exports.makepayment = (req,res,next) =>{
                                                "amount"         : packageTotal,
                                                "redirecturl"    : 'http://localhost:3042/'+'packagePayment-response/'+req.body.OrderId,          
                                     };
-                                    console.log('quickWalletInput ',quickWalletInput);
-                                    console.log('API ',API);
-                                    console.log('partnerid ',partnerid);
-                                    console.log('secret ',secret);
+                                    // console.log('quickWalletInput ',quickWalletInput);
+                                    // console.log('API ',API);
+                                    // console.log('partnerid ',partnerid);
+                                    // console.log('secret ',secret);
     
-                                        request({
-                                                    "method":"POST", 
-                                                    "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
-                                                    "params" : quickWalletInput,
-                                                    "json": true,
-                                                    "headers": {
+                                    request({
+                                                "method":"POST", 
+                                                "uri": "https://uat.quikwallet.com/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
+                                                "params" : quickWalletInput,
+                                                "json": true,
+                                                "headers": {
                                                     "User-Agent": "My little demo app",
                                                     "Authorization": "Bearer " + "secrect",
-                                                    }
-                                                }).then(payresponse=>{
-                                                    console.log('payresponse ',payresponse);
-                                                    if(payresponse.status == 'success'){
-                                                        var paymentUrl = payresponse.data.url;
-    
-                                                        res.status(200).json(paymentUrl);
-                                                    }else{
-                                                        res.status(200).json(false);
-                                                    }
-                                                    res.status(200).json("Something went wrong");
-                                                });
+                                                }
+                                            }).then(payresponse=>{
+                                                console.log('payresponse ',payresponse);
+                                                if(payresponse.status == 'success'){
+                                                    var paymentUrl = payresponse.data.url;
+
+                                                    res.status(200).json(paymentUrl);
+                                                }else{
+                                                    res.status(200).json(false);
+                                                }
+                                                res.status(200).json("Something went wrong");
+                                            });
                                         // var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
                                         //            {params: quickWalletInput});
-                                        if(result.data.status == 'success'){
-                                            var paymentUrl = result.data.data.url;
-                                            res.status(200).json({message : "Payment successfully",paymentUrl : paymentUrl});
-                                        }else{
-                                            res.status(200).json({message : "Payment failed",paymentUrl : null});
-                                        }
-                                    }else{
-                                        res.status(200).json('Failed')
-                                    }
+                                        // if(result.data.status == 'success'){
+                                        //     var paymentUrl = result.data.data.url;
+                                        //     res.status(200).json({message : "Payment successfully",paymentUrl : paymentUrl});
+                                        // }else{
+                                        //     res.status(200).json({message : "Payment failed",paymentUrl : null});
+                                        // }
+                                    // }else{
+                                    //     res.status(200).json('Failed')
+                                    // }
                             }
                             
                                 

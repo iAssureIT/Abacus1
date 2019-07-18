@@ -292,7 +292,7 @@ exports.getmainexamlastvisitedquestion = (req,res,next)=>{
 
 exports.practiceExamResult = (req,res,next)=>{
     MyExamMaster.findOne({_id:req.params.competitionId})
-                .select("originalTime examTime examName category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks studentImageArray")
+                .select("originalTime examTime examName paperTitle category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks studentImageArray")
                 .exec()
                 .then(studentAnswerSheet=>{
                     if(studentAnswerSheet){
@@ -310,6 +310,8 @@ exports.practiceExamResult = (req,res,next)=>{
                             "date"          : studentAnswerSheet.date,
                             "percentage"    : (parseInt(studentAnswerSheet.totalScore) / parseInt(studentAnswerSheet.totalMarks)) * 100,
                             "studentImageArray" : studentAnswerSheet.studentImageArray,
+                            "examName"      : studentAnswerSheet.paperTitle,
+                            "_id"           : studentAnswerSheet._id
                         };
                         if(data){
                             res.status(200).json(data);
