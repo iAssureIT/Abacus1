@@ -308,7 +308,8 @@ exports.practiceExamResult = (req,res,next)=>{
                             "correctAnswer" : studentAnswerSheet.correctAnswer,
                             "wrongAnswer"   : studentAnswerSheet.wrongAnswer,
                             "date"          : studentAnswerSheet.date,
-                            "percentage"    : (parseInt(studentAnswerSheet.totalScore) / parseInt(studentAnswerSheet.totalMarks)) * 100
+                            "percentage"    : (parseInt(studentAnswerSheet.totalScore) / parseInt(studentAnswerSheet.totalMarks)) * 100,
+                            "studentImageArray" : studentAnswerSheet.studentImageArray,
                         };
                         if(data){
                             res.status(200).json(data);
