@@ -249,7 +249,7 @@ exports.user_signup = (req,res,next)=>{
 									});	
 									user.save()
 										.then(result =>{
-												var result = sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
+												sendSMSMsg(result.profile.firstname, req.body.mobNumber, OTP);
 												return res.status(200).json({
 													"message" : 'NEW-USER-CREATED',
 													"user_id" : result._id,
