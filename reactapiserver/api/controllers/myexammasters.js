@@ -267,7 +267,9 @@ exports.getMainExamQuestions = (req,res,next) =>{
                                 "examName"              : postData.examName,
                                 "examStatus"            : postData.examStatus,
                             }
-                            // console.log('dataObject ',dataObject);
+                            console.log('dataObject ',dataObject.examName);
+                            console.log('postData.competitionName ',postData.competitionName);                            
+
                             if(dataObject){
                                 res.status(200).json(dataObject);
                             }else{
