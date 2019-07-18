@@ -202,7 +202,7 @@ exports.user_signup = (req,res,next)=>{
 		.exec()
 		.then(user =>{
 			if(user.length >= 1){
-				return res.status(409).json({
+				return res.status(200).json({
 					message: ' Email Id or Mobile Number already exits.'
 				});
 			}else{

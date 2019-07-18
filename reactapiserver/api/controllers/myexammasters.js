@@ -306,7 +306,7 @@ exports.getmainexamlastvisitedquestion = (req,res,next)=>{
 exports.practiceExamResult = (req,res,next)=>{
     console.log('practiceExamResult');
     MyExamMaster.findOne({_id:req.params.competitionId})
-                .select("originalTime examTime examName category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks")
+                .select("originalTime examTime examName category totalQuestion attemptedQues correctAnswer wrongAnswer totalScore date totalMarks studentImageArray")
                 .exec()
                 .then(studentAnswerSheet=>{
                     if(studentAnswerSheet){

@@ -196,7 +196,7 @@
                             message: "Something went wrong"
                         }
 
-10. ExamMarksUpdate (//Need to under standed)
+10. ExamMarksUpdate 
 
     Method      : PATCH
     
