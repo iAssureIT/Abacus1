@@ -139,6 +139,7 @@ class MainLayout extends Component{
 										  		<Route path="/competitionDetails/:compId"	exact strict component={ CompetitionDetailsforPayment } />
 										  		
 										  		<Route path="/payment-success/:compId"	exact strict component={ PaymentReceipt } />
+										  		<Route path="/packagePayment-success/:Id"	exact strict component={ PaymentReceipt } />
 										  		<Route path="/MyInvoice"				exact strict component={ MyInvoice } />
 										  		<Route path="/MyInvoice/:orderId"		exact strict component={ MyInvoice } />
 										  		

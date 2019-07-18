@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import $ from "jquery";
 import axios from 'axios';
 import '../css/MyAccount.css';
+import moment from 'moment';
 // import {Session} from 'meteor/session';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
@@ -21,8 +22,10 @@ constructor(){
         reciptdata          : "",
         facilityPermission  : 'waitingforResult',
         competitonFee       : "",
+        competitionregisterorderData: [],
+        packageordermastersData: [],
     }
-    this.viewreceipt = this.viewreceipt.bind(this);
+    // this.viewreceipt = this.viewreceipt.bind(this);
 }
 
 componentWillMount(){
@@ -65,12 +68,14 @@ componentWillMount(){
 
 componentDidMount(){
 
+  const studentId = localStorage.getItem("user_ID");
+
     axios
-        .get('/competitionregisterorder/6ceaSCfGQJ7hqxWMt')
+        .get('/competitionregisterorder/'+studentId)
         .then((response)=> {
             console.log("-------competitionregisterorder------>>",response.data);
             this.setState({
-              competitionregisterorder : response.data,
+              competitionregisterorderData : response.data,
             });
             // localStorage.setItem("token",response.data.token);
             // direct.setState({loggedIn:response.data.token})
@@ -79,26 +84,14 @@ componentDidMount(){
             console.log(error);
         });
 
-    axios
-        .get('/competitionregisterorder/6ceaSCfGQJ7hqxWMt/wkfPkEbQjsL8Jx4Wf')
-        .then((response)=> {
-            console.log("-------competitionregisterorder------>>",response.data);
-            this.setState({
-              competitionregisterorder : response.data,
-            });
-            // localStorage.setItem("token",response.data.token);
-            // direct.setState({loggedIn:response.data.token})
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+   
 
     axios
-        .get('/packageordermasters/sTkBoMnx3rWyL5GxW')
+        .get('/packageordermasters/'+studentId)
         .then((response)=> {
             console.log("-------packageordermasters------>>",response.data);
             this.setState({
-              packageordermasters : response.data,
+              packageordermastersData : response.data,
             });
             // localStorage.setItem("token",response.data.token);
             // direct.setState({loggedIn:response.data.token})
@@ -107,19 +100,7 @@ componentDidMount(){
             console.log(error);
         });
 
-    axios
-        .get('/packageordermasters/4hizFniSEzGQSSAqq/nAGwEGQeouxYT9GXu')
-        .then((response)=> {
-            console.log("-------packageordermasters------>>",response.data);
-            this.setState({
-              packageordermasters : response.data,
-            });
-            // localStorage.setItem("token",response.data.token);
-            // direct.setState({loggedIn:response.data.token})
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+ 
         
   
 }
@@ -129,12 +110,12 @@ componentWillUnmount(){
   // $("link[href='/css/dashboard.css']").remove();
 }
 
-viewreceipt(event){
-  var receiptid = $(event.currentTarget).attr('recipt-link');
-  // console.log("receiptid==>>",receiptid);
-  // FlowRouter.go('/payment-success/' + receiptid);
-  this.props.history.push('/payment-success/' + receiptid);
-}
+// viewreceipt(event){
+//   var receiptid = $(event.currentTarget).attr('recipt-link');
+//   // console.log("receiptid==>>",receiptid);
+//   // FlowRouter.go('/payment-success/' + receiptid);
+//   this.props.history.push('/payment-success/' + receiptid);
+// }
 
 
 render(){
@@ -157,53 +138,54 @@ return(
                     <section className="NotificationContent">
                       <div className="box-body">
                       {
-                      /*  this.props.competitionregorder.length>0 || this.props.myPackageOrderData.length>0?*/
+                        this.state.competitionregisterorderData.length>0 || this.state.packageordermastersData.length>0?
                         <div>
-                        {/*this.props.competitionregorder.map((myorder,index)=>{  */
-                       /*return*/(<div className="col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12 col-md-8 col-md-offset-2 borderdetails " /*key={index}*/>
+                        {this.state.competitionregisterorderData.map((myorder,index)=>{  
+                       return(<div className="col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12 col-md-8 col-md-offset-2 borderdetails " key={index}>
                                 <div className="col-lg-12 col-md-12 col-sm-12 compReceipt">Competiton Receipt</div>
                               <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12 payrecreg ">
                                 <div className="col-lg-6 col-md-6 col-sm-6 payrecreg">
                                   <div className="col-lg-6 col-md-6 col-sm-6"><h4>Tansaction Id</h4></div>                                  
-                                  <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: 458756985632{/*myorder.transactionId*/}</h4></div>                                  
+                                  <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: {myorder.transactionId}</h4></div>                                  
                                   <div className="col-lg-6 col-md-6 col-sm-6"><h4>Amount </h4></div>                                  
-                                  <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: 1000/-{/*myorder.competitionOriginalFees*/}</h4></div>                                  
+                                  <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: {myorder.competitionOriginalFees}</h4></div>                                  
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-6">
                                   <div className="col-lg-6 col-md-6 col-sm-6"><h4>Date</h4></div>                                  
-                                  <div className="col-lg-6 col-md-6 col-sm-6"> <h4>: 12/05/2019{/*moment(myorder.paymentDate).format('DD/MM/YYYY')*/}</h4></div>                                  
-                                  <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><Link to="/payment-success/jhkbrdtgfh"/*`payment-success/${myorder.competitionId}`*/>View Receipt </Link></h4></div>                                  
+                                  <div className="col-lg-6 col-md-6 col-sm-6"> <h4>: {moment(myorder.paymentDate).format('DD/MM/YYYY')}</h4></div>                                  
+                                  <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><Link to={`payment-success/${myorder.competitionId}`}>View Receipt </Link></h4></div>                                  
                                 </div>
                               </div> 
                             </div>)  
-                            /* })*/}
-
-                           { /*this.props.myPackageOrderData.map((myorder,index)=>{  */
-                            /*return*/(<div className="col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12 col-md-8 col-md-offset-2 borderdetails " /*key={index}*/>
+                             })}
+                        {
+                           this.state.packageordermastersData.map((myorder,index)=>{ 
+                            return(<div className="col-lg-8 col-lg-offset-2 col-sm-12 col-xs-12 col-md-8 col-md-offset-2 borderdetails " key={index}>
                             <div className="col-lg-12 col-md-12 col-sm-12 packageReceipt">Package Receipt</div>
                                     <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12 payrecreg ">
                                     <div className="col-lg-6 col-md-6 col-sm-6 payrecreg">
                                       <div className="col-lg-6 col-md-6 col-sm-6"><h4>Tansaction Id</h4></div>                                  
-                                      <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: 458756985632{/*myorder.transactionId*/}</h4></div>                                  
+                                      <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: {myorder.transactionId}</h4></div>                                  
                                       <div className="col-lg-6 col-md-6 col-sm-6"><h4>Amount </h4></div>                                  
-                                      <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: 1000/-{/*myorder.amount*/}</h4></div>                                  
+                                      <div className="col-lg-6 col-md-6 col-sm-6 payrecreg1"><h4>: {myorder.amount}</h4></div>                                  
                                     </div>
                                     <div className="col-lg-6 col-md-6 col-sm-6">
                                       <div className="col-lg-6 col-md-6 col-sm-6"><h4>Date</h4></div>                                  
-                                      <div className="col-lg-6 col-md-6 col-sm-6"> <h4>: 12/05/2019{/*moment(myorder.paymentDate).format('DD/MM/YYYY')*/}</h4></div>                                  
-                                      <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><Link to="/payment-success/jhkbjoljl"/*`packagePayment-success/${myorder._id}`*/ >View Receipt </Link></h4></div>                                  
+                                      <div className="col-lg-6 col-md-6 col-sm-6"> <h4>: {moment(myorder.paymentDate).format('DD/MM/YYYY')}</h4></div>                                  
+                                      <div className="col-lg-12 col-md-12 col-sm-12"><h4 className="receiptBtn"><Link to={`packagePayment-success/${myorder._id}`} >View Receipt </Link></h4></div>                                  
                             
                                     </div>
                               </div> 
-                            </div>  )
-                             /*})*/}
+                            </div>)
+                             })
+                         }
                           </div>
-                          // :
-                          // <div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
-                          //   <div>
-                          //     You have not yet purchased any exam or package...!!! 
-                          //   </div>
-                          // </div>
+                          :
+                          <div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
+                            <div>
+                              You have not yet purchased any exam or package...!!! 
+                            </div>
+                          </div>
                         }
 
 
