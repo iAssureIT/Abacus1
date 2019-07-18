@@ -535,7 +535,7 @@ exports.FinishExam = (req,res,next) =>{
 }
 
 exports.saveimgs = (req,res,next) =>{
-    MyExamMaster.update(
+    MyExamMaster.updateOne(
                     {_id: req.body.examId},
                     {
                         $push:{
