@@ -14,7 +14,8 @@ class StudentHeader extends (Component){
    super();
     this.state = {
       loggedIn    : false,
-      studentName : ''
+      studentName : '',
+      studentRegStatus : ''
     }
   }
 
@@ -28,6 +29,28 @@ class StudentHeader extends (Component){
         studentName : studentName
       })
     }
+
+
+    axios
+      .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+      .then((response)=> {
+        if(response.data==null){
+          this.setState({
+            studentRegStatus : "Not registered"
+          },()=>{
+            console.log("-------stuDataa------>>",this.state.studentRegStatus);
+          })
+        }else{
+          this.setState({
+            studentRegStatus : "Registered"
+          })
+
+        }
+        
+      })
+      .catch(function (error){
+        
+      });
 
 
     // console.log("localstorage",localstorage)
@@ -191,6 +214,11 @@ class StudentHeader extends (Component){
 
      closepopup(e){
       $('#popup').css("display","none");
+      if(this.state.studentRegStatus=="Registered"){
+        this.props.history.push('/CreateStudReg')
+      }else{
+         this.props.history.push('/dashboard')
+      }
      }
 
   render(){
@@ -309,7 +337,7 @@ class StudentHeader extends (Component){
                     {/* Menu Footer*/}
                     <li className="user-footer">
                       <div className="pull-left">
-                        <Link to="/CreateStudReg" className="btn btn-default btn-flat" onClick={this.closepopup.bind(this)}>My Registration</Link>
+                        <Link to="#" className="btn btn-default btn-flat" onClick={this.closepopup.bind(this)}>My Registration</Link>
                       </div>
                       <div className="pull-right">
                         <Link to="/login">

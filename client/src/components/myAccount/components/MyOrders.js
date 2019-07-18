@@ -121,12 +121,7 @@ componentDidMount(){
             console.log(error);
         });
         
-  // if ( !$('body').hasClass('adminLte')) {
-  //   var adminLte = document.createElement("script");
-  //   adminLte.type="text/javascript";
-  //   adminLte.src = "/js/adminLte.js";
-  //   $("body").append(adminLte);
-  // }
+  
 }
 
 componentWillUnmount(){

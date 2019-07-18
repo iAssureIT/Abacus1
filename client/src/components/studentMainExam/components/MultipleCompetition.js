@@ -38,6 +38,7 @@ class MultipleCompetition extends (Component)  {
 			facilityPermission : 'waitingforResult',
 			todayDate : moment(new Date()).format('L'),
 			competitionData: [], 
+			studentRegStatus : "Registered",
 			// competitionData: [{
 			// 	_id : '',
 			// 	competitionName : '',
@@ -73,18 +74,27 @@ class MultipleCompetition extends (Component)  {
 		var currentTime     = moment(today).format('LT');
 		if(studentId){
 			var k = 0;
-			console.log("studentId in list",studentId);
+			// console.log("studentId in list",studentId);
 			axios
 				.get('/studentmaster/details/'+studentId)
 				.then((studentdata)=>{
-						console.log('student ',studentdata);
+
+						
+						// console.log('student ',studentdata);
 						var studentData = studentdata.data;
-						if(studentData){
+						if(studentData==null){
+							this.setState({
+					  			studentRegStatus : "Not registered"
+					  		})
+						}else{
+							this.setState({
+					  			studentRegStatus : "Registered"
+					  		})
 
 							axios
 								.get('/exammasters/list')
 								.then((competitionData)=>{
-									console.log('competitionData ',competitionData);
+									// console.log('competitionData ',competitionData);
 										var competitionData = competitionData.data;
 										if(competitionData){
 											if(currentTime){
@@ -147,11 +157,11 @@ class MultipleCompetition extends (Component)  {
 													}//end of competitionData[i] && studentData
 												}//end of for llo[]
 												if(competitionData.length == competitions.length){
-														console.log("competitionData =>>>> ",competitions);		
+														// console.log("competitionData =>>>> ",competitions);		
 													axios
 															.get('/competitionregisterorder/mainexam/'+studentId)
 															.then((competitionsList)=>{
-																console.log('competitionsList ',competitionsList.data);
+																// console.log('competitionsList ',competitionsList.data);
 																studentCompetitions = competitionsList.data;
 																axios
 																		.get('/myexammasters/dashboard/'+studentId)
@@ -167,9 +177,16 @@ class MultipleCompetition extends (Component)  {
 																				if(scindex > -1){
 																					competitions[scindex].studentPaymentStatus = "paid";
 																					var myemindex = myexammasters.findIndex((data)=>{
-																									return data._id == studentCompetitions[sc].competitionId
+																									return data.competitionId == studentCompetitions[sc].competitionId
 																								});
+																			console.log("myemindex==out===> ",myemindex);
+
 																					if(myemindex > -1){
+																			console.log("myemindex=====> ",myemindex);
+
+																			console.log("myexammasters[myemindex]=====> ",myexammasters[myemindex]);
+
+
 																						competitions[scindex].examDataStatus = myexammasters[myemindex].examStatus;
 																						competitions[scindex].examId = myexammasters[myemindex].examId;
 																					}
@@ -356,7 +373,7 @@ class MultipleCompetition extends (Component)  {
 
 
 	render(){
-		// console.log("competitionData render",this.state.competitionData);
+		console.log("studentRegStatus render",this.state.studentRegStatus);
 			return(
 				<div>
 			        {/* Content Wrapper. Contains page content */}
@@ -365,6 +382,7 @@ class MultipleCompetition extends (Component)  {
 			            <div className="row">
 			              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 			                <div className="box">
+			                {this.state.studentRegStatus=="Registered"?
 			                  <div className="box-header with-border boxMinHeight">
 			                   <div className="box-header with-border">
 					            <h3 className="box-title">Register for competition</h3>
@@ -493,6 +511,17 @@ class MultipleCompetition extends (Component)  {
 									</div>
 								</div>
 							  </div>
+
+							  :
+							  <div >
+								<div  className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+									<div className="box-header with-border boxMinHeight  studDataNotExist whitebackground">
+
+									 	Please Fill Registration Form <a href="/CreateStudReg"> Click Here </a> to Register.
+									</div>
+								</div>							
+							</div>
+						}
 						    </div>
 						  </div>
 						</div>

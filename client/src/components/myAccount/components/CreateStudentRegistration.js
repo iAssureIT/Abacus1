@@ -68,10 +68,14 @@ class CreateStudentRegistration extends (Component)  {
 			.catch(function(error){
 				console.log(error);
 			})
+
+				var studentId = localStorage.getItem("user_ID");
+// WyQY35LEFitPcabP6
+console.log("studentId--->",studentId);
     	const studentID = localStorage.getItem("user_ID");
     	this.setState({ studentID :studentID });
 		axios
-  			.get('/studentmaster/sinfo/'+studentID)
+  			.get('/studentmaster/sinfo/'+studentId)
             .then((response)=>{
 							console.log('response sinfo ',response.data);
             	this.setState({
@@ -98,7 +102,7 @@ class CreateStudentRegistration extends (Component)  {
 								franchiseName   	: response.data.franchiseName,
 								contactNo 			: response.data.franchiseMobileNumber,
 							 });
-							 console.log('updateProfilePermission',response.data.updateProfilePermission);
+							 // console.log('updateProfilePermission',response.data.updateProfilePermission);
 							 if(response.data.updateProfilePermission == "Blocked"){
 								this.setState({profileEditStatus : true});
 							 }else{
@@ -211,7 +215,7 @@ class CreateStudentRegistration extends (Component)  {
 			var age = Math.floor((today-dateofBirth)/(365.25*24*60*60*1000));
 			if(age>0){
 				if(studFormValues.franchiseName && studFormValues.franchiseMobileNumber ){
-					console.log('studFormValues',studFormValues);		
+					// console.log('studFormValues',studFormValues);		
 					studFormValues.age = age;
 					if(studFormValues.age){
 						axios

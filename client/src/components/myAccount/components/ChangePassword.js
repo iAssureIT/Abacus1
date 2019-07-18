@@ -44,30 +44,31 @@ class StudentResetPassword extends (Component) {
 	    var oldPassword     = this.refs.oldPassword.value;
 	    var password        = this.refs.resetPasswordPassword.value;
 	    var passwordConfirm = this.refs.resetPasswordPasswordConfirm.value;
+	    var email           = localStorage.getItem("mailId");
+	    // var pwdData = {
+	    //           emailID    :email,
+	    //           changedpwd : passwordConfirm,
+	    // }
 	   	
 	   	var inpFields = {
-						   	// resetPassword 	: this.props.match.params,
-						    // oldPassword     : this.refs.oldPassword.value,
-						    userID    		: localStorage.getItem("user_ID"),
-						    password        : this.refs.resetPasswordPassword.value,
-						    passwordConfirm : this.refs.resetPasswordPasswordConfirm.value,
-						    // header 			: Access-Control-Allow-Origin
-						}
-
+		              emailID    :email,
+		              changedpwd : passwordConfirm,
+		    }
 		if (password === passwordConfirm) {
 
         	if(password.length >= 6){  
-
+        		console.log("inpFields",inpFields);
 		    axios
-		        .patch('/user/changepwd',inpFields)
+		        .post('/user/changepwd',inpFields)
 		        .then((response)=> {
-		            console.log("-------changepwd------>>",response.data);
+		            console.log("-------changepwd---in stud--->>",response.data);
 		            this.setState({
 		              changepwd : response.data,
 		            });
 		           	swal("Your password has been updated!","","success"); 
-		        	this.refs.resetPasswordPassword.value = '';
-		    	    this.refs.resetPasswordPasswordConfirm.value = '';
+		           	this.props.history.push('/dashboard');
+		        	// this.refs.resetPasswordPassword.value = '';
+		    	    // this.refs.resetPasswordPasswordConfirm.value = '';
 		        })
 		        .catch(function (error) {
 		            console.log(error);

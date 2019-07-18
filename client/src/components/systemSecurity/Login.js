@@ -26,7 +26,7 @@ class Login extends Component {
   }
   userlogin(event){
     event.preventDefault();
-    console.log("in login mode",this.state.auth);
+    // console.log("in login mode",this.state.auth);
         var auth= {
           email       : this.refs.loginusername.value,
           password    : this.refs.loginpassword.value,
@@ -40,7 +40,8 @@ class Login extends Component {
           // user_ID: "5d0a2bfd84f7f33c69e3868d"
           localStorage.setItem("token",response.data.token);
           localStorage.setItem("userFirstName",response.data.userFirstName);
-          localStorage.setItem("user_ID","E6BRdJtHMF9a6p7KF"/*response.data.user_ID*/);
+          localStorage.setItem("user_ID",response.data.user_ID);
+          // localStorage.setItem("user_ID","E6BRdJtHMF9a6p7KF"/*response.data.user_ID*/);
 
           console.log("localStorage =",localStorage);
           if(localStorage==null){
