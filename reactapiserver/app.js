@@ -35,9 +35,9 @@ const multiplCompetitionRouters		= require('./api/routes/multiplCompetition');
 const projectsettingsRouters		= require('./api/routes/projectsettings');
 
 
-// mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
+mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 // mongoose.connect('mongodb://localhost/onlineExamSystem',{
-mongoose.connect('mongodb://localhost/onlineExamSystem3may',{
+// mongoose.connect('mongodb://localhost/onlineExamSystem3may',{
 	useNewUrlParser: true
  })
 mongoose.promise =global.Promise;
