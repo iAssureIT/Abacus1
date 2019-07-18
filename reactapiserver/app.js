@@ -31,9 +31,7 @@ const questionpapermastersRouters	= require('./api/routes/questionpapermasters')
 const latestCompetitionsRouters		= require('./api/routes/latestCompetitions');
 const startexamcategorywiseRouters	= require('./api/routes/startexamcategorywise');
 const multiplCompetitionRouters		= require('./api/routes/multiplCompetition');
-// const sendemail						= require('./api/routes/sendemail');
 const projectsettingsRouters		= require('./api/routes/projectsettings');
-
 
 mongoose.connect('mongodb://localhost/onlineExamSystem3may19',{
 // mongoose.connect('mongodb://localhost/onlineExamSystem',{
@@ -60,7 +58,6 @@ app.use((req, res, next) => {
 	next();
 });
 
-
 //URL's collection wise
 app.use("/user", userRoutes);
 app.use("/exammasters", exammasterRouter);
@@ -86,7 +83,6 @@ app.use("/packagequestionpapermaster",packagequestionpapermasterRoutes);
 app.use("/latestcompetitions",latestCompetitionsRouters);
 app.use("/startexamcategorywise",startexamcategorywiseRouters);
 app.use('/multiplCompetition',multiplCompetitionRouters);
-// app.use("/sendemail",sendemail);
 app.use("/projectsettings",projectsettingsRouters);
 // handle all other request which not found 
 
@@ -94,7 +90,6 @@ app.post('/send-email', function (req, res) {
 	let transporter = nodeMailer.createTransport({
 		host: 'smtp.gmail.com',
 		port: 587,
-		// secure: true,
 		auth: {
 			user: 'support@maats.in',
 			pass: 'maats@maats777'
@@ -118,7 +113,6 @@ app.post('/send-email', function (req, res) {
 		}
 		console.log('Message %s sent: %s', info.messageId, info.response);
 			res.render('index');
-
 		});
 	});
 app.use((req, res, next) => {

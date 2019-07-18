@@ -33,6 +33,8 @@ router.post('/forgotpwd',UserController.sendEmail_setOTP);
 
 router.post('/checkotp',UserController.check_otp);
 
+router.post('/resendotp',UserController.resend_otp);
+
 router.delete('/:userId', checkAuth, UserController.user_delete);
 
 // router.patch('/registration',UserController.registration);

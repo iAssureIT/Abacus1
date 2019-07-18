@@ -601,4 +601,35 @@ exports.check_otp = (req,res,next) =>{
 		});
 }
 
+exports.resend_otp = (req,res,next) =>{
+	var mobileNum 		= req.body.mobNumber;
+	var sentOTP			= getRandomInt(100000,999999);
+	if(sentOTP){
+		sendSMSMsg(req.body.firstname, req.body.mobNumber, sentOTP);
+		User.updateOne(
+						{"profile.mobNumber":mobileNum},
+						{
+							$set:{
+								"profile.sentEmailOTP"		: sentOTP,
+							}
+						}
+					)
+			.exec()
+			.then(users =>{
+				if(users.nModified == 1){
+					res.status(200).json("OTP updated");
+				}else{
+					res.status(200).json("OTP Not updated");
+				}			
+			})
+			.catch(err =>{
+				console.log(err);
+				res.status(500).json({
+					error: err
+				});
+			});
+	}
+	
+}
+
 
