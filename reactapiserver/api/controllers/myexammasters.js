@@ -251,6 +251,7 @@ exports.getMainExamQuestions = (req,res,next) =>{
                 .exec()
                 .then(postData=>{
                     if(postData){
+                        console.log('postData.competitionName ',postData.competitionName);
                         var questionArrayFromTC = postData.answerArray;
                         if(questionArrayFromTC){
                             questionArrayFromTC.push({'finishText' : 'You are about to finish the Exam.', 
@@ -265,7 +266,7 @@ exports.getMainExamQuestions = (req,res,next) =>{
                                 "examName"              : postData.examName,
                                 "examStatus"            : postData.examStatus,
                             }
-                            console.log('dataObject ',dataObject);
+                            // console.log('dataObject ',dataObject);
                             if(dataObject){
                                 res.status(200).json(dataObject);
                             }else{
