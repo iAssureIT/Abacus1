@@ -27,6 +27,7 @@ exports.studentInfo = (req,res,next)=>{
                .exec()
                .then(student =>{
                  if(student){
+                   console.log('student ',student);
                    var studentInfo = {
                           studentFirstName      : student.studentFirstName,
                           studentMiddleName     : student.studentMiddleName,
