@@ -170,7 +170,7 @@ router.post('/updatequespaper', (req,res,next) =>{
                                     if(questionPaperDetails){
                                         console.log("in questionPaperDetails ",questionPaperDetails);
                                         PackageQuestionPaperMaster  .updateOne(
-                                                                        {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
+                                                                        {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.packageId,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
                                                                         {
                                                                             $set:{
                                                                                 ["noOfAttempts."+req.body.btnIndex+".status"]:true,
