@@ -8,7 +8,7 @@ exports.fetch_practice_student = (req,res,next)=>{
     MyPracticeExamMaster.find({StudentId:studentId,examStatus:"Completed"})
             .sort( { createdAt:-1} )
             .select("examName date category totalQuestion attemptedQues correctAnswer wrongAnswer originalTime totalScore examTime lastVisitedQuestion lastVisitedQAnswer")
-		    .exec()
+		        .exec()
             .then(data =>{
               res.status(200).json(data);
             })
