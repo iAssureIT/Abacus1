@@ -193,6 +193,8 @@ router.post('/updatequespaper', (req,res,next) =>{
                                         error: err
                                         });
                                 });
+                            }else{
+                                res.status(200).json({message:"practiceExamId not found"});
                             }
                         })
                         .catch(err =>{
