@@ -25,6 +25,7 @@ router.post('/', (req,res,next) => {
                                                     "profile.mobNumber"     : req.body.mobileNumber,
                                                     "profile.franchiseName" : req.body.franchiseName,
                                                     "profile.franchise_id"  : franchiseData.franchiseCodeForCompanyId,
+                                                    "profile.userProfile"   : req.body.userProfile,
                                                 } 
                                             }
                                         )
@@ -111,6 +112,7 @@ router.post('/', (req,res,next) => {
                                                                                                     'createdAt'      			: new Date(),
                                                                                                     'updateProfilePermission'   : "Blocked",
                                                                                                     'profileEditStatus'         : "Blocked",
+                                                                                                    'imgSrc'                    : req.body.userProfile,
                                                                                                 });   
                                                                 studentmaster.save()
                                                                              .then(sdata=>{

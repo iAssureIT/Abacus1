@@ -603,4 +603,49 @@ exports.resend_otp = (req,res,next) =>{
 	
 }
 
+exports.sendMobile_setOTP = (req,res,next)=>{
+	var mobileNum = req.body.mobNumber;
+	var otp = getRandomInt(100000,999999);
+	if(otp){
+		User.findOne({"profile.mobNumber": mobileNum})
+			.exec()
+			.then(result=>{
+				if(result){
+					User.updateOne(
+									{"profile.mobNumber": mobileNum},
+									{
+										$set: {
+											"profile.sentEmailOTP"		: otp,
+										}
+									}
+							)
+						.exec()
+						.then(data=>{
+							res.header("Access-Control-Allow-Origin","*");
+							if(data.nModified == 1){
+								sendSMSMsg(result.profile.firstname, mobileNum, otp);
+								res.status(200).json({message:"OTP Sent and User Updated"});
+							}else{
+								res.status(200).json({message:"OTP Sent and User not Updated"})
+							}
+						})
+						.catch(err =>{
+							console.log(err);
+							res.status(500).json({
+								error: err
+							});
+						})//End of user Update
+				}
+				
+			})
+			.catch(err =>{
+				console.log(err);
+				res.status(500).json({
+					error: err
+				});
+			});
+		
 
+		
+	}
+}

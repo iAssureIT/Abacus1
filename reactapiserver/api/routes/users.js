@@ -31,6 +31,8 @@ router.post('/updateotp',UserController.update_otp);
 
 router.post('/forgotpwd',UserController.sendEmail_setOTP);
 
+router.post('/forgotpwd/mobile',UserController.sendMobile_setOTP);
+
 router.post('/checkotp',UserController.check_otp);
 
 router.post('/resendotp',UserController.resend_otp);
