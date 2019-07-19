@@ -65,7 +65,7 @@ import './SignUp.css';
         
       })
     }else{
-
+console.log("-------userData--in confirm otp---->>",otpData);
        axios
       .post('/user/mobileverification',otpData,)
       .then((response)=> {

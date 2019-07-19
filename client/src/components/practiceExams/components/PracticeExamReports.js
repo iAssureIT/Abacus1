@@ -23,7 +23,7 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		// axios.get('/mypracticeexammasters/'+studentID)
 		axios.get('/mypracticeexammasters/'+studentID)
             .then((response)=> {
-                // console.log("-------practiceExamReport------>>",response);
+                console.log("-------practiceExamReport------>>",response);
                 this.setState({
 		 			practiceExamReport : response.data
 		 		});

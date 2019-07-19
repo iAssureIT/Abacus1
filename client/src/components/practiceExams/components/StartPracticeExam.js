@@ -251,7 +251,7 @@ class StartPracticeExam extends (Component)  {
 	}
 
 	endExam(){
-		console.log("end free exam");
+	
 		if(this.props.match.params.orderId && this.props.match.params.packageId && this.props.match.params.btnIndex){
 		
 
@@ -266,45 +266,33 @@ class StartPracticeExam extends (Component)  {
 	                            "practiceExamId"  : quepaperID,
 	                            "orderId"     : orderId,
 	                            "packageId"   : packageID,
-	                            "pckgIndex"       : index,
+	                            "btnIndex"       : index,
 	                            "studentId"   : studentID,
 	                            "todayDate"   : todayDate,
 	                         }
 
-             axios
-			.post('/purchasedpackage/updatequespaper',values)
-			.then((response)=>{
-				console.log("updatequespaper = ",response.data);
-				
-			})
-			.catch(function(error){
-				console.log(error)
-			})
+
 
 			var values1 		={
-	                            "practiceExamId"  : quepaperID,
+	                            "quepaperID"  : quepaperID,
 	                            "orderId"     : orderId,
-	                            "packageId"   : packageID,
-	                            "pckgIndex"       : index,
+	                            "packageID"   : packageID,
+	                            "index"       : index,
 	                            "studentID"   : studentID,
 	                            "todayDate"   : todayDate,
 	                         }
 
-
-        axios
-			.post('/packagequestionpapermaster',values1)
+			axios
+			.post('/mypracticeexammasters/finishexam/'+this.props.match.params.id)
 			.then((response)=>{
-				console.log("updatequespaper = ",response.data);
-				if("result" =="returnTrue"){
-					this.props.history.push("/practiceExamResult/"+this.props.match.params.id);
-				}
-				else{
-					this.props.history.push("/practiceExam/"+this.props.match.params.id);
-				}					
+				console.log("free paper response = ",response.data);
+				this.props.history.push("/practiceExamResult/"+this.props.match.params.id)
 			})
 			.catch(function(error){
 				console.log(error)
 			})
+
+
 
 		}else{
 

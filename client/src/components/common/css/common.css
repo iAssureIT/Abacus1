@@ -5560,6 +5560,7 @@ table.text-center th {
 }
 .smallfont{
 	font-size: 10px;
+  word-wrap: break-word;
 }
 /*.titlepaddingzero{
 	padding-left:0!important;

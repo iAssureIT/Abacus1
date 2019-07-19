@@ -433,7 +433,7 @@ class MultipleCompetition extends (Component)  {
 																					competitionInfo.competitionStatus=="start"?
 																								competitionInfo.examStartStatus=="start"?
 																									<td >
-																									{competitionInfo.examDataStatus}
+																									
 																										<button type="submit" data-id={competitionInfo._id} onClick={this.startExam.bind(this)} className="btn startexambtn1"><Link to={"/iAgreeAndStartExam/"+competitionInfo._id} className="startexambtn1"> Start Exam </Link></button>
 																									
 																									</td>

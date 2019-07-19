@@ -434,6 +434,7 @@ class StartExam extends (Component)  {
 					  
 									<ol id="configuration_sidebar_content" className="carousel-indicators oesCarouselIndicator">
 										{ this.state.questionArrayFromTC.map( (slides,index)=>{
+											console.log("slides-->",slides,this.state.questionArrayFromTC.length)
 											if(this.state.qIndex!==0){
 												if(index == this.state.qIndex){
 													var activeStatus = 'active';

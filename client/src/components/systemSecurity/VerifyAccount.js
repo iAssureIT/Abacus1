@@ -32,63 +32,28 @@ class VerifyMobileAOS extends Component {
   VerifyMobileAOS(event){
     event.preventDefault();
     var mobileVerifyAOS = this.refs.mobileVerifyAOS.value;
-    localStorage.getItem('mobileNumber',mobileVerifyAOS);
+    localStorage.setItem('mobileNumber',mobileVerifyAOS);
 
-    this.props.history.push("/confirm-otp");
+     var mobileData = {
+          "mobNumber" : mobileVerifyAOS,
+      }
 
-    // var otpData =  {
-    //                     mobileNumber       : this.state.mobileNumber,
-    //                     otp                 : parseInt(mobileVerifyAOS)
-    //                 }
+      axios
+        .post('/user/forgotpwd/mobile',mobileData)
+        .then((response)=> {
+          console.log("-------mobilelData send otp ------>>",response);
+          var data = response.data;
+          if(data.message=="OTP Sent and User Updated"){
+            this.props.history.push("/confirm-otp");
+          }
+        })
+        .catch(function (error){
+          
+        });
+  
 
-    //  axios
-    //   .post('/user/mobileverification',otpData,)
-    //   .then((response)=> {
-    //       console.log("-------userData--in verify otp---->>",response);
-    //       var responseData = response.data;
-    //       if(responseData.message=="User Verified"){
-    //        swal("Great","OTP Verified Successfully","success");
-    //        this.props.history.push("/");
-    //       }
-    //       else if(responseData.message=="User already verified"){
-    //           swal("User already verified","","success");
-    //           this.props.history.push("/");
-    //       }
-    //   })
-    //   .catch(function (error) {
-    //       console.log(error);
-        
-    //   })
+    
 
-     // Meteor.call('addVerifyOTP', mobileVerifyAOS, function(error,result){
-     //    if(error){
-     //      swal(error);
-     //    }else{
-     //      var result = result;
-     //      if(result =="alreadyVerified"){
-     //        swal("Your account already verified","","warning");
-     //        FlowRouter.go("/");
-     //      }else if(result != "MobNumNotExists"){
-     //        if(result){
-     //          var profileData = result.profile;
-     //          var userId = result._id;
-     //          var emailotp = Math.floor(100000 + Math.random() * 900000);
-     //           Meteor.call('addOTP', userId , emailotp, function(error,result){
-     //                  if(error){
-     //                    console.log(error);
-     //                  }else{
-                        
-     //                    FlowRouter.go('/otpFirstVarification/'+userId);
-     //                  Meteor.call("sendSMSMsg",profileData.firstname,mobileVerifyAOS,emailotp); //Send otp through sms
-     //                }
-     //          });
-     //          }
-     //        }else{
-     //          swal("Wrong Mobile Number" ,"Enter mobile number that you used for creating Account","warning");
-     //        }
-        
-     //    }
-     //  });
   }
 
   inputEffect(event){
