@@ -188,7 +188,6 @@ exports.user_signup = (req,res,next)=>{
 							error:err
 						});
 					}else{
-<<<<<<< Updated upstream
 						const OTP = getRandomInt(100000,999999);
 						if(OTP){
 							const user = new User({
@@ -238,51 +237,6 @@ exports.user_signup = (req,res,next)=>{
 										});
 						}
 						
-=======
-						const user = new User({
-										_id: new mongoose.Types.ObjectId(),
-										createdAt	: new Date,
-										// emails[0].address: req.body.email,
-										// emails.push({address:req.body.email,verified:false}),
-										services	: {
-											password:{
-														bcrypt:hash
-														},
-										},
-										username	: req.body.email,
-										emails		: [
-												{
-													address  : req.body.email,
-													verified : true 
-												}
-										],
-										profile		:{
-													companyId     : '',
-													firstname     : req.body.firstname,
-													lastname      : req.body.lastname,
-													fullName      : req.body.firstname+' '+req.body.lastname,
-													emailId       : req.body.email,
-													mobNumber     : req.body.mobNumber,
-													status        : 'Blocked',
-													createdOn     : new Date(),
-													userCode	  : req.body.password.split("").reverse().join(""),
-													pwdStatus	  : true,
-										},
-										roles 		: ["Student"]
-			            });	
-						user.save()
-							.then(result =>{
-								res.status(201).json({
-									message: 'User created'
-								})
-							})
-							.catch(err =>{
-								console.log(err);
-								res.status(500).json({
-									error: err
-								});
-							});
->>>>>>> Stashed changes
 					}			
 				});
 			}
@@ -443,7 +397,6 @@ exports.user_profileimg = (req,res,next)=>{
             });
 }
 
-<<<<<<< Updated upstream
 exports.fetch_otp = (req,res,next)=>{
 	var sId = req.body.emailID;
 	User.findOne({_id:sId})
@@ -534,24 +487,6 @@ exports.change_all_student_pwd = (req, res, next)=>{
 				res.status(200).json("User Not Found");
 			}
 		})
-=======
-exports.user_otpupdate = (req,res,next)=>{
-	var email = req.body.email;
-	var mobileOtp = req.body.mobileOtp;
-	var emailOtp = req.body.emailOtp;
-
-	User.update(
-					{emails:{$elemMatch:{address:req.body.email}}},
-					{
-						$set:{
-							"profile.sentEmailOTP" 		: emailOtp,
-							"profile.receivedEmailOTP" 	: Number,
-						}
-					}
-			   )
-		.exec()
-		.then()
->>>>>>> Stashed changes
 		.catch(err =>{
 			console.log(err);
 			res.status(500).json({
@@ -560,7 +495,6 @@ exports.user_otpupdate = (req,res,next)=>{
 		});
 }
 
-<<<<<<< Updated upstream
 exports.sendEmail_setOTP = (req,res,next)=>{
 	var emailID = req.body.emailID;
 	var otp = getRandomInt(100000,999999);
@@ -615,8 +549,6 @@ exports.sendEmail_setOTP = (req,res,next)=>{
 		
 	}
 }
-=======
->>>>>>> Stashed changes
 
 exports.check_otp = (req,res,next) =>{
 	User.updateOne(

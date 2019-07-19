@@ -23,7 +23,7 @@ exports.fetch_student = (req,res,next)=>{
 exports.studentInfo = (req,res,next)=>{
   var sId = req.params.studentId;
   StudentMaster.findOne({studentId:sId})
-               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId updateProfilePermission")
+               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId updateProfilePermission imgSrc")
                .exec()
                .then(student =>{
                  if(student){
@@ -52,7 +52,8 @@ exports.studentInfo = (req,res,next)=>{
                           notificationStatus    : student.notificationStatus,
                           downTimeStatus        : student.downTimeStatus,
                           companyId             : student.companyId,
-                          submitButtonMsg       : 'Confirm & Update'
+                          submitButtonMsg       : 'Confirm & Update',
+                          userProfile           : student.imgSrc,
                    }
                    studentInfo.submitButtonMsg         = 'Confirm & Update';
                    if(studentInfo.submitButtonMsg){
