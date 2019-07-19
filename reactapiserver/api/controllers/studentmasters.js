@@ -56,7 +56,7 @@ exports.studentInfo = (req,res,next)=>{
                           userProfile           : student.imgSrc,
                    }
                    studentInfo.submitButtonMsg         = 'Confirm & Update';
-                   if(studentInfo.submitButtonMsg){
+                   if(studentInfo.userProfile){
                     res.status(200).json(studentInfo);
                    }
                  }else{
