@@ -54,9 +54,10 @@ exports.studentInfo = (req,res,next)=>{
                           companyId             : student.companyId,
                           submitButtonMsg       : 'Confirm & Update',
                           userProfile           : student.imgSrc,
-                   }
-                   studentInfo.submitButtonMsg         = 'Confirm & Update';
-                   if(studentInfo.userProfile){
+                   };
+                  //  studentInfo.submitButtonMsg         = 'Confirm & Update';
+                   if(studentInfo){
+                     console.log('student studentInfo ',studentInfo);
                     res.status(200).json(studentInfo);
                    }
                  }else{
@@ -85,9 +86,11 @@ exports.studentInfo = (req,res,next)=>{
                           studentEmail          : user.profile.emailId,
                           genderType            : '',
                           gender 		            : true,
-                          submitButtonMsg       : 'Confirm & Register'
+                          submitButtonMsg       : 'Confirm & Register',
+                          userProfile           : user.profile.userProfile,
                         };
                         if(studentInfo){
+                          console.log('user studentInfo ',studentInfo);
                           res.status(200).json(studentInfo);
                         }
                       })
