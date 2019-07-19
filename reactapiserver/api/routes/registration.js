@@ -71,6 +71,7 @@ router.post('/', (req,res,next) => {
                                                                                                 'subCategory'    			: subCategory,
                                                                                                 'studentEmail'   			: req.body.studentEmail,
                                                                                                 'genderType'     			: req.body.genderType,
+                                                                                                'imgSrc'                    : req.body.userProfile,
                                                                                             }
                                                                                         }
                                                                                     )
