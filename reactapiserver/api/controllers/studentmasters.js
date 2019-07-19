@@ -23,7 +23,7 @@ exports.fetch_student = (req,res,next)=>{
 exports.studentInfo = (req,res,next)=>{
   var sId = req.params.studentId;
   StudentMaster.findOne({studentId:sId})
-               .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId updateProfilePermission imgSrc")
+              //  .select("studentFirstName studentMiddleName studentLastName mobileNumber studentDOB schoolName franchiseName franchiseId franchiseMobileNumber studentAddress studentCountry studentState studentCity pincode category categoryDisabled studentEmail genderType gender profileEditStatus notificationStatus downTimeStatus companyId updateProfilePermission imgSrc")
                .exec()
                .then(student =>{
                  if(student){
