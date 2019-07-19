@@ -152,14 +152,18 @@ router.get('/:studentID', (req,res,next) => {
 });
 
 router.post('/updatequespaper', (req,res,next) =>{
+    console.log('req.body ',req.body);
     MyPracticeExamMaster.findOne({_id : req.body.practiceExamId})
                         .exec()
                         .then(practiceExamId=>{
                             if(practiceExamId){
+                                console.log('practiceExamId ',practiceExamId)
                                 PackageQuestionPaperMaster  .findOne({questionPaper_id:practiceExamId.examPaperId,buyerId:req.body.studentId,packageId : req.body.pckgIndex ,order_id:req.body.orderId})
                                 .exec()
                                 .then(questionPaperDetails=>{
                                     if(questionPaperDetails){
+                                    console.log("questionPaperDetails ",questionPaperDetails);
+
                                         PackageQuestionPaperMaster  .updateOne(
                                                                         {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
                                                                         {
@@ -171,6 +175,7 @@ router.post('/updatequespaper', (req,res,next) =>{
                                                                     )
                                                                     .exec()
                                                                     .then(pckquepaper=>{
+                                                                        console.log('pckquepaper ',pckquepaper);
                                                                         if(pckquepaper.nModified == 1){
                                                                             res.status(200).json("Package Question Paper Master updated");
                                                                         }else{
