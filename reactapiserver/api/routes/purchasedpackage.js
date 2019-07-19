@@ -158,7 +158,7 @@ router.post('/updatequespaper', (req,res,next) =>{
                         .then(practiceExamId=>{
                             if(practiceExamId){
                                 console.log('practiceExamId ',practiceExamId)
-                                PackageQuestionPaperMaster  .findOne({questionPaper_id:practiceExamId.examPaperId,buyerId:req.body.studentId,packageId : req.body.pckgIndex ,order_id:req.body.orderId})
+                                PackageQuestionPaperMaster.findOne({"questionPaper_id":practiceExamId.examPaperId,"buyerId":req.body.studentId,"packageId" : req.body.pckgIndex ,"order_id":req.body.orderId})
                                 .exec()
                                 .then(questionPaperDetails=>{
                                     console.log('out questionPaperDetails ',questionPaperDetails);
