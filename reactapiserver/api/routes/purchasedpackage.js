@@ -179,6 +179,8 @@ router.post('/updatequespaper', (req,res,next) =>{
                                                                             error: err
                                                                             });
                                                                     });                                
+                                    }else{
+                                        res.status(200).json("Something went wrong. Please check the values");
                                     }
                                 })
                                 .catch(err =>{
