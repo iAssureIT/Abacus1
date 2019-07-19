@@ -7,7 +7,7 @@ exports.fetch_practice_student = (req,res,next)=>{
     var studentId = req.params.studentId;
     MyPracticeExamMaster.find({StudentId:studentId,examStatus:"Completed"})
             .sort( { createdAt:-1} )
-            .select("examName date category totalQuestion attemptedQues correctAnswer wrongAnswer originalTime totalScore examTime")
+            .select("examName date category totalQuestion attemptedQues correctAnswer wrongAnswer originalTime totalScore examTime lastVisitedQuestion lastVisitedQAnswer")
 		    .exec()
             .then(data =>{
               res.status(200).json(data);
