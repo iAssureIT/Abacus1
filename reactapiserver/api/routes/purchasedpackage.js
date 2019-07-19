@@ -184,7 +184,7 @@ router.post('/updatequespaper', (req,res,next) =>{
                                                                             });
                                                                     });                                
                                     }else{
-                                        res.status(200).json("Something went wrong. Please check the values");
+                                        res.status(200).json("questionPaperDetails not found");
                                     }
                                 })
                                 .catch(err =>{
