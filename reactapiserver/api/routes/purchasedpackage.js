@@ -168,7 +168,7 @@ router.post('/updatequespaper', (req,res,next) =>{
                                 .then(questionPaperDetails=>{
                                     console.log('out questionPaperDetails ',questionPaperDetails);
                                     if(questionPaperDetails){
-                                        console.log("in questionPaperDetails ",questionPaperDetails);
+                                        console.log("in questionPaperDetails ",questionPaperDetails);  
                                         PackageQuestionPaperMaster  .updateOne(
                                                                         {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.packageId,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
                                                                         {
