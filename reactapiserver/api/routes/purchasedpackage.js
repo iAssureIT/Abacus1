@@ -161,7 +161,7 @@ router.post('/updatequespaper', (req,res,next) =>{
                                 console.log('studentId ',req.body.studentId);
                                 console.log('pckgIndex ',req.body.pckgIndex);
                                 console.log('orderId ',req.body.orderId);
-                                var selector = {"questionPaper_id":practiceExamId.examPaperId,"buyerId":req.body.studentId,"packageId" : req.body.pckgIndex ,"order_id":req.body.orderId}
+                                var selector = {"questionPaper_id":practiceExamId.examPaperId,"buyerId":req.body.studentId,"packageId" : req.body.packageId ,"order_id":req.body.orderId}
                                 console.log('selector = ',selector );
                                 PackageQuestionPaperMaster.findOne(selector)
                                 .exec()
