@@ -161,8 +161,9 @@ router.post('/updatequespaper', (req,res,next) =>{
                                 PackageQuestionPaperMaster  .findOne({questionPaper_id:practiceExamId.examPaperId,buyerId:req.body.studentId,packageId : req.body.pckgIndex ,order_id:req.body.orderId})
                                 .exec()
                                 .then(questionPaperDetails=>{
+                                    console.log('out questionPaperDetails ',questionPaperDetails);
                                     if(questionPaperDetails){
-                                    console.log("questionPaperDetails ",questionPaperDetails);
+                                    console.log("in questionPaperDetails ",questionPaperDetails);
 
                                         PackageQuestionPaperMaster  .updateOne(
                                                                         {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
