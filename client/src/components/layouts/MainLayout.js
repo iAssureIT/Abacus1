@@ -59,14 +59,12 @@ class MainLayout extends Component{
   componentWillMount(){
     var token = localStorage.getItem("token");
       if(token!=null){
-      console.log("in componentDidMount");
-      this.setState({
-        loggedIn : true,
-        logout   : false
-      })
-    //   // browserHistory.push("/login");
-    //   // this.props.history.push("/login");
-    }
+	      console.log("in componentDidMount");
+	      this.setState({
+	        loggedIn : true,
+	        logout   : false
+	      })
+      }
 	}
 
   updateState(data){
@@ -170,6 +168,7 @@ class MainLayout extends Component{
 				  		
 				  		<Route path="/confirm-otp" 		exact strict component={ ConfirmOtp } />
 				  		<Route path="/confirm-otp/forgot" 		exact strict component={ ConfirmOtp } />
+						<Route component={ PageNotFound } />
 					</div>
 			    </Switch> 
   			</Router>

@@ -3,25 +3,13 @@ import { Link } from 'react-router-dom';
 import $ from "jquery";
 import axios from "axios";
 
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import { withTracker } from 'meteor/react-meteor-data';
-// import {PackageManagementMaster} from '/imports/admin/packageManagement/api/packageManagementMaster.js';
-// import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
-
-// var idPackageArray=[];
 class PackageList extends Component  {
   constructor(props){
     super(props);
     this.state={
       post               : [],
       orderId            : '',
-      facilityPermission : 'waitingforResult',
-      subscription:{
-        // packageOrderData : Meteor.subscribe("singleOrder",FlowRouter.getParam('id')),
-      }
+      studentRegStatus   : '',
     }
   }
 
@@ -50,6 +38,25 @@ class PackageList extends Component  {
       // }
     }
     componentWillMount(){
+      axios
+        .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+        .then((response)=> {
+          if(response.data==null){
+            this.setState({
+              studentRegStatus : "Not registered"
+            })
+          }else{
+            this.setState({
+              studentRegStatus : "Registered"
+            })
+
+          }
+          
+        })
+        .catch(function (error){
+          
+        });
+
     //    Meteor.call("isAuthenticated","PracticePackages","PurchaseNewPackage",(err,res)=>{
     //   if(err){
     //     console.log(err);
@@ -173,10 +180,10 @@ class PackageList extends Component  {
                     <div className="row">
                       <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
                         <div className="box">
-                        {/*this.state.studentData._id?*/
+                        {(this.state.studentRegStatus=="Registered")?
                           <div className="box-header with-border boxMinHeight">
                             <div className="box-header with-border textboxborder">
-                            <h4 className="reportTitle">Select Packages1 </h4>
+                            <h4 className="reportTitle">Select packages </h4>
                             </div>
                             <div className="box-body packageboxbody  examPageWrapbtn">
                               <div className="packagebox col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -293,12 +300,12 @@ class PackageList extends Component  {
                                   </div>
                             </div>
                           </div>
-                          // :
-                          // <div className="box-header with-border boxMinHeight  studDataNotExist whitebackground">
-                          //   <div className="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
-                          //     Please Fill Registration Form <Link to="/CreateStudReg"> Click Here </Link> to Register & purchase the packages.
-                          //   </div>
-                          // </div>
+                          :
+                          <div className="box-header with-border boxMinHeight  studDataNotExist whitebackground">
+                            <div className="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                              Please Fill Registration Form <Link to="/CreateStudReg"> Click Here </Link> to Register & purchase the packages.
+                            </div>
+                          </div>
                         }
                         </div>
                       </div>

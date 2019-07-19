@@ -175,20 +175,19 @@ class MultipleCompetition extends (Component)  {
 																			var myexammasters = myexamres.data;
 																			for(var sc = 0; sc < studentCompetitions.length; sc++){
 																				var scindex = competitions.findIndex((data)=>{
-																												return data._id == studentCompetitions[sc].competitionId
-																											});
+																					return data._id == studentCompetitions[sc].competitionId
+																				});
 																				if(scindex > -1){
 																					competitions[scindex].studentPaymentStatus = "paid";
 																					var myemindex = myexammasters.findIndex((data)=>{
-																									return data.competitionId == studentCompetitions[sc].competitionId
-																								});
-																			console.log("myemindex==out===> ",myemindex);
+																						return data.competitionId == studentCompetitions[sc].competitionId
+																					});
+																					console.log("myemindex==out===> ",myemindex);
 
 																					if(myemindex > -1){
-																			console.log("myemindex=====> ",myemindex);
+																					console.log("myemindex=====> ",myemindex);
 
-																			console.log("myexammasters[myemindex]=====> ",myexammasters[myemindex]);
-
+																					console.log("myexammasters[myemindex]=====> ",myexammasters[myemindex]);
 
 																						competitions[scindex].examDataStatus = myexammasters[myemindex].examStatus;
 																						competitions[scindex].examId = myexammasters[myemindex].examId;
@@ -245,26 +244,10 @@ class MultipleCompetition extends (Component)  {
 			        .then((response)=>{
 						console.log('ID',response.data);
 						this.props.history.push('/startExam/'+response.data);
-
 			        })
 			        .catch(function(error){
 			          	console.log(error);
 			        })
-		//   Meteor.call("StartExamCategoryWise",(error,result)=>{
-		// 	if(error){
-		// 		swal(error);
-		// 	}else{
-		// 		var id = result;
-		// 		// console.log("id",id);
-		// 		if(id){
-		// 			// Meteor.call("updateMyExamFee",id); 
-		// 			// location.reload();
-		// 			FlowRouter.go('/startExam/'+id);
-		// 		}else{
-		// 			swal("Please start exam again","This is happened due to bad internet connection","warning");
-		// 		}
-		// 	}
-		// });
 
 		}, function() {
 		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");

@@ -28,11 +28,6 @@ class StartExam extends (Component)  {
 			'defaultTime'  		: '02:15',
 			examStatus 			: "",
 			examStatus1			: "",
-			// 'subscription':{
-			// 	'subscription':{
-			//  	'myExamMasterData' :  Meteor.subscribe('showSingleAnsPaper',this.props.id),
-			// }
-			// }
 		}
 		axios
 	        .get('/projectsettings')
@@ -48,9 +43,6 @@ class StartExam extends (Component)  {
 				this.setState({
 					config : config
 				})
-				console.log('S3 Details =',response.data);
-				console.log('S3 Details1 =',config);
-
 	        })
 	        .catch(function(error){
 	          	console.log(error);
@@ -102,10 +94,10 @@ class StartExam extends (Component)  {
 	    axios
 	        .get('/myexammasters/getmainexamquestions/'+examId+'/'+studentId)
 	        .then((response)=>{	      
-	          	console.log("111",response.data.examStatus);
+	          	var examStatus1 = response.data.examStatus;
 
 // this function is taking screenshot and save it to myExamMaster
-		if(this.state.examStatus1!=='Completed'){
+		if(examStatus1!=='Completed'){
 		this.screenshotInterval = setInterval(()=>{
 			const screenshot = this.webcam.getScreenshot();
 			if(screenshot) {
@@ -183,23 +175,7 @@ class StartExam extends (Component)  {
 	        .catch(function(error){
 	          	console.log(error);
 	        })
-		// Meteor.call("getMainExamQuestions",id,(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res){
-		// 			// console.log('res',res);
-		// 			this.setState({
-		// 				noOfQuestion : res.noOfQuestion,
-		// 				totalMarks : res.totalMarks,
-		// 				questionArrayFromTC : res.questionArrayFromTC,
-						
-		// 			});
-		// 		}else{
-		// 			this.tryLoadingAgain();
-		// 		}
-		// 	}
-		// });
+
 		axios
 			.get('/myexammasters/getmainexamlastvisitedquestion/'+examId)
 			.then((response)=>{
@@ -299,15 +275,6 @@ class StartExam extends (Component)  {
 			.catch(function(error){
 				console.log("RUSureWantTofinsh = ", error)
 			})
-
-		// 	 Meteor.call("resetCompetitionPaymentStatus",(err,res)=>{
-		// 		  if(err){
-		// 		  }else{
-				    
-		// 		  }
-		// 		});
-		// 	}
-		// });
 	}
 //--------------------- this function show clock ----------------//
 	showMainExamTime(examTime,id){
@@ -449,10 +416,11 @@ class StartExam extends (Component)  {
 													var activeStatus = '';
 													var hideSlideDetail = "hideSlidDetails";
 												}
-
 											}
 											
 											if(index <this.state.questionArrayFromTC.length-1){
+												// console.log(this.state.questionArrayFromTC.length-1,"&&",index)
+
 											return (
 													<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+' '+slides.attempted} id={"qn"+slides.questionNumber}>{index+1}</li>
 												);
@@ -467,6 +435,7 @@ class StartExam extends (Component)  {
 
 									  <div className="carousel-inner">
 										{ this.state.questionArrayFromTC.map( (slides,index)=>{
+									  // console.log("this.state.questionArrayFromTC",this.state.questionArrayFromTC)
 											if(index == this.state.qIndex){
 												var activeStatus = 'active';
 											}else{
@@ -593,7 +562,7 @@ class StartExam extends (Component)  {
 								
 							</div>
 							: 
-							<div className="box-header with-border boxMinHeight  studDataNotExist">
+							<div className="box-header with-border boxMinHeight studDataNotExistC">
 										<div className="startExambox col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
 											<div className="fontstyle"> You Have finished your exam... Thank You !!!</div> 
 										</div>

@@ -6,6 +6,7 @@ import $ 					from "jquery";
 import ProfilePic   		from './ProfilePic.js';
 import axios 				from 'axios';
 import moment				from 'moment';
+import S3FileUpload 		from 'react-s3';
 import '../css/MyAccount.css';
 declare var jQuery: any;
 
@@ -13,48 +14,67 @@ class CreateStudentRegistration extends (Component)  {
 	constructor(props){
 		super(props);
 		this.state={
-			submitButtonMsg : '',
-				_id 					: '',
-				studentFirstName 		: '',
-				studentMiddleName 		: '',
-				studentLastName 		: '',
-				studentDOB 				: '',
-				schoolName 				: '',
-				genderType 				: '',
-				profileEditStatus 		: false,
-				mobileNumber 			: '',
-				studentEmail 			: '',
-				studentAddress 			: '',
-				studentCountry 			: '',
-				studentState 			: '',
-				studentCity 			: '',
-				pincode 				: '',
-				studentAddress 			: '',
-				studentAddress 			: '',
-				studentID 				: '',
-	  			franchisedetails        : [],
-	  			category 	 			: '',
-	  			franchiseCode 	 		: '',
-	  			franchise_Id	 		: '',
-	  			categoryDisabled 		: '',
-	  			facilityPermission 		: 'waitingforResult',
-	  			gender       			: true,
-	  			instruction				: '',
-	  			companyId 				: '',
-	  			franchiseName 			: '',
-	  			contactNo 				: '',
-	  			franchiseUserId 		: '',
-	  			showCategories 			: [],
-	  			TempImages 				: {
-	  									   id: "PsjnfuSGkrxh8caSc",
-								  		   userId: "onM3QMLAdTiGtjGnD",
-								  		   imagePath: "https://s3.ap-south-1.amazonaws.com/onlineexamabacus/ProductImage/6rmpYqGuEos6GeyeX.png", 
-								  		   tempPath: "http://localhost:3004/cdn/storage/ProductImage/6rmpYqGuEos6GeyeX/original/6rmpYqGuEos6GeyeX.png"
-								  		  }
+					submitButtonMsg 		: '',
+					_id 					: '',
+					studentFirstName 		: '',
+					studentMiddleName 		: '',
+					studentLastName 		: '',
+					studentDOB 				: '',
+					schoolName 				: '',
+					genderType 				: '',
+					mobileNumber 			: '',
+					studentEmail 			: '',
+					studentAddress 			: '',
+					studentCountry 			: '',
+					studentState 			: '',
+					studentCity 			: '',
+					pincode 				: '',
+					studentAddress 			: '',
+					studentAddress 			: '',
+					studentID 				: '',
+		  			category 	 			: '',
+		  			franchiseCode 	 		: '',
+		  			franchise_Id	 		: '',
+		  			categoryDisabled 		: '',
+		  			instruction				: '',
+		  			companyId 				: '',
+		  			franchiseName 			: '',
+		  			contactNo 				: '',
+		  			franchiseUserId 		: '',
+		  			config 					: '',
+		  			userProfile				: '',
+		  			gender       			: true,
+					profileEditStatus 		: false,
+		  			franchisedetails        : [],
+		  			showCategories 			: [],
+		  			TempImages 				: {
+		  									   id: "PsjnfuSGkrxh8caSc",
+									  		   userId: "onM3QMLAdTiGtjGnD",
+									  		   imagePath: "https://s3.ap-south-1.amazonaws.com/onlineexamabacus/ProductImage/6rmpYqGuEos6GeyeX.png", 
+									  		   tempPath: "http://localhost:3004/cdn/storage/ProductImage/6rmpYqGuEos6GeyeX/original/6rmpYqGuEos6GeyeX.png"
+									  		  }
 		}
 		this.handleChange 	= this.handleChange.bind(this);
 		this.showCategories = this.showCategories.bind(this);
 		this.getFranchiseId = this.getFranchiseId.bind(this);
+		axios
+	        .get('/projectsettings')
+	        .then((response)=>{
+				const config = {
+							        bucketName 		: response.data.bucket,
+							        dirName  		: 'photos',
+							        region 			: response.data.region,
+							        accessKeyId 	: response.data.key,
+							        secretAccessKey : response.data.secret,
+							    }
+							    
+				this.setState({
+					config : config
+				})
+	        })
+	        .catch(function(error){
+	          	console.log(error);
+	        })
 	}
 
 	componentDidMount() {
@@ -70,8 +90,7 @@ class CreateStudentRegistration extends (Component)  {
 			})
 
 				var studentId = localStorage.getItem("user_ID");
-// WyQY35LEFitPcabP6
-console.log("studentId--->",studentId);
+		// console.log("studentId--->",studentId);
     	const studentID = localStorage.getItem("user_ID");
     	this.setState({ studentID :studentID });
 		axios
@@ -101,6 +120,7 @@ console.log("studentId--->",studentId);
 								franchiseUserId 	: response.data.franchiseId,
 								franchiseName   	: response.data.franchiseName,
 								contactNo 			: response.data.franchiseMobileNumber,
+								userProfile			: response.data.userProfile,
 							 });
 							 // console.log('updateProfilePermission',response.data.updateProfilePermission);
 							 if(response.data.updateProfilePermission == "Blocked"){
@@ -171,74 +191,6 @@ console.log("studentId--->",studentId);
             });
 	}
 
-  studentRegistration(event){
-			event.preventDefault();
-			// 4523
-  		if(this.state.gender=true){
-  			if($("input[name='genderType']:checked").val() == 'on'){
-	          var genderType = 'Female';
-	        }else{
-	          var genderType = 'Male';
-	        }
-  		}else{
-  			if($("input[name='genderType']:checked").val() == 'on'){
-	          var genderType = 'Male';
-	        }else{
-	          var genderType = 'Female';
-	        }
-  		}
-  		var studFormValues={
-  			_id                		: this.refs._id.value.trim(),
-  			studentFirstName   		: this.refs.studentFirstName.value.trim(),
-  			studentMiddleName  		: this.refs.studentMiddleName.value.trim(),
-  			studentLastName    		: this.refs.studentLastName.value.trim(),
-  			mobileNumber       		: this.refs.mobileNumber.value.trim(),
-  			studentDOB         		: this.refs.studentDOB.value.trim(),
-  			schoolName         		: this.refs.schoolName.value.trim(),
-  			franchiseUserId       	: this.state.franchiseUserId,
-  			companyId   	   		: this.refs.franchiseId.value.trim(),
-  			franchiseName      		: this.refs.franchiseName.value,
-  			franchiseMobileNumber 	: this.refs.franchiseMobileNumber.value,
-  			studentAddress 				: this.refs.studentAddress.value.trim(),
-  			studentCountry 				: this.refs.studentCountry.value.trim(),
-  			studentState   				: this.refs.studentState.value.trim(),
-  			studentCity    				: this.refs.studentCity.value.trim(),
-  			pincode        				: this.refs.pincode.value.trim(),
-  			category       				: this.refs.category.value.trim(),
-  			studentEmail   				: this.refs.studentEmail.value.trim(),  			
-			genderType     				: $("input[name='genderType']:checked").val(),
-			studUserId					: localStorage.getItem("user_ID")
-			}
-			
-			var dateofBirth = new Date(studFormValues.studentDOB); 
-			var today = new Date;
-			var age = Math.floor((today-dateofBirth)/(365.25*24*60*60*1000));
-			if(age>0){
-				if(studFormValues.franchiseName && studFormValues.franchiseMobileNumber ){
-					// console.log('studFormValues',studFormValues);		
-					studFormValues.age = age;
-					if(studFormValues.age){
-						axios
-								.post('/registration',studFormValues)
-										.then((response)=>{
-												console.log("-------patch---->>",response.data);
-												this.props.history.push('/dashboard');
-													this.setState({
-														// registration : response.data,
-													});
-										})
-										.catch(function (error) {
-												console.log(error);
-										});
-					}
-				}else{
-					swal("Franchise name and franchise mobile number required");
-				}
-			}else{
-				swal("Your age must be 1 year old","","warning");	
-			}
-  	}
-
   	handleChange(event){
 		const target = event.target;
 		var companyId= $('#franchiseId').val();
@@ -284,7 +236,18 @@ console.log("studentId--->",studentId);
 		      	 	console.log("fileName--------------->",fileName);
 		      	     var ext       = fileName.split('.').pop();  
 	                  	if(ext=="jpg" || ext=="png" || ext=="jpeg" || ext=="JPG" || ext=="PNG" || ext=="JPEG"){    
-	                        if (file) { 
+	                        if (file) {
+	                        	S3FileUpload
+							    .uploadFile(file,this.state.config)
+							    .then((Data)=>{
+							    	console.log("Data = ",Data);
+							 		this.setState({
+							 			userProfile 	: 	Data.location
+							 		})
+							    })
+							    .catch((error)=>{
+							    	console.log(error);
+							    })
 		        				// addStudentProfileImage(file,self);
 			     			}else{          
 			             		swal("File not uploaded","Something went wrong","error");  
@@ -298,8 +261,8 @@ console.log("studentId--->",studentId);
 	  }
 
 	StudentImage(){
-		var TempIamge = this.state.TempImages/*TempImage.findOne({"userId": Meteor.userId()})*/;
-		// console.log("TempIamge =",TempIamge);
+		var TempIamge = this.state.userProfile/*TempImage.findOne({"userId": Meteor.userId()})*/;
+		console.log("TempIamge =",TempIamge);
 		
 		if(TempIamge){
 			// console.log("TempIamge.tempPath",TempIamge.tempPath);
@@ -350,8 +313,77 @@ console.log("studentId--->",studentId);
   		});
 	}
 
+	 studentRegistration(event){
+			event.preventDefault();
+			// 4523
+  		if(this.state.gender=true){
+  			if($("input[name='genderType']:checked").val() == 'on'){
+	          var genderType = 'Female';
+	        }else{
+	          var genderType = 'Male';
+	        }
+  		}else{
+  			if($("input[name='genderType']:checked").val() == 'on'){
+	          var genderType = 'Male';
+	        }else{
+	          var genderType = 'Female';
+	        }
+  		}
+  		var studFormValues={
+				  			_id                		: localStorage.getItem("user_ID"),
+				  			studentFirstName   		: this.refs.studentFirstName.value.trim(),
+				  			studentMiddleName  		: this.refs.studentMiddleName.value.trim(),
+				  			studentLastName    		: this.refs.studentLastName.value.trim(),
+				  			mobileNumber       		: this.refs.mobileNumber.value.trim(),
+				  			studentDOB         		: this.refs.studentDOB.value.trim(),
+				  			schoolName         		: this.refs.schoolName.value.trim(),
+				  			franchiseUserId       	: this.state.franchiseUserId,
+				  			companyId   	   		: this.refs.franchiseId.value.trim(),
+				  			franchiseName      		: this.refs.franchiseName.value,
+				  			franchiseMobileNumber 	: this.refs.franchiseMobileNumber.value,
+				  			studentAddress 				: this.refs.studentAddress.value.trim(),
+				  			studentCountry 				: this.refs.studentCountry.value.trim(),
+				  			studentState   				: this.refs.studentState.value.trim(),
+				  			studentCity    				: this.refs.studentCity.value.trim(),
+				  			pincode        				: this.refs.pincode.value.trim(),
+				  			category       				: this.refs.category.value.trim(),
+				  			studentEmail   				: this.refs.studentEmail.value.trim(),  			
+							genderType     				: $("input[name='genderType']:checked").val(),
+							studUserId					: localStorage.getItem("user_ID"),
+							userProfile					: this.state.userProfile
+						   }
+			console.log("studFormValues--->",studFormValues);
+			var dateofBirth = new Date(studFormValues.studentDOB); 
+			var today = new Date;
+			var age = Math.floor((today-dateofBirth)/(365.25*24*60*60*1000));
+			if(age>0){
+				if(studFormValues.franchiseName && studFormValues.franchiseMobileNumber ){
+					// console.log('studFormValues',studFormValues);		
+					studFormValues.age = age;
+					if(studFormValues.age){
+						axios
+							.post('/registration',studFormValues)
+									.then((response)=>{
+											console.log("-------patch---->>",response.data);
+											// this.props.history.push('/dashboard');
+												this.setState({
+													// registration : response.data,
+												});
+									})
+									.catch(function (error) {
+											console.log(error);
+									});
+					}
+				}else{
+					swal("Franchise name and franchise mobile number required");
+				}
+			}else{
+				swal("Your age must be 1 year old","","warning");	
+			}
+  	}
+
 	getUploadServicesPercentage(){
-    var uploadProgressPercent = 30/*Session.get("imageprogress")*/;
+    var uploadProgressPercent = 99/*Session.get("imageprogress")*/;
     if(uploadProgressPercent){
         var percentVal = parseInt(uploadProgressPercent);
         if(percentVal){            
@@ -466,7 +498,7 @@ console.log("studentId--->",studentId);
 										    	}
 										      </div>
 										      <img className="col-lg-12 col-md-12 col-sm-12 ClientImgWrap1 displayLogoOne" src={this.StudentImage()?this.StudentImage() :"../images/loading.gif"}/>
-										      {this.getUploadServicesPercentage()}
+										      {/*this.getUploadServicesPercentage()*/}
 										    </div>
 										</div>
 									</div>

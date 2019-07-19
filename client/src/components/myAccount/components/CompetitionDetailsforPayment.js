@@ -69,12 +69,11 @@ class CompetitionDetailsforPayment extends Component{
   		// var url  = window.location.protocol+window.location.hostname;
   		var url  = window.location.origin;
   		var studentId = localStorage.getItem('user_ID');
-		var data      = {
-					    "url"          : url,                	
-				}
+		var data  = {
+				    "url" : url,                	
+					}
 				// console.log('formValues = ',formValues);
 		console.log("url ----->",url,studentId,comp_id);
-
 
   		axios
 			.post('/quickwalletmasters/exampurchase/'+studentId/*+studentId*/+'/'+comp_id+'/'+competitionFees,data)

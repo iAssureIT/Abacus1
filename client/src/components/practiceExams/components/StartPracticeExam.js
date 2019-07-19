@@ -49,54 +49,58 @@ class StartPracticeExam extends (Component)  {
 			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
 			.then((response)=>{
 				console.log("mypracticeexammasters = ",response.data);
+				var div = response.data.answerArray;
+				div.push("finish Exam")
 				this.setState({
 								noOfQuestion 		: response.data.totalQuestion,
 								totalMarks 			: response.data.totalMarks,
-								questionArray 		: response.data.answerArray,
+								questionArray 		: div,
 								examStatus 			: response.data.examStatus,
 								examTime 			: response.data.examTime,
 								examName 			: response.data.examName,
 							 });
+				console.log("mypractice = ",div);
 
 			})
 			.catch(function(error){
 				console.log(error)
 			})
 
-
 				//======================================================
 				// 		Here you write which options is prechecked.
 				//======================================================
 
-				var quesArray = this.state.questionArray;
-				for(var i=0; i<quesArray.length; i++){
-					quesArray[i].optionAcheck = false;
-					quesArray[i].optionBcheck = false;
-					quesArray[i].optionCcheck = false;
-					quesArray[i].optionDcheck = false;
+				// var quesArray = this.state.questionArray;
+				// for(var i=0; i<quesArray.length; i++){
+				// 	quesArray[i].optionAcheck = false;
+				// 	quesArray[i].optionBcheck = false;
+				// 	quesArray[i].optionCcheck = false;
+				// 	quesArray[i].optionDcheck = false;
 
-					if(quesArray[i].studAnswer !== ""){
-						switch(quesArray[i].studAnswer){
-							case "A" : quesArray[i].optionAcheck = "checked"; break;
-							case "B" : quesArray[i].optionBcheck = "checked"; break;
-							case "C" : quesArray[i].optionCcheck = "checked"; break;
-							case "D" : quesArray[i].optionDcheck = "checked"; break;
-						}
-					}
-				}
+				// 	if(quesArray[i].studAnswer !== ""){
+				// 		switch(quesArray[i].studAnswer){
+				// 			case "A" : quesArray[i].optionAcheck = "checked"; break;
+				// 			case "B" : quesArray[i].optionBcheck = "checked"; break;
+				// 			case "C" : quesArray[i].optionCcheck = "checked"; break;
+				// 			case "D" : quesArray[i].optionDcheck = "checked"; break;
+				// 		}
+				// 	}
+				// }
 
-				if(i == quesArray.length){
-					this.setState({
-						questionArray : quesArray,
-					});
-				}
+				// if(i == quesArray.length){
+				// 	this.setState({
+				// 		questionArray : quesArray,
+				// 	});
+				// console.log("questionArray = ",quesArray);
+
+				// }
 
 
 		axios
 			.get('/mypracticeexammasters/practiceExam/'+practiceExamId)
 			.then((response)=>{
-				// console.log("visited Q  = ",response.data.lastVisitedQuestion);
-				console.log("visited Q answer = ",response.data);
+				console.log("visited Q  = ",response.data.lastVisitedQuestion);
+				console.log("visited Q answer = ",response.data.lastVisitedQAnswer);
 			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
 				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1
 				if(!response.data.lastVisitedQuestion){
@@ -110,68 +114,10 @@ class StartPracticeExam extends (Component)  {
 							qIndex: nextQ
 						})
 					}
-
-
 			})
 			.catch(function(error){
 				console.log(error)
 			})
-
-
-		// var exmId = FlowRouter.getParam("id");		
-		// Meteor.call("getLastVisitedQuestion",exmId,(err,res)=>{
-		// 	if(err){
-		// 	}else{
-		// 		if(res){
-		// 			// console.log("last Visited----->",res.lastVisitedQAnswer);
-		// 			if(!res.lastVisitedQuestion){
-		// 				this.setState(
-		// 				{
-		// 					qIndex: 0
-		// 				})
-		// 			}else{
-		// 				this.setState(
-		// 				{
-		// 					qIndex: res.lastVisitedQuestion+1
-		// 				})
-		// 			}
-		// 		}
-		// 	}
-		// });	
-
-		axios
-			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
-			.then((response)=>{
-				console.log("mypracticeexammasters = ",response.data);
-				this.setState({
-								noOfQuestion 		: response.data.totalQuestion,
-								totalMarks 			: response.data.totalMarks,
-								questionArray 		: response.data.answerArray,
-								examTime 			: response.data.examTime,
-								examName 			: response.data.examName,
-							 });
-			})
-			.catch(function(error){
-				console.log(error)
-			})
-
-
-		// Meteor.call("getExamQuestions",FlowRouter.getParam('id'),(err,res)=>{
-		// 	if(err){
-		// 		cosnole.log(err);
-		// 	}else{
-		// 		// console.log(res);
-		// 		this.setState({
-		// 				noOfQuestion : res.noOfQuestion,
-		// 				totalMarks : res.totalMarks,
-		// 				questionArrayFromTC : res.questionArrayFromTC,
-		// 				examTime : res.examTime,
-		// 				examName : res.examName,
-						
-		// 			});
-		// 	}
-		// });
-  
 	}
 	componentWillUnmount(){
     	// $("script[src='/js/adminLte.js']").remove();
@@ -214,18 +160,17 @@ class StartPracticeExam extends (Component)  {
 				console.log("mypracticeexammasters1 = ",response.data);
 				this.fillcolorwhenanswer(index,studAnswer);
 
-				var quesArray = this.state.questionArray;
-				switch(studAnswer){
-					case "A" : quesArray[index].optionAcheck = "checked"; break;
-					case "B" : quesArray[index].optionBcheck = "checked"; break;
-					case "C" : quesArray[index].optionCcheck = "checked"; break;
-					case "D" : quesArray[index].optionDcheck = "checked"; break;
-				}
+				// var quesArray = this.state.questionArray;
+				// switch(studAnswer){
+				// 	case "A" : quesArray[index].optionAcheck = "checked"; break;
+				// 	case "B" : quesArray[index].optionBcheck = "checked"; break;
+				// 	case "C" : quesArray[index].optionCcheck = "checked"; break;
+				// 	case "D" : quesArray[index].optionDcheck = "checked"; break;
+				// }
 
-				this.setState({
-					questionArray : quesArray,
-				});
-
+				// this.setState({
+				// 	questionArray : quesArray,
+				// });
 
 				jQuery('#mySlideShow').carousel(nextQues);
 			})
@@ -253,7 +198,6 @@ class StartPracticeExam extends (Component)  {
 	endExam(){
 	
 		if(this.props.match.params.orderId && this.props.match.params.packageId && this.props.match.params.btnIndex){
-		
 
 			var quepaperID  = this.props.match.params.id;
             var orderId     = this.props.match.params.orderId?this.props.match.params.orderId:"";
@@ -270,9 +214,6 @@ class StartPracticeExam extends (Component)  {
 	                            "studentId"   : studentID,
 	                            "todayDate"   : todayDate,
 	                         }
-
-
-
 			var values1 		={
 	                            "quepaperID"  : quepaperID,
 	                            "orderId"     : orderId,
@@ -305,13 +246,7 @@ class StartPracticeExam extends (Component)  {
 			.catch(function(error){
 				console.log(error)
 			})
-
-
-		}
-			
-
-			
-			
+		}			
 	}
 	getTimefunction(examTime,id){
 		if(examTime && id){
@@ -414,6 +349,7 @@ class StartPracticeExam extends (Component)  {
 
 												</div>
 												<div id="mySlideShow" ref={(ele)=> this.mySlideShow = ele} className="col-lg-8 col-md-8 col-sm-8 carousel mySlideShowbg1 slide" data-ride="carousel" data-interval="false">
+												{console.log("&&%%%%%%%%%%%%%%",this.state.qIndex)}
 									  
 													<ol id="configuration_sidebar_content1" className="carousel-indicators oesCarouselIndicator">
 															{ this.state.questionArray.map( (slides,index)=>{
@@ -431,16 +367,15 @@ class StartPracticeExam extends (Component)  {
 																			var activeStatus = '';
 																			var hideSlideDetail = "hideSlidDetails";
 																		}
-
 																	}
 																if(index <this.state.questionArray.length-1){
 																return (
-																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus, "A-"+index, slides.attempted} id={"qn"+slides.questionNumber} >{index+1}</li>
+																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+" "+slides.attempted} id={"qn"+slides.questionNumber} >{index+1}</li>
 																	);
 																}else{
 																	return (
 																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className="examFinishBtnnn">Finish</li>
-																		);
+																	);
 																}
 															  }) 
 															}

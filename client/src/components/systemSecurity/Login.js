@@ -35,15 +35,9 @@ class Login extends Component {
       axios
         .post('/user/login',auth)
         .then((response)=> {
-          console.log("-------userData------>>",response);
-          // userFirstName: "Dnyaneshwar"
-          // user_ID: "5d0a2bfd84f7f33c69e3868d"
           localStorage.setItem("token",response.data.token);
           localStorage.setItem("userFirstName",response.data.userFirstName);
           localStorage.setItem("user_ID",response.data.user_ID);
-          // localStorage.setItem("user_ID","E6BRdJtHMF9a6p7KF"/*response.data.user_ID*/);
-
-          console.log("localStorage =",localStorage);
           if(localStorage==null){
             swal("Invalid Email or Password","Please Enter valid email and password","warning");
           }else{

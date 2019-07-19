@@ -12,19 +12,8 @@ import '../css/common.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/js/modal.js';
 import 'bootstrap/js/tab.js';
+declare var jQuery: any;
 
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import {withTracker} from 'meteor/react-meteor-data';
-// // import TrackerReact from 'meteor/ultimatejs:tracker-react';
-
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-// import {PackageManagementMaster} from '/imports/admin/packageManagement/api/packageManagementMaster.js';
-// import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
-// import {PackageQuestionPaperMaster} from '/imports/paymentProcess/api/packageQuestionPaperMaster.js';
-// import {NotificationMaster} from '/imports/admin/notification/apiNotificationMaster.js';
-// import { SiteDowntime }   from '/imports/admin/notification/apiNotificationMaster.js';
-// import TimeAgo from 'react-timeago';
 // import ReactQuill from 'react-quill'; 
 // import 'react-quill/dist/quill.snow.css';
 // import  { Quill, Mixin, Toolbar } from 'react-quill'; 
@@ -97,7 +86,6 @@ class StudentProfile extends Component{
 				$('#showstatus').css('display','block');
 				$('#showstatus').css('overflow-y','auto');
     	 		$('#showstatus').addClass('fade in');
-		 	
 
 	          	}
 	  
@@ -278,29 +266,26 @@ class StudentProfile extends Component{
 
  }
 
-	render(){
-		/* window.scroll(0,0);
-		if(!this.props.loadingTest){
-			if(this.props.studentData.studentId){
-				var bgimg = 'bgmyprofile'}else{ var bgimg=''}
-				if(this.props.downtimestatus._id && this.props.studentData.downTimeStatus=="Unread"){
-					Meteor.setTimeout(function() {
-				    $('#showNotice').modal('show');
-					}, 300);
-				}else{
-					
-					Meteor.setTimeout(function() {
-				    $('#showNotice').modal('hide');
-					}, 300);
-				}
-				*/
-		// {console.log("this.state.loggedIn = ", this.state.loggedIn)}
-		if(this.state.loggedIn===false){
+ render(){
+		window.scroll(0,0);
+		
+			if(this.state.studentRegStatus=="Registered"){var bgimg = 'bgmyprofile'}else{ var bgimg=''}
+			// if(this.state.downtimestatus._id && this.state.studentData.downTimeStatus=="Unread"){
+			// 	setTimeout(()=>{
+			//     jQuery('#showNotice').modal('show');
+			// 	}, 300);
+			// }else{
+			// 	setTimeout(function() {
+			//     jQuery('#showNotice').modal('hide');
+			// 	}, 300);
+			// }
+				
+	if(this.state.loggedIn===false){
 			return <redirect to="/login"/>
-		}else{
+	}else{
 		return(
 			(this.state.studentRegStatus=="Registered")?
-			<div>			
+				<div>			
 		          	<section className={"content viewContent bgmyprofile"/*+bgimg*/}>
 		           		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 							{this.state.packageordermasters.length>0?
@@ -558,9 +543,6 @@ class StudentProfile extends Component{
 						</div>
 					</div>
 				</div>
-
-			/*</div>
-		</div>*/
 	  )}
 	}
 }export default StudentProfile;
