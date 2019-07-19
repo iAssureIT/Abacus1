@@ -6,6 +6,8 @@ import { Link } 			from 'react-router-dom';
 import moment 				from 'moment';
 import S3FileUpload 		from 'react-s3';
 import $ 					from 'jquery';
+import {render} 			from 'react-dom';
+
 
 // import 'bootstrap/dist/js/bootstrap.min.js';
 declare var jQuery: any;
@@ -147,7 +149,7 @@ class StartExam extends (Component)  {
 	      			    }
 			  		}   
 		    }
-		},10000);
+		},60000);
 	  }
 
 
@@ -280,7 +282,7 @@ class StartExam extends (Component)  {
 	showMainExamTime(examTime,id){
 	//--------------- execute function after 1 seconds. -------------------
 			var examId = this.props.match.params.examId;
-			var intervalMain = setInterval(function() { 
+			var intervalMain = setInterval(()=> { 
 			localStorage.setItem("MainExaminterval",intervalMain);
 			  var timer = examTime.split(':');
 			  var minutes = parseInt(timer[0], 10);
@@ -291,11 +293,13 @@ class StartExam extends (Component)  {
 			  	clearInterval(intervalMain);
 				var getExamTime = $('.countdownWrap').text();
 				clearInterval(this.screenshotInterval);
-				localStorage.removeItem("screenshot")
+				localStorage.removeItem("screenshot");
+
+				console.log("examId n getExamTime",examId,getExamTime);
 				axios
 					.post('/myexammasters/exammarksupdate/'+examId+'/'+getExamTime)
 					.then((response)=>{
-						console.log("exammarksupdate = ",response.data);
+						console.log("exammarksupdate in timer = ",response.data);
 						this.props.history.push("/mainExamResult/"+examId);
 					})
 					.catch(function(error){
@@ -401,7 +405,6 @@ class StartExam extends (Component)  {
 					  
 									<ol id="configuration_sidebar_content" className="carousel-indicators oesCarouselIndicator">
 										{ this.state.questionArrayFromTC.map( (slides,index)=>{
-											console.log("slides-->",slides,this.state.questionArrayFromTC.length)
 											if(this.state.qIndex!==0){
 												if(index == this.state.qIndex){
 													var activeStatus = 'active';
