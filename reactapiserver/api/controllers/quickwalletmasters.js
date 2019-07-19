@@ -29,7 +29,6 @@ exports.makepayment = (req,res,next) =>{
                         .exec()
                         .then(QWCredential =>{
                             if(QWCredential){
-                                
                                 if(QWCredential.environment=="production"){
                                     var API         = QWCredential.prodAPI;
                                     var partnerid   = QWCredential.prodKey;
@@ -44,28 +43,30 @@ exports.makepayment = (req,res,next) =>{
                                     "mobile"         : mobileNumber,
                                     "secret"         : secret,
                                     "amount"         : packageTotal,
-                                    "redirecturl"    : API+'packagePayment-response/'+req.body.OrderId,          
+                                    "redirecturl"    : 'http://localhost:3042/packagePayment-response/'+req.body.OrderId ,
                                 };
+                                var url = API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment";
+                                console.log('url ',url);
+                                console.log('quickWalletInput ',quickWalletInput);
                                 request({
-                                    "method":"POST", 
-                                    "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
-                                    "params" : quickWalletInput,
-                                    "json": true,
-                                    // "headers": {
-                                    //     "User-Agent": "My little demo app",
-                                    //     "Authorization": "Bearer " + "secrect",
-                                    // }
+                                    "method"    :"POST", 
+                                    "url"       : url,
+                                    "params"    : quickWalletInput,
+                                    "json"      : true,
+                                    "headers"   : {
+                                                        "User-Agent": "Integration Test",
+                                                        "Authorization": "Bearer " + "secret",
+                                                    }
                                 })
                                 .then(payresponse=>{
                                     console.log('payresponse ',payresponse);
                                     if(payresponse.status == 'success'){
                                         var paymentUrl = payresponse.data.url;
-                                        res.header("Access-Control-Allow-Origin","*");
+                                        // res.header("Access-Control-Allow-Origin","*");
                                         res.status(200).json(paymentUrl);
                                     }else{
                                         res.status(200).json(false);
                                     }
-                                    res.status(200).json("Something went wrong");
                                 })
                                 .catch(err =>{
                                     console.log(err);
