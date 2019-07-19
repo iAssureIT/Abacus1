@@ -157,14 +157,17 @@ router.post('/updatequespaper', (req,res,next) =>{
                         .exec()
                         .then(practiceExamId=>{
                             if(practiceExamId){
-                                console.log('practiceExamId ',practiceExamId)
-                                PackageQuestionPaperMaster.findOne({"questionPaper_id":practiceExamId.examPaperId,"buyerId":req.body.studentId,"packageId" : req.body.pckgIndex ,"order_id":req.body.orderId})
+                                console.log('practiceExamId ',practiceExamId.examPaperId);
+                                console.log('studentId ',req.body.studentId);
+                                console.log('pckgIndex ',req.body.pckgIndex);
+                                console.log('orderId ',req.body.orderId);
+                                var search = {"questionPaper_id":practiceExamId.examPaperId,"buyerId":req.body.studentId,"packageId" : req.body.pckgIndex ,"order_id":req.body.orderId}
+                                PackageQuestionPaperMaster.findOne()
                                 .exec()
                                 .then(questionPaperDetails=>{
                                     console.log('out questionPaperDetails ',questionPaperDetails);
                                     if(questionPaperDetails){
-                                    console.log("in questionPaperDetails ",questionPaperDetails);
-
+                                        console.log("in questionPaperDetails ",questionPaperDetails);
                                         PackageQuestionPaperMaster  .updateOne(
                                                                         {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
                                                                         {
