@@ -152,15 +152,10 @@ router.get('/:studentID', (req,res,next) => {
 });
 
 router.post('/updatequespaper', (req,res,next) =>{
-    console.log('req.body ',req.body);
     MyPracticeExamMaster.findOne({_id : req.body.practiceExamId})
                         .exec()
                         .then(practiceExamId=>{
                             if(practiceExamId){
-                                console.log('practiceExamId ',practiceExamId.examPaperId);
-                                console.log('studentId ',req.body.studentId);
-                                console.log('pckgIndex ',req.body.pckgIndex);
-                                console.log('orderId ',req.body.orderId);
                                 var selector = {"questionPaper_id":practiceExamId.examPaperId,"buyerId":req.body.studentId,"packageId" : req.body.packageId ,"order_id":req.body.orderId}
                                 console.log('selector = ',selector );
                                 PackageQuestionPaperMaster.findOne(selector)
@@ -169,6 +164,8 @@ router.post('/updatequespaper', (req,res,next) =>{
                                     console.log('out questionPaperDetails ',questionPaperDetails);
                                     if(questionPaperDetails){
                                         console.log("in questionPaperDetails ",questionPaperDetails);  
+                                        var updateSelector = {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.packageId,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId};
+                                        console.log('updateSelector ',updateSelector);
                                         PackageQuestionPaperMaster  .updateOne(
                                                                         {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.packageId,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
                                                                         {
