@@ -155,29 +155,31 @@ router.post('/updatequespaper', (req,res,next) =>{
     PackageQuestionPaperMaster  .findOne({questionPaper_id:req.body.practiceExamId,buyerId:req.body.studentId,packageId : req.body.pckgIndex ,order_id:req.body.orderId})
                                 .exec()
                                 .then(questionPaperDetails=>{
-                                    PackageQuestionPaperMaster  .updateOne(
-                                                                    {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
-                                                                    {
-                                                                        $set:{
-                                                                            ["noOfAttempts."+req.body.btnIndex+".status"]:true,
-                                                                            ["noOfAttempts."+req.body.btnIndex+".attemptedAt"]:moment().format("MMM Do YY"),
+                                    if(questionPaperDetails){
+                                        PackageQuestionPaperMaster  .updateOne(
+                                                                        {_id:questionPaperDetails._id,order_id:req.body.orderId,packageId:req.body.pckgIndex,buyerId:req.body.studentId,questionPaper_id:req.body.practiceExamId},
+                                                                        {
+                                                                            $set:{
+                                                                                ["noOfAttempts."+req.body.btnIndex+".status"]:true,
+                                                                                ["noOfAttempts."+req.body.btnIndex+".attemptedAt"]:moment().format("MMM Do YY"),
+                                                                            }
                                                                         }
-                                                                    }
-                                                                )
-                                                                .exec()
-                                                                .then(pckquepaper=>{
-                                                                    if(pckquepaper.nModified == 1){
-                                                                        res.status(200).json("Package Question Paper Master updated");
-                                                                    }else{
-                                                                        res.status(200).json("Something went wrong. Please check the values");
-                                                                    }
-                                                                })
-                                                                .catch(err =>{
-                                                                    console.log(err);
-                                                                    res.status(500).json({
-                                                                        error: err
-                                                                        });
-                                                                });                                
+                                                                    )
+                                                                    .exec()
+                                                                    .then(pckquepaper=>{
+                                                                        if(pckquepaper.nModified == 1){
+                                                                            res.status(200).json("Package Question Paper Master updated");
+                                                                        }else{
+                                                                            res.status(200).json("Something went wrong. Please check the values");
+                                                                        }
+                                                                    })
+                                                                    .catch(err =>{
+                                                                        console.log(err);
+                                                                        res.status(500).json({
+                                                                            error: err
+                                                                            });
+                                                                    });                                
+                                    }
                                 })
                                 .catch(err =>{
                                     console.log(err);
