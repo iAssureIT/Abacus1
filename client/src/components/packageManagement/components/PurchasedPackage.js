@@ -82,6 +82,7 @@ class PurchasedPackage extends Component {
         .catch(function(error){ 
           console.log(error);
         })   
+
       // axios
       //   .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
       //   .then((response)=> {

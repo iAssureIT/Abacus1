@@ -102,9 +102,11 @@ class StudentProfile extends Component{
 		const studentID = localStorage.getItem("user_ID");
 
 
+
 		this.setState({
 			refreshcnt : 1
 		})
+
 
 	    // console.log("Dashboard Token = ",token);
 	    if(token!==null){

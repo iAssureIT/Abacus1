@@ -68,6 +68,7 @@ class MultipleCompetition extends (Component)  {
 		
 		var i = 0;
 
+
 		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
 		var array=[];
 		var competitions 		= [];
@@ -93,6 +94,7 @@ class MultipleCompetition extends (Component)  {
 							this.setState({
 					  			studentRegStatus : "Registered"
 					  		})
+
 
 							axios
 								.get('/exammasters/list')

@@ -67,7 +67,9 @@ class ParticipationCertificate extends (Component) {
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
 			axios
+
 				.get('/myexammasters/participation/'+competitionId+'/'+studentID+'/'+index)
+
 
 
 	            .then((response)=>{

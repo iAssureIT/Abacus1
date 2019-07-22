@@ -30,10 +30,12 @@ class PurchasedPracticeStartExam extends Component {
     componentDidMount(){
       const studentID = localStorage.getItem("user_ID");
 
+
       console.log("this.props---->",this.props.match.params.packageId);
       this.setState({
         packageID : this.props.match.params.packageId,
       })
+
 
       axios
         .get('/instructions/Practice Exam')

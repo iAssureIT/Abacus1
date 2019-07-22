@@ -18,7 +18,9 @@ class PracticeStartExam extends Component {
 			mypracticeexamstatus : [],
 		});
 	}
+
 	componentWillMount(){
+
 		const studentID = localStorage.getItem("user_ID");
 		
 		axios
