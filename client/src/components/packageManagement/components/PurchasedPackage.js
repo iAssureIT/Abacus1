@@ -1,5 +1,6 @@
 import React, { Component }   from 'react';
 import axios                  from 'axios';
+import {Link}                 from 'react-router-dom';
 import $                      from 'jquery';
 // import InputMask from 'react-input-mask';
 
@@ -22,6 +23,7 @@ class PurchasedPackage extends Component {
                   packageId           : '',
                   pckgData            : [],
                   lastExamId          : '',
+                  studentRegStatus    : '',
                   PackageQPMData      : [],
                   practiceQPData      : [],
                   attemptOfpracticetest   : '',
@@ -82,7 +84,23 @@ class PurchasedPackage extends Component {
         .catch(function(error){ 
           console.log(error);
         })   
-
+    axios
+      .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+      .then((response)=> {
+        console.log("student details = ",response.data);
+        if(response.data==null){
+          this.setState({
+            studentRegStatus : "Not registered"
+          })
+        }else{
+          this.setState({
+            studentRegStatus : "Registered"
+          })
+        }
+      })
+      .catch(function (error){
+        
+      });
       // axios
       //   .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
       //   .then((response)=> {
@@ -226,6 +244,7 @@ class PurchasedPackage extends Component {
                           // !this.props.loadingTest4 ?
                           !this.state.lastExamId ?
                           // this.state.practiceQPData.length !=0 ?
+                          this.state.studentRegStatus !== "Not registered"?
                           <div className="box-header with-border boxMinHeight ">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamInstructionWrap ">
@@ -236,7 +255,7 @@ class PurchasedPackage extends Component {
                               <div className="col-lg-12 col-md-11 col-sm-12 col-xs-12 instructionList instructionWrap">
                               {this.state.instruction}
                               </div>
-                                <blink className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a href="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 pdcls" title="Click here to buy more packages">&nbsp; Purchase New Packages</a></blink>                      
+                              <blink className="col-lg-12 col-md-12 col-xs-12 col-sm-12"><a href="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 pdcls" title="Click here to buy more packages">&nbsp; Purchase New Packages</a></blink>                      
                               <form>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC">
                                   { this.state.PackageQPMData.length !== 0 ? 
@@ -281,6 +300,13 @@ class PurchasedPackage extends Component {
                                     }
                                 </div>
                               </form>
+                            
+                            </div>
+                          </div>
+                          :
+                          <div className="box-header with-border boxMinHeight  studDataNotExist whitebackground">
+                            <div className="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                              Please Fill Registration Form <Link to="/CreateStudReg"> Click Here </Link> to Register & purchase the packages.
                             </div>
                           </div>
                         : 
