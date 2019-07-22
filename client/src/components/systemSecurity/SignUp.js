@@ -46,7 +46,7 @@ class SignUp extends Component {
     }
  	usersignup(event){
  		event.preventDefault();
- 			console.log("-------this.state.auth------>>",this.state.auth);
+ 			
  			var auth={
 	                firstname       : this.refs.firstname.value,
 	                lastname        : this.refs.lastname.value,
@@ -55,7 +55,8 @@ class SignUp extends Component {
 	                password        : this.refs.signupPassword.value,
 	                signupPassword  : this.refs.signupConfirmPassword.value,
 	            }
- 			console.log("-------auth------>>",auth);
+ 			
+ 			localStorage.setItem('firstname',auth.firstname)
 
         document.getElementById("signUpBtn").value = 'We are processing. Please Wait...';            
             
