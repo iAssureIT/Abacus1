@@ -221,14 +221,10 @@ import './SignUp.css';
     if(this.props.location.pathname == "/confirm-otp/forgot"){
       var mobileEmail = 'Email Id';
       var resendOtp ='';
-      var digit = "6";
-      var sixFour = "six";
     }else{
       var resendOtpWrap = "resendOtpWrap resendOtpWrapcss";
       var mobileEmail = 'Mobile Number';
       var resendOtp = <span onClick={this.resendOtp.bind(this)}>Resend OTP</span>;
-      var digit = "4";
-      var sixFour = "four";
     }
 
     var winHeight = window.innerHeight;
@@ -276,7 +272,7 @@ import './SignUp.css';
                     <span>Enter {sixFour} digit verification code:<br/></span>
                   </div>
                   <div className="input-effect input-group veribtm1">
-                    <input type="text" className="effect-21 form-control loginInputs" ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength={digit} pattern="(0|[0-9]*)" required/>
+                    <input type="text" className="effect-21 form-control loginInputs" ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength="6" pattern="(0|[0-9]*)" required/>
                     <span className="input-group-addon glyphi-custommm"><i className="fa fa-key" aria-hidden="true"></i></span>
                     <span className="focus-border">
                       <i></i>
