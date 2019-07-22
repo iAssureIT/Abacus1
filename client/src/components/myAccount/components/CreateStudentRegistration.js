@@ -42,6 +42,8 @@ class CreateStudentRegistration extends (Component)  {
 		  			contactNo 				: '',
 		  			franchiseUserId 		: '',
 		  			config 					: '',
+		  			studentRegStatus    	: '',
+		  			studentMasterId      	: '',
 		  			gender       			: true,
 					profileEditStatus 		: false,
 		  			franchisedetails        : [],
@@ -91,6 +93,27 @@ class CreateStudentRegistration extends (Component)  {
 
 
 		var studentId = localStorage.getItem("user_ID");
+
+		axios
+		  .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+		  .then((response)=> {
+		  	console.log("student response---==-->",response);
+		  	if(response.data==null){
+		  		this.setState({
+		  			studentRegStatus : "Not registered"
+		  		})
+		  	}else{
+		  		this.setState({
+		  			studentRegStatus : "Registered",
+		  			studentMasterId : response.data._id
+		  		})
+
+		  	}
+		    
+		  })
+		  .catch(function (error){
+		    
+		  });
 
     	const studentID = localStorage.getItem("user_ID");
     	this.setState({ studentID :studentID });
@@ -330,7 +353,8 @@ class CreateStudentRegistration extends (Component)  {
 	        }
   		}
   		var studFormValues={
-				  			_id                			: localStorage.getItem("user_ID"),
+				  			_id                			: this.state.studentMasterId,
+				  			// _id                			: localStorage.getItem("user_ID"),
 				  			studentFirstName   			: this.refs.studentFirstName.value.trim(),
 				  			studentMiddleName  			: this.refs.studentMiddleName.value.trim(),
 				  			studentLastName    			: this.refs.studentLastName.value.trim(),
@@ -365,6 +389,15 @@ class CreateStudentRegistration extends (Component)  {
 							.post('/registration',studFormValues)
 									.then((response)=>{
 											console.log("-------patch---->>",response.data);
+
+											if(response.data.message=="Updated into Student Master"){
+												
+												swal("Student information updated successfully!!");
+											}else{
+												swal("Student registration is completed");
+											}
+
+											
 											// this.props.history.push('/dashboard');
 												this.setState({
 													// registration : response.data,
