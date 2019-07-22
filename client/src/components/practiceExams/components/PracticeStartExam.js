@@ -41,7 +41,7 @@ class PracticeStartExam extends Component {
 			axios
 		    	.get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
 	            .then((response)=> {
-					console.log("A/A1 = ",response.data);
+					// console.log("A/A1 = ",response.data);
 	                this.setState({
 			 			practiceQPData : response.data,
 			 		},()=>{
@@ -61,18 +61,29 @@ class PracticeStartExam extends Component {
 	getStatus(){
 		const studentID = localStorage.getItem("user_ID");
 		var array 		= [];
+		var paperArray 		= [];
 		var obj;
+		var updateData;
 
 		var qpData = this.state.practiceQPData;
-					console.log("qpData qpData = ",qpData);
+					// console.log("qpData qpData = ",qpData);
 		 			if(qpData){	
 		 				qpData.map((item,ind)=>{
+
 		 					axios
 								.get('/mypracticeexammasters/'+item._id+'/'+studentID)
 								.then((response)=>{
 
 									var examAttempt = response.data;
-									console.log("my prac tice = ",examAttempt,item._id);
+									// updateData = qpData.find((data)=>{
+									// 	return data._id == item._id
+									// })
+
+									// item.status = 
+
+									console.log("updateData----->",updateData);
+									console.log("examAttempt----->",examAttempt);
+									// console.log("my prac tice = ",examAttempt,item._id);
 
 									if(examAttempt.length>0){
 
@@ -81,6 +92,9 @@ class PracticeStartExam extends Component {
 										pId : item._id,
 										status : "Completed",
 									});
+
+									item.status = "Completed";
+
 									}else{
 										// data.freeExamStatus = "Not Completed"
 									array.push({
@@ -88,9 +102,14 @@ class PracticeStartExam extends Component {
 										pId : item._id,
 										status : "InComplete",
 									});
+
+									item.status = "InComplete";
+								
 									}
 									this.setState({
 										mypracticeexamstatus :array,
+									},()=>{
+
 									});
 								})
 								.catch(function(error){
@@ -145,6 +164,12 @@ class PracticeStartExam extends Component {
 		 				
 		 			}
 
+		 		
+
+		 			this.setState({
+		 				practiceQPData : qpData
+		 			})
+
 
 	}
 	// componentWillMount(){
@@ -176,7 +201,7 @@ class PracticeStartExam extends Component {
 						showstartExamBtn:false,
 					});
 		var practiceExamId = event.target.value;
-		console.log("practiceExamId = ",practiceExamId);
+		// console.log("practiceExamId = ",practiceExamId);
 		// this.props.history.push('/practiceExam/'+practiceExamId);
 
  		axios
@@ -185,7 +210,7 @@ class PracticeStartExam extends Component {
 			.then((response)=>{
 
 				this.props.history.push('/practiceExam/'+response.data.ID);
-				console.log("response start practiceeee ------= =========>",response);
+				// console.log("response start practiceeee ------= =========>",response);
 
 				this.setState({
 					mypracticeexammasters :response.data
@@ -266,7 +291,7 @@ class PracticeStartExam extends Component {
 		//  if(this.state.showstartExamBtn){
 			console.log("this.state.practiceQPData",this.state.practiceQPData);
 		var statusArray= this.state.mypracticeexamstatus;
-			console.log("this.state.statusArray",statusArray);
+			// console.log("this.state.statusArray",statusArray);
 
 		return(
 			
@@ -310,8 +335,8 @@ class PracticeStartExam extends Component {
 															    		
 															    		return  <div className="col-lg-6 col-md-6 col-sm-6 col-lg-offset-3 col-md-offset-3 qpRow" key={index}>  
 																		    		<div className="col-lg-9 col-md-9 col-sm-9 col-xs-9 qpTestTitle"> {questionPaper.quePaperTitle}</div>
-																		    		{	statusArray[index]?
-																		    			(statusArray[index].status=="Completed" && statusArray[index].pId==questionPaper._id)?
+																		    		{	
+																		    			(questionPaper.status=="Completed")?
 																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 																			    			<Link to="/PractExamReports"><button type="submit" className="btn startexambtn leftpaddingzero" value={questionPaper._id} title="Click here to start exam">Result</button></Link>
 																			    		</div>
@@ -319,8 +344,7 @@ class PracticeStartExam extends Component {
 																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 																			    			<button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" onClick={this.startPracticeExam.bind(this)} value={questionPaper._id}>Start</button>
 																			    		</div>
-																		    		:
-																			    		null
+																		    		
 																			    	}
 																		    	</div>
 															    		})

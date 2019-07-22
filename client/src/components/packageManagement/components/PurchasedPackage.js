@@ -6,6 +6,7 @@ import $                      from 'jquery';
 
 import '../css/PackageList.css';
 import 'font-awesome/css/font-awesome.min.css';
+import moment from 'moment';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 class PurchasedPackage extends Component {
@@ -136,24 +137,65 @@ class PurchasedPackage extends Component {
 
     }
 
+    // startPracticeExam(event){
+    //   event.preventDefault();
+    //   const studentID     = localStorage.getItem("user_ID");
+    //   var btnIndex        = event.target.getAttribute('data-index');
+    //   var pckgIndex       = event.target.getAttribute('data-text');
+    //   var orderId         = event.target.getAttribute('data-id');
+    //   var practiceExamId  = event.target.value;
+
+    //   this.setState({
+    //      BtnIndex:btnIndex,
+    //      PckgIndex:pckgIndex,
+    //    });
+    //   this.setState({
+    //     showButton:false,
+    //     showstartExamBtn:false,
+    //   });
+
+    //   axios
+    //       .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
+    //       .then((response)=> {
+    //         console.log("startpracticeexam = ",response.data);
+    //         this.setState({
+    //           startpracticeexam : response.data,
+    //         });
+    //       var id = response.data.ID;
+    //       this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
+    //       })
+    //       .catch(function (error) {
+    //           console.log(error);
+    //       });
+    // }
+
     startPracticeExam(event){
-      event.preventDefault();
-      const studentID     = localStorage.getItem("user_ID");
-      var btnIndex        = event.target.getAttribute('data-index');
-      var pckgIndex       = event.target.getAttribute('data-text');
-      var orderId         = event.target.getAttribute('data-id');
-      var practiceExamId  = event.target.value;
+    event.preventDefault();
+    var btnIndex = event.target.getAttribute('data-index');
+    var pckgIndex = event.target.getAttribute('data-text');
+    var orderId = event.target.getAttribute('data-id');
+    const studentID     = localStorage.getItem("user_ID");
 
-      this.setState({
-         BtnIndex:btnIndex,
-         PckgIndex:pckgIndex,
-       });
-      this.setState({
-        showButton:false,
-        showstartExamBtn:false,
-      });
+    // console.log("indexex----------->",btnIndex,pckgIndex,orderId);
+    this.setState({
+       BtnIndex:btnIndex,
+       PckgIndexPckgIndex:pckgIndex,
+     });
+    this.setState({
+      showButton:false,
+      showstartExamBtn:false,
+    });
+    var practiceExamId = event.target.value;
+    var inputData = {
+        quepaperID  : practiceExamId, //qpid
+        packageID   : pckgIndex, //urlPackageId
+        index       : parseInt(btnIndex), //BtnIndex
+        orderId     : orderId, //orderId
+        studentID   : studentID,
+        todayDate   : moment(new Date()).format("MMM Do YY"), //convert today date into moment().format("MMM Do YY") format
+    }
 
-      axios
+     axios
           .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
           .then((response)=> {
             console.log("startpracticeexam = ",response.data);
@@ -161,12 +203,45 @@ class PurchasedPackage extends Component {
               startpracticeexam : response.data,
             });
           var id = response.data.ID;
-          this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
+
+          console.log("indexex----------->",inputData);
+
+          axios
+              .post('/packagequestionpapermaster',inputData)
+              .then((response)=> {
+                  console.log("-------packagequestionpapermaster---->>",response);
+                  var responseData = response.data;
+               
+              })
+              .catch(function (error) {
+                  console.log(error);
+                
+              })
+
+            this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
           })
           .catch(function (error) {
               console.log(error);
           });
-    }
+
+    // Meteor.call("updateQuestionPaperMasterAccordingtoPackages",practiceExamId,pckgIndex,btnIndex,orderId,(error,result)=>{
+    // if(error){
+    // console.log(error);
+    // }else{
+
+    // }
+    // });
+    // Meteor.call("StartPracticeExam",practiceExamId,(error,result)=>{
+    // if(error){
+    // swal(error);
+    // }else{
+    // var id = result;
+    // if(id){
+    // FlowRouter.go('/practiceExam/'+id+'/'+this.props.urlPackageId+'/'+this.state.BtnIndex);
+    // }
+    // }
+    // });
+  }
 
     gotoPreviousExam(event){
       var id        = $(event.target).attr('id');

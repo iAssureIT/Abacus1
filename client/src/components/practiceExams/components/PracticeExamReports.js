@@ -66,14 +66,23 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 	    var m1 = start;
 		var m2 = end;
 		if(m1 && m2){
+
 			var min1 = m1.split(":");
 			var min2 = m2.split(":");
+
 			if(min1[1]=="00"){
 				min1[0]-=1;
 			}
 			var res1 = min1[0]-min2[0];
-			var res2 = (min1[1]=="00") ? 60-min2[1] : min1[1]-min2[1];
+
+
+			var res2 = (min1[1]=="00") ? 60-min2[1] : (parseInt(min1[1])>parseInt(min2[1]))?min1[1]-min2[1]:min1[1]-0;
+
+			// var res2 = (min1[1]=="00") ? 60-min2[1] : min1[1]-min2[1];
+
 			if(res2==60){res1+=1;res2=0;}
+			console.log("res1,",res1);
+			console.log("res2,",res2);
 			return res1+":"+res2;
 		}else{
 			return "01:00";

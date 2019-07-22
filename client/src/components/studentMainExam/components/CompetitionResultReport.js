@@ -571,8 +571,8 @@ export default class CompetitionResultReport extends (Component) {
 												    			{/*<div className="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1 col-xs-12 col-sm-12 profileCircle"></div>*/}
 												    			<img className="col-lg-12 col-md-12 profileCircle" src={allStudentView.studImg?allStudentView.studImg:"/images/user.png"}/>
 												    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center">
-													    			<div className="studName">{allStudentView.firstName}</div>
-													    			<div className="studName">{allStudentView.lastName}</div>
+													    			<div className="studName">{allStudentView.firstName}{allStudentView.lastName}</div>
+													    			{/*<div className="studName"></div>*/}
 													    			{this.state.competitionDeclared==true?<div className="studOtherInfo">Rank : {allStudentView.rank} </div>:null}
 													    			<div className="studOtherInfo">Category : {allStudentView.category} - {allStudentView.subCategory}</div>
 													    			<div className="studOtherInfo">Score : {allStudentView.totalScore}</div>
