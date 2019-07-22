@@ -85,7 +85,9 @@
 .ETESignSubTit{
   margin-bottom: 35px;
 }
-
+.noRightPad{
+  padding-right: 0 !important;
+}
 .spotylTextbox{
     border: 0 !important;
     box-shadow: none;

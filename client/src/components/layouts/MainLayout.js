@@ -161,14 +161,12 @@ class MainLayout extends Component{
 				  		<Route path="/signup" 								exact strict component={ SignUp } />
 				  		<Route path="/forgot-pwd" 							exact strict component={ ForgotPassword } />
 				  		<Route path="/reset-pwd" 							exact strict component={ ResetPassword } />
-				  		<Route path="/reset-pwd/:id" 							exact strict component={ ResetPassword } />
+				  		<Route path="/reset-pwd/:id" 						exact strict component={ ResetPassword } />
 				  		<Route path="/verify-account" 						exact strict component={ VerifyMobileAOS } />
 				  		<Route path="/otpFirstVarification/:mailId" 		exact strict component={ ConfirmOtp } />
-				  		<Route path="/otpVarification/:mailId" 				exact strict component={ ConfirmOtp } />
-				  		
-				  		<Route path="/confirm-otp" 		exact strict component={ ConfirmOtp } />
-				  		<Route path="/confirm-otp/forgot" 		exact strict component={ ConfirmOtp } />
-						<Route component={ PageNotFound } />
+				  		<Route path="/otpVarification/:mailId" 				exact strict component={ ConfirmOtp } />	
+				  		<Route path="/confirm-otp" 							exact strict component={ ConfirmOtp } />
+				  		<Route path="/confirm-otp/forgot" 					exact strict component={ ConfirmOtp } />
 					</div>
 			    </Switch> 
   			</Router>

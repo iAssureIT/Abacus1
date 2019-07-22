@@ -6,18 +6,6 @@ import $                      from 'jquery';
 import '../css/PackageList.css';
 import 'font-awesome/css/font-awesome.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-// import {render} from 'react-dom';
-// import {withTracker} from 'meteor/react-meteor-data';
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import {QuestionPaperMaster} from '/imports/admin/forms/setQuestionPaper/api/questionPaperMaster.js';
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// // import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
-// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-// import {MyPracticeExamMaster} from '/imports/student/api/myPracticeExamMaster.js';
-// // import {MyPracticeExamMaster} from '/imports/admin/forms/student/api/myPracticeExamMaster.js';
-// import {PackageQuestionPaperMaster} from '/imports/paymentProcess/api/packageQuestionPaperMaster.js';
-// import {PackageManagementMaster} from '/imports/admin/packageManagement/api/packageManagementMaster.js';
-// import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
 
 class PurchasedPackage extends Component {
     constructor(props){
@@ -32,13 +20,12 @@ class PurchasedPackage extends Component {
                   'defaultBtnTime'    : '00:05',
                   facilityPermission  : 'waitingforResult',
                   packageId           : '',
+                  pckgData            : [],
                   lastExamId          : '',
                   PackageQPMData      : [],
                   practiceQPData      : [],
                   attemptOfpracticetest   : '',
-                  "subscription"      : {
-                                          // packageManagementData : Meteor.subscribe("packageManagementData"),
-                                        }
+
                   });
     }
     componentDidMount(){
@@ -69,77 +56,48 @@ class PurchasedPackage extends Component {
       axios
         .get('/packagequestionpapermaster/'+studentID)
         .then((response)=>{
-          console.log("PackageQPMData = ",response.data)
-          this.setState({
-            PackageQPMData  :response.data,
-          },()=>{
-            var arr=[];
-            var packageId=[];
-            for (var i = response.data.length - 1; i >= 0; i--) {
-              var packageId = arr.push(response.data[i].noOfAttempts.length)
+          // console.log("PackageQPMData = ",response.data)
+          var arr=[];
+          var packageId=[];
+          for (var i = response.data.length - 1; i >= 0; i--) {
+            var packageId = arr.push(response.data[i].noOfAttempts.length)
+          }
+          var mathMax = Math.max(...arr);
+          for (var i = 0 ; response.data.length > i ; i++) {
+            var attempt = response.data[i].noOfAttempts.length;
+            var nullAttempt = mathMax - attempt;
+            var obj={"status":"--"};    
+            for (var j = 0 ; nullAttempt > j ; j++) {
+              var array = response.data[i].noOfAttempts;
+              var NA = response.data[i].noOfAttempts.push(obj)
             }
-            this.setState({
-              attemptOfpracticetest : Math.max(...arr)
-            })
+          }
+          console.log("NewArray======== ",response.data)
+          console.log("math.max = ",Math.max(...arr))
+          this.setState({
+            PackageQPMData        : response.data,
+            attemptOfpracticetest : Math.max(...arr)
           })
         })
         .catch(function(error){ 
           console.log(error);
         })   
-
-        axios
-          .get('/packagemanagementmasters/attemptOfpracticetest/SCwE67ZHr88rbXHTY'/*+packageID*/)
-          .then((response)=>{
-            console.log("attemptOfpracticetest = ",response.data);
-
-            this.setState({
-              // attemptOfpracticetest :response.data.AttemptOfPracticeTest
-            });
-          })
-          .catch(function(error){
-            console.log(error);
-          })
-        axios
-          .get('/questionpapermasters/A/A2')
-          .then((response)=> {
-            console.log("practiceQPData = ",response.data);
-            this.setState({
-              practiceQPData : response.data,
-            });
-          })
-          .catch(function (error) {
-              console.log(error);
-          });
-          // axios
-      //   .patch('/purchasedpackage/updatequespaper')
-      //   .then((response)=>{
-      //     console.log("updatequespaper = ",response.data)
-      //     this.setState({
-      //       // purchasedpackage :response.data[0].instruction
-      //     });
-      //   })
-      //   .catch(function(error){
-      //     console.log(error);
-      //   })
-
       // axios
-      //   .patch('/purchasedpackage/startpracticeexam/:examPaperId/:studentID')
-      //   .then((response)=>{
-      //     console.log("startpracticeexam = ",response.data)
-      //     this.setState({
-      //       // purchasedpackage :response.data[0].instruction
-      //     });
+      //   .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+      //   .then((response)=> {
+      //     axios
+      //       .get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
+      //       .then((response)=> {
+      //         console.log("practiceQPData = ",response.data);
+      //         this.setState({
+      //           practiceQPData : response.data,
+      //         });
+      //       })
+      //       .catch(function (error) {
+      //           console.log(error);
+      //       });
       //   })
-      //   .catch(function(error){
-      //     console.log(error);
-      //   })
-        
-      // if ( !$('body').hasClass('adminLte')) {
-      //   var adminLte = document.createElement("script");
-      //   adminLte.type="text/javascript";
-      //   adminLte.src = "/js/adminLte.js";
-      //   $("body").append(adminLte);
-      // }
+      //   .catch(function (error){});
     }
     componentWillUnmount(){
         // $("script[src='/js/adminLte.js']").remove();
@@ -156,21 +114,7 @@ class PurchasedPackage extends Component {
       }
     }
     componentWillMount(){
-        //    Meteor.call("isAuthenticated","PracticePackages","MyPackageList",(err,res)=>{
-        //   if(err){
-        //     console.log(err);
-        //   }else{
-        //     if(res==true){
-        //           this.setState({
-        //              facilityPermission : res,
-        //           });
-        //         }else if(res==false){
-        //           this.setState({
-        //              facilityPermission : res,
-        //           });
-        //         }
-        //   }
-        // });
+
     }
 
     startPracticeExam(event){
@@ -203,36 +147,11 @@ class PurchasedPackage extends Component {
           .catch(function (error) {
               console.log(error);
           });
-      localStorage.setItem("orderId",orderId);
-      localStorage.setItem("pckgIndex",pckgIndex);
-      localStorage.setItem("btnIndex",btnIndex);
-
-
-      // Meteor.call("updateQuestionPaperMasterAccordingtoPackages",practiceExamId,pckgIndex,btnIndex,orderId,(error,result)=>{
-      // if(error){
-      // console.log(error);
-      // }else{
-
-      // }
-      // });
-      // Meteor.call("StartPracticeExam",practiceExamId,(error,result)=>{
-      //   if(error){
-      //   swal(error);
-      //   }else{
-      //   var id = /*result*//* */ event.target.value;;
-      // //     if(id){
-      //   this.props.history.push('/practiceExam/'+id+'/'+pckgIndex+'/'+btnIndex);
-      //     }
-      //   }
-      // });
     }
 
     gotoPreviousExam(event){
       var id        = $(event.target).attr('id');
-      var orderId   = localStorage.getItem("orderId");
-      var pckgIndex = localStorage.getItem("pckgIndex");
-      var btnIndex  = localStorage.getItem("btnIndex");
-      this.props.history.push("/practiceExam/"+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
+      this.props.history.push("/practiceExam/"+id);
     }
 
     ExamComplete(event){
@@ -251,36 +170,35 @@ class PurchasedPackage extends Component {
     tryPELoadingAgainforBtn(){
       var examTime = this.state.defaultBtnTime;
       var LoadingInterval = setInterval(function() {
+        if(examTime){
+          var timer = examTime.split(':');
+          var minutes = parseInt(timer[0], 10);
+          var seconds = parseInt(timer[1], 10);
+          --seconds;
+          minutes = (seconds < 0) ? --minutes : minutes;
+          if (minutes < 0){
+          clearInterval(LoadingInterval);
+          $('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
 
-      if(examTime){
-        var timer = examTime.split(':');
-        var minutes = parseInt(timer[0], 10);
-        var seconds = parseInt(timer[1], 10);
-        --seconds;
-        minutes = (seconds < 0) ? --minutes : minutes;
-        if (minutes < 0){
-        clearInterval(LoadingInterval);
-      $('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
+          }else{
+          seconds = (seconds < 0) ? 59 : seconds;
+          seconds = (seconds < 10) ? '0' + seconds : seconds;
+          minutes = (minutes < 10) ?  minutes : minutes;
 
-        }else{
-        seconds = (seconds < 0) ? 59 : seconds;
-        seconds = (seconds < 10) ? '0' + seconds : seconds;
-        minutes = (minutes < 10) ?  minutes : minutes;
-
-      $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
-        examTime = minutes + ':' + seconds;
-      }
-      }
+          $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
+            examTime = minutes + ':' + seconds;
+          }
+        }
 
       }, 1000);
 
-      }
-      getArray = (length) =>{
+    }
+
+    getArray = (length) =>{
         // console.log("array length = ",length);
         var a = new Array(length);
         a.fill('-');
         // console.log("test = ",a);
-
         return a;
     }
 
@@ -347,7 +265,7 @@ class PurchasedPackage extends Component {
                                                             <button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" data-index={indexxx} data-text={questionPaper.packageId} data-id={questionPaper.order_id} onClick={this.startPracticeExam.bind(this)} value={questionPaper.questionPaper_id} title="Click here to start exam">Attempt</button>
                                                           </td>
                                                           :
-                                                          <td className="col-lg-1 col-md-2" key={indexxx}><div className="col-lg-12 col-md-12 qpTestTitle qpTestDate">NA</div></td>
+                                                          <td className="col-lg-1 col-md-2" key={indexxx}><div className="col-lg-12 col-md-12 qpTestTitle noPadd text-center qpTestDate">NA</div></td>
                                                         })
                                                       }
                                                     </tr>

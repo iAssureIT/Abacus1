@@ -3,7 +3,7 @@ import { render } 			from 'react-dom';
 import InputMask 			from 'react-input-mask';
 import swal 				from 'sweetalert';	
 import $ 					from "jquery";
-import ProfilePic   		from './ProfilePic.js';
+// import ProfilePic   		from './ProfilePic.js';
 import axios 				from 'axios';
 import moment				from 'moment';
 import S3FileUpload 		from 'react-s3';
@@ -42,11 +42,11 @@ class CreateStudentRegistration extends (Component)  {
 		  			contactNo 				: '',
 		  			franchiseUserId 		: '',
 		  			config 					: '',
-		  			userProfile				: '',
 		  			gender       			: true,
 					profileEditStatus 		: false,
 		  			franchisedetails        : [],
 		  			showCategories 			: [],
+		  			userProfile				: "",
 		  			TempImages 				: {
 		  									   id: "PsjnfuSGkrxh8caSc",
 									  		   userId: "onM3QMLAdTiGtjGnD",
@@ -77,7 +77,7 @@ class CreateStudentRegistration extends (Component)  {
 	        })
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		axios
 			.get('/instructions/Student Registration')
 			.then((response)=>{
@@ -89,7 +89,7 @@ class CreateStudentRegistration extends (Component)  {
 				console.log(error);
 			})
 
-				var studentId = localStorage.getItem("user_ID");
+		var studentId = localStorage.getItem("user_ID");
 		// console.log("studentId--->",studentId);
     	const studentID = localStorage.getItem("user_ID");
     	this.setState({ studentID :studentID });
@@ -172,7 +172,7 @@ class CreateStudentRegistration extends (Component)  {
 
   	}
 
-  	componentWillMount(){
+  	componentDidMount(){
   		this.showCategories();
   	}	
 	/*
@@ -182,9 +182,9 @@ class CreateStudentRegistration extends (Component)  {
         axios
   			.get('/categories/categoriesname')
             .then((response)=>{
-                	this.setState({
-						 			showCategories : response.data,
-					 		});
+            	this.setState({
+				 	showCategories : response.data,
+			 	});
             })
             .catch(function (error) {
                 console.log(error);
@@ -208,18 +208,18 @@ class CreateStudentRegistration extends (Component)  {
   			.get('/franchisedetails/franchisebasicinfo/'+companyId)
             .then((response)=>{
 	            if(response.data!=="franchiseNotFound"){
-								this.setState({
-															franchiseUserId 		: response.data.franchiseCodeForCompanyId,
-															franchiseName 			: response.data.franchiseName,
-															contactNo 				: response.data.contactNo,
-													});
+					this.setState({
+									franchiseUserId 		: response.data.franchiseCodeForCompanyId,
+									franchiseName 			: response.data.franchiseName,
+									contactNo 				: response.data.contactNo,
+								});
 	            }else{
-						 		this.setState({
-																franchiseUserId 		: '',
-																franchiseName 			: '',
-																contactNo 				: '',
-														});
-							}
+			 		this.setState({
+									franchiseUserId 		: '',
+									franchiseName 			: '',
+									contactNo 				: '',
+								});
+				}
             })
             .catch(function (error) {
                 console.log(error);
@@ -261,28 +261,27 @@ class CreateStudentRegistration extends (Component)  {
 	  }
 
 	StudentImage(){
-		var TempIamge = this.state.userProfile/*TempImage.findOne({"userId": Meteor.userId()})*/;
+		if(this.state.userProfile == null){
+			if($("input[name='genderType']:checked").val() == null){
+				var TempIamge = "/images/addLogo1.png";
+			}else{
+				if($("input[name='genderType']:checked").val()=="Male"){
+					var TempIamge = "/images/user.png";
+				}else{
+					var TempIamge = "/images/girlFace.png";
+				}
+			}
+		}else{
+			var TempIamge = this.state.userProfile;
+		}
+
 		console.log("TempIamge =",TempIamge);
 		
 		if(TempIamge){
-			// console.log("TempIamge.tempPath",TempIamge.tempPath);
-			return TempIamge.tempPath;
-			// return TempIamge.imagePath;
+			return TempIamge;
 		}else{
-			var userData = this.state.studentID/*Meteor.users.findOne({"_id":Meteor.userId()})*/;
-		    	if(userData){
-			        var profileData = userData.profile;
-				        if(profileData){
-				        	if(profileData.userProfile){
-				            	return profileData.userProfile;
-				        	}else{
-				            	return '../images/addLogo1.png';
-				        	}
-				        }
-			    } else{
-		        	return '../images/addLogo1.png';
-		    	}
-			}
+		    return '../images/addLogo1.png';
+		}
 	}
 
 	removeStudProfPhoto(event){
@@ -314,8 +313,8 @@ class CreateStudentRegistration extends (Component)  {
 	}
 
 	 studentRegistration(event){
-			event.preventDefault();
-			// 4523
+		event.preventDefault();
+
   		if(this.state.gender=true){
   			if($("input[name='genderType']:checked").val() == 'on'){
 	          var genderType = 'Female';
@@ -330,17 +329,17 @@ class CreateStudentRegistration extends (Component)  {
 	        }
   		}
   		var studFormValues={
-				  			_id                		: localStorage.getItem("user_ID"),
-				  			studentFirstName   		: this.refs.studentFirstName.value.trim(),
-				  			studentMiddleName  		: this.refs.studentMiddleName.value.trim(),
-				  			studentLastName    		: this.refs.studentLastName.value.trim(),
-				  			mobileNumber       		: this.refs.mobileNumber.value.trim(),
-				  			studentDOB         		: this.refs.studentDOB.value.trim(),
-				  			schoolName         		: this.refs.schoolName.value.trim(),
-				  			franchiseUserId       	: this.state.franchiseUserId,
-				  			companyId   	   		: this.refs.franchiseId.value.trim(),
-				  			franchiseName      		: this.refs.franchiseName.value,
-				  			franchiseMobileNumber 	: this.refs.franchiseMobileNumber.value,
+				  			_id                			: localStorage.getItem("user_ID"),
+				  			studentFirstName   			: this.refs.studentFirstName.value.trim(),
+				  			studentMiddleName  			: this.refs.studentMiddleName.value.trim(),
+				  			studentLastName    			: this.refs.studentLastName.value.trim(),
+				  			mobileNumber       			: this.refs.mobileNumber.value.trim(),
+				  			studentDOB         			: this.refs.studentDOB.value.trim(),
+				  			schoolName         			: this.refs.schoolName.value.trim(),
+				  			franchiseUserId       		: this.state.franchiseUserId,
+				  			companyId   	   			: this.refs.franchiseId.value.trim(),
+				  			franchiseName      			: this.refs.franchiseName.value,
+				  			franchiseMobileNumber 		: this.refs.franchiseMobileNumber.value,
 				  			studentAddress 				: this.refs.studentAddress.value.trim(),
 				  			studentCountry 				: this.refs.studentCountry.value.trim(),
 				  			studentState   				: this.refs.studentState.value.trim(),
@@ -502,7 +501,7 @@ class CreateStudentRegistration extends (Component)  {
 										    </div>
 										</div>
 									</div>
-									<ProfilePic img={this.StudentImage()}/>
+									{/*<ProfilePic img={this.StudentImage()}/>*/}
 								</div>
 								<div className="col-lg-12 col-md-12 col-sm-12">
 								<div className="col-lg-12 col-md-12 col-sm-12 studPerInfoWrap studHeadingWrap">Personal Information</div>

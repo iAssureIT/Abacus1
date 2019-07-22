@@ -471,7 +471,7 @@ class StartPracticeExam extends (Component)  {
 																		</div>
 																		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 																		    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finishBttn">
-																				<button className="showNextWindowButtow btn btn-primary" onClick={this.endExam.bind(this)}>finish Exam{slides.finish_button}</button>
+																				<button className="showNextWindowButtow btn btn-primary" onClick={this.endExam.bind(this)}>Finish exam{slides.finish_button}</button>
 																			</div>
 																		</div>
 																	  </div>

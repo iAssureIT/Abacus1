@@ -12,11 +12,8 @@ import './SignUp.css';
 class ResetPassword extends Component {
   constructor(props){
       super();
-        this.state = {           
-                   }
+      this.state = {   }
   }
-
-
   showSignPass(){
     $('.showPwd').toggleClass('showPwd1');
     $('.hidePwd').toggleClass('hidePwd1');
@@ -80,6 +77,7 @@ class ResetPassword extends Component {
        swal({
               title: 'Passwords does not match',
               text: 'Please try again',
+              timer: 1700,
               showConfirmButton: true,
               type: 'error'
           });

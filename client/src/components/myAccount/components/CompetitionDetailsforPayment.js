@@ -13,6 +13,7 @@ class CompetitionDetailsforPayment extends Component{
 	    	competitionExams 	: [],
 	    	studentMasterData 	: [],
 	    	dateformat 			: '',
+	    	data 				: false,
 	    }
 	}
 	componentDidMount(){
@@ -29,24 +30,36 @@ class CompetitionDetailsforPayment extends Component{
 		var competitionId = this.props.match.params.compId;
 		
 		axios
-
 			.get('/exammasters/exampurchase/'+competitionId+'/'+id)
-
 			.then((response)=>{
-				console.log('response123 = ',response.data);
-				var competitionExams =response.data.competitionData.competitionExams[0];
+				var competitionData 	=	response.data.competitionData;
+				var competitionExams 	=	response.data.competitionData.competitionExams;
+				var studentMasterData  	=	response.data.studentMasterData;
+				for (var i = 0; competitionExams.length > i ; i++) {
+					console.log(studentMasterData.category ,"==", competitionExams[i].category ,"&&", studentMasterData.subCategory ,"==",competitionExams[i].subCategory)
 
+					if (studentMasterData.category == competitionExams[i].category && studentMasterData.subCategory == competitionExams[i].subCategory) {
+						this.setState({
+							competitionExams 	:competitionExams[i],
+							data 				:true,
+						})
+					}else {
+						this.setState({
+							competitionExams 	:[],
+							data 				:false,
+						})
+					}
+				}
 				this.setState({
-					competitionData :response.data.competitionData,
-					competitionExams :competitionExams,
-					studentMasterData :response.data.studentMasterData,
-					dateformat :response.data.dateformat,
-				},()=>{
+					competitionData 	:competitionData,
+					studentMasterData 	:studentMasterData,
+					dateformat 			:response.data.dateformat,
+				})
 					console.log("competitionData= ",this.state.competitionData)
 					console.log("competitionExams= ",this.state.competitionExams)
 					console.log("studentMasterData= ",this.state.studentMasterData)
 					console.log("dateformat= ",this.state.dateformat)
-				});
+				
 			})
 			.catch(function(error){
 				console.log("error",error);
@@ -76,31 +89,17 @@ class CompetitionDetailsforPayment extends Component{
 		console.log("url ----->",url,studentId,comp_id);
 
   		axios
-			.post('/quickwalletmasters/exampurchase/'+studentId/*+studentId*/+'/'+comp_id+'/'+competitionFees,data)
+			.post('/quickwalletmasters/exampurchase/'+studentId+'/'+comp_id+'/'+competitionFees,data)
 
 			.then((response)=>{
 				console.log('payment res = ',response.data);
 				this.setState({
-					// competitionData :allCompetitions
+                    // window.location = response;
 				});
 			})
 			.catch(function(error){
 				console.log("error",error);
 			});
-
-  		// Meteor.call("paymentGatewayforCompetition",competitionFees,comp_id,QPId,
-  		// 			(err,rslt)=>{
-  		// 				if(err){
-  		// 					// console.log(err);
-  		// 				}else{
-  		// 					if(rslt){
-  		// 					console.log(rslt);
-
-    //                             window.location = rslt;
-  		// 					}
-  		// 				}
-  		// 			}
-  		// );
   	}
 
 	render(){
@@ -120,7 +119,7 @@ class CompetitionDetailsforPayment extends Component{
 		                <div className="box">
 		                  <div className="box-header with-border boxMinHeight">
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		                  	{!this.props.CompetitionExamData ?
+		                  	{this.state.data == true ?
 							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerexambox">
 								<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 rfoac">
 		       						<h2 className="abacustitle">Registration for Online Abacus Competition</h2>
@@ -144,7 +143,7 @@ class CompetitionDetailsforPayment extends Component{
 											</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
-											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Category &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{this.state.studentMasterData.category}</div>
+											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Category &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;{this.state.competitionExams.category}</div>
 										</div>
 										<div className="col-lg-12 col-md-12 col-sm- col-xs-12">
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 examtitles">Exam Duration &nbsp;:&nbsp;{this.state.competitionExams.examDuration} (Minutes)</div>
@@ -153,7 +152,7 @@ class CompetitionDetailsforPayment extends Component{
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 green">Competition Fees :&nbsp; <i className="fa fa-inr" aria-hidden="true"></i>&nbsp;{this.state.competitionData.competitionFees}</div>
 											<input type="hidden" ref="competitionFees" name="competitionFees" value={this.state.competitionData.competitionFees}/>
 											<input type="hidden" ref="comp_id" name="comp_id" value={this.state.competitionData._id}/>
-											<input type="hidden" ref="QPId" name="QPId" value={this.state.CompetitionExamData.competitionExams.questionPaperId}/>
+											<input type="hidden" ref="QPId" name="QPId" value=""/*this.state.competitionExams.questionPaperId*//>
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rfoac">
@@ -162,7 +161,7 @@ class CompetitionDetailsforPayment extends Component{
 									</div>
 								</div>
 							:
-								<div className="nopadLeft text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 noEarning MarginBottom20 noDataInvoiceList">Competition not created for your category({/*this.state.studentMasterData.category*/}/{/*this.state.studentMasterData.subCategory*/}).</div>
+								<div className="nopadLeft text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 noEarning MarginBottom20 noDataInvoiceList">Competition not created for your category({this.state.studentMasterData.category}/{this.state.studentMasterData.subCategory}).</div>
 							}
 						 	</div>
 						  </div>

@@ -84,7 +84,9 @@ class SignUp extends Component {
 			                if(responseData.message=="NEW-USER-CREATED"){
 			                	swal("Great","Information submitted successfully","success");
 			                	this.props.history.push("/confirm-otp");
-			                }		            		
+			                }else{
+			                	swal("Sorry","Email Id or Mobile Number already exist","warning");
+			                }	            		
 			               
 			            })
 			            .catch(function (error) {
@@ -214,7 +216,7 @@ class SignUp extends Component {
 						   		<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 inputContent marBtm">
 								    <div className="form-group form-group1 fltlft input-group col-lg-6 col-md-6 col-xs-6 col-sm-6 inputContent">
 							   			<span className="blocking-span">
-											<input type="password" className="form-control pass oesSignUpForm confirmbtm inputTextPass" ref="signupPassword" name="signupPassword" required/>
+											<input type="password" className="form-control pass oesSignUpForm confirmbtm noRightPad inputTextPass" ref="signupPassword" name="signupPassword" required/>
 											<span className="floating-label1 lbfloatpass"><i className="fa fa-lock" aria-hidden="true"></i> Password</span>					   			
 										</span>
 										<span className="input-group-addon customCls customCls1 glyphi-custommm">

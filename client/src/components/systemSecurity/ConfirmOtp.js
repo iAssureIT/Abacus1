@@ -10,21 +10,17 @@ import './SignUp.css';
       super(props);
       this.state ={
         "mobileNumber" : "",
-        // "subscription" : {
-        //   user         : Meteor.subscribe("userfunction"), 
-        // }
+        "email"        : "",
       }
     }
 
     componentWillMount(){
-      
       this.setState({
         mobileNumber : localStorage.getItem('mobileNumber'),
       },()=>{
         console.log("in c otp---->",localStorage.getItem('mailId'))
-    })
+      })
     }  
-
 
     confirmOTP(event){
       console.log('confirm otp');
@@ -36,56 +32,54 @@ import './SignUp.css';
                         email               : localStorage.getItem('mailId'),
                         otp                 : parseInt(this.refs.emailotp.value)
                     }
-
       }else{
         otpData =  {
-                        mobileNumber       : this.state.mobileNumber,
+                        mobileNumber        : this.state.mobileNumber,
                         otp                 : parseInt(this.refs.emailotp.value)
                     }
-
       }    
 
-  if(url== "/confirm-otp/forgot"){
-      axios
-      .post('/user/checkotp',otpData,)
-      .then((response)=> {
-          console.log("-------userData--in checkotp---->>",response);
-          var responseData = response.data;
-          if(responseData.message=="Success"){
-           swal("Great","OTP Verified Successfully","success");
-           this.props.history.push("/reset-pwd");
-          }
-          else if(responseData.message=="Failed"){
-              swal("OTP not verified","Please try again","error");
-              this.props.history.push("/");
-          }
-      })
-      .catch(function (error) {
-          console.log(error);
-        
-      })
-    }else{
-console.log("-------userData--in confirm otp---->>",otpData);
-       axios
-      .post('/user/mobileverification',otpData,)
-      .then((response)=> {
-          console.log("-------userData--in confirm otp---->>",response);
-          var responseData = response.data;
-          if(responseData.message=="User Verified"){
-           swal("Great","OTP Verified Successfully","success");
-           this.props.history.push("/");
-          }
-          else if(responseData.message=="User already verified"){
-              swal("User already verified","","success");
-              this.props.history.push("/");
-          }
-      })
-      .catch(function (error) {
-          console.log(error);
-        
-      })
+      if(url== "/confirm-otp/forgot"){
+        axios
+          .post('/user/checkotp',otpData,)
+          .then((response)=> {
+              console.log("-------userData--in checkotp---->>",response);
+              var responseData = response.data;
+              if(responseData.message=="Success"){
+               swal("Great","OTP Verified Successfully","success");
+               this.props.history.push("/reset-pwd");
+              }
+              else if(responseData.message=="Failed"){
+                  swal("OTP not verified","Please try again","error");
+                  this.props.history.push("/");
+              }
+          })
+          .catch(function (error) {
+              console.log(error);
+            
+          })
+      }else{
+            console.log("-------userData--in confirm otp---->>",otpData);
+        axios
+          .post('/user/mobileverification',otpData,)
+          .then((response)=> {
+              console.log("-------userData--in confirm otp---->>",response);
+              var responseData = response.data;
+              if(responseData.message=="User Verified"){
+               swal("Great","OTP Verified Successfully","success");
+               this.props.history.push("/");
+              }
+              else if(responseData.message=="User already verified"){
+                  swal("User already verified","","success");
+                  this.props.history.push("/");
+              }
+          })
+          .catch(function (error) {
+              console.log(error);
+            
+          })
 
-    }
+        }
 
       // var checkUserExist = FlowRouter.getParam("mailId");
       // var userData = Meteor.users.findOne({"_id":checkUserExist});
@@ -200,22 +194,22 @@ console.log("-------userData--in confirm otp---->>",otpData);
           firstname : localStorage.getItem('firstname'),
       }
 
-       axios
-      .post('/user/resendotp',data)
-      .then((response)=> {
-          console.log("-------resend otp ---->>",response);
-          var responseData = response.data;
-          if(responseData=="OTP updated"){
-           swal("Great","OTP resend Successfully","success");         
-          }
-          else{
+      axios
+        .post('/user/resendotp',data)
+        .then((response)=> {
+            console.log("-------resend otp ---->>",response);
+            var responseData = response.data;
+            if(responseData == "OTP updated"){
+             swal("Great","OTP resend Successfully","success");         
+            }
+            else{
               swal("Something went wrong","","error");              
-          }
-      })
-      .catch(function (error) {
-          console.log(error);
-        
-      })
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+          
+        })
 
 
    
@@ -224,14 +218,18 @@ console.log("-------userData--in confirm otp---->>",otpData);
 
 
   render(){
-    // if(location.pathname=='/forgotOTPVarification/'+FlowRouter.getParam("mailId")){
-    //    var mobileEmail = 'Email Id';
-    //    var resendOtp ='';
-    // }else{
+    if(this.props.location.pathname == "/confirm-otp/forgot"){
+      var mobileEmail = 'Email Id';
+      var resendOtp ='';
+      var digit = "6";
+      var sixFour = "six";
+    }else{
       var resendOtpWrap = "resendOtpWrap resendOtpWrapcss";
       var mobileEmail = 'Mobile Number';
       var resendOtp = <span onClick={this.resendOtp.bind(this)}>Resend OTP</span>;
-    // }
+      var digit = "4";
+      var sixFour = "four";
+    }
 
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
@@ -270,15 +268,15 @@ console.log("-------userData--in confirm otp---->>",otpData);
           <div className="divConfirmOtpModalWrap">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" className="firstverification">
               <div className="text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                <span>We have sent you a Verification Code to your registered <b>Email </b>.<br/><br/></span>
+                <span>We have sent you a Verification Code to your registered <b>{mobileEmail}</b>.<br/><br/></span>
               </div>
               <form id="OTPMobMail" onSubmit={this.confirmOTP.bind(this)}>
                 <div className="col-lg-12 col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 veriemail">
                   <div className="text-left col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                    <span>Enter six digit verification code:<br/></span>
+                    <span>Enter {sixFour} digit verification code:<br/></span>
                   </div>
                   <div className="input-effect input-group veribtm1">
-                    <input type="text" className="effect-21 form-control loginInputs " ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength="6" pattern="(0|[0-9]*)" required/>
+                    <input type="text" className="effect-21 form-control loginInputs" ref="emailotp" name="emailotp" onBlur={this.inputEffect.bind(this)} aria-describedby="basic-addon1" title="Please enter numbers only!" maxLength={digit} pattern="(0|[0-9]*)" required/>
                     <span className="input-group-addon glyphi-custommm"><i className="fa fa-key" aria-hidden="true"></i></span>
                     <span className="focus-border">
                       <i></i>

@@ -30,7 +30,6 @@ class StudentHeader extends (Component){
       })
     }
 
-
     axios
       .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
       .then((response)=> {
@@ -44,14 +43,11 @@ class StudentHeader extends (Component){
           this.setState({
             studentRegStatus : "Registered"
           })
-
         }
-        
       })
       .catch(function (error){
         
       });
-
 
     // console.log("localstorage",localstorage)
     // if ( !$('body').hasClass('adminLte')) {

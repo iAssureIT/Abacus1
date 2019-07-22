@@ -98,8 +98,6 @@ class StudentProfile extends Component{
 
 	componentDidMount(){
 
-		
-
 		const token = localStorage.getItem("token");
 		const studentID = localStorage.getItem("user_ID");
 
@@ -227,29 +225,33 @@ class StudentProfile extends Component{
 	// // }
 
   	updateStudentNotifctn(){
-  		// $('#showstatus').css('display','none');
-    // 	  $('#showstatus').removeClass('fade in');
-    	  // $('.modal-backdrop').hide();
-  		 // Meteor.call("updateStudentNotificationStatusToRead",(err,res)=>{
-          // if(err){
-          // }else{            
-          // }
-        // });
+  		$('#showstatus').css('display','none');
+      	$('#showstatus').removeClass('fade in');
+      	$('.modal-backdrop').hide();
+      	console.log("localStorage.getItem('user_ID')",localStorage.getItem('user_ID'));
+       	axios
+    		.post('/studentmaster/update/notifyndowntime/'+localStorage.getItem('user_ID')+'/notificationstatus/Read')
+            .then((response)=> {
+                console.log("-------notifyndowntime------>>",response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
   	}
 
   	updateStudentTimeStatus(){
-  		// $('#showNotice').css('display','none');
-    // 	  $('#showNotice').removeClass('fade in');
- //  		 Meteor.call("updateStudentDownTimeStatusStatusToRead",(err,res)=>{
- //          if(err){
- //          }else{            
- //          }
- //        });
+  		$('#showNotice').css('display','none');
+    	$('#showNotice').removeClass('fade in');
+
+      	axios
+    		.post('/studentmaster/update/notifyndowntime/'+localStorage.getItem('user_ID')+'/downtimestatus/Read')
+            .then((response)=> {
+                console.log("-------downtim------>>",response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
   	}
-  	
-  	// componentWillUnmount(){
-   //  	localStorage.removeItem("justOnce");
-  	// }
 
 
  showPckgDescription(e){
@@ -268,7 +270,6 @@ class StudentProfile extends Component{
 
  render(){
 		window.scroll(0,0);
-		
 			if(this.state.studentRegStatus=="Registered"){var bgimg = 'bgmyprofile'}else{ var bgimg=''}
 			// if(this.state.downtimestatus._id && this.state.studentData.downTimeStatus=="Unread"){
 			// 	setTimeout(()=>{
@@ -330,7 +331,7 @@ class StudentProfile extends Component{
 									<div className="col-lg-10 col-lg-offset-1 zeropadding">
 										<div className="col-lg-12 boxlistpadding">
 											{this.state.packageData.map((data,index)=>{
-												console.log("data = ",data);
+												// console.log("data = ",data);
 								    			return data? 
 								    				<div className="col-lg-6 col-md-6 col-sm-12 outerboxpadding" key={index}>
 									    				<div className="col-lg-12 col-md-12 col-sm-12 smallboxpckg" > 

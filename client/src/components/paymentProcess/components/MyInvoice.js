@@ -61,13 +61,6 @@ class MyInvoice extends Component{
       invoice         : [],
       tax             : [],
       serviceArray    : [{'serviceName': 'packageData','serviceRate':200,'totalQty':222}],
-      // "subscription" : {
-      //   "singleinvoice" : Meteor.subscribe("singleinvoice"),   
-      //   // "allOrders"     : Meteor.subscribe("allOrders"),
-      //   "tempSingleinvoice" : Meteor.subscribe("tempSingleinvoice"),
-      //   // "allUserProfileData" : Meteor.subscribe("allUserProfileData"),
-      //   "singleStudent" : Meteor.subscribe("singleStudent"),
-      // }
     };
   }
 
@@ -85,18 +78,23 @@ class MyInvoice extends Component{
           var order   =  orderMasterData.push(data);
 
           this.setState({
-              orderMasterData   :  [{packageName:"hgvjhv"}]
+              // orderMasterData   :  [{packageName:"hgvjhv"}]
           });
         })
         .catch(function(error){
           console.log(error);
         })
-	// if ( !$('body').hasClass('adminLte')) {
-	//   var adminLte = document.createElement("script");
-	//   adminLte.type="text/javascript";
-	//   adminLte.src = "/js/adminLte.js";
-	//   $("body").append(adminLte);
-	// }
+
+      axios
+        .get('/packageordermasters/invoice/1768'/*+invoice_ID*/)
+        .then((response)=>{
+          console.log("invoice = ",response.data);
+         
+        })
+        .catch(function(error){
+          console.log(error);
+        })
+
   }
 	
   componentWillUnmount(){
@@ -177,6 +175,16 @@ class MyInvoice extends Component{
     //  return rate;
   }
   getUserName(){
+     axios
+        .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+        .then((response)=> {
+          console.log("student details = ",response.data);
+          var studentFullName = response.data.studentFullName
+          return studentFullName;          
+        })
+        .catch(function (error){
+          console.log(error);
+        });
   	// var buyerData = StudentMaster.findOne({"studentId":Meteor.userId()});
   	// if(buyerData){
   	// 	var studentName = buyerData.studentFullName;
@@ -215,7 +223,7 @@ class MyInvoice extends Component{
 		                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 invoicebill">
 		                    <div className="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-12 clientbilled">
 		                      <div className="billedto date">Billed To</div>
-		                      <div className=""> Mr. Dnyanesh{/*this.getUserName()*/}</div>
+		                      <div className=""> {this.getUserName()}</div>
 		                      <div className="clientdetails">
 		                      </div>
 		                    </div>

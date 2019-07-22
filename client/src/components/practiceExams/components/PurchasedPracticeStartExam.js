@@ -80,29 +80,35 @@ class PurchasedPracticeStartExam extends Component {
           console.log(error);
         })   
 
-        axios
-          .get('/packagemanagementmasters/attemptOfpracticetest/SCwE67ZHr88rbXHTY')
-          .then((response)=>{
-            console.log("attemptOfpracticetest = ",response.data);
+        // axios
+        //   .get('/packagemanagementmasters/attemptOfpracticetest/SCwE67ZHr88rbXHTY')
+        //   .then((response)=>{
+        //     console.log("attemptOfpracticetest = ",response.data);
 
-            this.setState({
-              // attemptOfpracticetest :response.data.AttemptOfPracticeTest
-            });
-          })
-          .catch(function(error){
-            console.log(error);
-          })
-        axios
-          .get('/questionpapermasters/A/A2')
-          .then((response)=> {
-            console.log("practiceQPData = ",response.data);
-            this.setState({
-              practiceQPData : response.data,
-            });
-          })
-          .catch(function (error) {
-              console.log(error);
-          });
+        //     this.setState({
+        //       // attemptOfpracticetest :response.data.AttemptOfPracticeTest
+        //     });
+        //   })
+        //   .catch(function(error){
+        //     console.log(error);
+        //   })
+      // axios
+      //   .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+      //   .then((response)=> {
+      //     axios
+      //       .get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
+      //       .then((response)=> {
+      //         console.log("practiceQPData = ",response.data);
+      //         this.setState({
+      //           practiceQPData : response.data,
+      //         });
+      //       })
+      //       .catch(function (error) {
+      //           console.log(error);
+      //       });
+      //   })
+      //   .catch(function (error){});
+
           // axios
       //   .patch('/purchasedpackage/updatequespaper')
       //   .then((response)=>{

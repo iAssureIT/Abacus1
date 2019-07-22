@@ -177,7 +177,9 @@
 .packageDescParaRed{
 	color:red!important;
 }
-
+.noPadd{
+	padding: 0px !important
+}
 
 
 

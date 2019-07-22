@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import $ from "jquery";
-import axios from "axios";
+import { Link }             from 'react-router-dom';
+import $                    from "jquery";
+import axios                from "axios";
+import swal                 from "sweetalert";
 
 class PackageList extends Component  {
   constructor(props){
@@ -37,101 +38,97 @@ class PackageList extends Component  {
       //   $("body").append(adminLte);
       // }
     }
-    componentWillMount(){
-      axios
-        .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
-        .then((response)=> {
-          if(response.data==null){
-            this.setState({
-              studentRegStatus : "Not registered"
-            })
-          }else{
-            this.setState({
-              studentRegStatus : "Registered"
-            })
-
-          }
-          
-        })
-        .catch(function (error){
-          
-        });
-
-    //    Meteor.call("isAuthenticated","PracticePackages","PurchaseNewPackage",(err,res)=>{
-    //   if(err){
-    //     console.log(err);
-    //   }else{
-    //     if(res==true){
-    //       this.setState({
-    //          facilityPermission : res,
-    //       });
-    //     }else if(res==false){
-    //       this.setState({
-    //          facilityPermission : res,
-    //       });
-    //     }
-    //   }
-    // });
-    }
-
-    componentWillUnmount(){
-      window.removeEventListener('scroll', this.handleScroll);
-      // $("script[src='/js/adminLte.js']").remove();
-      // $("link[href='/css/dashboard.css']").remove();
-    }
-  
-    addPackages(event){
-      var packageId = event.target.getAttribute('id');
-
-      axios
-        .get('/packageordermasters/updatepackage/2HdWivsfius8piLEJ/'+packageId)
-        .then((response)=>{
-          console.log("updatepackage = ",response.data);
-
-          var orderId = packageId;
-          this.props.history.push('/PackageList/'+orderId);
+  componentWillMount(){
+    axios
+      .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
+      .then((response)=> {
+        console.log("student details = ",response.data);
+        if(response.data==null){
           this.setState({
-            postman :response.data,
-            orderId :packageId,
-          });
-        })
-        .catch(function(error){
-          console.log(error);
-        })
-        // Meteor.call('addPackages',packageId,FlowRouter.getParam("id"),(err,res)=>{
-        //   if(err){
-        //     console.log("Something went wrong");
-        //   }else{
-        //     var orderId = res;
-        //     if(orderId){
-        //       FlowRouter.go('/PackageList/'+orderId);
-        //     }
-        //   }
-        // });
-    }
+            studentRegStatus : "Not registered"
+          })
+        }else{
+          this.setState({
+            studentRegStatus : "Registered"
+          })
 
-    buyPackages(event){
-        // Meteor.call("checkPackagesAdded",FlowRouter.getParam('id'),(err,res)=>{
-        //   if(err){
-        //     console.log(err);
-        //   }else{
-        // console.log("res",res);
-      var orderId = this.state.orderId;
-        console.log("this.state.orderId",this.state.orderId);
-      
-      this.props.history.push('/MyInvoice/'+orderId);
-         
-        //     if(res=="packagesAdded"){
-                  // this.props.history.push('/MyInvoice');
-        //         FlowRouter.go("/MyInvoice/"+FlowRouter.getParam("id"));
-        //       }else if(res=="notAdded"){
-        //         swal("Please Select Package","","warning");
-        //       }else{
-        //         swal("Please Select Package","","warning");
-        //       }
-        //     }
-        // });
-      }
+        }
+        
+      })
+      .catch(function (error){
+        
+      });
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.handleScroll);
+    // $("script[src='/js/adminLte.js']").remove();
+    // $("link[href='/css/dashboard.css']").remove();
+  }
+
+  addPackages(event){
+    var packageId = event.target.getAttribute('id');
+    var orderId = this.props.match.params.orderId;
+      console.log("orderId = ",orderId);
+
+    // var packageId = $("input[name='packageId']:checked").val();
+    axios
+      .get('/packageordermasters/updatepackage/'+orderId/*2HdWivsfius8piLEJ*/+'/'+packageId)
+      .then((response)=>{
+        console.log("updatepackage = ",response.data);
+
+        var orderId = packageId;
+        this.props.history.push('/PackageList/'+orderId);
+        this.setState({
+          postman :response.data,
+          orderId :packageId,
+        });
+      })
+      .catch(function(error){
+        console.log(error);
+      })
+      // Meteor.call('addPackages',packageId,FlowRouter.getParam("id"),(err,res)=>{
+      //   if(err){
+      //     console.log("Something went wrong");
+      //   }else{
+      //     var orderId = res;
+      //     if(orderId){
+      //       FlowRouter.go('/PackageList/'+orderId);
+      //     }
+      //   }
+      // });
+  }
+
+  buyPackages(event){
+    var id = this.props.match.params;
+    var orderId = this.state.orderId;
+    console.log("this.state.id",id);
+    console.log("this.state.orderId",orderId);
+    axios
+      .get('/packageordermasters/'+id)
+      .then((response)=>{
+        console.log("packagesAdded = ",response.data);
+
+        if(response.data=="packagesAdded"){
+          // this.props.history.push('/MyInvoice');
+          this.props.history.push('/MyInvoice/'+orderId);
+          // FlowRouter.go("/MyInvoice/"+FlowRouter.getParam("id"));
+        }else if(response.data=="notAdded"){
+            swal("Please Select Package","","warning");
+          }else{
+            swal("Please Select Package","","warning");
+          }
+
+        })
+      .catch(function(error){
+        console.log(error);
+      })
+      // Meteor.call("checkPackagesAdded",FlowRouter.getParam('id'),(err,res)=>{
+      //   if(err){
+      //     console.log(err);
+      //   }else{
+      // console.log("res",res); 
+  }
 
     handleScroll(event){
         var winHeight = $(window).height();
@@ -195,7 +192,7 @@ class PackageList extends Component  {
                                       <div  className="singlepackagebox  col-lg-12 col-md-12 col-xs-12 col-sm-12">
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                             <div className="checkbox checkbox-success pull-right">
-                                                <input type="checkbox" className="seleectQueInput" id={Data._id} name="seleectQueInput" onClick={this.addPackages.bind(this)} />
+                                                <input type="checkbox" className="seleectQueInput" id={Data._id}  value={Data._id} name="packageId" onClick={this.addPackages.bind(this)} />
                                                 <label></label>
                                             </div>
                                           </div>                                         
@@ -243,7 +240,7 @@ class PackageList extends Component  {
                                       <div  className="singlepackagebox  col-lg-12 col-md-12 col-xs-12 col-sm-12">
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                             <div className="checkbox checkbox-success pull-right">
-                                                <input type="checkbox" className="seleectQueInput" id={Data._id} name="seleectQueInput" onClick={this.addPackages.bind(this)} />
+                                                <input type="checkbox" className="seleectQueInput" id={Data._id}  value={Data._id} name="packageId" onClick={this.addPackages.bind(this)} />
                                                 <label></label>
                                             </div>
                                           </div>
@@ -257,7 +254,7 @@ class PackageList extends Component  {
                                               <div className="modal-content documentModal">
                                                 <div className="modal-header">
                                                   <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                                    <h4 className="modal-title">Package Name : {Data.packageName}</h4>
+                                                    <h4 className="modal-title">{Data.packageName}</h4>
                                                 </div>
                                                 <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 modalbodyHeight">
@@ -277,8 +274,8 @@ class PackageList extends Component  {
                                         </div>
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfo">
                                           <div className="col-lg-6 col-md-12 col-xs-12 col-sm-12 packagefontsize pckginfobox minhtpkg"> <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext">Category Name </div> <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext">{Data.categoryName}</div></div>
-                                          <div className="col-lg-6 col-md-12 col-xs-12 col-sm-12 packagefontsize pckginfobox1 minhtpkg"><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1">Sub Category</div><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1">  {Data.subCategory}</div></div>
-                                          <div className="col-lg-6 col-md-12 col-xs-12 col-sm-12 packagefontsize pckginfobox1 minhtpkg"><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1">No. of Tests</div><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1">  {Data.NoOfPracticeTest}</div></div>
+                                          <div className="col-lg-6 col-md-12 col-xs-12 col-sm-12 packagefontsize pckginfobox1 minhtpkg"><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1">Sub Category</div><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1"> {Data.subCategory}</div></div>
+                                          <div className="col-lg-6 col-md-12 col-xs-12 col-sm-12 packagefontsize pckginfobox1 minhtpkg"><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1">No. of Tests</div><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext1"> {Data.NoOfPracticeTest}</div></div>
                                           <div className="col-lg-6 col-md-12 col-xs-12 col-sm-12 packagefontsize pckginfobox minhtpkg"><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext">No. of Attempts</div><div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 pckginfoboxtext"> {Data.AttemptOfPracticeTest}</div></div>
                                         </div>
                                       </div>

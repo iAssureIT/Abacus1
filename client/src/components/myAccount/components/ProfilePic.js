@@ -3,7 +3,7 @@ import {render} 		  from 'react-dom';
 
 import '../css/MyAccount.css';
 
-class ProfilePic extends /*TrackerReact*/(Component)  {
+class ProfilePic extends (Component)  {
 	constructor(props){
 		super(props);
 		this.state={

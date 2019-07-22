@@ -88,24 +88,6 @@ export default class CompetitionResultReport extends (Component) {
 	    });		
 	}
 
-	showCategories(){
-		axios
-			.get('/exammasters/RLAEvWbgMukvxr6aB',)
-            .then((response)=> {
-                console.log("-------Show Category------>>",response.data);
-                this.setState({
-		 			showAllCategories : response.data,
-		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-		// var categorryHandle = Meteor.subscribe("allCategory").ready();
-		// return CategoryMaster.find({}).fetch();	
-	}
-
 	getFranchiseId(event){
 		var franchiseId = $("#franchiseId option:selected").attr('id');
 			this.setState({
@@ -527,7 +509,6 @@ export default class CompetitionResultReport extends (Component) {
 															<option value="">-- Select Competition --</option>
 															{this.state.allCompetitions.map((competition,index)=>{
 																// {console.log("competition-->",this.state.allCompetitions)}
-
 																return <option key={index} id={competition._id}>{competition.competitionName}</option>
 															  })
 															}
@@ -535,17 +516,14 @@ export default class CompetitionResultReport extends (Component) {
 														<span className="floating-label floating-label-Date">Select Competition</span>					   								   			
 													</span>
 												</div>
-
-
 												<div className="col-lg-2 col-md-2 col-sm-2 col-xs-6">
-
 													<span className="blocking-span"> 
 														<select type="text" name="categoryName" ref="categoryName" value={this.state.categoryName} onClick={this.getCategoryName.bind(this)} onChange={this.handleChange} className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText" autoComplete="off" title="Please select Category" required>
 															<option value="">-- Select Category --</option>
 															<option value="all" id="all">ALL</option>
 															{this.state.showAllCategories.map((categories,index)=>{
 																return <option key={index}>{categories.categoryName}</option> 
-																})
+															  })
 															}
 														</select>
 														<span className="floating-label floating-label-Date">Select Category</span>					   								   			
@@ -583,17 +561,15 @@ export default class CompetitionResultReport extends (Component) {
 								    	<div className="btn btn-primary col-lg-2 leftSpace" onClick={this.showListView.bind(this)}>List View</div>
 								    </div>
 								    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
 									    <div id={this.state.allCategoryWiseStudent.length>0?"gridView":"nonebx"} className="col-lg-12 col-md-12 resultViewBox">
 									    	<div  className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 											    {this.state.allCategoryWiseStudent?
 											    	this.state.allCategoryWiseStudent.map((allStudentView,ind)=>{
-
 											    	return (
 											    		<div key={ind}className="col-lg-2 col-md-2 col-xs-12 col-sm-12 resultViewDiv">
 											    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
 												    			{/*<div className="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1 col-xs-12 col-sm-12 profileCircle"></div>*/}
-												    			<img className="col-lg-12 col-md-12 profileCircle" src={allStudentView.studImg+'.png'}/>
+												    			<img className="col-lg-12 col-md-12 profileCircle" src={allStudentView.studImg?allStudentView.studImg:"/images/user.png"}/>
 												    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center">
 													    			<div className="studName">{allStudentView.firstName}</div>
 													    			<div className="studName">{allStudentView.lastName}</div>

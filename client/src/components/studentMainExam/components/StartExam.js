@@ -535,7 +535,7 @@ class StartExam extends (Component)  {
 														</div>
 														<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 														    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finishBttn">
-																<button className="showNextWindowButtow btn btn-primary" onClick={this.RUSureWantTofinsh.bind(this)}>Finish Exam{/*slides.finish_button*/}</button>
+																<button className="showNextWindowButtow btn btn-primary" onClick={this.RUSureWantTofinsh.bind(this)}>Finish exam{/*slides.finish_button*/}</button>
 															</div>
 														</div>
 													  </div>
@@ -607,31 +607,31 @@ class StartExam extends (Component)  {
 				</div>
 				);
 		}
-		}else{
-			return (
-				<div>
-			
-		        <div className="content-wrapper ">
-		          <section className="content-header">
-		            <h1>Answer Sheet</h1>
-		          </section>
-		          <section className="content viewContent">
-		            <div className="row">
-		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-		                <div className="box">
-		                  <div className="box-header with-border boxMinHeight loadingImgWrap">
-							 <h3 className="examFinishedStatus examLoadingTimeDiv"> {this.tryLoadingAgain()} </h3>
-							 	{/*<img src="/images/preloader.gif"/>*/}
-			   					<img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-							 </div>
-							  </div>
-							</div>
+	}else{
+		return (
+			<div>
+		
+	        <div className="content-wrapper ">
+	          <section className="content-header">
+	            <h1>Answer Sheet</h1>
+	          </section>
+	          <section className="content viewContent">
+	            <div className="row">
+	              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+	                <div className="box">
+	                  <div className="box-header with-border boxMinHeight loadingImgWrap">
+						 <h3 className="examFinishedStatus examLoadingTimeDiv"> {this.tryLoadingAgain()} </h3>
+						 	{/*<img src="/images/preloader.gif"/>*/}
+		   					<img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
+						 </div>
 						  </div>
-			
-					  </section>
-					</div>
+						</div>
+					  </div>
+		
+				  </section>
 				</div>
-				);
+			</div>
+			);
 		}
 	}
 }
