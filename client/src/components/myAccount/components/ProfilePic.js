@@ -12,15 +12,17 @@ class ProfilePic extends (Component)  {
 	}
 
 	componentDidMount() {
+
   	}
 
   	componentWillMount(){
+
   	}
 
 	componentWillUnmount(){
+		
 	}
   	
-
   	componentWillReceiveProps(nextProps){
   		console.log('nextProps img=>',nextProps.img);
 		this.setState({
@@ -35,11 +37,3 @@ class ProfilePic extends (Component)  {
 	}
 }
 export default ProfilePic;
-// export default withTracker(props=>{
-
-// 	return{
-// 		post : 1  
-// 	}
-	
-	
-// })(ProfilePic);

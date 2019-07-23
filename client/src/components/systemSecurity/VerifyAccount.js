@@ -14,20 +14,16 @@ class VerifyMobileAOS extends Component {
     super();
     this.state ={
       "mobileNumber": "",
-      "subscription" : {
-        // user             : Meteor.subscribe("userfunction"), 
-      }
     }
   }
 
   componentWillMount(){
-      
       this.setState({
         mobileNumber : localStorage.getItem('mobileNumber'),
       },()=>{
         console.log("in verify otp ---->",this.state.mobileNumber)
     })
-    } 
+  } 
 
   VerifyMobileAOS(event){
     event.preventDefault();
@@ -37,7 +33,6 @@ class VerifyMobileAOS extends Component {
      var mobileData = {
           "mobNumber" : mobileVerifyAOS,
       }
-
       axios
         .post('/user/forgotpwd/mobile',mobileData)
         .then((response)=> {
@@ -50,10 +45,6 @@ class VerifyMobileAOS extends Component {
         .catch(function (error){
           
         });
-  
-
-    
-
   }
 
   inputEffect(event){
@@ -68,7 +59,6 @@ class VerifyMobileAOS extends Component {
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
-    // console.log('window inner height: ', window.innerHeight);
 
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 signUpWrapper">
@@ -77,7 +67,6 @@ class VerifyMobileAOS extends Component {
             <img src="/images/maatslogo.png" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 logoImg" alt="Loading..."/>
             <div className="OESSubTitle2">Abacus Online Exam System</div>
           </div>
-          {/*<img src="/images/signUpBanner.gif" className="signUpBanner col-lg-9 col-md-9"/>*/}
         </div>
         <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 signUpRighttWrap"  style={{"height": winHeight}}>
           <div className="div1 col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{"height": divHeight}}>
@@ -107,22 +96,20 @@ class VerifyMobileAOS extends Component {
               <form id="OTPMobMail" onSubmit={this.VerifyMobileAOS.bind(this)}>
                 <h3 className="signInNameTitle"><span className="bordbt">VERIFY ACCOUNT</span></h3>
                 <div className="text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 otpHeader">
-                    <span>Enter Mobile Number that you used for creating Account </span>
+                  <span>Enter Mobile Number that you used for creating Account </span>
                 </div>
                 <div className="form-group col-lg-12 col-md-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr veribtm">
                   <div className="input-effect input-group">
-                    <InputMask mask="9999-999-999" maskChar=" " name="mobileVerifyAOS" ref="mobileVerifyAOS" /*onChange={this.handleChange}*/ className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText"  pattern="^(0|[0-9-+]*)$" title="Enter Mobile Numbers!" autoComplete="off" required/>
+                    <InputMask mask="9999-999-999" maskChar=" " name="mobileVerifyAOS" ref="mobileVerifyAOS" className="form-control col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText"  pattern="^(0|[0-9-+]*)$" title="Enter Mobile Numbers!" autoComplete="off" required/>
                     <span className="input-group-addon glyphi-custommm"><i className="fa fa-phone-square" aria-hidden="true"></i></span>
                     <span className="focus-border">
                       <i></i>
                     </span>
                   </div>
                 </div>
-             
                 <div className="submitButtonWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12 pdleftclr">
                   <button type="submit" className="btn btn-info submitBtn col-lg-12 col-md-12 col-sm-12 col-xs-12 UMloginbutton">Submit</button>
                 </div>
-
                 <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pdcls">
                   <Link to='/' className="UMGrey signInbtn pdleftclr col-lg-12 col-md-12 col-sm-12 col-xs-12">Sign In</Link>   
                 </div>
@@ -133,5 +120,4 @@ class VerifyMobileAOS extends Component {
       </div>
     );
   }
-}
-export default VerifyMobileAOS;
+}export default VerifyMobileAOS;

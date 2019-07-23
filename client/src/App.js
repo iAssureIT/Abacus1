@@ -1,7 +1,7 @@
 import React 		from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import MainLayout	from './components/layouts/MainLayout.js';
 import axios 		from 'axios';
+import MainLayout	from './components/layouts/MainLayout.js';
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

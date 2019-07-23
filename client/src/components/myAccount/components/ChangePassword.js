@@ -1,79 +1,52 @@
 import React, { Component } from 'react';
-// import $ from "jquery";
+import $ from "jquery";
 import axios from 'axios';
 import swal from 'sweetalert';
 
 import '../css/MyAccount.css';
 
-/*import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';*/
 
 class StudentResetPassword extends (Component) {
 	constructor(){
 		  super();
 		    this.state = {
-		    	 oldPassword   : "",
-		    	 resetPasswordPassword : "",
-		    	 resetPasswordPasswordConfirm : "",
-		       	 facilityPermission : 'waitingforResult',
+		    	 oldPassword   					: "",
+		    	 resetPasswordPassword 			: "",
+		    	 resetPasswordPasswordConfirm 	: "",
+		       	 facilityPermission 			: 'waitingforResult',
 		    }
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	// componentWillMount(){
- //  		 Meteor.call("isAuthenticated","MyAccount","ChangePassword",(err,res)=>{
-	// 		if(err){
-	// 			console.log(err);
-	// 		}else{
-	// 			if(res==true){
-	// 	          this.setState({
-	// 	             facilityPermission : res,
-	// 	          });
-	// 	        }else if(res==false){
-	// 	          this.setState({
-	// 	             facilityPermission : res,
-	// 	          });
-	// 	        }
-	// 		}
-	// 	});
- //  	}
 	changepassword(event) {
 	    event.preventDefault();
-	    // var resetPassword   = FlowRouter.getParam("id");
 	    var resetPassword 	= this.props.match.params;
 	    var oldPassword     = this.refs.oldPassword.value;
 	    var password        = this.refs.resetPasswordPassword.value;
 	    var passwordConfirm = this.refs.resetPasswordPasswordConfirm.value;
 	    var email           = localStorage.getItem("mailId");
-	    // var pwdData = {
-	    //           emailID    :email,
-	    //           changedpwd : passwordConfirm,
-	    // }
 	   	
 	   	var inpFields = {
-		              emailID    :email,
-		              changedpwd : passwordConfirm,
+              	emailID    :email,
+              	changedpwd : passwordConfirm,
 		    }
 		if (password === passwordConfirm) {
 
         	if(password.length >= 6){  
-        		console.log("inpFields",inpFields);
+        		// console.log("inpFields",inpFields);
 		    axios
 		        .post('/user/changepwd',inpFields)
 		        .then((response)=> {
-		            console.log("-------changepwd---in stud--->>",response.data);
+		            // console.log("-------changepwd---in stud--->>",response.data);
 		            this.setState({
 		              changepwd : response.data,
 		            });
 		           	swal("Your password has been updated!","","success"); 
 		           	this.props.history.push('/dashboard');
-		        	// this.refs.resetPasswordPassword.value = '';
-		    	    // this.refs.resetPasswordPasswordConfirm.value = '';
 		        })
 		        .catch(function (error) {
 		            console.log(error);
 		            swal("Invalid current password.","","warning");
-		            // this.refs.oldPassword.value = '';
 		        });
 
 	        }else{	
@@ -104,8 +77,6 @@ class StudentResetPassword extends (Component) {
   	}
 
 	render() {
-	 	// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-			// $('.sidebar').css({display:'block',background: '#222d32'});
        return (
        		<div>
 	        {/* Content Wrapper. Contains page content */}
@@ -161,17 +132,5 @@ class StudentResetPassword extends (Component) {
 			</div>
 			</div>
 	    );
-
-  //       }else if (this.state.facilityPermission == false ){
-		// 	  	return (<div>{/*FlowRouter.go('/noAccesss')*/}</div>);
-		//   }else if(this.state.facilityPermission == "waitingforResult"){
-		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-		// 	   <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-		// 	</div>);
-		//   }else{ 
-		//   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		// }
-
 	} 
-
 }export default StudentResetPassword

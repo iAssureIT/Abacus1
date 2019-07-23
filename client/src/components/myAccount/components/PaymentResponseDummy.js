@@ -7,7 +7,6 @@ import '/imports/student/api/competitionRegisterOrder.js';
 
 class PaymentResponse extends Component{
 
-
   	constructor(){
 		super();
 		this.state = {
@@ -16,10 +15,6 @@ class PaymentResponse extends Component{
 		    checksum    : FlowRouter.getQueryParam('checksum'),
 			id 			: FlowRouter.getQueryParam('id'),
 		}
-
-		
-
-
 	}
 
 	componentDidMount(){
@@ -53,8 +48,6 @@ class PaymentResponse extends Component{
     	$("script[src='/js/adminLte.js']").remove();
     	$("link[href='/css/dashboard.css']").remove();
   	}
- 
-	
 
 	render(){
 		return(
@@ -65,12 +58,4 @@ class PaymentResponse extends Component{
 	}
 }
 
-
-export default withTracker(props=>{
-
-	  	
-
-	return{
-		'post' : 1
-	}
-})(PaymentResponse);
+export default PaymentResponse;

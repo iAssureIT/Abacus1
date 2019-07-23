@@ -1,21 +1,10 @@
-/*  
-	COMPONENT:  Add CATEGORY 
-	PROGRAMMER: VIKAS JAGDALE 
-	
-	This component will create student profile. 
-
-*/
-
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-
 import {withTracker} from 'meteor/react-meteor-data';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import {StudentMaster} from '/imports/student/api/studentMaster.js';
 import {MyExamMaster} from '/imports/student/api/myExamMaster.js';
-// import {StudentMaster} from '/imports/admin/forms/student/api/studentMaster.js';
-// import {MyExamMaster} from '/imports/admin/forms/student/api/myExamMaster.js';
 
 class StudentDetails extends TrackerReact(Component)  {
 	constructor(props) {
@@ -137,15 +126,6 @@ class StudentDetails extends TrackerReact(Component)  {
 											<div className="col-lg-12 col-md-12 studProfSubTitProf"> Exam category</div>
 											<div className="col-lg-12 col-md-12"> {this.props.studentData.category} </div>
 										</div>
-										{/*<div className="col-lg-12 col-md-12 studProfileTit studProfileTitSec">
-											<i className="fa fa-user-circle-o studProfileIcon" aria-hidden="true"></i> 
-											Teacher Name
-										</div>
-										<div className="studTecherName col-lg-12 col-md-12">
-											<div className="col-lg-12 col-md-12">
-												{this.props.studentData.teacherName}
-											</div>
-										</div>*/}
 								</div>
 								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 									<div className="col-lg-12 col-md-12 studProfileTit studProfileTitSec"><i className="fa fa-puzzle-piece studProfileIcon" aria-hidden="true"></i>Reports</div>

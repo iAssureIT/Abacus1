@@ -81,8 +81,6 @@ class MainLayout extends Component{
     })
   }
 
-
-
   render(){
    if(localStorage.getItem("token")){
       return(
@@ -117,6 +115,7 @@ class MainLayout extends Component{
 
 										  		<Route path="/StudResetPwd" 				exact strict component={ StudentResetPassword } />
 										  		<Route path="/MyOrder" 						exact strict component={ MyOrder } />
+										  		<Route path="/MyOrder/:compId" 						exact strict component={ MyOrder } />
 										  		<Route path="/CreateStudReg"				exact strict component={ CreateStudentRegistration } />
 
 										  		<Route path="/MultipleComp"					exact strict component={ MultipleCompetition } />

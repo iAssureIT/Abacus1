@@ -1,27 +1,7 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
-
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-import {withTracker} from 'meteor/react-meteor-data';
-
 	
 
 export default class PaymentFailure extends Component{
-
-	componentDidMount(){
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
-  	}
-
-  	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
-  	}
-  	
   	constructor(){
 		super();
 		this.state ={
@@ -29,8 +9,14 @@ export default class PaymentFailure extends Component{
 		}
 	}
 
-	
+	componentDidMount(){
 
+  	}
+
+  	componentWillUnmount(){
+
+  	}
+  	
 	render(){
 		return(
 		<div>

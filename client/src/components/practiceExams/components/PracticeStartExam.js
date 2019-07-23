@@ -49,7 +49,6 @@ class PracticeStartExam extends Component {
 	            .catch(function (error) {
 	                console.log(error);
 	            });
-
 			})
 			.catch(function(error){
                 console.log(error);
@@ -59,7 +58,7 @@ class PracticeStartExam extends Component {
 	getStatus(){
 		const studentID = localStorage.getItem("user_ID");
 		var array 		= [];
-		var paperArray 		= [];
+		var paperArray 	= [];
 		var obj;
 		var updateData;
 
@@ -167,7 +166,6 @@ class PracticeStartExam extends Component {
 		}, 1000);
 	}
 	render(){ 
-		
 		var statusArray= this.state.mypracticeexamstatus;
 		return(
 			
@@ -187,49 +185,47 @@ class PracticeStartExam extends Component {
 				                <div className="box">
 
 					                {
-					               
-					                 
-					                				this.state.practiceQPData.length != 0 ?
-										                <div className="box-header with-border boxMinHeight ">
-															<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-																<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamInstructionWrap ">
-																	<div className="col-lg-12 col-md-12 col-sm-12 col-sxs-12">
-																		Instructions for Practice Exam : 
-																	</div>
-																</div>
-																<div className="col-lg-12 col-md-11 col-sm-12 col-xs-12 instructionList instructionWrap">
-																	{this.state.instruction}
-																</div>
-																<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC">
-																	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examTable">
-															    	{this.state.practiceQPData.map((questionPaper,index)=>{
-															    		
-															    		return  <div className="col-lg-6 col-md-6 col-sm-6 col-lg-offset-3 col-md-offset-3 qpRow" key={index}>  
-																		    		<div className="col-lg-9 col-md-9 col-sm-9 col-xs-9 qpTestTitle"> {questionPaper.quePaperTitle}</div>
-																		    		{	
-																		    			(questionPaper.status=="Completed")?
-																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-																			    			<Link to="/PractExamReports"><button type="submit" className="btn startexambtn leftpaddingzero" value={questionPaper._id} title="Click here to start exam">Result</button></Link>
-																			    		</div>
-																			    		:
-																			    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-																			    			<button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" onClick={this.startPracticeExam.bind(this)} value={questionPaper._id}>Start</button>
-																			    		</div>
-																		    		
-																			    	}
-																		    	</div>
-															    		})
-															    	}															    
-																	</div>
-																</div>
-															</div>
-														</div>
-									  				:
-													  	<div className=" box-header with-border boxMinHeight  studDataNotExist">
-										                	<div>
-															 	Practice Exam not yet scheduled.
-															</div>
-									                    </div>
+	                				this.state.practiceQPData.length != 0 ?
+						                <div className="box-header with-border boxMinHeight ">
+											<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamInstructionWrap ">
+													<div className="col-lg-12 col-md-12 col-sm-12 col-sxs-12">
+														Instructions for Practice Exam : 
+													</div>
+												</div>
+												<div className="col-lg-12 col-md-11 col-sm-12 col-xs-12 instructionList instructionWrap">
+													{this.state.instruction}
+												</div>
+												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC">
+													<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examTable">
+											    	{this.state.practiceQPData.map((questionPaper,index)=>{
+											    		
+											    		return  <div className="col-lg-6 col-md-6 col-sm-6 col-lg-offset-3 col-md-offset-3 qpRow" key={index}>  
+														    		<div className="col-lg-9 col-md-9 col-sm-9 col-xs-9 qpTestTitle"> {questionPaper.quePaperTitle}</div>
+														    		{	
+														    			(questionPaper.status=="Completed")?
+															    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+															    			<Link to="/PractExamReports"><button type="submit" className="btn startexambtn leftpaddingzero" value={questionPaper._id} title="Click here to start exam">Result</button></Link>
+															    		</div>
+															    		:
+															    		<div className="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+															    			<button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" onClick={this.startPracticeExam.bind(this)} value={questionPaper._id}>Start</button>
+															    		</div>
+														    		
+															    	}
+														    	</div>
+											    		})
+											    	}															    
+													</div>
+												</div>
+											</div>
+										</div>
+					  				:
+									  	<div className=" box-header with-border boxMinHeight  studDataNotExist">
+						                	<div>
+											 	Practice Exam not yet scheduled.
+											</div>
+					                    </div>
 					  
 									}
 								</div>

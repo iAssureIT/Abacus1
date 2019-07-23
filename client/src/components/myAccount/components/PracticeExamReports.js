@@ -15,17 +15,10 @@ class PracticeExamReports extends TrackerReact(Component)  {
 		    }
 		}
 	componentDidMount(){
-		
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
+
 	}
 	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
+    	
   	}
 
   	componentWillMount(){
@@ -40,8 +33,6 @@ class PracticeExamReports extends TrackerReact(Component)  {
 		});
   	}
 
-
-	
 	examSolvingTime(start, end) {
 	    var m1 = start;
 		var m2 = end;
@@ -95,7 +86,6 @@ class PracticeExamReports extends TrackerReact(Component)  {
 									            <th className="col-lg-3 col-md-1 col-lg-1 tab-Table">  Wrong Answers</th>
 									            <th className="col-lg-3 col-md-1 col-lg-1 tab-Table">  Time (mm:ss) </th>
 									            <th className="col-lg-3 col-md-1 col-sm-1 tab-Table">  Total Score </th>
-									            
 									        </tr>
 									    </thead>
 									{this.props.practiceExamReport.length!=0 ?
@@ -135,7 +125,6 @@ class PracticeExamReports extends TrackerReact(Component)  {
 				</div>
 			</div>
 			);
-
 		}else if (this.state.facilityPermission == false ){
 			  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
 		  }else if(this.state.facilityPermission == "waitingforResult"){

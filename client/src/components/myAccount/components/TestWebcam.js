@@ -16,7 +16,6 @@ export default class TestWebcam extends TrackerReact(Component)  {
 			}
 		}		
 	
-
 	componentWillMount(){
 
 		navigator.getMedia = ( 
@@ -26,7 +25,6 @@ export default class TestWebcam extends TrackerReact(Component)  {
 		navigator.getMedia({video: true}, function() {
 		  }, ()=> {
 		  this.setState({"cameraOnStatus":false});		  	
-		    // swal("Please start your webcam","","warning");
 		});
 	}
 
@@ -38,8 +36,6 @@ export default class TestWebcam extends TrackerReact(Component)  {
 		  $("body").append(adminLte);
 		}
 	}
-
-
 
 	componentWillUnmount(){
     	$("script[src='/js/adminLte.js']").remove();
@@ -88,7 +84,6 @@ export default class TestWebcam extends TrackerReact(Component)  {
 				</div>
 			</div>
 			);
-		
 	}
 }
 

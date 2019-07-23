@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link}              from 'react-router-dom';
-// import {browserHistory}     from 'react-router-dom';
 import { Redirect }         from 'react-router';
 import swal                 from 'sweetalert';
 import $                    from "jquery";
@@ -46,7 +45,7 @@ class Login extends Component {
             this.setState({
               loggedIn : true,
             },()=>{
-              console.log("loggedIn state = ", this.state.loggedIn);
+              // console.log("loggedIn state = ", this.state.loggedIn);
               this.props.history.push("/dashboard");
               window.location.reload();
             })        
@@ -58,27 +57,6 @@ class Login extends Component {
             swal("Invalid Email or Password","Please Enter valid email and password","warning");
           }
         });
-
-/**************************************Alternate*******************************************/
-// axios
-//         .post('/user/login',auth)
-//         .then((response)=> {
-         
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-//            // console.log("-------userData------>>",response);
-//            var response="tfcyhgvhujbkhuibuygvjb";
-//           // userFirstName: "Dnyaneshwar"
-//           // user_ID: "5d0a2bfd84f7f33c69e3868d"
-//           localStorage.setItem("token",response);
-//           console.log("localStorage =",localStorage);
-
-//             this.props.history.push("/dashboard");
-          
-//         });
-/**************************************Alternate*******************************************/
-
   }
   showSignPass(){
       $('.showPwd').toggleClass('showPwd1');
@@ -93,11 +71,6 @@ class Login extends Component {
   render(){
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
-      console.log("-------------------------------",this.props.systemlogin);
-    
-    // if(this.state.loggedIn===true){
-    //   return <div></div>
-    // }
 
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 signUpWrapper">

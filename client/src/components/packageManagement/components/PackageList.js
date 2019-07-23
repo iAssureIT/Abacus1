@@ -60,7 +60,7 @@ class PackageList extends Component  {
     axios
       .get('/packageordermasters/updatepackage/'+orderId+'/'+packageId)
       .then((response)=>{
-        var orderId = packageId;
+        var orderId = response.data;
         this.props.history.push('/PackageList/'+orderId);
         this.setState({
           postman :response.data,

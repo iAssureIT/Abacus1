@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import InputMask from 'react-input-mask';
-import swal from 'sweetalert';
-import $ from "jquery";
+import { Link }             from 'react-router-dom';
+import InputMask            from 'react-input-mask';
+import swal                 from 'sweetalert';
+import $                    from "jquery";
 import axios                from 'axios';
-
 import 'font-awesome/css/font-awesome.min.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './SignUp.css';
 
 class ResetPassword extends Component {
@@ -41,38 +39,35 @@ class ResetPassword extends Component {
     var passwordConfirm = this.refs.resetPasswordConfirm.value;
     var email           = localStorage.getItem("mailId");
     var pwdData = {
-              emailID    :email,
-              changedpwd : passwordConfirm,
-    }
+                    emailID    :email,
+                    changedpwd : passwordConfirm,
+                  }
  
     if(password==passwordConfirm){
       if(password.length >= 6){
       axios
-      .post('/user/changepwd',pwdData)
-      .then((response)=> {
-          console.log("-------pwdData---->>",response);
-          var responseData = response.data;
-          if(responseData=="Password Changed successfully"){
-            swal("Your password has been updated!","","success"); 
-              
-            this.props.history.push('/');
-          }
-       
-      })
-      .catch(function (error) {
-          console.log(error);
-          swal("Invalid current password.","","warning");
-        
-      })
-       }else{ 
-              swal({
-                title: "password should be at least 6 characters long",
-                text: "Please try again",
-                timer: 1700,
-                showConfirmButton: false,
-                type: "error"
-            });
-          }
+        .post('/user/changepwd',pwdData)
+        .then((response)=> {
+            console.log("-------pwdData---->>",response);
+            var responseData = response.data;
+            if(responseData=="Password Changed successfully"){
+              swal("Your password has been updated!","","success"); 
+              this.props.history.push('/');
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+            swal("Invalid current password.","","warning");
+        })
+      }else{ 
+            swal({
+              title: "password should be at least 6 characters long",
+              text: "Please try again",
+              timer: 1700,
+              showConfirmButton: false,
+              type: "error"
+          });
+      }
     }else{
        swal({
               title: 'Passwords does not match',
@@ -82,7 +77,6 @@ class ResetPassword extends Component {
               type: 'error'
           });
     }
-
   }
 
   render(){

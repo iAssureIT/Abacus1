@@ -201,7 +201,7 @@ class PracticeStartExamForDashboard extends Component {
 											    	{this.state.practiceQPData.length>0?								
 											    		this.state.practiceQPData.map((questionPaper,index)=>{
 												    	return (<ul className="col-lg-12 freePPaper" key={index}>													    			
-													    			<li className="testtitle testtitlepadding col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>
+													    			<li className="testtitle testtitlepadding OH col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>
 													    			{
 													    				questionPaper.status=="Completed"?
 													    				<Link to="/PractExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li></Link>

@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {InstructionMaster} from '/imports/admin/forms/instructions/api/instructionMaster.js';
-
 class CompetitionDetailsforPayment extends Component{
 	constructor(props) {
 	    super();
@@ -19,29 +15,15 @@ class CompetitionDetailsforPayment extends Component{
 	    }
 	}
 	componentDidMount(){
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
-
-
-
 		var id = localStorage.getItem("user_ID");
-
 		var competitionId = this.props.match.params.compId;
-		
 		axios
-
 			.get('/exammasters/exampurchase/'+competitionId+'/'+id)
-
 			.then((response)=>{
 				var competitionData 	=	response.data.competitionData;
 				var competitionExams 	=	response.data.competitionData.competitionExams;
 				var studentMasterData  	=	response.data.studentMasterData;
 				for (var i = 0; competitionExams.length > i ; i++) {
-					console.log(studentMasterData.category ,"==", competitionExams[i].category ,"&&", studentMasterData.subCategory ,"==",competitionExams[i].subCategory)
 
 					if (studentMasterData.category == competitionExams[i].category && studentMasterData.subCategory == competitionExams[i].subCategory) {
 						this.setState({
@@ -59,12 +41,7 @@ class CompetitionDetailsforPayment extends Component{
 					competitionData 	:competitionData,
 					studentMasterData 	:studentMasterData,
 					dateformat 			:response.data.dateformat,
-				})
-					console.log("competitionData= ",this.state.competitionData)
-					console.log("competitionExams= ",this.state.competitionExams)
-					console.log("studentMasterData= ",this.state.studentMasterData)
-					console.log("dateformat= ",this.state.dateformat)
-				
+				})			
 			})
 			.catch(function(error){
 				console.log("error",error);
@@ -72,13 +49,11 @@ class CompetitionDetailsforPayment extends Component{
   	}
 
   	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
+    	
   	}
 
   	confirmPayment(event){
   		event.preventDefault();
-
 
 		const studentID 	= localStorage.getItem("user_ID");
   		var competitionFees = this.refs.competitionFees.value;
@@ -91,15 +66,13 @@ class CompetitionDetailsforPayment extends Component{
 		var data  = {
 				    "url" : url,                	
 					}
-				// console.log('formValues = ',formValues);
-		console.log("url ----->",url,studentId,comp_id);
-
+		// console.log("url ----->",url,studentId,comp_id);
   		axios
 			.post('/quickwalletmasters/exampurchase/'+studentId+'/'+comp_id+'/'+competitionFees,data)
 
 
 			.then((response)=>{
-				console.log('payment res = ',response.data);
+				// console.log('payment res = ',response.data);
 				this.setState({
                     // window.location = response;
 				});
@@ -110,7 +83,6 @@ class CompetitionDetailsforPayment extends Component{
   	}
 
 	render(){
-		// if(!this.props.loading && !this.props.loadingComp) {
 		return(
 			<div>
 		        {/* Content Wrapper. Contains page content */}
@@ -179,41 +151,6 @@ class CompetitionDetailsforPayment extends Component{
 				</div>
 			</div>
 			);
-		// }else{
-		// 	return(
-		// 		<div>Loading... Please wait</div>
-		// 	);
-		// }
 	}
 }
 export default CompetitionDetailsforPayment;
-// export default CompetitionDetailsContainer = withTracker(props=>{
-// 	const postHandle 	= Meteor.subscribe("LoginInStudent",Meteor.userId());
-// 	const loading 		= !postHandle.ready();
-// 	var studentMasterData = StudentMaster.findOne({"studentId":Meteor.userId()});
-	
-
-// 	var compId 			= FlowRouter.getParam('compId');
-// 	var postHandleComp 	= Meteor.subscribe("singleCompetition",compId);
-// 	var loadingComp    	= !postHandleComp.ready();
-// 	var competitionData = ExamMaster.findOne({"_id":compId})||{};
-
-	
-// 	var dateformat = moment(competitionData.competitionDate).format('MMM Do YYYY');
-// 	if(competitionData){
-// 		var CompetitionExamData = competitionData.competitionExams;
-// 		// console.log("CompetitionExamData",CompetitionExamData);
-// 		}
-// 		if(CompetitionExamData){
-// 			var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
-// 			 CompetitionExamData = competitionData.competitionExams[arrIndex];
-
-// 	}
-// 	return{
-// 		loading,
-// 		competitionData,
-// 		CompetitionExamData,
-// 		dateformat,
-// 		studentMasterData
-// 	}
-// })(CompetitionDetailsforPayment);

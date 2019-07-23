@@ -8,7 +8,6 @@ import {StudentMaster} from '/imports/student/api/studentMaster.js';
 import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
 class PaymentResponse extends Component{
 
-
   	constructor(){
 		super();
 		this.state = {
@@ -17,19 +16,10 @@ class PaymentResponse extends Component{
 		    checksum    : FlowRouter.getQueryParam('checksum'),
 			id 			: FlowRouter.getQueryParam('id'),
 		}
-
-		
-
-
 	}
 
 	componentDidMount(){
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
+
 		if(FlowRouter.getQueryParam('status') == 'paid'){
           	Meteor.call("updateOnlineDetailsToOrder",Meteor.userId(),FlowRouter.getParam('compId'),this.state.status,this.state.id,this.state.billnumbers,
 			          		function(err,result){
@@ -50,11 +40,8 @@ class PaymentResponse extends Component{
   	}
 
   	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
+
   	}
- 
-	
 
 	render(){
 		return(
@@ -64,13 +51,4 @@ class PaymentResponse extends Component{
 		)
 	}
 }
-
-
-export default PaymentResponse = withTracker(props=>{
-
-	  	
-
-	return{
-		
-	}
-})(PaymentResponse);
+export default PaymentResponse;

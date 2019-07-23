@@ -13,49 +13,44 @@ class PaymentReceipt extends Component{
 	}
 
 	componentDidMount(){
-	console.log("prop========>",this.props.match.path);
-	// console.log("prop========>",this.props.match.params.compId);
+		// console.log("prop========>",this.props.match.path);
+		// console.log("prop========>",this.props.match.params.compId);
   	}
 
   	componentWillMount(){
   		const studentId = localStorage.getItem("user_ID");
   		if(this.props.match.path=="/payment-success/:compId"){
-  			 axios
-	        .get('/competitionregisterorder/'+studentId+'/'+this.props.match.params.compId)
-	        .then((response)=> {
-	            console.log("-------competitionregisterorder-receipt----->>",response.data);
-	            this.setState({
-	              orderreceipt : response.data,
-	              receiptType : "Competition Receipt"
-	            });
-	            // localStorage.setItem("token",response.data.token);
-	            // direct.setState({loggedIn:response.data.token})
-	        })
-	        .catch(function (error) {
-	            console.log(error);
-	        });
+	  		axios
+		        .get('/competitionregisterorder/'+studentId+'/'+this.props.match.params.compId)
+		        .then((response)=> {
+		            // console.log("-------competitionregisterorder-receipt----->>",response.data);
+		            this.setState({
+		              orderreceipt : response.data,
+		              receiptType : "Competition Receipt"
+		            });
+		        })
+		        .catch(function (error) {
+		            console.log(error);
+		        });
   		}else{
-  			axios
-	        .get('/packageordermasters/'+studentId+'/'+this.props.match.params.Id)
-	        .then((response)=> {
-	            console.log("-------packageordermastersreceipt-receipt----->>",response.data);
-	            this.setState({
-	              orderreceipt : response.data,
-	              receiptType : "Package Receipt"
-	            });
-	            // localStorage.setItem("token",response.data.token);
-	            // direct.setState({loggedIn:response.data.token})
-	        })
-	        .catch(function (error) {
-	            console.log(error);
-	        });
+	  		axios
+		        .get('/packageordermasters/'+studentId+'/'+this.props.match.params.Id)
+		        .then((response)=> {
+		            // console.log("-------packageordermastersreceipt-receipt----->>",response.data);
+		            this.setState({
+		              orderreceipt : response.data,
+		              receiptType : "Package Receipt"
+		            });
+		        })
+		        .catch(function (error) {
+		            console.log(error);
+		        });
 
   		}
   	}
 
   	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
+
   	}
 
 	render(){
@@ -89,7 +84,6 @@ class PaymentReceipt extends Component{
 														</div>
 													</div>
 													<div className="col-lg-12">
-														
 														<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 															<h4>Amount Paid :</h4>
 														</div>
@@ -100,7 +94,6 @@ class PaymentReceipt extends Component{
 														</div>
 													</div>
 													<div className="col-lg-12 status">
-														
 														<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 															<h4>Tansaction ID :</h4>
 														</div>
@@ -138,27 +131,3 @@ class PaymentReceipt extends Component{
 	}
 }
 export default PaymentReceipt;
-// export default PaymentReceipt = withTracker(props=>{
-// 	var id 					  = 	FlowRouter.getParam("compId");
-// 	const postHandle1             = 	Meteor.subscribe('showAllCompRegOrder');
-// 	const loading1                = 	!postHandle1.ready();
-// 	// console.log(loading1);
-//     const competitionregorder     = 	CompetitionRegisterOrder.findOne({"competitionId": id,"studentId":Meteor.userId()})||{};
-// 	var receiptType = "Competition Receipt";
-
-// 	if(competitionregorder){
-// 		var competitionPayTime=competitionregorder.paymentDate;
-// 		if(competitionPayTime){
-// 			var competitionPaymentTime = moment(competitionPayTime).format('LT');
-// 		}
-// 	}
-
-
-
-// 	return{
-// 		competitionregorder,
-// 		loading1,
-// 		receiptType,
-// 		competitionPaymentTime
-// 	}
-// })(PaymentReceipt);

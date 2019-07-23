@@ -18,12 +18,12 @@ import './SignUp.css';
       this.setState({
         mobileNumber : localStorage.getItem('mobileNumber'),
       },()=>{
-        console.log("in c otp---->",localStorage.getItem('mailId'))
+        // console.log("in c otp---->",localStorage.getItem('mailId'))
       })
     }  
 
     confirmOTP(event){
-      console.log('confirm otp');
+      // console.log('confirm otp');
       event.preventDefault();
        var otpData;
       var url = this.props.location.pathname;
@@ -43,7 +43,7 @@ import './SignUp.css';
         axios
           .post('/user/checkotp',otpData,)
           .then((response)=> {
-              console.log("-------userData--in checkotp---->>",response);
+              // console.log("-------userData--in checkotp---->>",response);
               var responseData = response.data;
               if(responseData.message=="Success"){
                swal("Great","OTP Verified Successfully","success");
@@ -59,11 +59,11 @@ import './SignUp.css';
             
           })
       }else{
-            console.log("-------userData--in confirm otp---->>",otpData);
+            // console.log("-------userData--in confirm otp---->>",otpData);
         axios
           .post('/user/mobileverification',otpData,)
           .then((response)=> {
-              console.log("-------userData--in confirm otp---->>",response);
+              // console.log("-------userData--in confirm otp---->>",response);
               var responseData = response.data;
               if(responseData.message=="User Verified"){
                swal("Great","OTP Verified Successfully","success");
@@ -76,103 +76,9 @@ import './SignUp.css';
           })
           .catch(function (error) {
               console.log(error);
-            
           })
-
         }
-
-      // var checkUserExist = FlowRouter.getParam("mailId");
-      // var userData = Meteor.users.findOne({"_id":checkUserExist});
-      // if(userData){
-      //   var userProfile = userData.profile;    
-      //   var roles = userData.roles;
-
-      //   if(userProfile){
-      //     var sessionValue2 = userProfile.sentEmailOTP;
-
-      //   }
-      // }
-
-      // if(sessionValue2){
-        
-      //   var mailotp = sessionValue2;
-      //   var newID = userData._id;
-      //   var userData = Meteor.users.findOne({"_id":newID});
-      //   if(userData){
-
-      //     var userEmail = userData.username;
-      //     var profile = userData.profile;
-      //     if(profile){
-      //       if(profile.userCode){
-      //       var password = profile.userCode.split("").reverse().join(""); 
-      //       }
-      //     }
-      //   }
-      // }else{
-
-      //   var username = $('input[name="loginusername"]').val();
-      //   var userOtp = Meteor.users.findOne({"username":username});
-      //   if(userOtp){
-      //     var mailotp = userOtp.profile.sentEmailOTP;
-      //     if(userOtp.profile.userCode){
-      //       var usercode = userOtp.profile.userCode.split("").reverse().join("");
-      //       var newID = userOtp._id;
-
-      //     }
-      //   }
-      // }
-      // var emailotp = this.refs.emailotp.value;
-      // if(mailotp == emailotp){
-      //   Meteor.call('createUserByAdminSetEmailToTrue',newID,
-      //   function(error,result){
-      //     if(error){
-      //       // console.log(error.reason,"danger","growl-top-right");
-      //     }else{
-      //       if($('#OTPMobMail').hasClass('newPassword')){
-             
-      //       }else{
-             
-      //         if(userEmail && password){
-      //           var email = userEmail;
-      //           var passwordVar = password;
-      //         }else{
-      //           var email = username;
-      //           var passwordVar = usercode;
-      //         }
-      //       }  
-      //     }
-      //   });
-
-      //   Meteor.call('updateOTP', newID , mailotp ,roles, function(error,result){
-      //     if(error){
-      //       swal("error");
-      //     }else{
-      //       var curUrl = location.pathname;
-      //       var urlArray = curUrl.split('/');
-      //       var isFirstOTPurl = urlArray[1];
-      //       if(isFirstOTPurl != 'otpFirstVarification'){
-      //       FlowRouter.go('/resetPassword/'+newID);
-      //       }else{
-              
-      //            Meteor.logout();
-      //            swal("OTP Verified Successfully",
-      //                 // 'Please complete your registration process by completing your profile after login. ',
-      //                 'To continue filling registration form please contact admin first to make your account active.',
-      //               'success');
-      //               FlowRouter.go('/');
-               
-      //       }
-      //     }
-      //   });
-      // }else{
-      //   swal('OTP is Incorrect',
-      //         '',
-      //         'warning');
-      // }
-    // $('#assureIDModal').show();
     }
-
-
 
     inputEffect(event){
       event.preventDefault();
@@ -193,11 +99,10 @@ import './SignUp.css';
           mobNumber : localStorage.getItem('mobileNumber'),
           firstname : localStorage.getItem('firstname'),
       }
-
       axios
         .post('/user/resendotp',data)
         .then((response)=> {
-            console.log("-------resend otp ---->>",response);
+            // console.log("-------resend otp ---->>",response);
             var responseData = response.data;
             if(responseData == "OTP updated"){
              swal("Great","OTP resend Successfully","success");         
@@ -208,14 +113,8 @@ import './SignUp.css';
         })
         .catch(function (error) {
             console.log(error);
-          
         })
-
-
-   
-
     }
-
 
   render(){
     if(this.props.location.pathname == "/confirm-otp/forgot"){
@@ -226,10 +125,9 @@ import './SignUp.css';
       var mobileEmail = 'Mobile Number';
       var resendOtp = <span onClick={this.resendOtp.bind(this)}>Resend OTP</span>;
     }
-
     var winHeight = window.innerHeight;
     var divHeight = winHeight/4.5+'px';
-
+    
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 signUpWrapper">
         <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 signUpLeftWrap" style={{"height": winHeight}}>
