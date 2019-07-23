@@ -70,18 +70,15 @@ class StartExam extends (Component)  {
 		var compId = this.props.match.params.compId;
 		var examId = this.props.match.params.examId;
 		$("#0").addClass('active');
-				console.log('compId',compId);
-				console.log('examId',examId);
 		
 		axios
 	        .get('/myexammasters/participation/'+compId+'/'+studentId+'/0')
 	        .then((response)=>{
-				console.log('participation Info =',response.data);
 				var responseData = response.data;
 				var i = parseInt(response.data.data.length)- 1;
 				
 				this.showMainExamTime(responseData.data[i].examSolvingTime,responseData.data[i]._id);
-				console.log(responseData.data[i].examSolvingTime,' = ',responseData.data[i]._id);
+				
 				
 				this.setState({
 					competitionName : responseData.data[i].competitionName 
@@ -118,17 +115,17 @@ class StartExam extends (Component)  {
 			    var blob = new Blob([ia], {type:mimeString});
 			    var x = Math.floor((Math.random() * 1000000000) + 10);
 			    var imgFile = new File([blob], x+"studentImage.png");
-			    console.log("file-->",imgFile);
+			 
 			        var file=imgFile;
 			        var documentType=examId;
 			        if(file){       
 			        var fileName  = file.name;    
 	                    if (file,documentType) { 
-	                    	console.log('Screenshot Captured');
+	                    	
 	                    	S3FileUpload
 							    .uploadFile(file,this.state.config)
 							    .then((Data)=>{
-							    	console.log("Data = ",Data);
+							    	
 							    	var input = {
 							                        examId : examId,
 							                        link   : Data.location,
@@ -136,8 +133,7 @@ class StartExam extends (Component)  {
 							    	axios
 								        .post('/myexammasters/saveimgs',input)
 								        .then((response)=>{
-											console.log('Image uploded Successfully',response.data);
-											console.log('Image uploded Successfully');
+										
 										})
 								        .catch(function(error){
 								          	console.log(error);
@@ -166,13 +162,13 @@ class StartExam extends (Component)  {
 		axios
 	        .get('/myexammasters/getmainexamquestions/'+examId+'/'+studentId)
 	        .then((response)=>{
-				console.log('get Questions =',response.data);
+				
 				this.setState({
 					noOfQuestion 		: response.data.noOfQuestion,
 					totalMarks 			: response.data.totalMarks,
 					questionArrayFromTC : response.data.questionArrayFromTC,
 					examStatus 			: response.data.examStatus,
-				},()=>{console.log("examStatus",this.state.examStatus)})
+				})
 	        })
 	        .catch(function(error){
 	          	console.log(error);
@@ -181,10 +177,8 @@ class StartExam extends (Component)  {
 		axios
 			.get('/myexammasters/getmainexamlastvisitedquestion/'+examId)
 			.then((response)=>{
-				console.log("Last visited Q  = ",response.data.lastVisitedQuestion);
-				console.log("Last visited Q answer = ",response.data.lastVisitedQAnswer);
-			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
-				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1
+				
+				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1;
 
 				if(!response.data.lastVisitedQuestion){
 						this.setState(
@@ -235,7 +229,7 @@ class StartExam extends (Component)  {
 			"answer"     : answer,
 		};
 
-		console.log("index = ",index," | studAnswer = ",studAnswer," | examTime = ",examTime," | examId = ",examId, " | Answer = ",answer);
+		
 
 		$('#ind'+(this.state.qIndex)).hide();
 		$('.carousel-control-right').click();
@@ -244,12 +238,12 @@ class StartExam extends (Component)  {
 		axios
 			.post('/myexammasters/updateexamtimeAndstudenanswer',formValues)
 			.then((response)=>{
-				console.log("updateexamtimeAndstudenanswer = ",response.data);
+				
 				jQuery('#mySlideShow').carousel(nextQues);
 				this.fillcolorwhenanswer(index,studAnswer);
 			})
 			.catch(function(error){
-				console.log("Error while selected answer = ", error);
+				
 				alert( 'Please check internet connection. Previous question was not solved', 'danger');
 			})
 	}
@@ -269,13 +263,13 @@ class StartExam extends (Component)  {
 		axios
 			.post('/myexammasters/exammarksupdate/'+examId+'/'+examTime)
 			.then((response)=>{
-				console.log("exammarksupdate = ",response.data);
+				
 				this.props.history.push("/mainExamResult/"+examId);
 				clearInterval(this.screenshotInterval);
 				localStorage.removeItem("screenshot")
 			})
 			.catch(function(error){
-				console.log("RUSureWantTofinsh = ", error)
+				
 			})
 	}
 //--------------------- this function show clock ----------------//
@@ -295,15 +289,15 @@ class StartExam extends (Component)  {
 				clearInterval(this.screenshotInterval);
 				localStorage.removeItem("screenshot");
 
-				console.log("examId n getExamTime",examId,getExamTime);
+				
 				axios
 					.post('/myexammasters/exammarksupdate/'+examId+'/'+getExamTime)
 					.then((response)=>{
-						console.log("exammarksupdate in timer = ",response.data);
+						
 						this.props.history.push("/mainExamResult/"+examId);
 					})
 					.catch(function(error){
-						console.log("RUSureWantTofinsh = ", error)
+						
 					})
 			  	
 			  }else{

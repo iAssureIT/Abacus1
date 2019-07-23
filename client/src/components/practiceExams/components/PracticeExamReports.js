@@ -76,9 +76,9 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 			var res1 = min1[0]-min2[0];
 
 
-			var res2 = (min1[1]=="00") ? 60-min2[1] : (parseInt(min1[1])>parseInt(min2[1]))?min1[1]-min2[1]:min1[1]-0;
+			// var res2 = (min1[1]=="00") ? 60-min2[1] : (parseInt(min1[1])>parseInt(min2[1]))?min1[1]-min2[1]:min1[1]-0;
 
-			// var res2 = (min1[1]=="00") ? 60-min2[1] : min1[1]-min2[1];
+			var res2 = (min1[1]=="00") ? 60-min2[1] : min1[1]-min2[1];
 
 			if(res2==60){res1+=1;res2=0;}
 			console.log("res1,",res1);

@@ -21,9 +21,11 @@ class StartPracticeExam extends (Component)  {
 			'qIndex'           : 0,
 			backarraowcnt      : '',
 			defaultTime 	   : '10:00',
+			answerArr          : "",
 		}
 		this.getTimefunction = this.getTimefunction.bind(this);	
-		// this.goToNextPage    = this.goToNextPage.bind(this);	
+		this.clickRightLeftArraow = this.clickRightLeftArraow.bind(this);	
+		this.displayAnswer    = this.displayAnswer.bind(this);	
 	}
 
 	componentWillMount(){
@@ -159,6 +161,7 @@ class StartPracticeExam extends (Component)  {
 			.then((response)=>{
 				console.log("mypracticeexammasters1 = ",response.data);
 				this.fillcolorwhenanswer(index,studAnswer);
+				this.clickRightLeftArraow();
 
 				// var quesArray = this.state.questionArray;
 				// switch(studAnswer){
@@ -183,6 +186,38 @@ class StartPracticeExam extends (Component)  {
 			// 	    interval: 100
 			// 	});
 			// }
+	}
+
+	clickRightLeftArraow(){
+
+		var practiceExamId = this.props.match.params.id;			
+		const studentID = localStorage.getItem("user_ID");
+		var qArray;
+
+		axios
+			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
+			.then((response)=>{
+				 qArray = response.data.answerArray;
+				var getIndex = $("#configuration_sidebar_content1 li.active").attr('id');
+				var getIndexSplit = getIndex.split('qn');
+				var index = parseInt(getIndexSplit[1]);
+					var answerDataArray = qArray[index];
+					this.displayAnswer(index,answerDataArray);	
+
+					
+					})
+					.catch(function(error){
+						console.log(error)
+					})
+				
+		
+	}
+
+	displayAnswer(index,array){
+		if(array){		
+			$('.'+array.studentAnswer+"-"+index).prop("checked",true);
+		}
+
 	}
 
 	// after question solve question number will get filled by green color
@@ -315,6 +350,9 @@ class StartPracticeExam extends (Component)  {
 		}, 1000);		
 	}
 
+
+
+
 	render(){
 
 
@@ -370,7 +408,7 @@ class StartPracticeExam extends (Component)  {
 																	}
 																if(index <this.state.questionArray.length-1){
 																return (
-																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+" "+slides.attempted} id={"qn"+slides.questionNumber} >{index+1}</li>
+																		<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+" "+slides.attempted} id={"qn"+slides.questionNumber} onClick={this.clickRightLeftArraow.bind(this)}>{index+1}</li>
 																	);
 																}else{
 																	return (
@@ -481,11 +519,11 @@ class StartPracticeExam extends (Component)  {
 														  }) 
 														}
 													</div>
-													<Link className="left carousel-control controlRL" to="#mySlideShow" data-slide="prev">
+													<Link className="left carousel-control controlRL" to="#mySlideShow" data-slide="prev" onClick={this.clickRightLeftArraow.bind(this)}>
 													    <span className="glyphicon glyphicon-chevron-left"></span>
 													    <span className="sr-only">Previous</span>
 													</Link>
-													<Link className="right carousel-control carousel-control-right controlRL" to="#mySlideShow" data-slide="next" >
+													<Link className="right carousel-control carousel-control-right controlRL" to="#mySlideShow" data-slide="next" onClick={this.clickRightLeftArraow.bind(this)}>
 													    <span className="glyphicon glyphicon-chevron-right"></span>
 													    <span className="sr-only">Next</span>
 													</Link>
