@@ -8,7 +8,9 @@ import axios 				from 'axios';
 import moment				from 'moment';
 import S3FileUpload 		from 'react-s3';
 import '../css/MyAccount.css';
+import DatePicker from 'react-date-picker';
 declare var jQuery: any;
+
 
 class CreateStudentRegistration extends (Component)  {
 	constructor(props){
@@ -44,6 +46,7 @@ class CreateStudentRegistration extends (Component)  {
 		  			config 					: '',
 		  			studentRegStatus    	: '',
 		  			studentMasterId      	: '',
+		  			date                    : '',
 		  			gender       			: true,
 					profileEditStatus 		: false,
 		  			franchisedetails        : [],
@@ -145,6 +148,7 @@ class CreateStudentRegistration extends (Component)  {
 								franchiseName   	: response.data.franchiseName,
 								contactNo 			: response.data.franchiseMobileNumber,
 								userProfile			: response.data.userProfile,
+								date                : response.data.studentDOB?new Date(response.data.studentDOB):new Date(),
 							 });
 							 // console.log('updateProfilePermission',response.data.updateProfilePermission);
 							 if(response.data.updateProfilePermission == "Blocked"){
@@ -156,12 +160,12 @@ class CreateStudentRegistration extends (Component)  {
             .catch(function (error) {
                 console.log(error);
             });
-     	var date = new Date();
-      	date.setDate(date.getDate());
-      	console.log("startDate",date);
-      	jQuery('#my-datepicker').datepicker({ 
-    		startDate: date
-      	});
+     	// var date = new Date();
+      // 	date.setDate(date.getDate());
+      // 	console.log("startDate",date);
+      // 	jQuery('#my-datepicker').datepicker({ 
+    		// startDate: date
+      // 	});
 
     $('.gender').click(function() {
     $(this).find('.btn').toggleClass('active');  
@@ -199,7 +203,9 @@ class CreateStudentRegistration extends (Component)  {
 
   	componentDidMount(){
   		this.showCategories();
-  	}	
+  	}
+
+  	onChangeDate = date => this.setState({ date })	
 	/*
 		show Categories 
 	*/
@@ -352,7 +358,8 @@ class CreateStudentRegistration extends (Component)  {
 				  			studentMiddleName  			: this.refs.studentMiddleName.value.trim(),
 				  			studentLastName    			: this.refs.studentLastName.value.trim(),
 				  			mobileNumber       			: this.refs.mobileNumber.value.trim(),
-				  			studentDOB         			: this.refs.studentDOB.value.trim(),
+				  			studentDOB         			: moment(this.state.date).format('L'),
+				  			// studentDOB         			: this.refs.studentDOB.value.trim(),
 				  			schoolName         			: this.refs.schoolName.value.trim(),
 				  			franchiseUserId       		: this.state.franchiseUserId,
 				  			companyId   	   			: this.refs.franchiseId.value.trim(),
@@ -476,11 +483,14 @@ class CreateStudentRegistration extends (Component)  {
 		// 	$('.sidebar').css({display:'block',background: '#222d32'});
 			
 			 if(this.state.studentDOB){
-				console.log("studentDOB = ",this.state.studentDOB);
+				
 		        var studentBirthDate = moment(this.state.studentDOB).format("MM/DD/YYYY");
 		      }else{
 		        var studentBirthDate = moment().format("MM/DD/YYYY");
 		      }
+		      // var dt = moment(this.state.date).format('L');
+		      // console.log("studentDOB = ",this.state.date);
+		      // console.log("this.state.date = ",dt);
 	
 		return(
 			<div>
@@ -554,12 +564,24 @@ class CreateStudentRegistration extends (Component)  {
 											<span className=" floating-label">Last Name{/*<label className="requiredsign">*</label>*/}</span>					   			
 										</span>
 									</div>
-									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+									{/*<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<span className="blocking-span"> 
 										<span className="defaultLabelOes defaultLabelOesE ">Date of Birth<label className="requiredsign">*</label></span>
-											<input type="text" id="my-datepicker" data-provide="datepicker" name="studentDOB" ref="studentDOB" value={studentBirthDate} onChange={this.handleChange} className={this.state.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off" /*readOnly*/ required/>		   			
+											<input type="text" id="my-datepicker" data-provide="datepicker" name="studentDOB" ref="studentDOB" value={studentBirthDate} onChange={this.handleChange} className={this.state.studentDOB ? "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1 has-content" : "form-control formcntrl col-lg-12 col-md-12 col-sm-12 col-xs-12 inputText inputText1"} autoComplete="off"  required/>		   			
+										</span>
+									</div>*/}
+
+									<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										<span className="blocking-span"> 
+										<span className="defaultLabelOes defaultLabelOesE labelspace">Date of Birth<label className="requiredsign">*</label></span>
+											<DatePicker
+									          onChange={this.onChangeDate}
+									          value={this.state.date}
+									          className={"formcntrl datepick" }
+									        />
 										</span>
 									</div>
+
 								</div>
 								<div className="col-lg-12 col-md-12 col-sm-12">
 									<div className="col-lg-9 col-md-9 col-sm-9 col-xs-12">

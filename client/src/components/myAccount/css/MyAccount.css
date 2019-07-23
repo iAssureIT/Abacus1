@@ -20,6 +20,12 @@
 .examdate{
 	color:red;
 }
+.datepick{
+	margin-left:15px;
+}
+.labelspace{
+	margin-left : 20px;
+}
 .examtitles{
 	 color: #777 ;
 	 /*color: #5DADE2 ;*/
