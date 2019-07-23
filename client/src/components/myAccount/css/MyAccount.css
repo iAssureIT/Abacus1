@@ -26,6 +26,11 @@
 .labelspace{
 	margin-left : 20px;
 }
+.react-date-picker__wrapper{
+	border-color: #d2d6de!important;
+	padding-top: 2px!important;
+	padding-bottom : 2px!important;
+}
 .examtitles{
 	 color: #777 ;
 	 /*color: #5DADE2 ;*/
