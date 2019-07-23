@@ -13,12 +13,30 @@ class StudentHeader extends (Component){
   constructor() {
    super();
     this.state = {
-      loggedIn    : false,
-      studentName : '',
-      studentRegStatus : ''
+      loggedIn          : false,
+      studentName       : '',
+      studentRegStatus  : '',
+      userProfile       : ''
     }
   }
 
+  componentWillUpdate(){
+    axios
+      .get('/studentmaster/sinfo/'+localStorage.getItem("user_ID"))
+      .then((response)=>{
+        if(response.data){
+          this.setState({
+            userProfile : response.data.userProfile,          
+          })
+        }else{
+          this.setState({
+            userProfile : '/images/user.png',          
+          })
+        }
+      })
+      .catch(function (error) {
+          console.log(error);
+      });}
   componentWillMount(){
     const token = localStorage.getItem("token");
     const studentName = localStorage.getItem("userFirstName");
@@ -33,6 +51,8 @@ class StudentHeader extends (Component){
     axios
       .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
       .then((response)=> {
+        // console.log('details ',response.data);
+
         if(response.data==null){
           this.setState({
             studentRegStatus : "Not registered"
@@ -46,26 +66,15 @@ class StudentHeader extends (Component){
         }
       })
       .catch(function (error){
-        
       });
 
-    // console.log("localstorage",localstorage)
-    // if ( !$('body').hasClass('adminLte')) {
-    //   var adminLte = document.createElement("script");
-    //   adminLte.type="text/javascript";
-    //   adminLte.src = "/js/adminLte.js";
-    //   $("body").append(adminLte);
-    // }
+    
   }
     
  //  componentWillUnmount(){
  //    $("script[src='/js/adminLte.js']").remove();
  //    $("link[href='/css/dashboard.css']").remove();
  //  }
-  
-
-
-
 
   // handleClick(event) {
   //     event.preventDefault();
@@ -121,22 +130,6 @@ class StudentHeader extends (Component){
  //              </li>*/}
  //    }
  //  }
-
-  studentLoginPhoto(){
-      // var userData = Meteor.users.findOne({"_id":Meteor.userId()});
-      // if(userData){
-      //   var profileData = userData.profile;
-      //   if(profileData){
-      //     if(profileData.userProfile){
-      //       return profileData.userProfile;
-      //     }else{
-      //       return '/images/user.png';
-      //     }
-      //   }
-      // } else{
-        return '/images/user.png';
-      // }
-  }
 
  //  getUploadImgPercentagee(){
  //    var uploadProgressPercent = Session.get("imageprogresss");
@@ -312,13 +305,13 @@ class StudentHeader extends (Component){
                 </li>*/}
                 <li className="dropdown user c11 user-menu" data-dismiss="modal">
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown" onClick={this.showSignout.bind(this)}>
-                    <img src={this.studentLoginPhoto()} className="user-image"  />
+                    <img src={this.state.userProfile} className="user-image"  />
                     <span className="hidden-xs"> {this.state.studentName} </span>
                   </Link>
                   <ul className="dropdown-menu" id="popup">
                     {/* User image */}
                     <li className="user-header">
-                      <img src={this.studentLoginPhoto()} className="img-circle" />
+                      <img src={this.state.userProfile} className="img-circle" />
                       {/*this.getUploadImgPercentagee()*/}
                       <span>
                       <Link to="javascript:void(0)">

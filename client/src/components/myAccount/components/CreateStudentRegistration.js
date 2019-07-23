@@ -120,7 +120,7 @@ class CreateStudentRegistration extends (Component)  {
 		axios
   			.get('/studentmaster/sinfo/'+studentId)
             .then((response)=>{
-							console.log('response sinfo ',response.data);
+				console.log('response sinfo ',response.data);
             	this.setState({
 								submitButtonMsg 	: response.data.submitButtonMsg,
 								categoryDisabled 	: response.data.categoryDisabled,
@@ -156,11 +156,12 @@ class CreateStudentRegistration extends (Component)  {
             .catch(function (error) {
                 console.log(error);
             });
-     var date = new Date();
-      date.setDate(date.getDate());
-      jQuery('#my-datepicker').datepicker({ 
-          startDate: date
-      });
+     	var date = new Date();
+      	date.setDate(date.getDate());
+      	console.log("startDate",date);
+      	jQuery('#my-datepicker').datepicker({ 
+    		startDate: date
+      	});
 
     $('.gender').click(function() {
     $(this).find('.btn').toggleClass('active');  
@@ -286,15 +287,7 @@ class CreateStudentRegistration extends (Component)  {
 
 	StudentImage(){
 		if(this.state.userProfile == null){
-			if($("input[name='genderType']:checked").val() == null){
-				var TempIamge = "/images/addLogo1.png";
-			}else{
-				if($("input[name='genderType']:checked").val()=="Male"){
-					var TempIamge = "/images/user.png";
-				}else{
-					var TempIamge = "/images/girlFace.png";
-				}
-			}
+			var TempIamge = "/images/addLogo1.png";
 		}else{
 			var TempIamge = this.state.userProfile;
 		}
@@ -391,10 +384,11 @@ class CreateStudentRegistration extends (Component)  {
 											console.log("-------patch---->>",response.data);
 
 											if(response.data.message=="Updated into Student Master"){
-												
-												swal("Student information updated successfully!!");
+												swal("Great","Student information updated successfully!!","success");
 											}else{
-												swal("Student registration is completed");
+												swal("Great","Student registration is completed","success");
+												this.props.history.push('/dashboard');
+
 											}
 
 											
@@ -482,8 +476,10 @@ class CreateStudentRegistration extends (Component)  {
 		// 	$('.sidebar').css({display:'block',background: '#222d32'});
 			
 			 if(this.state.studentDOB){
-		console.log("studentDOB = ",this.state.studentDOB);
-		        var studentBirthDate = moment(this.state.studentDOB).format("DD/MM/YYYY");
+				console.log("studentDOB = ",this.state.studentDOB);
+		        var studentBirthDate = moment(this.state.studentDOB).format("MM/DD/YYYY");
+		      }else{
+		        var studentBirthDate = moment().format("MM/DD/YYYY");
 		      }
 	
 		return(
@@ -717,7 +713,7 @@ class CreateStudentRegistration extends (Component)  {
 									
 									</div>
 									<div className="col-lg-3 col-lg-offset-5 col-md-6 col-sm-6 col-xs-6">
-										<button className="btn studRegister">{this.state.submitButtonMsg}</button>
+										<button className="btn studRegister">{this.state.submitButtonMsg?this.state.submitButtonMsg:"Register"}</button>
 									</div>
 									<div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 											{/*<h4 className="adminContact">Please contact Admin on +91-8983318508 to allow profile update </h4>*/}

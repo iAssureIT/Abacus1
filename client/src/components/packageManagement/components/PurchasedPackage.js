@@ -370,8 +370,16 @@ class PurchasedPackage extends Component {
                                           </tbody>
                                         </table>
                                       </div>
-                                      :null
-                                      
+                                      :
+                                      <div className="table-responsive col-lg-12">
+                                        <table className="table table-striped  table-hover myTable table-bordered todaysSalesReportForpdf reportTables" id="yearlyStudRegReport">
+                                          <thead>
+                                            <tr className="tableHeader myAllTable">
+                                              <th className="text-center"> No package data found. Please purchase the new package.</th>
+                                            </tr>
+                                          </thead>
+                                        </table>
+                                      </div>
                                     }
                                 </div>
                               </form>
