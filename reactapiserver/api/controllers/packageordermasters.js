@@ -1,6 +1,8 @@
 const mongoose	= require("mongoose");
 
-const PackageOrderMaster = require('../models/packageordermasters');
+const PackageOrderMaster        = require('../models/packageordermasters');
+const PackageManagementMaster   = require('../models/packagemanagementmasters');
+const StudentMaster             = require('../models/studentmasters');
 
 exports.fetch_mypackageorder = (req,res,next)=>{
     var sId = req.params.studentId;
@@ -218,5 +220,150 @@ exports.update_package = (req,res,next) =>{
     default       :
       res.status(500).json("Invalid action option")
       break;
+  }
+}
+
+exports.create_order = (req,res,next) =>{
+  if(req.params.Order_ID){
+    PackageOrderMaster.find({_id:req.params.Order_ID,"packages":{$elemMatch:{packageId:req.params.package_ID}}})
+                      .exec()
+                      .then(pom=>{
+                        if(pom){
+                          PackageOrderMaster.update(
+                                                {_id:req.params.Order_ID},
+                                                {
+                                                  $pull:{
+                                                      "packages":{
+                                                        "packageId":req.params.package_ID
+                                                      }
+                                                    } 
+                                                }
+                                            )
+                                            .exec()
+                                            .then(pom=>{
+                                              if(pom.nModified == 1){
+                                                res.status(200).json({message:"Package removed"})
+                                              }else{
+                                                res.status(200).json({message:"Package not removed"})
+                                              }
+                                            })
+                                            .catch(err =>{
+                                              console.log(err);
+                                              res.status(500).json({
+                                                error: err
+                                              });
+                                            });                      
+                        }else{
+                          PackageManagementMaster .find({_id:req.params.package_ID})
+                                                  .exec()
+                                                  .then(pmm=>{
+                                                    if(pmm){
+                                                      PackageOrderMaster.update(
+                                                                            {_id:req.params.Order_ID},
+                                                                            {
+                                                                              $push:{
+                                                                                  "packages":{
+                                                                                    'packageId'   : pmm._id, 
+                                                                                    'packageName' : pmm.packageName,
+                                                                                    'category'    : pmm.categoryName,
+                                                                                    'subCategory' : pmm.subCategory,
+                                                                                    'packagePrice': pmm.PackagePrice,
+                                                                                    'NoOfPracticeTest': pmm.NoOfPracticeTest,
+                                                                                  }
+                                                                                } 
+                                                                            }
+                                                                        )
+                                                                        .exec()
+                                                                        .then(pom=>{
+                                                                          if(pom.nModified == 1){
+                                                                            res.status(200).json({message:"Package added"})
+                                                                          }else{
+                                                                            res.status(200).json({message:"Package not added"})
+                                                                          }
+                                                                        })
+                                                                        .catch(err =>{
+                                                                          console.log(err);
+                                                                          res.status(500).json({
+                                                                            error: err
+                                                                          });
+                                                                        });                                              
+                                                    }else{
+                                                      res.status(200).json({message:"Package not found"})       
+                                                    }
+                                                  })
+                                                  .catch(err =>{
+                                                    console.log(err);
+                                                    res.status(500).json({
+                                                      error: err
+                                                    });
+                                                  });
+                        }
+                      })
+                      .catch(err =>{
+                        console.log(err);
+                        res.status(500).json({
+                          error: err
+                        });
+                      });
+  }else{
+    StudentMaster.find({studentId:req.params.student_ID})
+                 .exec()
+                 .then(sm=>{
+                    if(sm){
+                      PackageManagementMaster .find({_id:req.params.package_ID})
+                                              .exec()
+                                              .then(pmm=>{
+                                                if(pmm){
+                                                  var invoiceNum = PackageOrderMaster.find({}).count() + 1;
+                                                  if(invoiceNum){
+                                                    var packageOrderMaster = new PackageOrderMaster({
+                                                                            '_id'           : new mongoose.Types.ObjectId(),
+                                                                            'buyerId'       : req.params.student_ID,
+                                                                            'studentName'   : sm.studentFullName,
+                                                                            'franchiseId'   : sm.franchiseId,
+                                                                            'status'        : 'unPaid',
+                                                                            'packages'      : [{
+                                                                                                  'packageId'   : pmm._id, 
+                                                                                                  'packageName' : pmm.packageName,
+                                                                                                  'category'    : pmm.categoryName,
+                                                                                                  'subCategory' : pmm.subCategory,
+                                                                                                  'packagePrice': pmm.PackagePrice,
+                                                                                                  'NoOfPracticeTest': pmm.NoOfPracticeTest,
+                                                                                                }],
+                                                                            'invoiceId'     : invoiceNum,
+                                                                            'packageStatus' : "Valid",
+                                                                        }); 
+                                                    packageOrderMaster.save()
+                                                                      .exec()
+                                                                      .then(pom=>{
+                                                                          res.status(200).json({message:"Order Placed"})
+                                                                      })
+                                                                      .catch(err =>{
+                                                                        console.log(err);
+                                                                        res.status(500).json({
+                                                                          error: err
+                                                                        });
+                                                                      });                                              
+                                                  }
+                                                }else{
+                                                  res.status(200).json({message:"Package not found"})       
+                                                }
+                                              })
+                                              .catch(err =>{
+                                                console.log(err);
+                                                res.status(500).json({
+                                                  error: err
+                                                });
+                                              });
+                    }else{
+                      res.status(200).json({message:"Student Not Found"});
+                    }
+                 })
+                 .catch(err =>{
+                    console.log(err);
+                    res.status(500).json({
+                      error: err
+                    });
+                  });         
   }
 }
