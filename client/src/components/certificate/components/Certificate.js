@@ -28,7 +28,6 @@ class Certificate extends (Component) {
 	 	axios
 	 		.get('/exammasters')
             .then((response)=> {
-                console.log("-------examMaster------>>",response.data);
                 this.setState({
 		 			allCompetitions : response.data
 		 		});
@@ -41,13 +40,11 @@ class Certificate extends (Component) {
 	getCompetitionId(s){
 		const studentID = localStorage.getItem("user_ID");
 		var competitionId = $("#selectId option:selected").attr("id");
-		console.log('competitionId= ',competitionId);
 
 		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
 			axios.get('/myexammasters/'+competitionId+'/'+studentID)
             .then((response)=>{
-                console.log("-------myExamMaster------>>",response.data[0]);
             	this.setState({
 		 			examData : response.data[0],
 		 			competitionStatus : false,
@@ -70,7 +67,6 @@ class Certificate extends (Component) {
 		alert("Please wait till document download.","success");
 	    var outerInvoiceBlock = $('.bg'),
 	    cache_width = outerInvoiceBlock.width();
-	    // a4  =[8.5,  11];  // for a4 size paper width and height
 	    this.getCanvas(cache_width);
 	}
 
@@ -86,11 +82,8 @@ class Certificate extends (Component) {
           doc.setFontSize(16); 
           var width           = doc.internal.pageSize.getWidth(); 
           var height          = doc.internal.pageSize.getHeight();
-          // var imgHeight       = (canvas.height * width) / canvas.width;
           var position = 0;
-
           doc.addImage(img, 'PNG', 0, position, width, height);
-          // doc.addImage(img, 'PNG', 0, position, width, imgHeight);
           doc.save('CompetiotionCertificate.pdf');
           certificateWrappers.width(cachewidth);
     });
@@ -98,8 +91,7 @@ class Certificate extends (Component) {
 
    
 	render() {
-				console.log("----->>",this.state.allCompetitions)
-				console.log("--1-->>",this.state.examData)
+				
        return (
        		<div>
 		        {/* Content Wrapper. Contains page content */}

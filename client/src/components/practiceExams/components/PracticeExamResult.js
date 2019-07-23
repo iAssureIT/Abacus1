@@ -2,8 +2,6 @@ import React ,{ Component }		from 'react';
 import $ 					from "jquery";
 import moment 					from "moment";
 import axios 				from 'axios';
-
-// import './StartPracticeExamHeader';
 import '../css/PracticeExam.css';
 
 class PracticeExamResult extends(Component)  {
@@ -23,7 +21,6 @@ class PracticeExamResult extends(Component)  {
 		axios
 			.get('/mypracticeexammasters/getresult/'+practiceExamId)
 			.then((response)=>{
-				console.log("practiceExam Result = ",response.data);
 				this.setState({
 					practiceExamData : response.data,
 					percentage 		 : response.data.percentage
@@ -36,10 +33,7 @@ class PracticeExamResult extends(Component)  {
       	localStorage.removeItem("pckgIndex");
       	localStorage.removeItem("btnIndex");
 	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
+	
 	
 	render(){
 		return(
@@ -179,32 +173,3 @@ class PracticeExamResult extends(Component)  {
 	}
 }
 export default PracticeExamResult;
-// export default PracticeExamResultContainer = withTracker(props=>{
-// 	var id = FlowRouter.getParam("id");
-// 	clearInterval(Session.get("interval"));
-// 	var practiceExamData = '';
-// 	const postHandle1     =  Meteor.subscribe('showSinglePracticePaper',id);
-// 	const loadingTest     = !postHandle1.ready();
-// 	// Meteor.call("practiceExamFinished",id);
-// 	Meteor.call("PracticeExamMarksUpdate",id,(error,result)=>{
-// 		if(error){
-// 			console.log(error);
-// 		}else{
-
-// 		}
-// 	});
-// 	practiceExamData  = MyPracticeExamMaster.findOne({"_id":id})||{};
-// 	// console.log(practiceExamData);
-// 	if(practiceExamData){
-// 		practiceExamData = practiceExamData;
-// 		var percentage = (parseInt(practiceExamData.totalScore)/parseInt(practiceExamData.totalMarks))*100;
-// 		// console.log(percentage);
-// 	}else{
-// 		practiceExamData = "Not return Marks";
-// 	}
-// 	return{
-// 		practiceExamData,
-// 		loadingTest,
-// 		percentage,
-// 	}
-// })(PracticeExamResult);

@@ -25,43 +25,9 @@ class StudentRegistrationforCompetition extends Component  {
 	    	competitionData 	 	: [],
 	    }
 	}
-
-	// componentDidMount(){
-
-	// 	axios
-	//     	.get('/studentmaster/details/WyQY35LEFitPcabP6')
- //            .then((response)=> {
- //                // console.log("-------studentmasterdetails------>>",response.data);
- //                this.setState({
-	// 	 			studentmasterdetails : response.data,
-	// 	 		});
- //                // localStorage.setItem("token",response.data.token);
- //                // direct.setState({loggedIn:response.data.token})
- //            })
- //            .catch(function (error) {
- //                console.log(error);
- //            });
-
- //        axios
-	//     	.get('/exammasters/list')
- //            .then((response)=> {
- //                // console.log("-------exammasters------>>",response.data);
- //                this.setState({
-	// 	 			competitionData : response.data,
-	// 	 		});
- //                // localStorage.setItem("token",response.data.token);
- //                // direct.setState({loggedIn:response.data.token})
-	// 		})
- //            .catch(function (error) {
- //                console.log(error);
- //            });
-
-	// }
-
 		componentDidMount(){
 		var i = 0;
-
-		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		const studentId = localStorage.getItem("user_ID");
 		var array=[];
 		var competitions 		= [];
 		var studentCompetitions = [];
@@ -69,14 +35,10 @@ class StudentRegistrationforCompetition extends Component  {
 		var todayDate       = moment(today).format('L');
 		var currentTime     = moment(today).format('LT');
 		if(studentId){
-			var k = 0;
-			// console.log("studentId in list",studentId);
+			var k = 0;			
 			axios
 				.get('/studentmaster/details/'+studentId)
 				.then((studentdata)=>{
-
-						
-						// console.log('student ',studentdata);
 						var studentData = studentdata.data;
 						if(studentData==null){
 							this.setState({
@@ -86,11 +48,9 @@ class StudentRegistrationforCompetition extends Component  {
 							this.setState({
 					  			studentRegStatus : "Registered"
 					  		})
-
 							axios
 								.get('/exammasters/list')
 								.then((competitionData)=>{
-									// console.log('competitionData ',competitionData);
 										var competitionData = competitionData.data;
 										if(competitionData){
 											if(currentTime){
@@ -152,37 +112,27 @@ class StudentRegistrationforCompetition extends Component  {
 														});
 													}//end of competitionData[i] && studentData
 												}//end of for llo[]
-												if(competitionData.length == competitions.length){
-														// console.log("competitionData =>>>> ",competitions);		
+												if(competitionData.length == competitions.length){	
 													axios
 															.get('/competitionregisterorder/mainexam/'+studentId)
 															.then((competitionsList)=>{
-																// console.log('competitionsList ',competitionsList.data);
 																studentCompetitions = competitionsList.data;
 																axios
 																		.get('/myexammasters/dashboard/'+studentId)
 																		.then((myexamres)=>{
-																			console.log("competitions Data=====> ",competitions);
-																			console.log("studentCompetitions Data=====> ",studentCompetitions);
-																			console.log("myexamres Data=====> ",myexamres.data);
 																			var myexammasters = myexamres.data;
 																			for(var sc = 0; sc < studentCompetitions.length; sc++){
 																				var scindex = competitions.findIndex((data)=>{
-																												return data._id == studentCompetitions[sc].competitionId
-																											});
+																					return data._id == studentCompetitions[sc].competitionId
+																				});
 																				if(scindex > -1){
 																					competitions[scindex].studentPaymentStatus = "paid";
 																					var myemindex = myexammasters.findIndex((data)=>{
 																									return data.competitionId == studentCompetitions[sc].competitionId
 																								});
-																			console.log("myemindex==out===> ",myemindex);
+									
 
 																					if(myemindex > -1){
-																			console.log("myemindex=====> ",myemindex);
-
-																			console.log("myexammasters[myemindex]=====> ",myexammasters[myemindex]);
-
-
 																						competitions[scindex].examDataStatus = myexammasters[myemindex].examStatus;
 																						competitions[scindex].examId = myexammasters[myemindex].examId;
 																					}
@@ -217,28 +167,7 @@ class StudentRegistrationforCompetition extends Component  {
 	}
 
 
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
 
-	componentWillMount(){
-  // 		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res==true){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }else if(res==false){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }
-		// 	}
-		// });
-  	}
 
 	startExam(event){
 		event.preventDefault();
@@ -247,22 +176,7 @@ class StudentRegistrationforCompetition extends Component  {
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
-		navigator.getMedia({video: true}, function() {
-		  // console.log("webcam is available");
-		//   Meteor.call("StartExamCategoryWise",(error,result)=>{
-		// 	if(error){
-		// 		swal(error);
-		// 	}else{
-		// 		var id = result;
-		// 		// console.log("id",id);
-				// if(id){
-					// FlowRouter.go('/startExam/'+id);
-					// this.props.history.push('/startExam/fgdsfgdsrf/*+id*/);
-				// }else{
-				// 	swal("Please start exam again","This is happened due to bad internet connection","warning");
-				// }
-		// 	}
-		// });
+		navigator.getMedia({video: true}, function() {		
 
 		}, function() {
 		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
@@ -273,24 +187,11 @@ class StudentRegistrationforCompetition extends Component  {
 	gotoPreviousMainExam(event){
 		var id = $(event.target).attr('id');
 		var compId = $(event.target).attr('data-text');
-		// navigator.getMedia = ( 
-		// // navigator.getUserMedia || // use the proper vendor prefix
-  //       navigator.webkitGetUserMedia ||
-  //       navigator.mozGetUserMedia ||
-  //       navigator.msGetUserMedia);
-		// navigator.getMedia({video: true}, function() {
-		//   // console.log("webcam is available");
-		//   FlowRouter.go("/startExam/"+id);
-		//   }, function() {
-		//   	FlowRouter.go('/iAgreeAndStartExam/'+compId);
-		//     swal("As per our rule, you will be not allowed to attempt exam without camera","","warning");
-		// });
-		// // FlowRouter.go("/startExam/"+id);
+		
 	}
 
 	MainExamComplete(event){
 		var id = $(event.target).attr('id');
-		// console.log("id",id);
 		swal({
 			  title              : 'Are you sure?',
 			  text               : 'You will not be able to attempt this exam!',
@@ -302,15 +203,7 @@ class StudentRegistrationforCompetition extends Component  {
 			  cancelButtonText   : 'No',
 			  closeOnConfirm     : false
 			}, function() {
-			// Meteor.call("ExamFinished",id,(error,result)=>{
-			// 	if(error){
-
-			// 	}else{
-			// 		FlowRouter.go("/iAgreeAndStartExam");
-			// 		Meteor.call("removeTempCurMEStudData");
-			// 	}
-			// });
-
+			
 		});
 	}
 
@@ -366,7 +259,7 @@ class StudentRegistrationforCompetition extends Component  {
 
 	
 	render(){
-		// if(!this.props.loadingCRO && !this.props.loading && !this.props.loadingMyExam && !this.props.LoadingTest && !this.props.loadingTest3){
+		
 			return(
 			<div className="col-lg-12 col-md-12 col-sm-12">
 				<div  className="col-lg-12  col-md-12 col-sm-12 practicetesttitle text-center">
@@ -381,9 +274,7 @@ class StudentRegistrationforCompetition extends Component  {
 							<div className="carousel-inner">
 								{this.state.competitionData.length>0 ?
 									this.state.competitionData.map((competitionInfo,index)=>{	
-		// console.log("competitionInfo.timeStatus= ",competitionInfo.timeStatus,"competitionInfo.examYear= ",competitionInfo.examYear)
-
-										return(											
+									return(											
 										<div className={index==0?"item active":"item"}  key={index}>
 											<div className="fontstyle examtitlecolor"><b>{competitionInfo.competitionName}</b></div>
 											<div className="fontstyle">On</div>
@@ -475,133 +366,6 @@ class StudentRegistrationforCompetition extends Component  {
 				</div>
 			</div>
 			);
-		// }else{
-		// 	return(
-		// 	<div className="col-lg-12 col-md-12 col-sm-12">
-		// 		<div  className="col-lg-12  col-md-12 col-sm-12 practicetesttitle">
-		// 			<div className="col-lg-12  col-md-12 studProfileTit23">
-		// 				<div className="col-lg-12  col-md-12">
-		// 					<i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp; Competition Details
-		// 				</div>	
-		// 				<div className="fontstyle" >	
-		// 					<div>"Loading please wait..."</div>
-		// 				</div>
-		// 			</div>						
-		// 		</div>
-		// 	</div>
-		// 	);
-
 		}
 				
-	// }
 }export default StudentRegistrationforCompetition;
-// export default studRegforCompContainer = withTracker(props=>{
-// 	clearInterval(Session.get("MainExaminterval"));
-// 	const postHandle = Meteor.subscribe("LoginInStudent",Meteor.userId());
-// 	const LoadingTest = !postHandle.ready();
-// 	const postHandle3   = Meteor.subscribe("showLoginStudInCompleteExam");
-// 	const loadingTest3  = !postHandle3.ready();
-	
-// 	var studentData = StudentMaster.findOne({"studentId":Meteor.userId()})||{};
-
-// 	var PostHandle = Meteor.subscribe("latestCompetition");
-// 	var loading = !PostHandle.ready();
-// 	var today = new Date();
-// 	var todayDate = moment(today).format('L');
-// 	var currentTime = moment(today).format('LT');
-
-// 	// var competitionData = ExamMaster.find({}).sort({"competitionDate": -1}).limit(1)
-
-// 	var competitionData = ExamMaster.find({"competitionView":"Show"},{sort:{"competitionDate":-1}}).fetch()||{};
-// 	// var competitionData = ExamMaster.find({"competitionView":{ $ne: "Hide" }},{sort:{"competitionDate":-1}}).fetch()||{};
-// 	for(i=0;i<competitionData.length;i++){
-// 		if(competitionData[i] && studentData){
-// 			competitionData[i].examDate = moment(competitionData[i].competitionDate).format('L');
-// 			competitionData[i].EXAMDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
-// 			competitionData[i].EXAMDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
-// 			// competitionInfo.competitionView
-// 			// console.log("EXAMDate---->",competitionData[i].EXAMDate);
-
-// 			var ExamStartTime = moment(currentTime, 'h:mma');
-// 			var ExamEndTime   = moment(competitionData[i].endTime, 'h:mma');
-// 			if(today.getTime()<(competitionData[i].competitionDate).getTime()){
-// 				competitionData[i].examYear = "Accept";
-// 			}else{
-// 				competitionData[i].examYear = "NotAccept";
-// 			}	
-
-// 			if(todayDate>competitionData[i].examDate){
-// 				competitionData[i].examTimeStatus = "OldExam";
-// 			}else if(todayDate<=competitionData[i].examDate){
-// 				competitionData[i].examTimeStatus = "NewExam";
-// 			}
-// 			if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
-// 				competitionData[i].timeStatus = "invalid";
-// 			}else if(todayDate == competitionData[i].examDate && ExamStartTime<ExamEndTime){
-// 				competitionData[i].timeStatus = "valid";
-// 			}else{
-// 				competitionData[i].timeStatus = "nextCompetition";
-// 			}
-
-// 			var studentCategory = 	competitionData[i].competitionExams;
-// 			if(todayDate<=competitionData[i].examDate){
-// 					competitionData[i].nextExamStatus="Present"
-// 				}else{
-// 					competitionData[i].nextExamStatus = "Absent"
-// 				}
-// 		}
-// 		competitionData[i].PayDate         = moment(competitionData[i].createdAt).format('MMM Do YYYY');
-// 		competitionData[i].currentExamDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
-// 		// console.log("studentCategory",studentCategory);
-// 		if(studentCategory){
-// 			var index = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
-// 			var categoryWiseExamData = studentCategory[index];
-// 			if(categoryWiseExamData){
-// 				competitionData[i].examStartStatus = categoryWiseExamData.examStatus;
-// 			}
-// 		}
-// 		var PostHandleCROrder        = Meteor.subscribe("latestCRO",competitionData[i]._id);
-// 		var loadingCRO               = !PostHandleCROrder.ready();
-// 		var isStudentRegisterForComp = CompetitionRegisterOrder.findOne({"studentId":Meteor.userId(),"competitionId":competitionData[i]._id,"status":"paid"})||{};
-// 		// console.log("isStudentRegisterForComp",isStudentRegisterForComp);
-// 		if(isStudentRegisterForComp && isStudentRegisterForComp._id){
-// 			competitionData[i].studentPaymentStatus = "paid";
-// 			var PostHandleMyExam = Meteor.subscribe("showSinglePaperNew",isStudentRegisterForComp.competitionId);
-// 			var loadingMyExam    = !PostHandleMyExam.ready();
-// 			var examData         = MyExamMaster.findOne({"competitionId":isStudentRegisterForComp.competitionId,"StudentId":Meteor.userId()})||{};
-// 			// console.log("examData",examData);
-// 			if(examData){
-// 				competitionData[i].examDataStatus = examData.examStatus;
-// 				competitionData[i].examId         = examData._id;
-// 			}
-// 		}else{
-// 			competitionData[i].studentPaymentStatus ="unPaid";
-// 		}
-// 		// var ME_Instruction = InstructionMaster.findOne({"instructionFor" : "Main Exam"})||{};
-// 		var LastIncompleteExam = MyExamMaster.findOne({"StudentId":Meteor.userId(),"competitionId":isStudentRegisterForComp.competitionId,"examStatus" : "InComplete"})||{};
-// 		if(LastIncompleteExam){
-// 			var lastInCompExamId                      = LastIncompleteExam._id;
-// 			competitionData[i].lastInCompExamIdStatus = lastInCompExamId;
-// 		}else{
-// 			lastInCompExamId                          = '';
-// 			competitionData[i].lastInCompExamIdStatus = '';
-// 		}
-// 	}
-	
-// 	return {
-// 		lastInCompExamId,
-// 		loadingCRO,
-// 		loadingMyExam,
-// 		LoadingTest,
-// 		loadingTest3,
-// 		isStudentRegisterForComp,
-// 		competitionData,
-// 		todayDate,
-// 		currentTime,
-// 		studentData,
-// 		loading,
-// 		categoryWiseExamData,
-// 		examData,		
-// 	}
-
-// })(StudentRegistrationforCompetition);

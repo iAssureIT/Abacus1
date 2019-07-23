@@ -1,13 +1,8 @@
 import React,{Component} from 'react';
 import { Link } from 'react-router-dom';
-
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
-// import swal from 'sweetalert';
 import $ from "jquery";
-
 import 'font-awesome/css/font-awesome.min.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/common.css';
 
 class StudentSidebar extends (Component){
@@ -15,65 +10,35 @@ class StudentSidebar extends (Component){
    super();
     this.state = {
       loggedIn : false
-      // subscription :{
-      //   "userData" : Meteor.subscribe("userData",Meteor.userId()), 
-      // }
     }
   }
 
   componentDidMount(){
     const token = localStorage.getItem("token");
       if(token!==null){
-        console.log("Header Token = ",token);
         this.setState({
           loggedIn : true
         })
       }
-    // if ( !$('body').hasClass('adminLte')) {
-    //   var adminLte = document.createElement("script");
-    //   adminLte.type="text/javascript";
-    //   adminLte.src = "/js/adminLte.js";
-    //   // $("body").append(adminLte);
-    // }
   }
   componentWillMount(){
         $('.sidebar').css({display:'block',background: '#222d32'});
   }
 
   componentWillUnmount(){
-    // $("script[src='/js/adminLte.js']").remove();
-    // $("link[href='/css/dashboard.css']").remove();
+   
   }
 
-//   removePersistantSessions(){
-//       UserSession.delete("progressbarSession", Meteor.userId());
-//       UserSession.delete("allProgressbarSession", Meteor.userId());
-//   }
-
-//   currentUser(){
-//     var LoginUserData = Meteor.users.findOne({"_id":Meteor.userId()});
-//     if(LoginUserData){
-//       var profile = LoginUserData.profile;
-//       if(profile){
-//         var firstName = profile.firstname;
-//       }
-//       return firstName;
-//     }
-//   }
 
   clickLiTree(event){
     event.preventDefault();
-    console.log("I'm In.......");
     $(event.Target).addClass('menu-open');
-
     $(event.target).parent().addClass('activeLi');
     $(event.target).parent().siblings('li').removeClass('activeLi');
   }
 
   clickTree(event){
       event.preventDefault();
-      console.log("I'm In clickTree");
-      console.log('$(event.currentTarget)',$(event.currentTarget));
       $(event.currentTarget).addClass('activetree');
       $(event.currentTarget).siblings('li').removeClass('activetree');
       $(event.currentTarget).addClass('menu-open');
@@ -82,22 +47,16 @@ class StudentSidebar extends (Component){
       $(event.currentTarget).siblings('li').children('.treeview-menu').children().removeClass('activeLi');
       $(event.currentTarget).children('.treeview-menu').slideToggle();
   }
-   // event.preventDefault();
-   //    console.log('$(event.currentTarget)',$(event.currentTarget));
-   //    $(event.currentTarget).addClass('activetree');
-   //    $(event.currentTarget).siblings('li').removeClass('activetree');
-   //    $(event.currentTarget).siblings('li').removeClass('menu-open');
-   //    $(event.currentTarget).siblings('li').children('.treeview-menu').css('display','none');
-   //    $(event.currentTarget).siblings('li').children('.treeview-menu').children().removeClass('activeLi');
+  
  
  
   render(){
-    {console.log("loggedIn status sidebar = ", this.state.loggedIn)}
+  
     if(this.state.loggedIn===false){
       return <redirect to="/login"/>
     }
     return(
-        <aside className="main-sidebar studentSidebar" /*onClick={this.removePersistantSessions.bind(this)}*/>
+        <aside className="main-sidebar studentSidebar" >
           <section className="sidebar">
             <div className="user-panel">
               <div className="pull-left image">
@@ -250,7 +209,7 @@ class StudentSidebar extends (Component){
                   </a>
                   <ul className="treeview-menu treeview-menu1">
                     <li onClick={this.clickLiTree.bind(this)}>
-                      <Link to="/StudResetPwd"/*`/myChangePassword/${Meteor.userId()}`*/>
+                      <Link to="/StudResetPwd">
                         <i className="fa fa-circle-o" />  Change Password 
                       </Link>
                     </li>

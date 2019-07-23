@@ -2,7 +2,6 @@ import React ,{ Component }	from 'react';
 import $ 					from "jquery";
 import moment 				from "moment";
 import axios 				from 'axios';
-// import './StartPracticeExamHeader';
 import '../css/Exam.css';
 
 class ExamResult extends(Component)  {
@@ -23,7 +22,6 @@ class ExamResult extends(Component)  {
 		axios
 			.get('/myexammasters/examresult/'+mainExamId)
 			.then((response)=>{
-				console.log("Main Exam Result = ",response.data);
 				this.setState({
 					mainExamResultData  : response.data,
 					percentage 		 	: response.data.percentage,
@@ -34,10 +32,7 @@ class ExamResult extends(Component)  {
 				console.log(error)
 			})
 	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
+	
 	
 	render(){
 	  if(this.state.mainExamResultData){
@@ -45,7 +40,6 @@ class ExamResult extends(Component)  {
 			<div>
 			<div className="CountIncrement">0</div>
 			<div className="CountDecreBackArrow">0</div>
-		        {/* Content Wrapper. Contains page content */}
 		        <div className="content-wrapper content-wrapperexampaper">
 		     	  <section className="content-header1"></section>
 		          <section className="content viewContent marg38">

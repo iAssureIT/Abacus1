@@ -5,12 +5,6 @@ import $ 					from "jquery";
 import moment 				from 'moment';
 import axios 				from 'axios';
 
-/*import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-import {withTracker} from 'meteor/react-meteor-data';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import {MyExamMaster} from '/imports/student/api/myExamMaster.js';*/
-// import {MyExamMaster} from '/imports/admin/forms/student/api/myExamMaster.js';
-
 export default class PastExamReports extends /*TrackerReact*/(Component)  {
 	constructor(){
 		  super();
@@ -22,69 +16,21 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 
 	componentWillMount(){
 		const studentID = localStorage.getItem("user_ID");
-
-  // 		Meteor.call("isAuthenticated","MainExam","MainExamReports",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res==true){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }else if(res==false){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }
-		// 	}
-		// });	axios.get('/myexammasters/'+"LLNtieLsRXXL7RbdJ",)
-
 		axios.get('/myexammasters/'+studentID,)
             .then((response)=> {
-                console.log("-------getAllExamReport------>>",response);
                 this.setState({
 		 			getAllExamReport : response.data
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
             });
 
   	}
-	componentDidMount(){
-		
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
-
-		// Meteor.call("getStudentMainExamReport",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res){					
-		// 			this.setState({
-		// 				getAllExamReport:res,
-		// 			});
-		// 		}
-				
-				
-		// 	}
-		// });
-	}
-	componentWillUnmount(){
-    	/*$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();*/
-  	}
-
+	
+	
 	render(){
-		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-		// 	$('.sidebar').css({display:'block',background: '#222d32'});
-			
+		
 		return(
 			<div>
 		        {/* Content Wrapper. Contains page content */}
@@ -160,15 +106,5 @@ export default class PastExamReports extends /*TrackerReact*/(Component)  {
 				</div>
 			</div>
 			);
-		
-		// 	 }else if (this.state.facilityPermission == false ){
-		// 	  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
-		//   }else if(this.state.facilityPermission == "waitingforResult"){
-		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-		// 	   <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-		// 	</div>);
-		//   }else{ 
-		//  return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		// }
 	}
 }

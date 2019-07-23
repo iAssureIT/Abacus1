@@ -2,12 +2,9 @@ import React, { Component }   from 'react';
 import axios                  from 'axios';
 import {Link}                 from 'react-router-dom';
 import $                      from 'jquery';
-// import InputMask from 'react-input-mask';
-
 import '../css/PackageList.css';
 import 'font-awesome/css/font-awesome.min.css';
 import moment from 'moment';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 class PurchasedPackage extends Component {
     constructor(props){
@@ -47,7 +44,6 @@ class PurchasedPackage extends Component {
       axios
         .get('/mypracticeexammasters/incompleteexam/'+studentID)
         .then((response)=>{
-          console.log("incompleteexam = ",response.data)
           this.setState({
             lastExamId :response.data[0]._id, 
           });
@@ -59,7 +55,6 @@ class PurchasedPackage extends Component {
       axios
         .get('/packagequestionpapermaster/'+studentID)
         .then((response)=>{
-          // console.log("PackageQPMData = ",response.data)
           var arr=[];
           var packageId=[];
           for (var i = response.data.length - 1; i >= 0; i--) {
@@ -75,8 +70,7 @@ class PurchasedPackage extends Component {
               var NA = response.data[i].noOfAttempts.push(obj)
             }
           }
-          console.log("NewArray======== ",response.data)
-          console.log("math.max = ",Math.max(...arr))
+        
           this.setState({
             PackageQPMData        : response.data,
             attemptOfpracticetest : Math.max(...arr)
@@ -88,7 +82,6 @@ class PurchasedPackage extends Component {
     axios
       .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
       .then((response)=> {
-        console.log("student details = ",response.data);
         if(response.data==null){
           this.setState({
             studentRegStatus : "Not registered"
@@ -102,27 +95,9 @@ class PurchasedPackage extends Component {
       .catch(function (error){
         
       });
-      // axios
-      //   .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
-      //   .then((response)=> {
-      //     axios
-      //       .get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
-      //       .then((response)=> {
-      //         console.log("practiceQPData = ",response.data);
-      //         this.setState({
-      //           practiceQPData : response.data,
-      //         });
-      //       })
-      //       .catch(function (error) {
-      //           console.log(error);
-      //       });
-      //   })
-      //   .catch(function (error){});
+     
     }
-    componentWillUnmount(){
-        // $("script[src='/js/adminLte.js']").remove();
-        // $("link[href='/css/dashboard.css']").remove();
-    }
+   
     componentWillReceiveProps(nextProps){
         if(!nextProps.loading){ 
             if(nextProps.packageReport){
@@ -133,41 +108,9 @@ class PurchasedPackage extends Component {
         
       }
     }
-    componentWillMount(){
+   
 
-    }
-
-    // startPracticeExam(event){
-    //   event.preventDefault();
-    //   const studentID     = localStorage.getItem("user_ID");
-    //   var btnIndex        = event.target.getAttribute('data-index');
-    //   var pckgIndex       = event.target.getAttribute('data-text');
-    //   var orderId         = event.target.getAttribute('data-id');
-    //   var practiceExamId  = event.target.value;
-
-    //   this.setState({
-    //      BtnIndex:btnIndex,
-    //      PckgIndex:pckgIndex,
-    //    });
-    //   this.setState({
-    //     showButton:false,
-    //     showstartExamBtn:false,
-    //   });
-
-    //   axios
-    //       .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
-    //       .then((response)=> {
-    //         console.log("startpracticeexam = ",response.data);
-    //         this.setState({
-    //           startpracticeexam : response.data,
-    //         });
-    //       var id = response.data.ID;
-    //       this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
-    //       })
-    //       .catch(function (error) {
-    //           console.log(error);
-    //       });
-    // }
+    
 
     startPracticeExam(event){
     event.preventDefault();
@@ -175,8 +118,6 @@ class PurchasedPackage extends Component {
     var pckgIndex = event.target.getAttribute('data-text');
     var orderId = event.target.getAttribute('data-id');
     const studentID     = localStorage.getItem("user_ID");
-
-    // console.log("indexex----------->",btnIndex,pckgIndex,orderId);
     this.setState({
        BtnIndex:btnIndex,
        PckgIndexPckgIndex:pckgIndex,
@@ -198,49 +139,24 @@ class PurchasedPackage extends Component {
      axios
           .post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
           .then((response)=> {
-            console.log("startpracticeexam = ",response.data);
             this.setState({
               startpracticeexam : response.data,
             });
           var id = response.data.ID;
-
-          console.log("indexex----------->",inputData);
-
           axios
               .post('/packagequestionpapermaster',inputData)
               .then((response)=> {
-                  console.log("-------packagequestionpapermaster---->>",response);
-                  var responseData = response.data;
-               
+                  var responseData = response.data;               
               })
               .catch(function (error) {
                   console.log(error);
                 
               })
-
             this.props.history.push('/practiceExam/'+id+'/'+orderId+'/'+pckgIndex+'/'+btnIndex);
           })
           .catch(function (error) {
               console.log(error);
           });
-
-    // Meteor.call("updateQuestionPaperMasterAccordingtoPackages",practiceExamId,pckgIndex,btnIndex,orderId,(error,result)=>{
-    // if(error){
-    // console.log(error);
-    // }else{
-
-    // }
-    // });
-    // Meteor.call("StartPracticeExam",practiceExamId,(error,result)=>{
-    // if(error){
-    // swal(error);
-    // }else{
-    // var id = result;
-    // if(id){
-    // FlowRouter.go('/practiceExam/'+id+'/'+this.props.urlPackageId+'/'+this.state.BtnIndex);
-    // }
-    // }
-    // });
   }
 
     gotoPreviousExam(event){
@@ -253,7 +169,6 @@ class PurchasedPackage extends Component {
       axios
           .post('/mypracticeexammasters/finishexam/'+id)
           .then((response)=> {
-            console.log("finishexam = ",response.data);
             this.props.history.push("/PracticeStartExam");
           })
           .catch(function (error) {
@@ -289,22 +204,15 @@ class PurchasedPackage extends Component {
     }
 
     getArray = (length) =>{
-        // console.log("array length = ",length);
         var a = new Array(length);
         a.fill('-');
-        // console.log("test = ",a);
         return a;
     }
 
     render(){
-    // if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-    //       $('.sidebar').css({display:'block',background: '#222d32'});
-    // if(this.state.PackageData){
-    // if(this.state.showstartExamBtn){
+   
     return(
       <div>
-        {/*<div className="CountIncrement">0</div>
-        <div className="CountDecreBackArrow">0</div>*/}
               <div className="content-wrapper">
                   <section className="content-header">
                    <h1>Start Purchased Practice Exam</h1>
@@ -314,11 +222,7 @@ class PurchasedPackage extends Component {
                       <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
                         <div className="box">
                          {
-                          // !this.props.LoadingTest3 ?
-                          // this.props.status !=''?
-                          // !this.props.loadingTest4 ?
                           !this.state.lastExamId ?
-                          // this.state.practiceQPData.length !=0 ?
                           this.state.studentRegStatus !== "Not registered"?
                           <div className="box-header with-border boxMinHeight ">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -406,7 +310,7 @@ class PurchasedPackage extends Component {
                               <div>
                                 Loading please wait...!!!
                               </div>
-                              {/*<img src="/images/preloader.gif"/>*/}
+                              
                             </div>
                             
                         }
@@ -417,186 +321,7 @@ class PurchasedPackage extends Component {
               </div>
             </div>
           )
-        //     );
-        //     }else{
-        //       return(
-        //       <div>    
-        //         <div className="content-wrapper">
-        //           <section className="content-header">
-        //             {!this.props.examMasterData ?
-        //             <h1>Start Main Exam </h1>
-        //             :
-        //             <h1>Start Main Exam</h1>
-        //             }
-        //           </section>
-        //           <section className="content viewContent">
-        //             <div className="row">
-        //               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-        //                 <div className="box">
-        //             <div className="box-header with-border boxMinHeight  studDataNotExist">
-        //                 <div className="examLoadingTimeDiv">
-        //             {this.tryPELoadingAgainforBtn()}
-        //             </div>
-        //             </div>
-        //             </div>
-        //               </div>
-        //             </div>
-        //           </section>
-        //         </div>
-        //       </div>
-        //       );
-        //     } 
-        //     }else{
-        //        return(
-        //         <div> 
-        //           <div className="content-wrapper">
-        //             <section className="content-header">
-        //               <h1>Package List</h1>
-        //             </section>
-        //               <section className="content viewContent">
-        //                   <div className="row">
-        //                     <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-        //                       <div className="box">
-        //                         <div className="box-header with-border boxMinHeight">
-        //                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Packages Not Purchased Yet...!!!</div>
-        //                         </div>
-        //                      </div>
-        //                     </div>
-        //                   </div>
-        //               </section>
-        //           </div>
-        //         </div>
-             
-        //       );
-
-        //     } 
-        //     }else if (this.state.facilityPermission == false ){
-        //       return (<div>{FlowRouter.go('/noAccesss')}</div>);
-        //   }else if(this.state.facilityPermission == "waitingforResult"){
-        //     return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-        //      <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-        //   </div>);
-        //   }else{ 
-        //   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-        // }    
-        //   }
+       
       }
 } export default PurchasedPackage;
-// export default IAgreeAndStartExamContainer = withTracker(props=>{
 
-// var urlPackageId= FlowRouter.getParam("packageId");
-// clearInterval(Session.get("interval"));
-
-// const postHandle   = Meteor.subscribe("LoginInStudent",Meteor.userId());
-// const LoadingTest  = !postHandle.ready();
-// var studentData    = StudentMaster.findOne({"studentId":Meteor.userId()})||{};
-
-// var buyerID = Meteor.userId();
-// // var myPackageHandle = Meteor.subscribe("allPackageOrder");
-// var myPackageHandle = Meteor.subscribe("allPackageOrderStudentwise",buyerID);
-// var loadingData     = !myPackageHandle.ready(); 
-// var packageReport  = PackageOrderMaster.findOne({"buyerId":buyerID,"status":"paid"});
-// // console.log("packageReport",packageReport);
-
-// const postHandle2  = Meteor.subscribe("instruction_PE");
-// const loadingTest2 = !postHandle2.ready();
-// var PE_Instruction    = InstructionMaster.findOne({"instructionFor" : "Practice Exam"})||{};
-
-// // var postHandle3    = Meteor.subscribe("quesPaperPracticeExam");
-// var   LoadingTest3    = !postHandle.ready();
-// const postHandle4     =  Meteor.subscribe('InCompletedExam');
-
-// const loadingTest4    = !postHandle4.ready();
-// const postHandle6     =  Meteor.subscribe('LoginStudTodaysExam',moment().format("DD/MM/YYYY"));
-
-// const loadingTest6    = !postHandle6.ready();
-// const postHandle5     =  Meteor.subscribe('loginUserPackageQP',Meteor.userId());
-// const loadingTest5    = !postHandle5.ready();
-
-// // const postHandlePackage   = Meteor.subscribe("packageManagementData");
-// // const LoadingPackage  = !postHandlePackage.ready();
-
-// if(studentData.studentEmail){
-//   var postHandle3    = Meteor.subscribe("quesPaperPracticeExamSingle",studentData.category,studentData.subCategory);
-//   var practiceQPData =  QuestionPaperMaster.find({"category":studentData.category, "subCategory":studentData.subCategory, "examType" : "Practice Exam","isDraft":"","paperStatus" : "Assigned"}).fetch();
-//   // console.log("practiceQPData",practiceQPData);
-//   var myPracticeExamMasterData = MyPracticeExamMaster.findOne({"StudentId":Meteor.userId(),"examStatus":"InCompleted"})||{};
-//   var myPEMSEStatus = MyPracticeExamMaster.find({"StudentId":Meteor.userId(),"date":moment().format("DD/MM/YYYY")}).fetch();
-//   var PackageQPMData = PackageQuestionPaperMaster.find({"buyerId":Meteor.userId()},{fields:{"companyId":0,"franchiseId":0,"studentFullName":0,"buyerId":0}}).fetch();
-//   var attemptArray=[];
-//   if(PackageQPMData && PackageQPMData.length> 0 ){
-//     for(var i = 0;i<PackageQPMData.length;i++){
-//       var idd=PackageQPMData[i].packageId;
-//       var  postHandlePackage   = Meteor.subscribe("packageManagementDataPackageIdwise",idd);
-//       var  LoadingPackage  = !postHandlePackage.ready();
-//       var pckgData = PackageManagementMaster.findOne({"_id":idd});
-//       // console.log("pckgData",pckgData);
-
-//       if(pckgData){
-//        PackageQPMData[i].AttemptOfPracticeTest = parseInt(pckgData.AttemptOfPracticeTest);
-//        attemptArray.push(parseInt(pckgData.AttemptOfPracticeTest));
-//       }
-//     }
-//   }
-//   var  sorted = attemptArray.slice().sort(function(a, b) {
-//     return a - b;
-//   });
-//    var maxAttempt  = sorted[sorted.length - 1];
-//    var blankCount=[];
-//     if(PackageQPMData && PackageQPMData.length> 0 ){
-//     for(var i = 0;i<PackageQPMData.length;i++){
-//       blankCount.push(maxAttempt-PackageQPMData[i].AttemptOfPracticeTest);
-       
-//     }
-//   }
-//   for(i=0;i<blankCount.length;i++){
-//     var cnt=blankCount[i];   
-//     for(z=0;z<=cnt;z++){
-//       var obj={"status":"--"};    
-    
-//      if(PackageQPMData && PackageQPMData.length> 0 ){
-//         for(var i = 0;i<PackageQPMData.length;i++){
-//            // PackageQPMData[i].noOfAttempts.push(obj);
-//            if(PackageQPMData[i].noOfAttempts.length<maxAttempt){
-//             PackageQPMData[i].noOfAttempts.push(obj);
-//            }else{
-//                null
-//            }
-//         }
-//       }
-//     }
-//     obj='';
-//   }
-
-//   if(myPracticeExamMasterData){
-//     var lastExamId = myPracticeExamMasterData._id;
-//   }else{
-//     var lastExamId = '';
-//   }
-// }else{
-//   var status = '';
-// }
-
-
-
-
-// return {
-// LoadingTest,
-// loadingTest2,
-// LoadingTest3,
-// loadingTest4,
-// practiceQPData,
-// status,
-// PE_Instruction,
-// lastExamId,
-// PackageQPMData,
-// myPEMSEStatus,
-// LoadingPackage,
-// urlPackageId,
-// packageReport,
-// maxAttempt,
-// blankCount,
-
-// }
-
-// })(PurchasedPackage);

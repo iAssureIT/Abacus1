@@ -1,20 +1,7 @@
 import React from 'react';
 
-class PageNotFound extends React.Component{
-  
-  componentDidMount(){
-  //   if ( !$('body').hasClass('adminLte')) {
-  //     var adminLte = document.createElement("script");
-  //     adminLte.type="text/javascript";
-  //     adminLte.src = "/js/adminLte.js";
-  //     $("body").append(adminLte);
-  //   }
-  }
-    
-  componentWillUnmount(){
-    // $("script[src='/js/adminLte.js']").remove();
-    // $("link[href='/css/dashboard.css']").remove();
-  }
+class PageNotFound extends React.Component{ 
+ 
   render(){
     return(
       <div>

@@ -34,28 +34,7 @@ class IAgreeAndStartExam extends (Component)  {
 	          console.log(error);
 	        })
 	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
 	
-	componentWillMount(){
-  // 		 Meteor.call("isAuthenticated","MainExam","StartMainExam",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		if(res==true){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }else if(res==false){
-		//           this.setState({
-		//              facilityPermission : res,
-		//           });
-		//         }
-		// 	}
-		// });
-  	}
 
 	startExam(event){
 		if($('.mainExamCheckbox').is(':checked')){
@@ -68,40 +47,19 @@ class IAgreeAndStartExam extends (Component)  {
 	        navigator.mozGetUserMedia ||
 	        navigator.msGetUserMedia);
 			navigator.getMedia({video: true},()=>{
-			  	console.log("webcam is available");
-				const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+				const studentId = localStorage.getItem("user_ID");
 				var compId = this.props.match.params.compId;
-			  	console.log("/"+compId+'/'+studentId);
-
 				axios
 			        .post('/startexamcategorywise/'+compId+'/'+studentId)
-			        .then((response)=>{
-						console.log('ID',response.data);
+			        .then((response)=>{						
 						this.props.history.push('/startExam/'+compId+'/'+response.data.ID);
 			        })
-			        .catch(function(error){
-			          	console.log(error);
+			        .catch(function(error){			          	
 			          	$('.startExamBtn').css('display','Block');
 						$('.wrProcessing').css('display','none');
 			        })
 			  
-			//   Meteor.call("StartExamCategoryWise",FlowRouter.getParam('competitionId'),(error,result)=>{
-			// 	if(error){
-			// 		swal(error);
-			// 	}else{
-			// 		var id = result;
-			// 		// console.log("id",id);
-			// 		if(id){
-			// 			// Meteor.call("updateMyExamFee",id); 
-			// 			// location.reload();
-						// this.props.history.push('/startExam/'/*+id*/);
-			// 		}else{
-						// $('.startExamBtn').css('display','block');
-						// $('.wrProcessing').css('display','none');
-						// swal("Please start exam again","This is happened due to bad internet connection","warning");
-			// 		}
-			// 	}
-			// });
+
 
 			}, function() {
 				$('.startExamBtn').css('display','Block');
@@ -122,8 +80,6 @@ class IAgreeAndStartExam extends (Component)  {
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
-		  console.log("webcam is available");
-		  // FlowRouter.go("/startExam/"+id);
 		  }, function() {
 		  	// FlowRouter.go('/iAgreeAndStartExam');
 		    swal("As per our rule, you will be not allowed to attempt exam without camera","","warning");
@@ -144,14 +100,7 @@ class IAgreeAndStartExam extends (Component)  {
 			  cancelButtonText   : 'No',
 			  closeOnConfirm     : false
 			}, function() {
-			// Meteor.call("ExamFinished",id,(error,result)=>{
-			// 	if(error){
-
-			// 	}else{
-			// 		FlowRouter.go("/iAgreeAndStartExam");
-			// 		Meteor.call("removeTempCurMEStudData");
-			// 	}
-			// });
+			
 
 		});
 	}
@@ -211,9 +160,7 @@ class IAgreeAndStartExam extends (Component)  {
 	}
 	
 	render(){
-		
-		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-			$('.sidebar').css({display:'block',background: '#222d32'});
+		$('.sidebar').css({display:'block',background: '#222d32'});
 		if(this.state.showstartbtn){
 		if(!this.props.loadingCRO && !this.props.loading && !this.props.loadingMyExam){
 
@@ -315,37 +262,7 @@ class IAgreeAndStartExam extends (Component)  {
 					</div>
 				);
 			}
-		// 	}else if (this.state.facilityPermission == false ){
-		// 	  	return (<div>{this.props.history.push('/noAccesss')}</div>);
-		//   }else if(this.state.facilityPermission == "waitingforResult"){
-		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-		// 	   <img className=" loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-		// 	</div>);
-		//   }else{ 
-		//   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		// }
+		
 	}
 }
 export default IAgreeAndStartExam;
-// export default IAgreeAndStartExamContainer = withTracker(props=>{
-// 	clearInterval(Session.get("MainExaminterval"));
-// 	var PostHandle      = Meteor.subscribe("singleCompetition",FlowRouter.getParam('competitionId'));
-// 	var loading         = !PostHandle.ready();
-// 	var competitionData = ExamMaster.findOne({"_id":FlowRouter.getParam('competitionId')})||{};
-// 	var PostHandleCROrder = Meteor.subscribe("latestCRONewSingle",competitionData._id);
-// 	var loadingCRO        = !PostHandleCROrder.ready();
-// 	var isStudentRegisterForComp = CompetitionRegisterOrder.findOne({"studentId":Meteor.userId(),"competitionId":competitionData._id,"status":"paid"},{sort:{"paymentDate":-1}})||{};
-// 	if(isStudentRegisterForComp){
-// 		var PostHandleMyExam = Meteor.subscribe("showSinglePaperNewStudentwise",isStudentRegisterForComp.competitionId);
-// 		var loadingMyExam    = !PostHandleMyExam.ready();
-// 	}
-// 	return {
-// 		loadingCRO,
-// 		loadingMyExam,
-// 		// LoadingTest,
-// 		// loadingTest2,
-// 		competitionData,
-// 		loading,
-// 	}
-
-// })(IAgreeAndStartExam);

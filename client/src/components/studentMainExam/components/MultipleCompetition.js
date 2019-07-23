@@ -39,37 +39,15 @@ class MultipleCompetition extends (Component)  {
 			todayDate : moment(new Date()).format('L'),
 			competitionData: [], 
 			studentRegStatus : "Registered",
-			// competitionData: [{
-			// 	_id : '',
-			// 	competitionName : '',
-			// 	competitionDate : '',
-			// 	startTime : '',
-			// 	endTime : '',
-			// 	studentPaymentStatus : '',
-			// 	examDate : '',
-			// 	lastInCompExamIdStatus : '',
-			// 	examDataStatus : '',
-			// 	competitionStatus : '',
-			// 	examStartStatus : '',
-			// 	competitionFees : '',
-			// 	timeStatus : '',
-			// 	examYear : '',
-			// 	competitionFees :'',
-			// 	examId : ''
-			// 	// PayDate : '',
-			// 	// currentExamDate : '',
-			// }],
+			
 		}
 		
 	}
 	componentDidMount(){
 		clearInterval(localStorage.getItem("MainExaminterval"));
-		localStorage.removeItem("MainExaminterval");
-		
+		localStorage.removeItem("MainExaminterval");		
 		var i = 0;
-
-
-		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		const studentId = localStorage.getItem("user_ID");
 		var array=[];
 		var competitions 		= [];
 		var studentCompetitions = [];
@@ -78,13 +56,9 @@ class MultipleCompetition extends (Component)  {
 		var currentTime     = moment(today).format('LT');
 		if(studentId){
 			var k = 0;
-			// console.log("studentId in list",studentId);
 			axios
 				.get('/studentmaster/details/'+studentId)
 				.then((studentdata)=>{
-
-						
-						// console.log('student ',studentdata);
 						var studentData = studentdata.data;
 						if(studentData==null){
 							this.setState({
@@ -94,12 +68,9 @@ class MultipleCompetition extends (Component)  {
 							this.setState({
 					  			studentRegStatus : "Registered"
 					  		})
-
-
 							axios
 								.get('/exammasters/list')
 								.then((competitionData)=>{
-									// console.log('competitionData ',competitionData);
 										var competitionData = competitionData.data;
 										if(competitionData){
 											if(currentTime){
@@ -161,19 +132,14 @@ class MultipleCompetition extends (Component)  {
 														});
 													}//end of competitionData[i] && studentData
 												}//end of for llo[]
-												if(competitionData.length == competitions.length){
-														// console.log("competitionData =>>>> ",competitions);		
+												if(competitionData.length == competitions.length){		
 													axios
 															.get('/competitionregisterorder/mainexam/'+studentId)
 															.then((competitionsList)=>{
-																// console.log('competitionsList ',competitionsList.data);
 																studentCompetitions = competitionsList.data;
 																axios
 																		.get('/myexammasters/dashboard/'+studentId)
 																		.then((myexamres)=>{
-																			console.log("competitions Data=====> ",competitions);
-																			console.log("studentCompetitions Data=====> ",studentCompetitions);
-																			console.log("myexamres Data=====> ",myexamres.data);
 																			var myexammasters = myexamres.data;
 																			for(var sc = 0; sc < studentCompetitions.length; sc++){
 																				var scindex = competitions.findIndex((data)=>{
@@ -184,13 +150,8 @@ class MultipleCompetition extends (Component)  {
 																					var myemindex = myexammasters.findIndex((data)=>{
 																						return data.competitionId == studentCompetitions[sc].competitionId
 																					});
-																					console.log("myemindex==out===> ",myemindex);
 
-																					if(myemindex > -1){
-																					console.log("myemindex=====> ",myemindex);
-
-																					console.log("myexammasters[myemindex]=====> ",myexammasters[myemindex]);
-
+																					if(myemindex > -1){	
 																						competitions[scindex].examDataStatus = myexammasters[myemindex].examStatus;
 																						competitions[scindex].examId = myexammasters[myemindex].examId;
 																					}
@@ -223,28 +184,20 @@ class MultipleCompetition extends (Component)  {
 				});
 		}
 	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
+	
 
 	startExam(event){
 		event.preventDefault();
 		navigator.getMedia = ( 
-		// navigator.getUserMedia || // use the proper vendor prefix
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 		navigator.getMedia({video: true}, function() {
-		  console.log("webcam is available");
-		  	const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		  	const studentId = localStorage.getItem("user_ID");
 				var compId = $(event.target).attr('data-id');
-			  	console.log("/"+compId+'/'+studentId);
-
 				axios
 			        .post('/startexamcategorywise/'+compId+'/'+studentId)
-			        .then((response)=>{
-						console.log('ID',response.data);
+			        .then((response)=>{						
 						this.props.history.push('/startExam/'+response.data);
 			        })
 			        .catch(function(error){
@@ -257,111 +210,12 @@ class MultipleCompetition extends (Component)  {
 		
 	}
 
-	gotoPreviousMainExam(event){
-	// 	var id = $(event.target).attr('id');
-	// 	var compId = $(event.target).attr('data-text');
-	// 	navigator.getMedia = ( 
-	// 	// navigator.getUserMedia || // use the proper vendor prefix
- //        navigator.webkitGetUserMedia ||
- //        navigator.mozGetUserMedia ||
- //        navigator.msGetUserMedia);
-	// 	navigator.getMedia({video: true}, function() {
-	// 	  // console.log("webcam is available");
-	// 	  FlowRouter.go("/startExam/"+id);
-	// 	  }, function() {
-	// 	  	FlowRouter.go('/iAgreeAndStartExam/'+compId);
-	// 	    swal("As per our rule, you will be not allowed to attempt exam without camera","","warning");
-	// 	});
-	// 	// FlowRouter.go("/startExam/"+id);
-	}
+	
 
-	MainExamComplete(event){
-	// 	var id = $(event.target).attr('id');
-	// 	swal({
-	// 		  title              : 'Are you sure?',
-	// 		  text               : 'You will not be able to attempt this exam!',
-	// 		  type               : 'warning',
-	// 		  showCancelButton   : true,
-	// 		  confirmButtonColor : '#dd6b55',
-	// 		  cancelButtonColor  : '#d44',
-	// 		  confirmButtonText  : 'Yes',
-	// 		  cancelButtonText   : 'No',
-	// 		  closeOnConfirm     : false
-	// 		}, function() {
-	// 		Meteor.call("ExamFinished",id,(error,result)=>{
-	// 			if(error){
-
-	// 			}else{
-	// 				FlowRouter.go("/iAgreeAndStartExam");
-	// 				Meteor.call("removeTempCurMEStudData");
-	// 			}
-	// 		});
-
-	// 	});
-	// }
-
-	// // this function is assuming due to bab internet or internet is not available this function will execute
-	// tryLoadingAgain(){
-	// 	 examTime = this.state.defaultTime;
-	// 	var LoadingInterval = setInterval(function() {
-		
-	// 	if(examTime){
-	// 	  var timer = examTime.split(':');
-	// 	  var minutes = parseInt(timer[0], 10);
-	// 	  var seconds = parseInt(timer[1], 10);
-	// 	  --seconds;
-	// 	  minutes = (seconds < 0) ? --minutes : minutes;
-	// 	  if (minutes < 0){
-	// 	  	clearInterval(LoadingInterval);
-	// 		$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
-
-	// 	  }else{
-	// 	  	 seconds = (seconds < 0) ? 59 : seconds;
-	// 		  seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-	// 		  minutes = (minutes < 10) ?  minutes : minutes;
-	// 		 $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
-	// 		  examTime = minutes + ':' + seconds;
-	// 		}
-	// 	}
-
-	// 	}, 1000);
-		
-	// }
-
-	// // this function is assuming due to bab internet or internet is not available this function will execute
-	// tryLoadingAgainforBtn(){
-	// 	 examTime = this.state.defaultBtnTime;
-	// 	var LoadingInterval = setInterval(function() {
-		
-	// 	if(examTime){
-	// 	  var timer = examTime.split(':');
-	// 	  var minutes = parseInt(timer[0], 10);
-	// 	  var seconds = parseInt(timer[1], 10);
-	// 	  --seconds;
-	// 	  minutes = (seconds < 0) ? --minutes : minutes;
-	// 	  if (minutes < 0){
-	// 	  	clearInterval(LoadingInterval);
-	// 		$('.examLoadingTimeDiv').html("Please check your internet connection or refresh your exam window");
-
-	// 	  }else{
-	// 	  	 seconds = (seconds < 0) ? 59 : seconds;
-	// 		  seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-	// 		  minutes = (minutes < 10) ?  minutes : minutes;
-	// 		 $('.examLoadingTimeDiv').html("Exam is loading... Please Wait");
-	// 		  examTime = minutes + ':' + seconds;
-	// 		}
-	// 	}
-
-	// 	}, 1000);
-		
-	}
 	
 
 
 	render(){
-		console.log("studentRegStatus render",this.state.studentRegStatus);
 			return(
 				<div>
 			        {/* Content Wrapper. Contains page content */}
@@ -391,8 +245,7 @@ class MultipleCompetition extends (Component)  {
 										    {this.state.competitionData/*.length>0*/ ?
 											    <tbody >
 											     	{this.state.competitionData.map((competitionInfo,index)=>{
-											     		// var comp = competitionInfo;
-											     		// console.log("this.props.competitionInfo---->",competitionInfo);
+											     		
 
 											    return (<tr key={index}>
 											     			<td>{index+1}</td>
@@ -516,144 +369,6 @@ class MultipleCompetition extends (Component)  {
 					</div>
 				</div>
 			);
-			/*}else{
-				return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-				   <img className=" loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-				</div>);
-			}
-		 }else if (this.state.facilityPermission == false ){
-			  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
-		  }else if(this.state.facilityPermission == "waitingforResult"){
-		  	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-			   <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-			</div>);
-		  }else{ 
-		  return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-				   <h3>You dont have access. Please <a href="/admin/AssignPermissionstoModules/ShowAll">click here </a> to assign permission</h3>
-				</div>);
-		}*/
+			
 	}
 } export default MultipleCompetition;
-
-// export default MultipleCompetitionContainer = withTracker(props =>{	
-// 	clearInterval(Session.get("MainExaminterval"));
-// 	const postHandle    = Meteor.subscribe("LoginInStudent",Meteor.userId());
-// 	const LoadingTest   = !postHandle.ready();
-// 	const postHandle3   = Meteor.subscribe("showLoginStudInCompleteExam");
-// 	const loadingTest3  = !postHandle3.ready();
-// 	// const postHandle2   = Meteor.subscribe("instruction_ME");
-// 	// const loadingTest2  = !postHandle2.ready();
-// 	var studentData     = StudentMaster.findOne({"studentId":Meteor.userId()})||{};
-// 	var PostHandle      = Meteor.subscribe("latestCompetition");
-// 	var loading         = !PostHandle.ready();
-// 	var today           = new Date();
-// 	var todayDate       = moment(today).format('L');
-// 	var currentTime     = moment(today).format('LT');
-
-// 	var competitionData = ExamMaster.find({},{sort:{"competitionDate":-1}}).fetch()||{};
-
-// 	for(i=0;i<competitionData.length;i++){
-// 		if(competitionData[i] && studentData){
-// 			competitionData[i].examDate = moment(competitionData[i].competitionDate).format('L');
-// 			competitionData[i].EXAMDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
-// 			competitionData[i].viewStatus = competitionData[i].competitionView;
-// 			var ExamStartTime = moment(currentTime, 'h:mma');
-// 			var ExamEndTime   = moment(competitionData[i].endTime, 'h:mma');
-
-// 			if(today.getTime()<(competitionData[i].competitionDate).getTime()){
-// 				competitionData[i].examYear = "Accept";
-// 			}else{
-// 				competitionData[i].examYear = "NotAccept";
-// 			}
-
-// 			if(todayDate>competitionData[i].examDate){
-// 				competitionData[i].examTimeStatus = "OldExam";
-// 			}else if(todayDate<=competitionData[i].examDate){
-// 				competitionData[i].examTimeStatus = "NewExam";
-// 			}
-// 			if(todayDate==competitionData[i].examDate && ExamStartTime>ExamEndTime){
-// 				competitionData[i].timeStatus = "invalid";
-// 			}else if(todayDate==competitionData[i].examDate && ExamStartTime<ExamEndTime){
-// 				competitionData[i].timeStatus = "valid";
-// 			}else{
-// 				competitionData[i].timeStatus = "nextCompetition";
-// 			}
-// 			// console.log("competitionData[i].timeStatu",competitionData[2].competitionName,competitionData[2].timeStatus,competitionData[2].examYear);
-// 			var studentCategory = competitionData[i].competitionExams;
-			
-// 			if(todayDate<=competitionData[i].examDate){
-// 					competitionData[i].nextExamStatus = "Present"
-// 				}else{
-// 					competitionData[i].nextExamStatus = "Absent"
-// 				}
-// 		}
-// 		competitionData[i].PayDate         = moment(competitionData[i].createdAt).format('MMM Do YYYY');
-// 		competitionData[i].currentExamDate = moment(competitionData[i].examDate).format("DD/MM/YYYY");
-
-// 		// console.log("studentCategory",studentCategory);
-// 		if(studentCategory){
-// 			var index                = studentCategory.findIndex(data => data.subCategory == studentData.subCategory);
-// 			var categoryWiseExamData = studentCategory[index];
-// 			if(categoryWiseExamData){
-// 				competitionData[i].examStartStatus = categoryWiseExamData.examStatus;
-// 			}
-			
-// 		}
-		
-// 		var PostHandleCROrder        = Meteor.subscribe("latestCRONew",competitionData[i]._id);
-// 		var loadingCRO               = !PostHandleCROrder.ready();
-// 		var isStudentRegisterForComp = CompetitionRegisterOrder.findOne({"studentId":Meteor.userId(),"competitionId":competitionData[i]._id,"status":"paid"})||{};
-// 		// console.log("isStudentRegisterForComp",isStudentRegisterForComp);
-// 		if(isStudentRegisterForComp && isStudentRegisterForComp._id){
-
-// 			competitionData[i].studentPaymentStatus="paid";
-// 			var PostHandleMyExam = Meteor.subscribe("showSinglePaperNew",isStudentRegisterForComp.competitionId);
-// 			var loadingMyExam    = !PostHandleMyExam.ready();
-// 			var examData         = MyExamMaster.findOne({"competitionId":isStudentRegisterForComp.competitionId,"StudentId":Meteor.userId()})||{};
-// 		// console.log("examData",examData);
-// 			if(examData){
-// 				competitionData[i].examDataStatus = examData.examStatus;
-// 				competitionData[i].examId         = examData._id;
-// 			}
-// 		}else{
-// 			competitionData[i].studentPaymentStatus = "unPaid";
-// 		}
-// 		// var ME_Instruction = InstructionMaster.findOne({"instructionFor" : "Main Exam"})||{};
-// 		var LastIncompleteExam = MyExamMaster.findOne({"StudentId":Meteor.userId(),"competitionId":isStudentRegisterForComp.competitionId,"examStatus" : "InComplete"})||{};
-// 		if(LastIncompleteExam){
-// 			var lastInCompExamId                      = LastIncompleteExam._id;
-// 			competitionData[i].lastInCompExamIdStatus = lastInCompExamId;
-
-// 		}else{
-// 			lastInCompExamId = '';
-// 			competitionData[i].lastInCompExamIdStatus='';
-// 		}
-// 	}
-// 	// console.log("competitionData",competitionData);
-
-// 	return {
-		
-// 		// ME_Instruction,
-// 		// lastInCompExamId,
-// 		loadingCRO,
-// 		loadingMyExam,
-// 		LoadingTest,
-// 		// loadingTest2,
-// 		loadingTest3,
-// 		isStudentRegisterForComp,
-// 		competitionData,
-// 		// PayDate,
-// 		todayDate,
-// 		currentTime,
-// 		studentData,
-// 		loading,
-// 		categoryWiseExamData,
-// 		examData,
-// 		// examDate,
-// 		// nextExamStatus,
-// 		// currentExamDate,
-// 		// examTimeStatus,
-// 		// timeStatus
-// 	}
-
-// })(MultipleCompetition);

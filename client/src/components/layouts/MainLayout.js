@@ -53,13 +53,11 @@ class MainLayout extends Component{
     	logout 	 : true
     }
     this.updateState = this.updateState.bind(this);
-    console.log("in constructor");
   }
    
   componentWillMount(){
     var token = localStorage.getItem("token");
       if(token!=null){
-	      console.log("in componentDidMount");
 	      this.setState({
 	        loggedIn : true,
 	        logout   : false
@@ -69,7 +67,6 @@ class MainLayout extends Component{
 
   updateState(data){
     this.setState({
-      // "loggedIn" : false,
       "logout": data,
     },()=>{
     	if (this.state.logout) {
@@ -84,13 +81,9 @@ class MainLayout extends Component{
     })
   }
 
-  componentDidUpdate() {
-	  console.log("in did update layout");
-	}
+
 
   render(){
-   
-    console.log("local stoarage = ",localStorage.getItem("token"));
    if(localStorage.getItem("token")){
       return(
   		<Router>

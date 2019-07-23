@@ -7,15 +7,11 @@ import moment 				from 'moment';
 import S3FileUpload 		from 'react-s3';
 import $ 					from 'jquery';
 import {render} 			from 'react-dom';
-
-
-// import 'bootstrap/dist/js/bootstrap.min.js';
 declare var jQuery: any;
 
 class StartExam extends (Component)  {
 	constructor(props){
 		super(props);
-		// console.log('this.props.id',this.props.id);
 		this.state={
 			'screenshot'		: null,
           	'tab'       		: 0,
@@ -54,19 +50,16 @@ class StartExam extends (Component)  {
 	componentWillMount(){
 
 		navigator.getMedia = ( 
-		// navigator.getUserMedia || // use the proper vendor prefix
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
-		navigator.getMedia({video: true}, function() {
-		  // console.log("webcam is available");
-		  
+		navigator.getMedia({video: true}, function() {		  
 		  }, function() {
 		  	this.props.history.push('/iAgreeAndStartExam');
 		    swal("As per company's rule, Student will be not allowed to attempt the final exam without camera","","warning");
 		});
 
-		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		const studentId = localStorage.getItem("user_ID");
 		var compId = this.props.match.params.compId;
 		var examId = this.props.match.params.examId;
 		$("#0").addClass('active');
@@ -75,15 +68,13 @@ class StartExam extends (Component)  {
 	        .get('/myexammasters/participation/'+compId+'/'+studentId+'/0')
 	        .then((response)=>{
 				var responseData = response.data;
-				var i = parseInt(response.data.data.length)- 1;
-				
-				this.showMainExamTime(responseData.data[i].examSolvingTime,responseData.data[i]._id);
-				
+				var i = parseInt(response.data.data.length)- 1;				
+				this.showMainExamTime(responseData.data[i].examSolvingTime,responseData.data[i]._id);		
 				
 				this.setState({
 					competitionName : responseData.data[i].competitionName 
 				},()=>{})
-				// this.props.history.push('/startExam/'+response.data);
+				
 	        })
 	        .catch(function(error){
 	          	console.log(error);
@@ -157,7 +148,7 @@ class StartExam extends (Component)  {
 
 	componentDidMount(){
 
-		const studentId = localStorage.getItem("user_ID")/*"E6BRdJtHMF9a6p7KF"*/;
+		const studentId = localStorage.getItem("user_ID");
 		var examId = this.props.match.params.examId;
 		axios
 	        .get('/myexammasters/getmainexamquestions/'+examId+'/'+studentId)
@@ -176,10 +167,8 @@ class StartExam extends (Component)  {
 
 		axios
 			.get('/myexammasters/getmainexamlastvisitedquestion/'+examId)
-			.then((response)=>{
-				
+			.then((response)=>{				
 				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1;
-
 				if(!response.data.lastVisitedQuestion){
 						this.setState(
 						{
@@ -199,13 +188,7 @@ class StartExam extends (Component)  {
 			})
 	}
 
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
 	
-// this function execute when student click on any option
-
 	getAnswerbyStud(event){
 		var checkedStatus 	= event.target.checked;
 		var index 			= event.target.getAttribute('data-qNum');
@@ -248,7 +231,7 @@ class StartExam extends (Component)  {
 			})
 	}
 
-// after question solve question number will get filled by green color
+
 
 	fillcolorwhenanswer(getqNum,studAnswer){
 		$('#qn'+getqNum).addClass("greenClor");
@@ -262,8 +245,7 @@ class StartExam extends (Component)  {
 
 		axios
 			.post('/myexammasters/exammarksupdate/'+examId+'/'+examTime)
-			.then((response)=>{
-				
+			.then((response)=>{				
 				this.props.history.push("/mainExamResult/"+examId);
 				clearInterval(this.screenshotInterval);
 				localStorage.removeItem("screenshot")
@@ -287,9 +269,7 @@ class StartExam extends (Component)  {
 			  	clearInterval(intervalMain);
 				var getExamTime = $('.countdownWrap').text();
 				clearInterval(this.screenshotInterval);
-				localStorage.removeItem("screenshot");
-
-				
+				localStorage.removeItem("screenshot");				
 				axios
 					.post('/myexammasters/exammarksupdate/'+examId+'/'+getExamTime)
 					.then((response)=>{
@@ -416,8 +396,6 @@ class StartExam extends (Component)  {
 											}
 											
 											if(index <this.state.questionArrayFromTC.length-1){
-												// console.log(this.state.questionArrayFromTC.length-1,"&&",index)
-
 											return (
 													<li data-target="#mySlideShow" key={index} data-slide-to={index} name={index} className={activeStatus+" A-"+index+' '+slides.attempted} id={"qn"+slides.questionNumber}>{index+1}</li>
 												);
@@ -432,7 +410,6 @@ class StartExam extends (Component)  {
 
 									  <div className="carousel-inner">
 										{ this.state.questionArrayFromTC.map( (slides,index)=>{
-									  // console.log("this.state.questionArrayFromTC",this.state.questionArrayFromTC)
 											if(index == this.state.qIndex){
 												var activeStatus = 'active';
 											}else{
@@ -441,15 +418,11 @@ class StartExam extends (Component)  {
 											}
 											
 											if(index <this.state.questionArrayFromTC.length-1){
-												//--------- align question verrtical  -------------//
 												var questionArr = slides.question;
-												// console.log("questionArr------> ",questionArr);
 												if(questionArr){
 													var questionArray =[];
 													for(var i=0; i<questionArr.length; i++){
-														// if(questionArr[i].length)
 														if((questionArr[i]%1)===0) {
-
 															questionArray.push(
 																<span className="quesDig" key={i}>{questionArr[i]} </span>
 															);
@@ -630,23 +603,4 @@ class StartExam extends (Component)  {
 	}
 }
 export default StartExam;
-// export default withTracker(props=>{
-// 	var id = FlowRouter.getParam("id");
-// 	const postHandle1     =  Meteor.subscribe('showSingleAnsPaper',id);
-// 	const loadingTest1    = !postHandle1.ready();
-	
-// 	var answerData        = MyExamMaster.findOne({"_id":id,"StudentId":Meteor.userId()})||{};
-// 	if(answerData){
-// 		var examStatus        = answerData.examStatus;
-// 		var examName          = answerData.examName;
-// 		var examTime          = answerData.examSolvingTime;
-// 	}else{var examStatus = "notExist";}
-// 	return{
-// 		id,
-// 		examName,
-// 		examStatus,
-// 		examTime,
-// 		loadingTest1,
-// 		answerData
-// 	};
-// })(StartExam);
+

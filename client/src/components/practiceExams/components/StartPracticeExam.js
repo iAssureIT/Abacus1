@@ -50,7 +50,6 @@ class StartPracticeExam extends (Component)  {
 		axios
 			.get('/mypracticeexammasters/practiceExam/'+practiceExamId+'/'+studentID)
 			.then((response)=>{
-				console.log("mypracticeexammasters = ",response.data);
 				var div = response.data.answerArray;
 				div.push("finish Exam")
 				this.setState({
@@ -61,49 +60,16 @@ class StartPracticeExam extends (Component)  {
 								examTime 			: response.data.examTime,
 								examName 			: response.data.examName,
 							 });
-				console.log("mypractice = ",div);
-
 			})
 			.catch(function(error){
 				console.log(error)
 			})
 
-				//======================================================
-				// 		Here you write which options is prechecked.
-				//======================================================
-
-				// var quesArray = this.state.questionArray;
-				// for(var i=0; i<quesArray.length; i++){
-				// 	quesArray[i].optionAcheck = false;
-				// 	quesArray[i].optionBcheck = false;
-				// 	quesArray[i].optionCcheck = false;
-				// 	quesArray[i].optionDcheck = false;
-
-				// 	if(quesArray[i].studAnswer !== ""){
-				// 		switch(quesArray[i].studAnswer){
-				// 			case "A" : quesArray[i].optionAcheck = "checked"; break;
-				// 			case "B" : quesArray[i].optionBcheck = "checked"; break;
-				// 			case "C" : quesArray[i].optionCcheck = "checked"; break;
-				// 			case "D" : quesArray[i].optionDcheck = "checked"; break;
-				// 		}
-				// 	}
-				// }
-
-				// if(i == quesArray.length){
-				// 	this.setState({
-				// 		questionArray : quesArray,
-				// 	});
-				// console.log("questionArray = ",quesArray);
-
-				// }
-
+				
 
 		axios
 			.get('/mypracticeexammasters/practiceExam/'+practiceExamId)
 			.then((response)=>{
-				console.log("visited Q  = ",response.data.lastVisitedQuestion);
-				console.log("visited Q answer = ",response.data.lastVisitedQAnswer);
-			// $('.'+response.data.lastVisitedQAnswer+'-'+response.data.lastVisitedQuestion).setAttr("checked", "checked");
 				var nextQ = parseInt(response.data.lastVisitedQuestion) + 1
 				if(!response.data.lastVisitedQuestion){
 						this.setState(
@@ -121,11 +87,7 @@ class StartPracticeExam extends (Component)  {
 				console.log(error)
 			})
 	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
-
+	
 	getPracticeAnswerbyStud(event){
 		event.preventDefault();
 		var checkedStatus = event.target.checked;
@@ -135,7 +97,6 @@ class StartPracticeExam extends (Component)  {
 		var examTime 	  = $('.countdownWrap').text();
 		var examId  	  = this.props.match.params.id;
 		var nextQues	  = parseInt(index) + 1;
-
 		if(studAnswer == correctAnswer){
 			var answer = "Correct";
 		}else{
@@ -150,8 +111,6 @@ class StartPracticeExam extends (Component)  {
 			"answer"     : answer,
 		};
 
-		console.log("getqNum = ",index," | studAnswer = ",studAnswer," | examTime = ",examTime," | examId = ",examId, " | Answer = ",answer);
-
 		$('#ind'+(this.state.qIndex)).hide();
 		$('.carousel-control-right').click();
 		$('.carousel-control-left').click();		
@@ -159,33 +118,14 @@ class StartPracticeExam extends (Component)  {
 		axios
 			.post('/mypracticeexammasters',formValues)
 			.then((response)=>{
-				console.log("mypracticeexammasters1 = ",response.data);
 				this.fillcolorwhenanswer(index,studAnswer);
 				this.clickRightLeftArraow();
-
-				// var quesArray = this.state.questionArray;
-				// switch(studAnswer){
-				// 	case "A" : quesArray[index].optionAcheck = "checked"; break;
-				// 	case "B" : quesArray[index].optionBcheck = "checked"; break;
-				// 	case "C" : quesArray[index].optionCcheck = "checked"; break;
-				// 	case "D" : quesArray[index].optionDcheck = "checked"; break;
-				// }
-
-				// this.setState({
-				// 	questionArray : quesArray,
-				// });
-
 				jQuery('#mySlideShow').carousel(nextQues);
 			})
 			.catch(function(error){
 				console.log("Error while selected answer = ", error)
 			})
-			// if(checkedStatus==true){
-			// 	console.log("in check");	
-			// 	jQuery('#mySlideShow').carousel({
-			// 	    interval: 100
-			// 	});
-			// }
+			
 	}
 
 	clickRightLeftArraow(){
@@ -219,9 +159,6 @@ class StartPracticeExam extends (Component)  {
 		}
 
 	}
-
-	// after question solve question number will get filled by green color
-
 	fillcolorwhenanswer(getqNum,studAnswer){
 		$('#qn'+getqNum).addClass("greenClor");
 	}
@@ -240,7 +177,6 @@ class StartPracticeExam extends (Component)  {
             var index       = this.props.match.params.btnIndex?this.props.match.params.btnIndex:"";
             var studentID   = localStorage.getItem("user_ID");
 	        var todayDate   = moment().format("MMM Do YY");
-	        console.log("quepaperID= ",quepaperID," | orderId= ",orderId," | packageID= ",packageID," | index= ",index," | studentID= ",studentID," | todayDate= ",todayDate,)
 	   		var values 		={
 	                            "practiceExamId"  : quepaperID,
 	                            "orderId"     : orderId,
@@ -261,7 +197,6 @@ class StartPracticeExam extends (Component)  {
 			axios
 			.post('/mypracticeexammasters/finishexam/'+this.props.match.params.id)
 			.then((response)=>{
-				console.log("free paper response = ",response.data);
 				this.props.history.push("/practiceExamResult/"+this.props.match.params.id)
 			})
 			.catch(function(error){
@@ -275,7 +210,6 @@ class StartPracticeExam extends (Component)  {
 			axios
 			.post('/mypracticeexammasters/finishexam/'+this.props.match.params.id)
 			.then((response)=>{
-				console.log("free paper response = ",response.data);
 				this.props.history.push("/practiceExamResult/"+this.props.match.params.id)
 			})
 			.catch(function(error){
@@ -287,7 +221,6 @@ class StartPracticeExam extends (Component)  {
 		if(examTime && id){
 			clearInterval(interval);
 			var interval = setInterval(()=>{
-			// localstorage.setItem("interval",interval);
 			  var timer = examTime.split(':');
 			  var minutes = parseInt(timer[0], 10);
 			  var seconds = parseInt(timer[1], 10);
@@ -295,10 +228,6 @@ class StartPracticeExam extends (Component)  {
 			  minutes = (seconds < 0) ? --minutes : minutes;
 			  if (minutes < 0){
 			  		clearInterval(interval);
-				  	// axios
-			    //     	.post('/mypracticeexammasters/finishexam/'+id)
-			    //     	.then((response)=>{console.log("finished practice exam");this.props.history.push("/practiceExamResult/"+id)})
-			    //     	.catch(function (error) {console.log(error)})
 			    this.endExam();
 			  }else{
 				  seconds = (seconds < 0) ? 59 : seconds;
@@ -313,21 +242,10 @@ class StartPracticeExam extends (Component)  {
 		}
 
 	}
-	// routTimefunction(){
-	// 	var id = this.props.match.params.id;
-
-	// 	this.state.rout?
-	// 	this.props.history.push("/practiceExamResult/"+id)
-	// 	:null
-	// }
-
-
-
-// this function is assuming due to bab internet or internet is not available this function will execute
+	
 	tryLoadingAgain(){
 		var examTime = this.state.defaultTime;
-		var LoadingInterval = setInterval(function() {
-		
+		var LoadingInterval = setInterval(function() {		
 		if(examTime){
 		  var timer = examTime.split(':');
 		  var minutes = parseInt(timer[0], 10);
@@ -350,12 +268,7 @@ class StartPracticeExam extends (Component)  {
 		}, 1000);		
 	}
 
-
-
-
 	render(){
-
-
 		if(this.state.questionArray){
 			if(this.state.examStatus!=="Completed"){	
 				if(this.state.questionArray.length>1){				
@@ -387,8 +300,6 @@ class StartPracticeExam extends (Component)  {
 
 												</div>
 												<div id="mySlideShow" ref={(ele)=> this.mySlideShow = ele} className="col-lg-8 col-md-8 col-sm-8 carousel mySlideShowbg1 slide" data-ride="carousel" data-interval="false">
-												{console.log("&&%%%%%%%%%%%%%%",this.state.qIndex)}
-									  
 													<ol id="configuration_sidebar_content1" className="carousel-indicators oesCarouselIndicator">
 															{ this.state.questionArray.map( (slides,index)=>{
 																	if(this.state.qIndex!==0){

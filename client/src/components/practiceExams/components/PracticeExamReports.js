@@ -4,12 +4,6 @@ import $ 					from "jquery";
 import axios 				from 'axios';
 import '../css/PracticeExam.css';
 
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import {withTracker} from 'meteor/react-meteor-data';
-// import TrackerReact from 'meteor/ultimatejs:tracker-react';
-// import {MyPracticeExamMaster} from '/imports/student/api/myPracticeExamMaster.js';
-// // import {MyPracticeExamMaster} from '/imports/admin/forms/student/api/myPracticeExamMaster.js';
-
 class PracticeExamReports extends /*TrackerReact*/(Component)  {
 	constructor(){
 		  super();
@@ -20,69 +14,32 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 		}
 	componentDidMount(){
 		const studentID = localStorage.getItem("user_ID");
-		// axios.get('/mypracticeexammasters/'+studentID)
 		axios.get('/mypracticeexammasters/'+studentID)
             .then((response)=> {
-                console.log("-------practiceExamReport------>>",response);
                 this.setState({
 		 			practiceExamReport : response.data
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
             });
-
-            
-		/*if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}*/
 	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
-
-  	componentWillMount(){
-  // 		 Meteor.call("isAuthenticated","PracticeExam","PracticeExamReports",(err,res)=>{
-		// 	if(err){
-		// 		console.log(err);
-		// 	}else{
-		// 		this.setState({
-		// 			 facilityPermission : res,
-		// 		});
-		// 	}
-		// });
-            
-  	}
-
-
 	
+  
 	examSolvingTime(start, end) {
 	    var m1 = start;
 		var m2 = end;
 		if(m1 && m2){
-
 			var min1 = m1.split(":");
 			var min2 = m2.split(":");
-
 			if(min1[1]=="00"){
 				min1[0]-=1;
 			}
 			var res1 = min1[0]-min2[0];
-
-
-			// var res2 = (min1[1]=="00") ? 60-min2[1] : (parseInt(min1[1])>parseInt(min2[1]))?min1[1]-min2[1]:min1[1]-0;
-
+			
 			var res2 = (min1[1]=="00") ? 60-min2[1] : min1[1]-min2[1];
 
 			if(res2==60){res1+=1;res2=0;}
-			console.log("res1,",res1);
-			console.log("res2,",res2);
 			return res1+":"+res2;
 		}else{
 			return "01:00";
@@ -90,17 +47,14 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 	}
 
 	render(){
-		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-		// 	$('.sidebar').css({display:'block',background: '#222d32'});
+		
 		return(
-			<div>
-		        {/* Content Wrapper. Contains page content */}
-		        <div className="content-wrapper">
-		          {/* Content Header (Page header) */}
+			<div>	      
+		        <div className="content-wrapper">		    
 		          <section className="content-header">
 		            <h1>My Exams</h1>
 		          </section>
-		          {/* Main content */}
+		         
 		          <section className="content viewContent">
 		            <div className="row">
 		              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
@@ -127,25 +81,24 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 									            
 									        </tr>
 									    </thead>
-									{this.state.practiceExamReport.length!=0 ?
-									    <tbody className="myAllTable">
-									     	{this.state.practiceExamReport.map((Exams,index)=>{
-									     	return (<tr key={index}>
-									     			<td className="tab-Table"></td>
-									     			<td>{Exams.examName}</td>
-									     			<td>{Exams.date}</td>
-									     			{/*<td>{moment(Exams.createdAt).format('DD/MM/YYYY')}</td>*/}
-									     			<td className="tab-Table">{Exams.category}</td>
-									     			<td className="tab-Table">{Exams.totalQuestion}</td>
-									     			<td className="tab-Table">{Exams.attemptedQues}</td>
-									     			<td className="tab-Table">{Exams.correctAnswer}</td>
-									     			<td className="tab-Table">{Exams.wrongAnswer}</td>
-									     			<td className="tab-Table">{this.examSolvingTime(Exams.originalTime,Exams.examTime)}</td>
-									     			<td className="tab-Table">{Exams.totalScore}</td>
-									     		</tr>)
-									     		})
-									     	
-									     }
+											{this.state.practiceExamReport.length!=0 ?
+											    <tbody className="myAllTable">
+											     	{this.state.practiceExamReport.map((Exams,index)=>{
+											     	return (<tr key={index}>
+											     			<td className="tab-Table"></td>
+											     			<td>{Exams.examName}</td>
+											     			<td>{Exams.date}</td>
+											     			<td className="tab-Table">{Exams.category}</td>
+											     			<td className="tab-Table">{Exams.totalQuestion}</td>
+											     			<td className="tab-Table">{Exams.attemptedQues}</td>
+											     			<td className="tab-Table">{Exams.correctAnswer}</td>
+											     			<td className="tab-Table">{Exams.wrongAnswer}</td>
+											     			<td className="tab-Table">{this.examSolvingTime(Exams.originalTime,Exams.examTime)}</td>
+											     			<td className="tab-Table">{Exams.totalScore}</td>
+											     		</tr>)
+											     		})
+											     	
+											     }
 									     
 									    </tbody>
 									:
@@ -167,26 +120,6 @@ class PracticeExamReports extends /*TrackerReact*/(Component)  {
 			</div>
 			);
 
-		// }else if (this.state.facilityPermission == false ){
-		// 	  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
-		//   }else if(this.state.facilityPermission == "waitingforResult"){
-		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-		// 	   <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-		// 	</div>);
-		//   }else{ 
-		//   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		// }
+		
 	}
 } export default PracticeExamReports;
-/*export default PracticeExamReportsContainer = withTracker(props=>{
-	// var myExamHandle = Meteor.subscribe("showAllStudPracticeExams",Meteor.userId());
-	var myExamHandle = Meteor.subscribe("showAllStudPracticeExamsSingle",Meteor.userId());
-	var loadingData = !myExamHandle.ready();	
-	var practiceExamReport = MyPracticeExamMaster.find({"StudentId":Meteor.userId(),"examStatus":"Completed"},{sort:{'createdAt':-1},fields:{"examName":1,"date":1,"category":1,"totalQuestion":1,"attemptedQues":1,"correctAnswer":1,"wrongAnswer":1,"originalTime":1,"totalScore":1,"examTime":1}}).fetch();
-	
-	return {
-		loadingData,
-		practiceExamReport
-	}
-})(PracticeExamReports);
-*/

@@ -36,12 +36,10 @@ class PracticeStartExam extends Component {
 		axios
 			.get('/studentmaster/details/'+studentID)
 			.then((response)=>{
-				// console.log("A/A1 = ",response.data.category);
 
 			axios
 		    	.get('/questionpapermasters/'+response.data.category+'/'+response.data.subCategory)
 	            .then((response)=> {
-					// console.log("A/A1 = ",response.data);
 	                this.setState({
 			 			practiceQPData : response.data,
 			 		},()=>{
@@ -66,25 +64,12 @@ class PracticeStartExam extends Component {
 		var updateData;
 
 		var qpData = this.state.practiceQPData;
-					// console.log("qpData qpData = ",qpData);
 		 			if(qpData){	
 		 				qpData.map((item,ind)=>{
-
 		 					axios
 								.get('/mypracticeexammasters/'+item._id+'/'+studentID)
 								.then((response)=>{
-
 									var examAttempt = response.data;
-									// updateData = qpData.find((data)=>{
-									// 	return data._id == item._id
-									// })
-
-									// item.status = 
-
-									console.log("updateData----->",updateData);
-									console.log("examAttempt----->",examAttempt);
-									// console.log("my prac tice = ",examAttempt,item._id);
-
 									if(examAttempt.length>0){
 
 									array.push({
@@ -96,7 +81,6 @@ class PracticeStartExam extends Component {
 									item.status = "Completed";
 
 									}else{
-										// data.freeExamStatus = "Not Completed"
 									array.push({
 										ind: ind,
 										pId : item._id,
@@ -118,81 +102,13 @@ class PracticeStartExam extends Component {
 
 
 		 				})
-
-
-		 				// for(var i=0;i<qpData.length;i++){
-							// 		console.log("qpData tice = ",qpData[i]);
-
-		 				// 	var data = qpData[i];
-		 				// 	id = data._id;
-		 				// 	if(id){
-							// 		console.log("my ids= ",id);
-
-					 	// 	axios
-							// 	.get('/mypracticeexammasters/'+id+'/'+studentID)
-							// 	.then((response)=>{
-
-							// 		var examAttempt = response.data;
-							// 		console.log("my prac tice = ",examAttempt,id);
-
-							// 		if(examAttempt.length>0){
-
-							// 		array.push({
-							// 			ind : i,
-							// 			pId : id,
-							// 			status : "Completed",
-							// 		});
-							// 		}else{
-							// 			// data.freeExamStatus = "Not Completed"
-							// 		array.push({
-							// 			ind: i,
-							// 			pId : id,
-							// 			status : "InComplete",
-							// 		});
-							// 		}
-							// 		this.setState({
-							// 			mypracticeexamstatus :array,
-							// 		});
-							// 	})
-							// 	.catch(function(error){
-
-							// 	})
-							// }
-
-							// data.freeExamStatus = "InCompleted"
-
-		 				
 		 			}
-
-		 		
-
 		 			this.setState({
 		 				practiceQPData : qpData
 		 			})
 
-
 	}
-	// componentWillMount(){
- //  // 		 Meteor.call("isAuthenticated","PracticeExam","StartFreePracticeExam",(err,res)=>{
-	// 	// 	if(err){
-	// 	// 		console.log(err);
-	// 	// 	}else{
-	// 	// 		if(res==true){
-	// 	//           this.setState({
-	// 	//              facilityPermission : res,
-	// 	//           });
-	// 	//         }else if(res==false){
-	// 	//           this.setState({
-	// 	//              facilityPermission : res,
-	// 	//           });
-	// 	//         }
-	// 	// 	}
-	// 	// });
- //  	}
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
+	
 	startPracticeExam(event){
 		event.preventDefault();
 		const studentID = localStorage.getItem("user_ID");
@@ -201,17 +117,13 @@ class PracticeStartExam extends Component {
 						showstartExamBtn:false,
 					});
 		var practiceExamId = event.target.value;
-		// console.log("practiceExamId = ",practiceExamId);
-		// this.props.history.push('/practiceExam/'+practiceExamId);
-
  		axios
 			.post('/purchasedpackage/startpracticeexam/'+practiceExamId+'/'+studentID)
-			// .get('/mypracticeexammasters/'+practiceExamId+'/'+studentID)
+			
 			.then((response)=>{
 
 				this.props.history.push('/practiceExam/'+response.data.ID);
-				// console.log("response start practiceeee ------= =========>",response);
-
+				
 				this.setState({
 					mypracticeexammasters :response.data
 				});
@@ -220,47 +132,16 @@ class PracticeStartExam extends Component {
 			.catch(function(error){
 
 			})
-
-		// Meteor.call("checkExamISsolveToday",practiceExamId,(error,result)=>{
-		// 	if(error){
-
-		// 	}else{
-		// 		// console.log("result",result);
-		// 		if(result=="exist"){
-		// 			this.setState({showstartExamBtn: true});
-		// 			swal("Sorry !!!"+'\n'+"You have already attempted this exam.","Every exam has only one attempt in a day, You can attempt this exam on next day","warning");
-		// 		}else{
-		// 			Meteor.call("StartPracticeExam",practiceExamId,(error,result)=>{
-		// 				if(error){
-		// 					swal(error);
-		// 				}else{
-		// 					var id = result;
-		// 					if(id){ 
-		// 						FlowRouter.go('/practiceExam/'+id);
-		// 					}
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-
-		// });
 		
 	}
 	gotoPreviousExam(event){
 		var id = $(event.target).attr('id');
-		// FlowRouter.go("/practiceExam/"+id);
 	}
 	ExamComplete(event){
 		var id = $(event.target).attr('id');
-		// Meteor.call("practiceExamFinished",id,(error,result)=>{
-		// 	if(error){
-
-		// 	}else{
-		// 		FlowRouter.go("/startPracticeExam");
-		// 	}
-		// });
+		
 	}
-	// this function is assuming due to bab internet or internet is not available this function will execute
+	
 	tryPELoadingAgainforBtn(){
 		var examTime = this.state.defaultBtnTime;
 		var LoadingInterval = setInterval(function() {
@@ -286,13 +167,8 @@ class PracticeStartExam extends Component {
 		}, 1000);
 	}
 	render(){ 
-		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-		// 	$('.sidebar').css({display:'block',background: '#222d32'});
-		//  if(this.state.showstartExamBtn){
-			console.log("this.state.practiceQPData",this.state.practiceQPData);
+		
 		var statusArray= this.state.mypracticeexamstatus;
-			// console.log("this.state.statusArray",statusArray);
-
 		return(
 			
 			<div>
@@ -310,13 +186,8 @@ class PracticeStartExam extends Component {
 				              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 				                <div className="box">
 
-					                {/*!this.props.LoadingTest3 ?
-					                  
-					                	this.props.status =="paid" ?
-
-					                		!this.props.loadingTest4 ?
-
-					                			!this.props.lastExamId ?*/
+					                {
+					               
 					                 
 					                				this.state.practiceQPData.length != 0 ?
 										                <div className="box-header with-border boxMinHeight ">
@@ -359,46 +230,7 @@ class PracticeStartExam extends Component {
 															 	Practice Exam not yet scheduled.
 															</div>
 									                    </div>
-					    //                 		: 
-					    //                 			this.state.showButton ? 
-									//                   	<div className=" box-header with-border boxMinHeight  studDataNotExist">
-									// 				  		<h3 className="col-lg-12 col-md-12 col-sm-12">It seems that you didn't complete your last exam. Do you wish to continue ? </h3>
-									// 	                	<div>
-									// 						 	<button className="btn btn-primary yesContinueBtn col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-lg-sm col-sm-offset-4 " id={this.props.lastExamId} onClick={this.gotoPreviousExam.bind(this)}>Yes, continue</button> &nbsp;&nbsp;&nbsp;&nbsp;
-									// 						 	<button className="btn btn-danger notContinueBtn col-lg-2 col-md-2  " id={this.props.lastExamId} onClick={this.ExamComplete.bind(this)}>No</button>
-									// 						</div>
-									//                    </div>
-					    //                				: 
-									//                   	<div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
-									// 		            	<div>
-									// 						 	Loading please wait...!!! 
-									// 						</div>
-									// 					 	<img src="/images/preloader.gif"/>
-									// 		            </div>
-													  	
-									//  		:
-									// 		 	<div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
-									//             	<div>
-									// 				 	Loading please wait...!!! 
-									// 				</div>
-									//             </div>
-						                
-									//   	:
-									// 	  	<div className=" box-header with-border boxMinHeight  studDataNotExist">
-							  //               	<div>
-									// 			 	Complimentary free exams are available only after you registered for competition. 
-									// 			</div>
-									// 			<div>
-									// 			 	<a className="blueLabel" href="/MultipleComp"> Click Here </a> to Register for competitions.
-									// 			</div>
-						   //                  </div>
-									// :
-									// 	<div className="box-header with-border boxMinHeight  studDataNotExist loadingImgWrap">
-							  //           	<div>
-									// 		 	Loading please wait...!!! 
-									// 		</div>
-									// 	 	<img src="/images/preloader.gif"/>
-							  //           </div>
+					  
 									}
 								</div>
 							  </div>
@@ -407,151 +239,8 @@ class PracticeStartExam extends Component {
 						</div>
 			</div>
 		);
-		// }else{
-		// 	return(
-		// 		<div>
-		// 	        {/* Content Wrapper. Contains page content */}
-		// 	        <div className="content-wrapper">
-		// 	          {/* Content Header (Page header) */}
-		// 	          <section className="content-header">
-		// 	            {!this.props.examMasterData ? 
-		// 	            	<h1>Start Practice Exam </h1> 
-		// 	            	: 
-		// 	            	<h1>Start Practice Exam</h1>
-		// 	            }
-		// 	          </section>
-		// 	          {/* Main content */}
-		// 	          <section className="content viewContent">
-		// 	            <div className="row">
-		// 	              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-		// 	                <div className="box">
-		// 					<div className="box-header with-border boxMinHeight  studDataNotExist">
-		// 					    <div className="examLoadingTimeDiv">
-		// 							{this.tryPELoadingAgainforBtn()}
-		// 						</div>
-		// 					</div>
-		// 					</div>
-		// 				  </div>
-		// 				</div>
-		// 			  </section>
-		// 			</div>
-		// 		</div>
-		// 	);
-		// }
-		// }else if (this.state.facilityPermission == false ){
-		// 	  	return (<div>{this.props.history.push('/noAccesss')}</div>);
-		//   }else if(this.state.facilityPermission == "waitingforResult"){
-		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-		// 	   <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-		// 	</div>);
-		//   }else{ 
-		//   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		// }
+		
 	}
 }
 export default PracticeStartExam;
-// export default IAgreeAndStartExamContainer = withTracker(props=>{
-	
-// 	clearInterval(Session.get("interval"));
-// 	const postHandle   = Meteor.subscribe("LoginInStudent",Meteor.userId());
-// 	const LoadingTest  = !postHandle.ready();
-// 	var studentData    = StudentMaster.findOne({"studentId":Meteor.userId()})||{};
-// 	const postHandle2  = Meteor.subscribe("instruction_PE");
-// 	const loadingTest2 = !postHandle2.ready();
-// 	var postHandle3    = Meteor.subscribe("quesPaperPracticeExam");
-// 	var LoadingTest3   = !postHandle.ready();
-// 	const postHandle4     =  Meteor.subscribe('InCompletedExam');
-// 	const loadingTest4    = !postHandle4.ready();
 
-// 	const postHandleCompletedExam            =  Meteor.subscribe('CompletedExam',Meteor.userId());
-// 	var LoadingTestpostHandleCompletedExam   = !postHandleCompletedExam.ready();
-
-// 	const postHandle6     =  Meteor.subscribe('LoginStudTodaysExam',moment().format("DD/MM/YYYY"));
-// 	const loadingTest6    = !postHandle6.ready();
-// 	const postHandle5     =  Meteor.subscribe('loginUserPackageQP',Meteor.userId());
-// 	const loadingTest5    = !postHandle5.ready();
-// 	var PE_Instruction    = InstructionMaster.findOne({"instructionFor" : "Practice Exam"})||{};
-
-// 	var PostHandleOrder = Meteor.subscribe("showAllCompRegOrder");
-// 	var loadingOrder = !PostHandleOrder.ready();
-// 	var isStudentRegisterForExam = CompetitionRegisterOrder.findOne({"studentId":Meteor.userId(),"status":"paid"})||{};
-
-
-// 	const postHandleInCompletedExamStatus            =  Meteor.subscribe('showStudentInCompleteExam');
-// 	var   LoadingTestpostHandleCompletedExam         = !postHandleInCompletedExamStatus.ready();
-
-// 	var isStudentRegisterForMultipleExam = CompetitionRegisterOrder.find({"studentId":Meteor.userId(),"status":"paid"},{fields:{"competitionId":1}}).fetch()||{};
-// 	if(isStudentRegisterForMultipleExam){
-// 		var MultipleExamLength=isStudentRegisterForMultipleExam.length;
-// 		if(MultipleExamLength>0){
-// 			for(j=0;j<MultipleExamLength;j++){
-	
-// 				var MainExamAttemptedData = MyExamMaster.find({"StudentId":Meteor.userId(),"examStatus" : "InCompleted"},{fields:{"examStatus":1}}).fetch()||{}
-
-// 			}
-// 		}
-// 	}
-	
-// 	if(MainExamAttemptedData){
-// 		if(MainExamAttemptedData.length>0){
-// 			var showFreeTest="Show";
-// 		}else{
-// 			var showFreeTest="Hide";
-// 		}
-// 	}
-// 	var PostHandlePaidStudentStatus          = Meteor.subscribe("singleStudent");
-// 	var loadingPaidStudentStatus             = !PostHandlePaidStudentStatus.ready();
-
-// 	var studentInfo=StudentMaster.findOne({"studentId":Meteor.userId()},{fields:{"competitionPaymentStatus":1}})||{};
-// 	 if(studentInfo){
-// 	 	if(studentInfo.competitionPaymentStatus=="paid"){
-// 	 		var studentPaid="Yes";
-// 	 	}else{
-// 	 		var studentPaid="No";
-// 	 	}
-// 	 }
-// 		if(studentData.studentEmail && (showFreeTest=="Show" || studentPaid=="Yes")){
-// 		var status = "paid";
-// 			var practiceQPData =  QuestionPaperMaster.find({"category":studentData.category, "subCategory":studentData.subCategory, "examType" : "Practice Exam","isDraft":"","paperStatus" : "Assigned"}).fetch();
-// 			if(practiceQPData.length>0){
-// 				var practiceQPDataLength=practiceQPData.length;
-// 				for(k=0;k<practiceQPDataLength;k++){
-// 					var paperData = MyPracticeExamMaster.findOne({"StudentId":Meteor.userId(),"examPaperId":practiceQPData[k]._id},{fields:{"examStatus":1}})||{};
-// 					if(paperData){
-// 						if(paperData.examStatus=="Completed"){
-// 							practiceQPData[k].freeExamStatus="Completed";
-// 						}else{
-// 							practiceQPData[k].freeExamStatus="InCompleted";
-// 						}
-// 					}
-// 				}
-// 			}
-
-// 			var myPracticeExamMasterData = MyPracticeExamMaster.findOne({"StudentId":Meteor.userId(),"examStatus":"InCompleted"})||{};
-// 			var myPEMSEStatus = MyPracticeExamMaster.find({"StudentId":Meteor.userId(),"date":moment().format("DD/MM/YYYY")}).fetch();
-		
-// 			var PackageQPMData = PackageQuestionPaperMaster.find({"buyerId":Meteor.userId()}).fetch();
-// 			if(myPracticeExamMasterData){
-// 				var lastExamId = myPracticeExamMasterData._id;
-// 			}else{
-// 				var lastExamId = '';
-// 			}
-// 	}else{
-// 		var status = '';
-// 		var practiceQPData = [];
-// 	}
-	
-// 	return {
-// 		LoadingTest,
-// 		loadingTest2,
-// 		LoadingTest3,
-// 		loadingTest4,
-// 		practiceQPData,
-// 		status,
-// 		PE_Instruction,
-// 		lastExamId,
-// 		PackageQPMData,
-// 		myPEMSEStatus
-// 	}
-
-// })(PracticePracticeStartExamStartExam);

@@ -30,50 +30,26 @@ class ParticipationCertificate extends (Component) {
 
 	axios.get('/exammasters',)
         .then((response)=> {
-            console.log("-------examMaster------>>",response.data);
             this.setState({
 	 			allCompetitions : response.data
 	 		});
-            // localStorage.setItem("token",response.data.token);
-            // direct.setState({loggedIn:response.data.token})
         })
         .catch(function (error) {
             console.log(error);
         });
-            
-		// if ( !$('body').hasClass('adminLte')) {
-		//   var adminLte = document.createElement("script");
-		//   adminLte.type="text/javascript";
-		//   adminLte.src = "/js/adminLte.js";
-		//   $("body").append(adminLte);
-		// }
 	}
 
-	componentWillUnmount(){
-    	// $("script[src='/js/adminLte.js']").remove();
-    	// $("link[href='/css/dashboard.css']").remove();
-  	}
+	
 
 	getCompetitionId(s){
-		// var studentId = localStorage.getItem("studentId");
-  //       this.setState({
-  //       	studentId:response.data.id
-  //       })
 		const studentID = localStorage.getItem("user_ID");
 		var competitionId = $("#selectId option:selected").attr("id");
 		var index = $("#selectId option:selected").attr("data-index");
-		console.log('competitionId= ',index);
 		if(competitionId){
 			$('.certicateCompWrap').addClass('addTransitionCCW');
-			// $('.addMoreCerthideBtn').addClass('addMoreCertBtn');
 			axios
-
 				.get('/myexammasters/participation/'+competitionId+'/'+studentID+'/'+index)
-
-
-
 	            .then((response)=>{
-	                console.log("-------myExamMaster------>>",response.data.data);
 	            	this.setState({
 			 			examData : response.data.data[0],
 			 			competitionStatus : false,
@@ -101,59 +77,33 @@ class ParticipationCertificate extends (Component) {
 	    alert("Please wait till document download.","success");	
 	    var outerInvoiceBlock = $('.certificateWrappers'),
 	    cache_width = outerInvoiceBlock.width();
-	    // a4  =[8.5,  11];  // for a4 size paper width and height
 	    this.getCanvas(cache_width);
 	}
 
-	// getCanvas(){
-	// 	html2canvas($('.certificateWrappers').get(0)).then( function (canvas) {
-	//     var img = canvas.toDataURL("image/png");
-	//     const jsPDF = require('jspdf');
-	// 	var   doc = new jsPDF({
-	// 	  			orientation:'landscape',
-	// 	          	unit:'in',
-	// 	          	format:'a4'
-	// 	        });
-	// 			var width = doc.internal.pageSize.width;
-	// 			var height = doc.internal.pageSize.height - 0;
-	// 	        doc.addImage(img, 'JPEG',0.18,1,width,height);
-	// 		    doc.save('ParticipationCertificate.pdf');
-	// 			canvas.save('ParticipationCertificate.pdf');
-			
-	// 	 var imgData = canvas.toDataURL("image/jpeg", 1.0);
- //        // var pdf = new jsPDF('landscape', 'mm', [297, 200]);
- //        var pdf = new jsPDF('landscape', 'mm', [297, 200]);
- //        pdf.addImage(imgData, 'JPEG', 0, 0, 297, 200);
- //        pdf.save("ParticipationCertificate.pdf");
- //        });
-	// }
+	
 
 	getCanvas(cachewidth){
-    html2canvas($('.certificateWrappers').get(0)).then( function (canvas) {
-    var certificateWrappers = $('.certificateWrappers');
-      var img = canvas.toDataURL("image/png");
-      if(canvas.width > canvas.height){
-         var doc = new jsPDF('landscape','mm','a4',[canvas.width, canvas.height]);
-      }else{
-          doc = new jsPDF('p', 'mm','a4',[canvas.height, canvas.width]);
-      }
-          doc.setFontSize(16); 
-          var width           = doc.internal.pageSize.getWidth(); 
-          var height          = doc.internal.pageSize.getHeight();
-          // var imgHeight       = (canvas.height * width) / canvas.width;
-          var position = 0;
-
-          doc.addImage(img, 'PNG', 0, position, width, height);
-          // doc.addImage(img, 'PNG', 0, position, width, imgHeight);
-          doc.save('ParticipationCertificate.pdf');
-          certificateWrappers.width(cachewidth);
-    });
-  }
+	    html2canvas($('.certificateWrappers').get(0)).then( function (canvas) {
+	    var certificateWrappers = $('.certificateWrappers');
+	      var img = canvas.toDataURL("image/png");
+	      if(canvas.width > canvas.height){
+	         var doc = new jsPDF('landscape','mm','a4',[canvas.width, canvas.height]);
+	      }else{
+	          doc = new jsPDF('p', 'mm','a4',[canvas.height, canvas.width]);
+	      }
+	          doc.setFontSize(16); 
+	          var width           = doc.internal.pageSize.getWidth(); 
+	          var height          = doc.internal.pageSize.getHeight();
+	          var position = 0;
+	          doc.addImage(img, 'PNG', 0, position, width, height);
+	          doc.save('ParticipationCertificate.pdf');
+	          certificateWrappers.width(cachewidth);
+	    });
+	  }
 
    
 	render() {
-		// if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-		// 	$('.sidebar').css({display:'block',background: '#222d32'});
+		
 		
        return (
        		<div>
@@ -182,8 +132,7 @@ class ParticipationCertificate extends (Component) {
 											<button className="btn btn-primary" >Get more Certificates</button>
 										</div>
 										{!this.state.examData=="" ?
-					                  		 // this.state.examData.answerArray ?
-					                  		 // 	 this.state.examData.answerArray.length > 0 ?
+					                  		
 					                  	 			<div>
 					                  	 				<div id="fader"></div>
 						                 				<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 studCCWrap">
@@ -237,10 +186,7 @@ class ParticipationCertificate extends (Component) {
 															</div>
 														</div>
 													</div>
-											// 	:
-											//     null
-											// :
-											// <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noCertificateMsg">Oops! You have to participate to get the certificate.</div>
+											
 							       		:
 							       			!this.state.competitionStatus ?
 							       				!this.state.examData ?
@@ -261,34 +207,9 @@ class ParticipationCertificate extends (Component) {
 
 	    );
 
-		// }else if (this.state.facilityPermission == false ){
-		// 	  	return (<div>{FlowRouter.go('/noAccesss')}</div>);
-		//   }else if(this.state.facilityPermission == "waitingforResult"){
-		//   	return(<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap">
-		// 	   <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-		// 	</div>);
-		//   }else{ 
-		//   return (<div className="col-lg-12 col-md-12 col-sm-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-		// }
-
-
 	} 
 
 }export default ParticipationCertificate;
 
-// export default ParticipationCertificateContainer = withTracker(props=>{
-// 	var studId         = Meteor.userId();
-// 	const postHandle   = Meteor.subscribe('showAllStudExams',studId);
-// 	const loading      = !postHandle.ready();
 
-// 	var examData       = MyExamMaster.findOne({"StudentId":studId})||{};
-	
-// 	return{
-// 		loading,
-// 		examData
-
-// 	}
-	
-	
-// })(ParticipationCertificate);
 

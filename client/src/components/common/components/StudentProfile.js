@@ -7,17 +7,10 @@ import PracticeStartExamForDashboard		from './PracticeStartExamForDashboard.js';
 import StudentRegistrationforCompetition	from './StudentRegistrationforCompetition.js';
 import axios 								from 'axios';
 import $									from 'jquery';
-
 import '../css/common.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/js/modal.js';
 import 'bootstrap/js/tab.js';
 declare var jQuery: any;
-
-// import ReactQuill from 'react-quill'; 
-// import 'react-quill/dist/quill.snow.css';
-// import  { Quill, Mixin, Toolbar } from 'react-quill'; 
-
 
 class StudentProfile extends Component{
 
@@ -29,27 +22,13 @@ class StudentProfile extends Component{
 	    	packageordermasters	 	: [],
 	    	packageData 			: [],
 	    	studentID 				: '',
-	        // content          	: '',
-	        // loginTime        	: '',
 	        loggedIn 				: false,
-	        refreshcnt : 0, 
+	        refreshcnt              : 0, 
 	        studentRegStatus        :"Registered",
 
 	    }
-
-    	// console.log("constructor loggedIn = ",this.state.loggedIn);
-  
-	    // this.handleChange = this.handleChange.bind(this);
 	}
 	
-	// handleChange(event){
-	//     const target = event.target;
-	//     const name   = target.name;
-	//     this.setState({
-	//       [name]: event.target.value,
-	//     });
- //  	}
-
 	componentWillMount(){
  		axios
 		  .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
@@ -62,33 +41,24 @@ class StudentProfile extends Component{
 		  		this.setState({
 		  			studentRegStatus : "Registered"
 		  		})
-
-		  	}
-		    
+		  	}		    
 		  })
-		  .catch(function (error){
-		    
+		  .catch(function (error){		    
 		  });
 
 
     	axios
 	    	.get('/notificationmasters/Broadcast')
             .then((response)=> {
-                // console.log("-------Notificationstatus------>>",response.data);
                 this.setState({
 		 			Notificationstatus : response.data,
 		 		});
-
-          		var resArray = response.data;        	
-          
+          		var resArray = response.data; 
 	          	if(resArray.length>0 && resArray[0]._id){
-                // console.log("-------in if------>>");
-				$('#showstatus').css('display','block');
-				$('#showstatus').css('overflow-y','auto');
-    	 		$('#showstatus').addClass('fade in');
-
+					$('#showstatus').css('display','block');
+					$('#showstatus').css('overflow-y','auto');
+	    	 		$('#showstatus').addClass('fade in');
 	          	}
-	  
 
             })
             .catch(function (error) {
@@ -97,20 +67,13 @@ class StudentProfile extends Component{
  	}
 
 	componentDidMount(){
-
 		const token = localStorage.getItem("token");
 		const studentID = localStorage.getItem("user_ID");
-
-
-
 		this.setState({
 			refreshcnt : 1
 		})
 
-
-	    // console.log("Dashboard Token = ",token);
 	    if(token!==null){
-	    console.log("Token Received");
 	    	this.setState({
 	    		loggedIn 	: true,
 	    		studentID 	: studentID
@@ -120,12 +83,9 @@ class StudentProfile extends Component{
 	    axios
 	    	.get('myexammasters/dashboard/'+studentID)
             .then((response)=> {
-                // console.log("-------dashboardReports------>>",response.data);
                 this.setState({
 		 			mainExamReport : response.data
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
@@ -135,12 +95,9 @@ class StudentProfile extends Component{
         axios
 	    	.get('/packageordermasters/'+studentID/*WyQY35LEFitPcabP5*/)
             .then((response)=> {
-                // console.log("-------packageordermasters------>>",response.data);
                 this.setState({
 		 			packageordermasters : response.data,
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
@@ -149,92 +106,24 @@ class StudentProfile extends Component{
         axios
 	    	.get('/packagemanagementmasters')
             .then((response)=> {
-                // console.log("-------packageData------>>",response.data);
                 this.setState({
 		 			packageData : response.data,
 		 		});
-                // localStorage.setItem("token",response.data.token);
-                // direct.setState({loggedIn:response.data.token})
             })
             .catch(function (error) {
                 console.log(error);
             });
-/*******************************************************************************************/
-
-	// 	if ( !$('body').hasClass('adminLte')) {
-	// 	  var adminLte = document.createElement("script");
-	// 	  adminLte.type="text/javascript";
-	// 	  adminLte.src = "/js/adminLte.js";
-	// 	  $("body").append(adminLte);
-	// 	}
-	// 	var studData = StudentMaster.findOne({"studentId":Meteor.userId()});
-
-	// 	 Meteor.call("getNotificationStatus",(err,res)=>{
- //          if(err){ 
- //          }else{ 
- //          	var resArray=res;        	
-          
- //          	if(resArray.length>0 && resArray[0]._id){
-
- //          		if(studData){
-	// 			if(studData.notificationStatus=="Unread"){
-	// 				Meteor.setTimeout(function() {
-	// 			    $('#showstatus').modal('show');
-	// 				}, 300);
-	// 			}else{
-	// 				Meteor.setTimeout(function() {
-	// 			    $('#showstatus').modal('hide');
-	// 				}, 300);
-	// 			}
-	// 		}	
-
- //          	}
- //          	else{
-	// 				Meteor.setTimeout(function() {
-	// 			    	$('#showstatus').modal('hide');
-	// 				}, 300);
-
-	// 			}
-            
- //          }
- //        });	
-
- //        // this.countdownTimeStart();	
- //        // this.setState({
- //        // 	loginTime:new Date().getTime(),
- //        // },()=>{this.countdownTimeStart()})	;		
-			
   	}
 
- // //  	countdownTimeStart(){
-	// // 	var countDownDate = this.state.loginTime;
-	// // 	var countdwn=0;
-	// // 	var x = setInterval(function() {
-	// // 	    // Get todays date and time
-	// // 	    var now = new Date().getMinutes();
-	// // 	    var distance = countDownDate - now;	
-	// // 	    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-	// // 	    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-	// // 	    var seconds = Math.floor((distance % (1000 * 60)) / 1000);   
-		 
-	// // 	    countdwn=countdwn+1;
-	// // 	    if(countdwn==10){
-	// // 	        clearInterval(x);		    	
-	// // 	    	Meteor.logout();
-	// // 	    	FlowRouter.go("/");
-	// // 	    }
-	// // 	}, 60000);
-	// // }
+ 
 
   	updateStudentNotifctn(){
   		$('#showstatus').css('display','none');
       	$('#showstatus').removeClass('fade in');
       	$('.modal-backdrop').hide();
-      	console.log("localStorage.getItem('user_ID')",localStorage.getItem('user_ID'));
        	axios
     		.post('/studentmaster/update/notifyndowntime/'+localStorage.getItem('user_ID')+'/notificationstatus/Read')
             .then((response)=> {
-                console.log("-------notifyndowntime------>>",response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -244,11 +133,9 @@ class StudentProfile extends Component{
   	updateStudentTimeStatus(){
   		$('#showNotice').css('display','none');
     	$('#showNotice').removeClass('fade in');
-
       	axios
     		.post('/studentmaster/update/notifyndowntime/'+localStorage.getItem('user_ID')+'/downtimestatus/Read')
             .then((response)=> {
-                console.log("-------downtim------>>",response.data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -256,24 +143,19 @@ class StudentProfile extends Component{
   	}
 
 
- showPckgDescription(e){
- 	// e.preventDefault();
- 	var modalId = e.target.getAttribute('data-text'); 
- 	$('#md'+modalId).css("display","block");
- 	// $('#'+modalId).addClass("fade in");
- }
+	showPckgDescription(e){
+	 	var modalId = e.target.getAttribute('data-text'); 
+	 	$('#md'+modalId).css("display","block");
+	 }
 
- closePckgDescription(e){
- 	// e.preventDefault();
- 	var modalId = e.target.getAttribute('data-text');
- 	$('#md'+modalId).css("display","none");
+	 closePckgDescription(e){
+	 	var modalId = e.target.getAttribute('data-text');
+	 	$('#md'+modalId).css("display","none");
 
- }
+	 }
 
  render(){
-		window.scroll(0,0);
-			if(this.state.studentRegStatus=="Registered"){var bgimg = 'bgmyprofile'}else{ var bgimg=''}
-			// if(this.state.downtimestatus._id && this.state.studentData.downTimeStatus=="Unread"){
+ 	// if(this.state.downtimestatus._id && this.state.studentData.downTimeStatus=="Unread"){
 			// 	setTimeout(()=>{
 			//     jQuery('#showNotice').modal('show');
 			// 	}, 300);
@@ -282,6 +164,9 @@ class StudentProfile extends Component{
 			//     jQuery('#showNotice').modal('hide');
 			// 	}, 300);
 			// }
+	window.scroll(0,0);
+	if(this.state.studentRegStatus=="Registered"){var bgimg = 'bgmyprofile'}else{ var bgimg=''}
+			
 				
 	if(this.state.loggedIn===false){
 			return <redirect to="/login"/>
@@ -289,7 +174,7 @@ class StudentProfile extends Component{
 		return(
 			(this.state.studentRegStatus=="Registered")?
 				<div>			
-		          	<section className={"content viewContent bgmyprofile"/*+bgimg*/}>
+		          	<section className={"content viewContent bgmyprofile"}>
 		           		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 							{this.state.packageordermasters.length>0?
 								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileSection12">									
@@ -332,8 +217,7 @@ class StudentProfile extends Component{
 									</div>
 									<div className="col-lg-10 col-lg-offset-1 zeropadding">
 										<div className="col-lg-12 boxlistpadding">
-											{this.state.packageData.map((data,index)=>{
-												// console.log("data = ",data);
+											{this.state.packageData.map((data,index)=>{												
 								    			return data? 
 								    				<div className="col-lg-6 col-md-6 col-sm-12 outerboxpadding" key={index}>
 									    				<div className="col-lg-12 col-md-12 col-sm-12 smallboxpckg" > 
@@ -435,7 +319,7 @@ class StudentProfile extends Component{
 	                                      <div className="row rowPadding">
 	                                        <div className="">
 	                                          <div className="form-group">
-	                                          {/*!this.props.loading1 ?*/
+	                                          {
 	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
 	                                        	{
 	                                        		this.state.Notificationstatus.map((notemsg,index)=>{  
@@ -459,10 +343,7 @@ class StudentProfile extends Component{
 	                                        		})
 												}
 	                                           </div>
-	                                           // :
-	                                           // <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
-	                                           // 		Loading...
-	                                           // </div>
+	                                           
 	                                       }             
 	                                          </div>  
 	                                        </div>
@@ -490,7 +371,7 @@ class StudentProfile extends Component{
 	                                      <div className="row rowPadding">
 	                                        <div className="">
 	                                          <div className="form-group">
-	                                          {/*!this.props.loading2 ?*/
+	                                          {
 	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
 	                                        			<ul className="">
 
@@ -514,18 +395,13 @@ class StudentProfile extends Component{
 	                                        		
 												
 	                                           </div>
-	                                           /*:
-	                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">  
-	                                           		Loading...
-	                                           </div>*/
+	                                          
 	                                       }             
 	                                          </div>  
 	                                        </div>
 	                                      </div>
-
 	                                    </form>
-
-	                                      </div>
+	                                    </div>
 	                                  	  <div className="modal-footer footerpadding ">
 									        	<button type="button" className="btn btn-default col-lg-1 col-lg-offset-10" data-dismiss="modal" onClick={this.updateStudentTimeStatus.bind(this)}>Got it</button>
 									      </div>
@@ -533,7 +409,6 @@ class StudentProfile extends Component{
 		                                
 	                                </div>
 	                            </div>
-
 						</div>
 					</div>
 				  </section>

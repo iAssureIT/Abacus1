@@ -15,11 +15,9 @@ class PackageList extends Component  {
   }
 
   componentDidMount(){
-
     axios
       .get('/packagemanagementmasters')
       .then((response)=>{
-        console.log("packagemanagementmasters = ",response.data);
         this.setState({
           post :response.data,
         });
@@ -30,19 +28,11 @@ class PackageList extends Component  {
 
       window.addEventListener('scroll', this.handleScroll);
       $(".seleectQueInput").each(function(){});
-
-      // if ( !$('body').hasClass('adminLte')) {
-      //   var adminLte = document.createElement("script");
-      //   adminLte.type="text/javascript";
-      //   adminLte.src = "/js/adminLte.js";
-      //   $("body").append(adminLte);
-      // }
     }
   componentWillMount(){
     axios
       .get('/studentmaster/details/'+localStorage.getItem("user_ID"))
       .then((response)=> {
-        console.log("student details = ",response.data);
         if(response.data==null){
           this.setState({
             studentRegStatus : "Not registered"
@@ -62,21 +52,14 @@ class PackageList extends Component  {
 
   componentWillUnmount(){
     window.removeEventListener('scroll', this.handleScroll);
-    // $("script[src='/js/adminLte.js']").remove();
-    // $("link[href='/css/dashboard.css']").remove();
   }
 
   addPackages(event){
     var packageId = event.target.getAttribute('id');
     var orderId = this.props.match.params.orderId;
-      console.log("orderId = ",orderId);
-
-    // var packageId = $("input[name='packageId']:checked").val();
     axios
-      .get('/packageordermasters/updatepackage/'+orderId/*2HdWivsfius8piLEJ*/+'/'+packageId)
+      .get('/packageordermasters/updatepackage/'+orderId+'/'+packageId)
       .then((response)=>{
-        console.log("updatepackage = ",response.data);
-
         var orderId = packageId;
         this.props.history.push('/PackageList/'+orderId);
         this.setState({
@@ -87,32 +70,17 @@ class PackageList extends Component  {
       .catch(function(error){
         console.log(error);
       })
-      // Meteor.call('addPackages',packageId,FlowRouter.getParam("id"),(err,res)=>{
-      //   if(err){
-      //     console.log("Something went wrong");
-      //   }else{
-      //     var orderId = res;
-      //     if(orderId){
-      //       FlowRouter.go('/PackageList/'+orderId);
-      //     }
-      //   }
-      // });
+     
   }
 
   buyPackages(event){
     var id = this.props.match.params;
     var orderId = this.state.orderId;
-    console.log("this.state.id",id);
-    console.log("this.state.orderId",orderId);
     axios
       .get('/packageordermasters/'+id)
       .then((response)=>{
-        console.log("packagesAdded = ",response.data);
-
         if(response.data=="packagesAdded"){
-          // this.props.history.push('/MyInvoice');
           this.props.history.push('/MyInvoice/'+orderId);
-          // FlowRouter.go("/MyInvoice/"+FlowRouter.getParam("id"));
         }else if(response.data=="notAdded"){
             swal("Please Select Package","","warning");
           }else{
@@ -123,11 +91,7 @@ class PackageList extends Component  {
       .catch(function(error){
         console.log(error);
       })
-      // Meteor.call("checkPackagesAdded",FlowRouter.getParam('id'),(err,res)=>{
-      //   if(err){
-      //     console.log(err);
-      //   }else{
-      // console.log("res",res); 
+     
   }
 
     handleScroll(event){
@@ -150,23 +114,10 @@ class PackageList extends Component  {
         }
     }
 
-    componentDidUpdate(){
-      // var _id = FlowRouter.getParam("id");
-      // var PackageOrderData = PackageOrderMaster.findOne({"_id":_id})||{};
-      // if(PackageOrderData){
-      //   var packages = PackageOrderData.packages;
-      //   if(packages){
-      //     for(var i=0; i<packages.length;i++){
-      //       $("#"+packages[i].packageId).attr("checked",true);
-      //     }
-      //   }
-      // }
-    }
 
 
   render(){
-    // if(this.state.facilityPermission != 'waitingforResult' && this.state.facilityPermission == true){
-      // $('.sidebar').css({display:'block',background: '#222d32'});
+   
     return(
       <div>
         <div className="content-wrapper">
@@ -311,35 +262,7 @@ class PackageList extends Component  {
                 </div>
             </div>
           )
-//         );
-//         }else if (this.state.facilityPermission == false ){
-//           return (<div>{FlowRouter.go('/noAccesss')}</div>);
-//       }else if(this.state.facilityPermission == "waitingforResult"){
-//         return(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 waitingResLoadingWrap">
-//          <img className="loaderImageSize1" src="/images/loading1.gif" alt="loading"/>
-//       </div>);
-//       }else{ 
-//       return (<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 waitingResLoadingWrap"><h3>You don't have access.</h3></div>);
-    // }
-    // }
+
   }
   } export default PackageList;
-  // export default PackageListContainer = withTracker(props=>{
-  //   const postHandle   = Meteor.subscribe('packageManagementData');
-  //   const loading      = !postHandle.ready();
-  //   const post         = PackageManagementMaster.find({},{sort: {createdAt: -1}}).fetch();
-
-  //   const postHandle1 = Meteor.subscribe("LoginInStudent",Meteor.userId());
-  //   const LoadingTest = !postHandle1.ready();
-  //   var studentData = StudentMaster.findOne({"studentId":Meteor.userId()})||{};
-  //   // console.log("studentData",studentData);
-
-  //   return {
-
-  //   loading,
-  //   post,
-  //   studentData
-
-  //   };
-
-  // })(PackageList);
+  
