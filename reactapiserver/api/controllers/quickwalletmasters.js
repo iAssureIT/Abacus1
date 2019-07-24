@@ -94,6 +94,11 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                     .exec()
                     .then(studentMasterData=>{
                         if(studentMasterData){
+                            var mobileNum = studentMasterData.mobileNumber;
+                            var number = mobileNum.split('-');
+                            var concatNum = number[0]+number[1]+number[2];
+                            var mobNumber = String(concatNum);
+                            console.log("mobNumber---->",mobNumber)
                             ExamMaster.findOne({_id:req.params.competitionId})
                                         .exec()
                                         .then(ExamMasterData=>{
@@ -129,9 +134,11 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                         var partnerid = QWCredential.sandboxKey;
                                                                                                         var secret    = QWCredential.sandboxSecret;
                                                                                                     }
+
+                                                                                                    console.log("mobNumber in pay",mobNumber);
                                                                                                     var quickWalletInput = {
                                                                                                                "partnerid"  : partnerid,
-                                                                                                               "mobile"     : studentMasterData.mobileNumber,
+                                                                                                               "mobile"     : mobNumber,
                                                                                                                "secret"     : secret,
                                                                                                                "amount"     : req.params.compfees,
                                                                                                                // "redirecturl" : req.body.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             

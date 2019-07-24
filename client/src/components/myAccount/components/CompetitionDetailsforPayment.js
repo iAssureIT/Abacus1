@@ -17,31 +17,33 @@ class CompetitionDetailsforPayment extends Component{
 	componentDidMount(){
 		var id = localStorage.getItem("user_ID");
 		var competitionId = this.props.match.params.compId;
+		// console.log("competitionId---- >",competitionId,id);
 		axios
-			.get('/exammasters/exampurchase/'+competitionId+'/'+id)
+			.get('/exammasters/exampurchase/' + competitionId + '/' + id)
 			.then((response)=>{
-				var competitionData 	=	response.data.competitionData;
-				var competitionExams 	=	response.data.competitionData.competitionExams;
-				var studentMasterData  	=	response.data.studentMasterData;
-				for (var i = 0; competitionExams.length > i ; i++) {
 
-					if (studentMasterData.category == competitionExams[i].category && studentMasterData.subCategory == competitionExams[i].subCategory) {
-						this.setState({
-							competitionExams 	:competitionExams[i],
-							data 				:true,
-						})
-					}else {
-						this.setState({
-							competitionExams 	:[],
-							data 				:false,
-						})
-					}
-				}
-				this.setState({
-					competitionData 	:competitionData,
-					studentMasterData 	:studentMasterData,
-					dateformat 			:response.data.dateformat,
-				})			
+				// console.log("exam deatils at client----- >",response);
+				var competitionData 	=	response.data.competitionData;
+				var competitionExams 	=	response.data.CompetitionExamData;
+				var studentMasterData  	=	response.data.studentMasterData;
+				if(competitionData && competitionExams && studentMasterData){
+					this.setState({
+						competitionData 	:competitionData,
+						studentMasterData 	:studentMasterData,
+						competitionExams    : competitionExams,
+						dateformat 			:response.data.dateformat,
+					},()=>{
+						if(this.state.competitionExams){
+							this.setState({
+								data : true
+							})
+						}else{
+							this.setState({
+								data : false
+							})
+						} 
+					})
+				}			
 			})
 			.catch(function(error){
 				console.log("error",error);
@@ -63,16 +65,16 @@ class CompetitionDetailsforPayment extends Component{
   		// var url  = window.location.protocol+window.location.hostname;
   		var url  = window.location.origin;
   		var studentId = localStorage.getItem('user_ID');
-		var data  = {
-				    "url" : url,                	
-					}
-		// console.log("url ----->",url,studentId,comp_id);
+		// var data  = {
+		// 		    "url" : url,                	
+		// 			}
+		console.log("url ----->",QPId,competitionFees,studentId,comp_id);
   		axios
-			.post('/quickwalletmasters/exampurchase/'+studentId+'/'+comp_id+'/'+competitionFees,data)
+			.post('/quickwalletmasters/exampurchase/'+studentId+'/'+comp_id+'/'+competitionFees)
 
 
 			.then((response)=>{
-				// console.log('payment res = ',response.data);
+				console.log('payment res =-----> ',response);
 				this.setState({
                     // window.location = response;
 				});
@@ -83,6 +85,8 @@ class CompetitionDetailsforPayment extends Component{
   	}
 
 	render(){
+
+		// console.log("state competitionExams",this.state.data);
 		return(
 			<div>
 		        {/* Content Wrapper. Contains page content */}
@@ -131,7 +135,7 @@ class CompetitionDetailsforPayment extends Component{
 											<div className="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9 col-sm- col-xs-12 examdetailsubtitles1 green">Competition Fees :&nbsp; <i className="fa fa-inr" aria-hidden="true"></i>&nbsp;{this.state.competitionData.competitionFees}</div>
 											<input type="hidden" ref="competitionFees" name="competitionFees" value={this.state.competitionData.competitionFees}/>
 											<input type="hidden" ref="comp_id" name="comp_id" value={this.state.competitionData._id}/>
-											<input type="hidden" ref="QPId" name="QPId" value=""/*this.state.competitionExams.questionPaperId*//>
+											<input type="hidden" ref="QPId" name="QPId" value={this.state.competitionExams.questionPaperId}/>
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rfoac">
