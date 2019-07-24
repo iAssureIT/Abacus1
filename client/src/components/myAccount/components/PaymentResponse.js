@@ -3,26 +3,15 @@ import {render} from 'react-dom';
 import axios              from 'axios';
 import queryString from 'query-string';
 import moment from 'moment';
-// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-// import {withTracker} from 'meteor/react-meteor-data';
-// import '/imports/student/api/competitionRegisterOrder.js';
-// import {StudentMaster} from '/imports/student/api/studentMaster.js';
-// import {ExamMaster} from '/imports/studentMainExam/api/examMaster.js';
+
 
 class PaymentResponse extends Component{
 
   	constructor(){
-		super();
-		// this.state = {
-		//     status      : FlowRouter.getQueryParam('status'),
-		//     billnumbers : FlowRouter.getQueryParam('billnumbers'),
-		//     checksum    : FlowRouter.getQueryParam('checksum'),
-		// 	id 			: FlowRouter.getQueryParam('id'),
-		// }
+		super();		
 	}
 
 	componentDidMount(){
-
 		var paramValues = queryString.parse(this.props.location.search);
   		if(paramValues){
   			var billnumbers = paramValues.billnumbers;
@@ -31,7 +20,7 @@ class PaymentResponse extends Component{
   			var status = paramValues.status;
 	  		const studentId = localStorage.getItem("user_ID");
 	  		var compId = this.props.match.params.compId;		
-
+	  		console.log("status",billnumbers);
 			if(status == 'paid'){
 				axios
 				.post('/competitionregisterorder/updateOrder/'+studentId+'/'+compId+'/'+status+'/'+id+'/'+billnumbers)
@@ -71,11 +60,7 @@ class PaymentResponse extends Component{
 	    }
   	}
 
-  	componentWillUnmount(){
-
-  	}
-
-	render(){
+  	render(){
 		return(
 			<div>
 			</div>

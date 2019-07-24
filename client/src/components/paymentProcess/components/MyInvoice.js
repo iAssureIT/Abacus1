@@ -113,6 +113,22 @@ class MyInvoice extends Component{
 
   confirm(event){ 
     event.preventDefault();
+    // axios
+    //   .post('/quickwalletmasters/payment/'+studentId+'/'+comp_id+'/'+competitionFees,data)
+
+
+    //   .then((response)=>{
+    //     console.log('package payment res =-----> ',response);
+
+    //     if(response.data){
+        
+    //       window.location.replace(response.data);
+    //     }
+        
+    //   })
+    //   .catch(function(error){
+    //     console.log("error",error);
+    //   });
 		// Meteor.call('paymentGatewayforPackageBuy',FlowRouter.getParam('id'),(error,result)=>{
 		// 	if(error){
 		// 	console.log('error');
