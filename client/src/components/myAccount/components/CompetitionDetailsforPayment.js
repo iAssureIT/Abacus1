@@ -78,7 +78,7 @@ class CompetitionDetailsforPayment extends Component{
 
 				if(response.data){
 				
-					window.location.replace(response.data)
+					window.location.replace(response.data);
 				}
 				
 			})

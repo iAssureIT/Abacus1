@@ -20,23 +20,23 @@ class StudentHeader extends (Component){
     }
   }
 
-  componentWillUpdate(){
-    axios
-      .get('/studentmaster/sinfo/'+localStorage.getItem("user_ID"))
-      .then((response)=>{
-        if(response.data){
-          this.setState({
-            userProfile : response.data.userProfile,          
-          })
-        }else{
-          this.setState({
-            userProfile : '/images/user.png',          
-          })
-        }
-      })
-      .catch(function (error) {
-          console.log(error);
-      });}
+  // componentWillUpdate(){
+  //   axios
+  //     .get('/studentmaster/sinfo/'+localStorage.getItem("user_ID"))
+  //     .then((response)=>{
+  //       if(response.data){
+  //         this.setState({
+  //           userProfile : response.data.userProfile,          
+  //         })
+  //       }else{
+  //         this.setState({
+  //           userProfile : '/images/user.png',          
+  //         })
+  //       }
+  //     })
+  //     .catch(function (error) {
+  //         console.log(error);
+  //     });}
   componentWillMount(){
     const token = localStorage.getItem("token");
     const studentName = localStorage.getItem("userFirstName");
