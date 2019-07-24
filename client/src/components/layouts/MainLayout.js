@@ -40,9 +40,12 @@ import StudentResetPassword 		from '../../components/myAccount/components/Change
 import CreateStudentRegistration 	from '../../components/myAccount/components/CreateStudentRegistration.js';
 import MyOrder 						from '../../components/myAccount/components/MyOrders.js';
 import PaymentReceipt 				from '../../components/myAccount/components/PaymentReceipt.js';
+import PaymentResponse 				from '../../components/myAccount/components/PaymentResponse.js';
 import CompetitionDetailsforPayment from '../../components/myAccount/components/CompetitionDetailsforPayment.js';
 // Section: 7 - paymentProcess ***********************************************************
 import MyInvoice 					from '../../components/paymentProcess/components/MyInvoice.js';
+import PackagePaymentReceipt 					from '../../components/paymentProcess/components/PackagePaymentReceipt.js';
+import PackagePaymentResponse 					from '../../components/paymentProcess/components/PackagePaymentResponse.js';
 
 class MainLayout extends Component{
   
@@ -130,6 +133,12 @@ class MainLayout extends Component{
 										  		<Route path="/packagePayment-success/:Id"	exact strict component={ PaymentReceipt } />
 										  		<Route path="/MyInvoice"				exact strict component={ MyInvoice } />
 										  		<Route path="/MyInvoice/:orderId"		exact strict component={ MyInvoice } />
+										  		<Route path="/payment-response"		exact strict component={ PaymentResponse } />
+										  		<Route path="/payment-response/:compId"		exact strict component={ PaymentResponse } />
+										  		<Route path="/packagePayment-response"		exact strict component={ PackagePaymentResponse } />
+										  		<Route path="/packagePayment-response/:orderId"		exact strict component={ PackagePaymentResponse } />
+										  		<Route path="/packagePayment-success"		exact strict component={ PackagePaymentReceipt } />
+										  		<Route path="/packagePayment-success/:orderId"		exact strict component={ PackagePaymentReceipt } />
 										  		
 							  					<Route component={ PageNotFound } />
 							              	</Switch>

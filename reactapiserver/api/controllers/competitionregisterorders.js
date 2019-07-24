@@ -39,6 +39,69 @@ exports.fetch_mycompetitionorderreceipt = (req,res,next)=>{
           });
 }
 
+exports.update_mycompetitionorderreceipt = (req,res,next)=>{
+  var sId = req.params.studentId;
+  var compId = req.params.competitionId;
+  var status = req.params.status;
+  var transid = req.params.id;
+  var billNumbers = req.params.billNumbers;
+
+  CompetitionRegisterOrder.findOne({competitionId: compId,studentId:sId})
+                          .exec()
+                          .then(competitionRegisterOrderData=>{
+                            if(competitionRegisterOrderData){
+                              competitionRegisterOrderData.updateOne(
+                                                                      {"_id"  :   competitionRegisterOrderData._id},
+                                                                      {$set : {
+                                                                            'status'    : status,
+                                                                            'transactionId' : transid,
+                                                                            'billnumbers'   : billNumbers,
+                                                                            'paymentDate'   : new Date(),
+                                                                          }
+                                                                      }                               
+                                                                    )
+                                                          .exec()
+                                                          .then(data=>{
+                                                            if(data.nModified == 1){
+                                                              res.status(200).json({message:"Success"})
+                                                            }else{
+                                                              res.status(200).json({message:"Failed"})
+                                                            }
+                                                          }
+                                                            )
+                                                          .catch()
+
+                            }
+                          })
+                          .catch(err =>{
+                              console.log(err);
+                              res.status(500).json({
+                                error: err
+                                });
+                            })
+      // if(order){
+      //   CompetitionRegisterOrder.update(
+      //     {"_id"  :   order._id},
+      //     {$set : {
+      //           'status'    : status,
+      //           'transactionId' : transid,
+      //           'billnumbers'   : billnumbers,
+      //           'paymentDate'   : new Date(),
+      //         }
+      //     },
+      //     function(error,result){
+      //       if(error){
+      //         console.log(error);
+      //         return error;
+      //       }else{
+      //         return result;
+      //       }
+      //     }
+      //   );
+      // }
+
+}
+
 exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
   console.log('studentId ',req.params.studentId);
     var sId = req.params.studentId;

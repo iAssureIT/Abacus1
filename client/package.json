@@ -16,6 +16,7 @@
     "jquery-migrate": "^1.4.1",
     "jspdf": "^1.5.3",
     "moment": "^2.24.0",
+    "query-string": "^6.8.1",
     "react": "^16.8.6",
     "react-bootstrap-sweetalert": "^4.4.1",
     "react-date-picker": "^7.7.0",

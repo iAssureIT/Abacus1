@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import queryString from 'query-string';
 	
 class PaymentReceipt extends Component{
 
@@ -13,17 +14,19 @@ class PaymentReceipt extends Component{
 	}
 
 	componentDidMount(){
-		// console.log("prop========>",this.props.match.path);
-		// console.log("prop========>",this.props.match.params.compId);
+		// var paramValues = queryString.parse(this.props.location.search);
+
+		// console.log("paramValues--->".paramValues);
   	}
 
   	componentWillMount(){
+  		
   		const studentId = localStorage.getItem("user_ID");
   		if(this.props.match.path=="/payment-success/:compId"){
 	  		axios
 		        .get('/competitionregisterorder/'+studentId+'/'+this.props.match.params.compId)
 		        .then((response)=> {
-		            // console.log("-------competitionregisterorder-receipt----->>",response.data);
+		            console.log("-------competitionregisterorder-receipt----->>",response.data);
 		            this.setState({
 		              orderreceipt : response.data,
 		              receiptType : "Competition Receipt"
@@ -54,6 +57,7 @@ class PaymentReceipt extends Component{
   	}
 
 	render(){
+		console.log("in payment sucess")
 		return(
 			<div>
 		        <div className="content-wrapper">
@@ -80,7 +84,7 @@ class PaymentReceipt extends Component{
 															<h4>Status :</h4>
 														</div>
 														<div className="col-lg-6 box-headerrec ">
-															<h4>{this.state.orderreceipt.status}</h4>
+															{/*<h4>{this.state.orderreceipt.status}</h4>*/}
 														</div>
 													</div>
 													<div className="col-lg-12">
@@ -89,7 +93,7 @@ class PaymentReceipt extends Component{
 														</div>
 														<div className="col-lg-6 box-headerrec ">
 															<h4><i className="fa fa-rupee"></i>
-															{this.state.receiptType=="Competition Receipt"?this.state.orderreceipt.competitionFees:this.state.orderreceipt.amount}
+															{/*{this.state.receiptType=="Competition Receipt"?this.state.orderreceipt.competitionFees:this.state.orderreceipt.amount}*/}
 															</h4>
 														</div>
 													</div>
@@ -98,7 +102,7 @@ class PaymentReceipt extends Component{
 															<h4>Tansaction ID :</h4>
 														</div>
 														<div className="col-lg-6 box-headerrec ">
-															<h4> {this.state.orderreceipt.transactionId} </h4>
+															{/*<h4> {this.state.orderreceipt.transactionId} </h4>*/}
 														</div>
 													</div>
 													<div className="col-lg-12 status">
@@ -106,7 +110,7 @@ class PaymentReceipt extends Component{
 															<h4>Bill Number : </h4>
 														</div>
 														<div className="col-lg-6 box-headerrec">
-															<h4>{this.state.orderreceipt.billnumbers}  </h4>
+															{/*<h4>{this.state.orderreceipt.billnumbers}  </h4>*/}
 														</div>
 													</div>
 													<div className="col-lg-12 status">
@@ -114,7 +118,7 @@ class PaymentReceipt extends Component{
 															<h4>Payment Date & Time : </h4>
 														</div>
 														<div className="col-lg-6 box-headerrec ">
-															<h4>{moment(this.state.orderreceipt.paymentDate).format('DD/MM/YYYY')}, {moment(this.state.orderreceipt.paymentDate).format('LT')}</h4>
+															{/*<h4>{moment(this.state.orderreceipt.paymentDate).format('DD/MM/YYYY')}, {moment(this.state.orderreceipt.paymentDate).format('LT')}</h4>*/}
 														</div>
 													</div>
 												</div>

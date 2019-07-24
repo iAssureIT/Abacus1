@@ -141,7 +141,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "mobile"     : mobNumber,
                                                                                                                "secret"     : secret,
                                                                                                                "amount"     : req.params.compfees,
-                                                                                                               "redirecturl" : 'http://localhost:3000/payment-success/'+req.params.competitionId,             
+                                                                                                               "redirecturl" : 'http://localhost:3000/payment-response/'+req.params.competitionId,             
                                                                                                                // "redirecturl" : req.body.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){

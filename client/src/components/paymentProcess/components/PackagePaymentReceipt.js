@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 
-import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
-import {withTracker} from 'meteor/react-meteor-data';
+// import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
+// import {withTracker} from 'meteor/react-meteor-data';
 
-import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
-// import {CompetitionRegisterOrder} from '/imports/admin/forms/student/api/competitionRegisterOrder.js';
-import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
+// import {CompetitionRegisterOrder} from '/imports/student/api/competitionRegisterOrder.js';
+// // import {CompetitionRegisterOrder} from '/imports/admin/forms/student/api/competitionRegisterOrder.js';
+// import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
 	
-class PackagePaymentReceipt extends Component{
+export default class PackagePaymentReceipt extends Component{
 	constructor(){
 		super();
 		this.state ={
@@ -16,23 +16,23 @@ class PackagePaymentReceipt extends Component{
 		}
 	}
 	
-	componentDidMount(){
-		if ( !$('body').hasClass('adminLte')) {
-		  var adminLte = document.createElement("script");
-		  adminLte.type="text/javascript";
-		  adminLte.src = "/js/adminLte.js";
-		  $("body").append(adminLte);
-		}
+	// componentDidMount(){
+	// 	if ( !$('body').hasClass('adminLte')) {
+	// 	  var adminLte = document.createElement("script");
+	// 	  adminLte.type="text/javascript";
+	// 	  adminLte.src = "/js/adminLte.js";
+	// 	  $("body").append(adminLte);
+	// 	}
 
-  	}
+ //  	}
 
-  	componentWillUnmount(){
-    	$("script[src='/js/adminLte.js']").remove();
-    	$("link[href='/css/dashboard.css']").remove();
-  	}
-  	componentWillMount(){
-  		$('.sidebar').css({display:'block',background: '#222d32'});
-  	}
+ //  	componentWillUnmount(){
+ //    	$("script[src='/js/adminLte.js']").remove();
+ //    	$("link[href='/css/dashboard.css']").remove();
+ //  	}
+ //  	componentWillMount(){
+ //  		$('.sidebar').css({display:'block',background: '#222d32'});
+ //  	}
   	
   	
 
@@ -66,35 +66,35 @@ class PackagePaymentReceipt extends Component{
 															<div className="col-lg-6 status box-headerpayment">
 																<h4>Status :</h4>
 															</div>
-															<div className="col-lg-6 box-headerrec ">
+															{/*<div className="col-lg-6 box-headerrec ">
 																<h4>{this.props.packageOrderData.status}</h4>
-															</div>
+															</div>*/}
 														</div>
 														<div className="col-lg-12">
 															
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Amount Paid :</h4>
 															</div>
-															<div className="col-lg-6 box-headerrec ">
+															{/*<div className="col-lg-6 box-headerrec ">
 																<h4><i className="fa fa-rupee"></i>{this.props.packageOrderData.amount}</h4>
-															</div>
+															</div>*/}
 														</div>
 														<div className="col-lg-12 status">
 															
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Tansaction ID :</h4>
 															</div>
-															<div className="col-lg-6 box-headerrec ">
+															{/*<div className="col-lg-6 box-headerrec ">
 																<h4>{this.props.packageOrderData.transactionId} </h4>
-															</div>
+															</div>*/}
 														</div>
 														<div className="col-lg-12 status">
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Bill Number : </h4>
 															</div>
-															<div className="col-lg-6 box-headerrec">
+															{/*<div className="col-lg-6 box-headerrec">
 																<h4>{this.props.packageOrderData.billnumbers}  </h4>
-															</div>
+															</div>*/}
 														</div>
 														<div className="col-lg-12 status">
 														
@@ -102,9 +102,9 @@ class PackagePaymentReceipt extends Component{
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Payment Date & Time : </h4>
 															</div>
-															<div className="col-lg-6 box-headerrec ">
+															{/*<div className="col-lg-6 box-headerrec ">
 																<h4>{moment(this.props.packageOrderData.paymentDate).format('DD/MM/YYYY')}, {this.props.paymentTime} </h4>
-															</div>
+															</div>*/}
 														</div>
 													</div>
 									            </div>
@@ -124,25 +124,25 @@ class PackagePaymentReceipt extends Component{
 }
 
 
-export default PackagePaymentReceipt = withTracker(props=>{
-	  var id 					  = 	FlowRouter.getParam("orderId");
-	const postHandle1             = 	Meteor.subscribe('singleOrder',id);
-	const loading1                = 	!postHandle1.ready();
-	// console.log(loading1);
-    const packageOrderData     = 	PackageOrderMaster.findOne({"_id": id,"buyerId":Meteor.userId()})||{};
-	// console.log("packageOrderData==>>",packageOrderData);
-	if(packageOrderData){
-		var payTime=packageOrderData.paymentDate;
-		if(payTime){
-			var paymentTime = moment(payTime).format('LT');
-		}
-	}
+// export default PackagePaymentReceipt = withTracker(props=>{
+// 	  var id 					  = 	FlowRouter.getParam("orderId");
+// 	const postHandle1             = 	Meteor.subscribe('singleOrder',id);
+// 	const loading1                = 	!postHandle1.ready();
+// 	// console.log(loading1);
+//     const packageOrderData     = 	PackageOrderMaster.findOne({"_id": id,"buyerId":Meteor.userId()})||{};
+// 	// console.log("packageOrderData==>>",packageOrderData);
+// 	if(packageOrderData){
+// 		var payTime=packageOrderData.paymentDate;
+// 		if(payTime){
+// 			var paymentTime = moment(payTime).format('LT');
+// 		}
+// 	}
 
 
 
-	return{
-		packageOrderData,
-		loading1,
-		paymentTime
-	}
-})(PackagePaymentReceipt);
+// 	return{
+// 		packageOrderData,
+// 		loading1,
+// 		paymentTime
+// 	}
+// })(PackagePaymentReceipt);
