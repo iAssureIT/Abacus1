@@ -150,9 +150,9 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             // {params: quickWalletInput});
                                                                                                         var result = request({
                                                                                                                             "method":"POST", 
-                                                                                                                            "uri": "https://uat.quikwallet.com/api/partner/366/requestpayment",
-                                                                                                                            // "uri": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
-                                                                                                                            "params" : quickWalletInput,
+                                                                                                                            // "url": "https://uat.quikwallet.com/api/partner/366/requestpayment",
+                                                                                                                            "url": API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
+                                                                                                                            "body" : quickWalletInput,
                                                                                                                             "json": true,
                                                                                                                             "headers": {
                                                                                                                             "User-Agent": "My little demo app",
