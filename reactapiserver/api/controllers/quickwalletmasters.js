@@ -43,7 +43,7 @@ exports.makepayment = (req,res,next) =>{
                                     "mobile"         : mobileNumber,
                                     "secret"         : secret,
                                     "amount"         : packageTotal,
-                                    "redirecturl"    : 'http://localhost:3042/packagePayment-response/'+req.body.OrderId ,
+                                    // "redirecturl"    : 'http://localhost:3042/packagePayment-response/'+req.body.OrderId ,
                                 };
                                 var url = API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment";
                                 console.log('url ',url);

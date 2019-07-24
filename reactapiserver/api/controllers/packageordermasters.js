@@ -224,8 +224,13 @@ exports.update_package = (req,res,next) =>{
 }
 
 exports.create_order = (req,res,next) =>{
-  if(req.params.Order_ID){
-    PackageOrderMaster.find({_id:req.params.Order_ID,"packages":{$elemMatch:{packageId:req.params.package_ID}}})
+  if(req.params.Order_ID != '-'){
+    PackageOrderMaster.find(
+                              {
+                                _id:req.params.Order_ID,
+                                "packages":{$elemMatch:{packageId:req.params.package_ID}}
+                              }
+                            )
                       .exec()
                       .then(pom=>{
                         if(pom){
