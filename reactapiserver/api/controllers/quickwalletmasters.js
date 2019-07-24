@@ -43,7 +43,7 @@ exports.makepayment = (req,res,next) =>{
                                     "mobile"         : mobileNumber,
                                     "secret"         : secret,
                                     "amount"         : packageTotal,
-                                    "redirecturl"    : 'http://localhost:3042/packagePayment-response/'+req.body.OrderId ,
+                                    "redirecturl"    : 'http://localhost:3000/packagePayment-response/'+req.body.OrderId ,
                                 };
                                 var url = API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment";
                                 console.log('url ',url);
@@ -141,7 +141,8 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "mobile"     : mobNumber,
                                                                                                                "secret"     : secret,
                                                                                                                "amount"     : req.params.compfees,
-                                                                                                               "redirecturl" : req.body.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
+                                                                                                               "redirecturl" : 'http://localhost:3000/payment-success/'+req.params.competitionId,             
+                                                                                                               // "redirecturl" : req.body.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
                                                                                                         console.log('quickWalletInput for competition ',quickWalletInput);
