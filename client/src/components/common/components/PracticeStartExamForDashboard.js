@@ -60,45 +60,7 @@ class PracticeStartExamForDashboard extends Component {
 			 			practiceQPData : response.data,
 			 		},()=>{
 			 			this.getStatus();
-				        // var paperdata = this.state.practiceQPData;
-				      //   if(paperdata){
-				      //   	for(var i=0;i<paperdata.length;i++){
-				      //   		var paperId = paperdata[i]._id;
-						    //     axios
-								  //   .get('/mypracticeexammasters/'+paperdata[i]._id+'/'+studentID)
-						    //         .then((response)=> {
-						    //             if(response.data.length>0){
-							   //              var count = 0;
-							   //              for (var j = 0; j < response.data.length; j++) {
-							   //              	if(response.data[j].examStatus=='Completed'){
-							   //              		count++;
-							   //              	}
-							   //              }
-							   //              if(count==response.data.length){
-										//  			var status = 'Completed'
-							   //              }else{
-										//  			var status =  'Incomplete'
-							   //              }
-						    //             }else{
-									 // 			var status =  'Incomplete'
-						    //             }
-										//  newStateArray.push({
-										//  	paperId:paperId,
-										//  	status : status
-										//  });
-										// this.setState({
-										// 		myArray: newStateArray
-										// 	},()=>{
-
-										// 	}); 
-						    //         })
-						    //         .catch(function (error) {
-						    //             console.log(error);
-						    //         });
-				      //   	}
-				      //   }
 			 		});
-		    
 	            })
 	            .catch(function (error) {
 	                console.log(error);
@@ -204,9 +166,9 @@ class PracticeStartExamForDashboard extends Component {
 													    			<li className="testtitle testtitlepadding OH col-lg-9"><i className="fa fa-circle bullet" aria-hidden="true"></i>&nbsp;{questionPaper.quePaperTitle}</li>
 													    			{
 													    				questionPaper.status=="Completed"?
-													    				<Link to="/PractExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Result</button></li></Link>
+													    				<Link to="/PractExamReports"><li className="testtitle col-lg-3"><button type="submit" className="btn row startexambtn" value={questionPaper._id} title="Click here to see result">Result</button></li></Link>
 													    				:
-													    				<Link to="/PracticeStartExam"><li className="testtitle col-lg-3"><button type="submit" className="btn startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li></Link>
+													    				<Link to="/PracticeStartExam"><li className="testtitle col-lg-3"><button type="submit" className="btn row startexambtn" value={questionPaper._id} title="Click here to start exam">Start</button></li></Link>
 													    			}
 													     		</ul>)
 											    		})

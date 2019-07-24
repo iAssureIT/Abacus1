@@ -184,8 +184,7 @@ class PracticeStartExam extends Component {
 				              <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
 				                <div className="box">
 
-					                {
-	                				this.state.practiceQPData.length != 0 ?
+					                {this.state.practiceQPData.length != 0 ?
 						                <div className="box-header with-border boxMinHeight ">
 											<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 												<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ExamInstructionWrap ">

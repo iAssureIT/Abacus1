@@ -20,24 +20,24 @@ class StudentHeader extends (Component){
     }
   }
 
-  // componentWillUpdate(){
-  //   axios
-  //     .get('/studentmaster/sinfo/'+localStorage.getItem("user_ID"))
-  //     .then((response)=>{
-  //       if(response.data){
-  //         this.setState({
-  //           userProfile : response.data.userProfile,          
-  //         })
-  //       }else{
-  //         this.setState({
-  //           userProfile : '/images/user.png',          
-  //         })
-  //       }
-  //     })
-  //     .catch(function (error) {
-  //         console.log(error);
-  //     });}
   componentWillMount(){
+    axios
+      .get('/studentmaster/sinfo/'+localStorage.getItem("user_ID"))
+      .then((response)=>{
+        if(response.data){
+          this.setState({
+            userProfile : response.data.userProfile,          
+          })
+        }else{
+          this.setState({
+            userProfile : '/images/user.png',          
+          })
+        }
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+      
     const token = localStorage.getItem("token");
     const studentName = localStorage.getItem("userFirstName");
     if(token!==null){
@@ -123,12 +123,12 @@ class StudentHeader extends (Component){
               <ul className="nav navbar-nav">
                 <li className="dropdown user c11 user-menu" data-dismiss="modal">
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown" onClick={this.showSignout.bind(this)}>
-                    <img src={this.state.userProfile} className="user-image"  />
+                    <img src={this.state.userProfile?this.state.userProfile:"/images/user.png"} className="user-image"  />
                     <span className="hidden-xs"> {this.state.studentName} </span>
                   </Link>
                   <ul className="dropdown-menu" id="popup">
                     <li className="user-header">
-                      <img src={this.state.userProfile} className="img-circle" />
+                      <img src={this.state.userProfile?this.state.userProfile:"/images/user.png"} className="img-circle" />
                       <span>
                       <Link to="javascript:void(0)">
                         <span className="changeimgwrap">Change</span>
@@ -139,7 +139,7 @@ class StudentHeader extends (Component){
                     </li>
                     <li className="user-footer">
                       <div className="pull-left">
-                        <Link to="#" className="btn btn-default btn-flat" onClick={this.closepopup.bind(this)}>My Registration</Link>
+                        <Link to="/CreateStudReg" className="btn btn-default btn-flat" onClick={this.closepopup.bind(this)}>My Registration</Link>
                       </div>
                       <div className="pull-right">
                         <Link to="/login">

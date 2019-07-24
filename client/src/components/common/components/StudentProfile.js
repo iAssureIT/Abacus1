@@ -46,7 +46,6 @@ class StudentProfile extends Component{
 		  .catch(function (error){		    
 		  });
 
-
     	axios
 	    	.get('/notificationmasters/Broadcast')
             .then((response)=> {
@@ -91,7 +90,6 @@ class StudentProfile extends Component{
                 console.log(error);
             });
 
-/****************************************package 1 column******************************************/
         axios
 	    	.get('/packageordermasters/'+studentID/*WyQY35LEFitPcabP5*/)
             .then((response)=> {

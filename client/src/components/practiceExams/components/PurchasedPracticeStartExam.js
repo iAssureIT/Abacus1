@@ -3,28 +3,23 @@ import axios                from 'axios';
 import $                  from 'jquery';
 import moment         from 'moment';
 
-
 class PurchasedPracticeStartExam extends Component {
     constructor(props){
     super(props);
     this.state = ({
-    showButton:true,
-    "BtnIndex":'',
-    "PckgIndex":'',
-    showstartExamBtn : true,
-    'defaultBtnTime': '00:05',
-    packageID : "",
-   
-    });
-
-}
+            showButton:true,
+            "BtnIndex":'',
+            "PckgIndex":'',
+            showstartExamBtn : true,
+            'defaultBtnTime': '00:05',
+            packageID : "",
+          });
+    }
     componentDidMount(){
       const studentID = localStorage.getItem("user_ID");
       this.setState({
         packageID : this.props.match.params.packageId,
       })
-
-
       axios
         .get('/instructions/Practice Exam')
         .then((response)=>{
@@ -46,7 +41,6 @@ class PurchasedPracticeStartExam extends Component {
         .catch(function(error){
           console.log(error);
         })
-
       axios
         .get('/packagequestionpapermaster/'+studentID)
         .then((response)=>{
@@ -66,11 +60,10 @@ class PurchasedPracticeStartExam extends Component {
         .catch(function(error){
           console.log(error);
         })   
-
   }
   componentWillUnmount(){
-      $("script[src='/js/adminLte.js']").remove();
-      $("link[href='/css/dashboard.css']").remove();
+      // $("script[src='/js/adminLte.js']").remove();
+      // $("link[href='/css/dashboard.css']").remove();
   }
 
   startPracticeExam(event){
@@ -190,8 +183,12 @@ class PurchasedPracticeStartExam extends Component {
                                                         {this.state.instruction}
                                                         </div>
                                                         <form>
+                                                        <blink className="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                                          <a href="/PackageList" className="testtitle examlinks col-lg-12 col-md-12 col-xs-12 col-sm-12 pdcls" title="Click here to buy more packages">&nbsp; Purchase New Packages</a>
+                                                        </blink>
+                                                        <div className="col-lg-12">
                                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 IagreeExamWrapC paddingleftzero paddingrightzero">
-                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 examTable paddingleftzero paddingrightzero">
+                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive examTable paddingleftzero paddingrightzero">
                                                               <table className="table">
                                                                 <thead>
                                                                 <tr className="tableHeader">
@@ -213,12 +210,13 @@ class PurchasedPracticeStartExam extends Component {
                                                                     {questionPaper.noOfAttempts.map((dat,indexxx)=>{
                                                                       return dat.status==true?                             
                                                                         <td className="col-lg-2 col-md-2 attemptedTd" key={indexxx}>
-                                                                          <div className="col-lg-12 col-md-12 qpTestTitle qpTestDate tdWhiteText">Attempted on : {dat.attemptedAt}</div>
+                                                                          <button type="submit" className="btn btn-success startBtnPE" name="PracticeExamName" ref="PracticeExamName" data-index={indexxx} data-text={questionPaper.packageId} data-id={questionPaper.order_id} value={questionPaper.questionPaper_id}>Attempted</button>
                                                                         </td>
+                                                                         /* <div className="col-lg-12 col-md-12 qpTestTitle qpTestDate tdWhiteText">Attempted on : {dat.attemptedAt}</div>*/
                                                                       :
                                                                       dat.status==false?
                                                                         <td className="col-lg-2 col-md-2" key={indexxx}>
-                                                                        <button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" data-index={indexxx} data-text={questionPaper.packageId} data-id={questionPaper.order_id} onClick={this.startPracticeExam.bind(this)}value={questionPaper.questionPaper_id}>Attempt</button>
+                                                                          <button type="submit" className="btn btn-primary startBtnPE" name="PracticeExamName" ref="PracticeExamName" data-index={indexxx} data-text={questionPaper.packageId} data-id={questionPaper.order_id} onClick={this.startPracticeExam.bind(this)}value={questionPaper.questionPaper_id}>Attempt</button>
                                                                         </td>
                                                                         :
                                                                       <td className="col-lg-1 col-md-2" key={indexxx}><div className="col-lg-12 col-md-12 qpTestTitle qpTestDate">NA</div></td>
@@ -238,6 +236,7 @@ class PurchasedPracticeStartExam extends Component {
                                                               </table>    
                                                             </div>
                                                           </div>
+                                                        </div>
                                                         </form>
                                                       </div>
                                                     </div>

@@ -262,7 +262,7 @@ class StudentRegistrationforCompetition extends Component  {
 		
 			return(
 			<div className="col-lg-12 col-md-12 col-sm-12">
-				<div  className="col-lg-12  col-md-12 col-sm-12 practicetesttitle text-center">
+				<div  className="col-lg-12  col-md-12 col-sm-12 practicetesttitle HO text-center">
 					<div className="col-lg-12  col-md-12 studProfileTit23">
 						<div className="col-lg-12  col-md-12">
 							<i className="fa fa-file-text-o" aria-hidden="true"></i>&nbsp; Competition Details

@@ -160,12 +160,6 @@ class CreateStudentRegistration extends (Component)  {
             .catch(function (error) {
                 console.log(error);
             });
-     	// var date = new Date();
-      // 	date.setDate(date.getDate());
-      // 	console.log("startDate",date);
-      // 	jQuery('#my-datepicker').datepicker({ 
-    		// startDate: date
-      // 	});
 
     $('.gender').click(function() {
     $(this).find('.btn').toggleClass('active');  
@@ -179,26 +173,6 @@ class CreateStudentRegistration extends (Component)  {
 			// alert($(this["options"]).val());
 		    return false;
 		});
-				// Meteor.call("getUpdateStatus",Meteor.userId(),(err,res)=>{
-				//    if(err){
-
-				//    }else{ 	
-				//   	if(res){
-				//   		// console.log("res.profileEditStatus",res.profileEditStatus);
-				// 	  	if(res.profileEditStatus=="Active"){
-				// 			this.setState({profileEditStatus : false});
-				// 		}else if(res.profileEditStatus=="Blocked"){
-				// 			this.setState({profileEditStatus : true});
-				// 		}else if(res.profileEditStatus==""){
-				// 			this.setState({profileEditStatus : true});
-				// 		}
-				// 	}
-
-
-				//    }
-				// });
-				
-
   	}
 
   	componentDidMount(){
@@ -213,6 +187,7 @@ class CreateStudentRegistration extends (Component)  {
         axios
   			.get('/categories/categoriesname')
             .then((response)=>{
+            	console.log("categoriesname",response.data)
             	this.setState({
 				 	showCategories : response.data,
 			 	});
@@ -264,7 +239,7 @@ class CreateStudentRegistration extends (Component)  {
 		    var file = event.currentTarget.files[0];
 		      	if (file) {
 		      	   var fileName  = file.name; 
-		      	 	console.log("fileName--------------->",fileName);
+		      	 	console.log("fileName--------------->",file);
 		      	     var ext       = fileName.split('.').pop();  
 	                  	if(ext=="jpg" || ext=="png" || ext=="jpeg" || ext=="JPG" || ext=="PNG" || ext=="JPEG"){    
 	                        if (file) {
@@ -531,9 +506,9 @@ class CreateStudentRegistration extends (Component)  {
 										      	this.StudentImage() ==='../images/addLogo1.png' ?  <i className="fa fa-camera fa-2x paddingNoImageUpload col-lg-2 col-md-2 col-sm-2   styleUpload" title="Add Profile Photo">
 										      		<input type="file"  className="col-lg-1 col-md-1 col-sm-1 col-xs-12 browseDoc" accept="image/x-png,image/jpeg,image/pdf,image/jpg" onChange={this.uploadStudentImage.bind(this)}/> </i>
 										        :
-										        <i className="fa fa-camera fa-2x paddingNoImageUpload col-lg-2  styleUpload" title="Change Profile Photo">
-										          <input type="file"  className="col-lg-1 col-md-1 col-sm-1 col-xs-1 browseDoc" accept="image/x-png,image/jpeg,image/pdf,image/jpg" onChange={this.uploadStudentImage.bind(this)}/>
-										        </i>
+											        <i className="fa fa-camera fa-2x paddingNoImageUpload col-lg-2  styleUpload" title="Change Profile Photo">
+											          <input type="file"  className="col-lg-1 col-md-1 col-sm-1 col-xs-1 browseDoc" accept="image/x-png,image/jpeg,image/pdf,image/jpg" onChange={this.uploadStudentImage.bind(this)}/>
+											        </i>
 										    	}
 										      </div>
 										      <img className="col-lg-12 col-md-12 col-sm-12 ClientImgWrap1 displayLogoOne" src={this.StudentImage()?this.StudentImage() :"../images/loading.gif"}/>

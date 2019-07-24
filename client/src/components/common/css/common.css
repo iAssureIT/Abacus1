@@ -34,8 +34,10 @@
   height: 20px;
   overflow: hidden;
 }
-
-
+.HO{
+  height: 160px;
+  overflow: hidden;
+}
 
 
 
@@ -5763,10 +5765,6 @@ blink{
 	padding-right:0!important;
 	height:20px;
 }
-.pEListTableScroll{
-	/*overflow-x: hidden;*/
-	height: 60px!important;
-}
 .multiExamLeft{
 	margin-top:25%;
 }
@@ -8016,7 +8014,7 @@ blink{
 }
 .pEListTableScroll{
 	/*overflow-x: hidden;*/
-	height: 60px!important;
+	height: 60px !important;
 }
 .multiExamLeft{
 	margin-top:25%;
