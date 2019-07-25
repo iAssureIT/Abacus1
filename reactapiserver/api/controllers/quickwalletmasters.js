@@ -25,6 +25,7 @@ exports.fetch_details = (req,res,next)=>{
 exports.makepayment = (req,res,next) =>{
     var mobileNumber    = req.body.mobileNumber;
     var packageTotal    = req.body.packageTotal;
+    var orderId         = req.body.orderId
     QuickWalletMasters  .findOne({})
                         .exec()
                         .then(QWCredential =>{

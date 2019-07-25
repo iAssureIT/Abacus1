@@ -19,6 +19,7 @@ exports.findall_packages = (req, res, next)=>{
 }
 
 exports.fetch_package = (req,res,next)=>{
+    console.log("fetch_package",req.params.packageID);
     PackageManagementMasters.findOne({_id:req.params.packageID})
                             .exec()
                             .then(data=>{

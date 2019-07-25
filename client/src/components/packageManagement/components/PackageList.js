@@ -64,12 +64,18 @@ class PackageList extends Component  {
     axios
       .post('/packageordermasters/createorder/'+studentId+'/'+orderId+'/'+packageId)
       .then((response)=>{
+         var orderId;
         console.log("updatepackage = ====>",response.data);
-        var orderId = response.data;
-        // this.props.history.push('/PackageList/'+orderId);
+        if(response.data.message=="Order Placed"){
+            orderId = response.data.ID;
+        }else{
+          orderId = this.props.match.params.orderId
+        }
+       
+        this.props.history.push('/PackageList/'+orderId);
         this.setState({
-          postman : response.data,
-          orderId : packageId,
+          // postman : response.data,
+          orderId : orderId,
         });
       })
       .catch(function(error){
@@ -78,11 +84,13 @@ class PackageList extends Component  {
   }
 
   buyPackages(event){
-    var id = this.props.match.params;
-    var orderId = this.state.orderId;
+    // var id = this.props.match.params;
+    var orderId = this.props.match.params.orderId;
+    console.log("orderId---->",orderId);
     axios
-      .get('/packageordermasters/'+id)
+      .get('/packageordermasters/check/'+orderId)
       .then((response)=>{
+        console.log("buy pckg response",response);
         if(response.data=="packagesAdded"){
           this.props.history.push('/MyInvoice/'+orderId);
         }else if(response.data=="notAdded"){

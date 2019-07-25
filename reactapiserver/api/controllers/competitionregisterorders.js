@@ -115,28 +115,13 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                                 error: err
                                 });
                             })
-      // if(order){
-      //   CompetitionRegisterOrder.update(
-      //     {"_id"  :   order._id},
-      //     {$set : {
-      //           'status'    : status,
-      //           'transactionId' : transid,
-      //           'billnumbers'   : billnumbers,
-      //           'paymentDate'   : new Date(),
-      //         }
-      //     },
-      //     function(error,result){
-      //       if(error){
-      //         console.log(error);
-      //         return error;
-      //       }else{
-      //         return result;
-      //       }
-      //     }
-      //   );
-      // }
+  
 
 }
+
+
+
+
 
 exports.fetch_mycompetitionorder_examStatus = (req,res,next)=>{
   console.log('studentId ',req.params.studentId);

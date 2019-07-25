@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-
+import axios                from 'axios';
+import queryString from 'query-string';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
 
@@ -10,13 +11,34 @@ import {render} from 'react-dom';
 	
 export default class PackagePaymentResponse extends Component{
 
-	// componentDidMount(){
-	// 	if ( !$('body').hasClass('adminLte')) {
-	// 	  var adminLte = document.createElement("script");
-	// 	  adminLte.type="text/javascript";
-	// 	  adminLte.src = "/js/adminLte.js";
-	// 	  $("body").append(adminLte);
-	// 	}
+	componentDidMount(){
+	var paramValues = queryString.parse(this.props.location.search);
+  		if(paramValues){
+  			var billnumbers = paramValues.billnumbers;
+  			var checksum = paramValues.checksum;
+  			var id = paramValues.id;
+  			var status = paramValues.status;
+	  		const studentId = localStorage.getItem("user_ID");
+	  		var orderId = this.props.match.params.orderId;		
+	  		var totalAmount = 648;
+	  		// var totalAmount = localStorage.getItem('totalPrice');
+			if(status == 'paid'){
+				axios
+				.post('/packageordermasters/updatePackageOrder/'+studentId+'/'+orderId+'/'+status+'/'+id+'/'+billnumbers+'/'+totalAmount)
+
+
+				.then((response)=>{
+					console.log('pckg payment responseeeee =-----> ',response);
+
+					// if(response.data){
+					// this.props.history.push('/payment-success/'+this.props.match.params.orderId);
+					// 	window.location.replace(response.data);
+					// }
+					
+				})
+				.catch(function(error){
+					console.log("error",error);
+				});
 
 		// if(FlowRouter.getQueryParam('status') == 'paid'){
 		// 	Meteor.call("updatePackagePaymentStatus",FlowRouter.getParam('orderId'),FlowRouter.getQueryParam('status'),FlowRouter.getQueryParam('id'),FlowRouter.getQueryParam('billnumbers'),(err,res)=>{
@@ -31,7 +53,9 @@ export default class PackagePaymentResponse extends Component{
 		// 	FlowRouter.go("/payment-failure");
 		// 		// Meteor.call("createQuestionPaperMasterAccordingtoPackages",FlowRouter.getParam('orderId'));
 		// }
-  	// }
+  	}
+  }
+}
 
   	// componentWillUnmount(){
    //  	$("script[src='/js/adminLte.js']").remove();

@@ -5,6 +5,7 @@ const PackageManagementMaster   = require('../models/packagemanagementmasters');
 const StudentMaster             = require('../models/studentmasters');
 
 exports.fetch_mypackageorder = (req,res,next)=>{
+   console.log("fetch_mypackageorder------>",req.params.ID);
     var sId = req.params.studentId;
     PackageOrderMaster.find({buyerId:sId,status:"paid"})
             .select("transactionId amount paymentDate packages")
@@ -19,6 +20,99 @@ exports.fetch_mypackageorder = (req,res,next)=>{
                 error: err
                 });
             });
+}
+
+exports.update_packageorderreceipt = (req,res,next)=>{
+
+   var sId = req.params.studentId;
+  var orderId = req.params.orderId;
+  var status = req.params.status;
+  var transid = req.params.id;
+  var billNumbers = req.params.billNumbers;
+  var totalAmount = req.params.totalAmount;
+    PackageOrderMaster.findOne({"_id":orderId})
+                       .exec()
+                       .then(orderData=>{
+                          if(orderData){
+                            console.log("orderData--->",orderData)
+                            orderData.updateOne({"_id":orderId},
+                                        {
+                                          $set:{
+                                            'status':status,
+                                            'amount':totalAmount,
+                                            "transactionId" : transid,
+                                            "billnumbers" : billNumbers,
+                                            "paymentDate" : new Date(),
+                                          }
+                                        })
+                                      .exec()
+                                      .then(data=>{
+                                        console.log("data in pckg update---->",data)
+                                           if(data.nModified == 1){
+                                              res.status(200).json({message:"Success"})
+                                            }else{
+                                              res.status(200).json({message:"Failed"})
+                                            }
+                                      })
+                                      .catch()
+
+                          }
+                       })
+                       .catch() 
+
+  PackageOrderMaster.update({"_id":orderId},
+          {
+            $set:{
+              'status':status,
+              'amount':packageTotal,
+              "transactionId" : trnsactionId,
+                "billnumbers" : billNum,
+                "paymentDate" : new Date(),
+            }
+          });
+  
+}
+
+exports.fetch_package_Total = (req,res,next)=>{
+    console.log("fetch_package_Total",req.params.ID);
+    PackageOrderMaster.findOne({_id:req.params.ID})
+                            .exec()
+                            .then(data=>{
+                              if(data){
+                                console.log("total data---->",data);
+                                var packageIdArray = [{_id:"kq6FGRgiZgdp2HpFi"},{_id:"2u4Sb4XzFZaFFFNE5"}];
+                                // var packageIdArray = data.packages;
+                                var o = Object.assign({},data);
+                                var amount = 0;
+                                var priceArray=[];
+                                var ln = packageIdArray.length;
+                                console.log("ln---->",ln);
+                                const cnt= packageIdArray.map((Data,index)=>{
+                                  console.log("total packageIdArray---->",Data);
+                                   PackageManagementMaster.findOne({_id:Data._id})
+                                  .exec()
+                                  .then((pckgData)=>{
+                                    // console.log("data next ---->",data);
+                                    priceArray.push(pckgData.PackagePrice)
+                                    amount += pckgData.PackagePrice;
+                                    
+                                    if(ln==(index+1)){
+                                        res.status(200).json({data:data,message:amount})
+                                    }                            
+
+                                  })
+                                  .catch()
+                                })
+                               
+                              
+                              }
+                            })
+                            .catch(err=>{
+                                console.log('err ',err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });
 }
 
 exports.fetch_mypackageorderreceipt = (req,res,next)=>{
@@ -39,9 +133,11 @@ exports.fetch_mypackageorderreceipt = (req,res,next)=>{
 }
 
 exports.check_packageorder = (req,res,next)=>{
-  PackageOrderMaster.find({_id:req.params.ID})
+  console.log("check_packageorder----------->",req.params.ID);
+  PackageOrderMaster.findOne({_id:req.params.ID})
           .exec()
           .then(data =>{
+             console.log("check_packageorder----data------->",data);
             if(data.packages.length > 0){
               res.status(200).json("packagesAdded");
             }else{
@@ -263,7 +359,8 @@ exports.create_order = (req,res,next) =>{
                                                   .exec()
                                                   .then(pmm=>{
                                                     if(pmm){
-                                                      PackageOrderMaster.update(
+                                                      console.log("pmm push----->",pmm);
+                                                      PackageOrderMaster.updateOne(
                                                                             {_id:req.params.Order_ID},
                                                                             {
                                                                               $push:{
@@ -319,7 +416,57 @@ exports.create_order = (req,res,next) =>{
                                               .exec()
                                               .then(pmm=>{
                                                 if(pmm){
-                                                  var invoiceNum = PackageOrderMaster.find({}).count() + 1;
+                                                  var invoiceNum = PackageOrderMaster.find({})
+                                                                                     .exec()
+                                                                                     .then(cntData=>{
+                                                                                      console.log("cntData---pmm-->",pmm);
+                                                                                      var invoiceNum = 0;
+                                                                                        if(cntData){
+                                                                                          invoiceNum = cntData.length +1;
+                                                                                        }
+
+                                                                                        if(invoiceNum){
+                                                                                          var packageOrderMaster = new PackageOrderMaster({
+                                                                                                                  '_id'           : new mongoose.Types.ObjectId(),
+                                                                                                                  'buyerId'       : req.params.student_ID,
+                                                                                                                  'studentName'   : sm.studentFullName,
+                                                                                                                  'franchiseId'   : sm.franchiseId,
+                                                                                                                  'status'        : 'unPaid',
+                                                                                                                  'packages'      : [{
+                                                                                                                                        'packageId'   : pmm._id, 
+                                                                                                                                        'packageName' : pmm.packageName,
+                                                                                                                                        'category'    : pmm.categoryName,
+                                                                                                                                        'subCategory' : pmm.subCategory,
+                                                                                                                                        'packagePrice': pmm.PackagePrice,
+                                                                                                                                        'NoOfPracticeTest': pmm.NoOfPracticeTest,
+                                                                                                                                      }],
+                                                                                                                  'invoiceId'     : invoiceNum,
+                                                                                                                  'packageStatus' : "Valid",
+                                                                                                              }); 
+                                                                                          packageOrderMaster.save()
+                                                                                                            // .exec()
+                                                                                                            .then(pom=>{
+                                                                                                             
+                                                                                                                res.status(200).json({message:"Order Placed",ID:pom._id})
+                                                                                                            })
+                                                                                                            .catch(err =>{
+                                                                                                              console.log(err);
+                                                                                                              res.status(500).json({
+                                                                                                                error: err
+                                                                                                              });
+                                                                                                            });                                              
+                                                                                        }
+
+
+
+
+
+
+
+                                                                                     })
+                                                                                     .catch()
+                                                  /*var invoiceNum = PackageOrderMaster.find({}).count() + 1;
+
                                                   if(invoiceNum){
                                                     var packageOrderMaster = new PackageOrderMaster({
                                                                             '_id'           : new mongoose.Types.ObjectId(),
@@ -349,7 +496,7 @@ exports.create_order = (req,res,next) =>{
                                                                           error: err
                                                                         });
                                                                       });                                              
-                                                  }
+                                                  }*/
                                                 }else{
                                                   res.status(200).json({message:"Package not found"})       
                                                 }

@@ -5,6 +5,7 @@ import * as jsPDF 			    from 'jspdf';
 import swal                 from 'sweetalert';
 import $                    from "jquery";
 import '../css/invoice.css';
+import moment from 'moment';
 
 //create pdf 
 function createPDF(){
@@ -57,6 +58,7 @@ class MyInvoice extends Component{
       id              : '', 
       date            : '',
       rate            : '', 
+      totalPrice      : '', 
       orderMasterData : [],
       invoice         : [],
       tax             : [],
@@ -66,19 +68,22 @@ class MyInvoice extends Component{
 
   componentDidMount(){ 
     $('html, body').scrollTop(0);
-    var packageId= this.props.match.params.orderId;
-    console.log("packageId",packageId);
+    var orderId= this.props.match.params.orderId;
+    console.log("packageId",orderId);
 
       axios
-        .get('/packagemanagementmasters/'+packageId)
+        .get('/packageordermasters/fetchTotal/'+orderId)
         .then((response)=>{
-          console.log("packagemanagementmasters = ",response.data);
+          console.log("packagemanagementmasters fetchTotal= ",response.data);
           var orderMasterData   =  [];
           var data   =  response.data;
           var order   =  orderMasterData.push(data);
 
           this.setState({
-              // orderMasterData   :  [{packageName:"hgvjhv"}]
+              orderMasterData   :  response.data.data,
+              totalPrice        : response.data.message
+          },()=>{
+            localStorage.setItem('totalPrice',this.state.totalPrice);
           });
         })
         .catch(function(error){
@@ -112,22 +117,27 @@ class MyInvoice extends Component{
 
   confirm(event){ 
     event.preventDefault();
-    // axios
-    //   .post('/quickwalletmasters/payment/'+studentId+'/'+comp_id+'/'+competitionFees,data)
+    var data = {
+      mobileNumber : "7721976455",
+      packageTotal : this.state.totalPrice,
+      OrderId      : this.props.match.params.orderId
+    }
+    axios
+      .post('/quickwalletmasters/payment/',data)
 
 
-    //   .then((response)=>{
-    //     console.log('package payment res =-----> ',response);
+      .then((response)=>{
+        console.log('package payment res =-----> ',response);
 
-    //     if(response.data){
+        if(response.data){
         
-    //       window.location.replace(response.data);
-    //     }
+          window.location.replace(response.data);
+        }
         
-    //   })
-    //   .catch(function(error){
-    //     console.log("error",error);
-    //   });
+      })
+      .catch(function(error){
+        console.log("error",error);
+      });
 		// Meteor.call('paymentGatewayforPackageBuy',FlowRouter.getParam('id'),(error,result)=>{
 		// 	if(error){
 		// 	console.log('error');
@@ -245,11 +255,11 @@ class MyInvoice extends Component{
 		                    <div className="col-lg-7 col-lg-offset-1 col-md-7 col-md-offset-1 col-sm-7 col-sm-offset-1 col-xs-12 clientaddress">
 		                    	<div className="col-lg-6 col-md-6   textCenterInvoice">
 			                      <div className="invoicenumber date">Invoice Number <br /></div>
-			                      <div className="">365245856{/*this.props.orderMasterData.invoiceId*/}</div>
+			                      <div className="">{this.state.orderMasterData.invoiceId}</div>
 		                        </div>
 		                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 textCenterInvoice">            
 			                      <div className="dateofissue date">Invoice Date <br /></div>
-			                      <div className=""> 12/04/2019{/*moment(this.props.orderMasterData.createdAt).format("DD/MM/YYYY")*/}</div>
+			                      <div className=""> {moment(this.state.orderMasterData.createdAt).format("DD/MM/YYYY")}</div>
 		                      </div>
 		                    </div>
 		                    {/*<div className="col-lg-3 col-lg-offset-1 col-md-4 col-md-offset-2 invoicecount">
@@ -273,7 +283,7 @@ class MyInvoice extends Component{
 		                          <th className="col-lg-3 col-md-3 col-sm-3 col-xs-3 amtcount">Amount </th>
 		                        </tr>
 		                      </thead>
-		                      <tbody>
+		                      {/*<tbody>
                             {
 		                          this.state.orderMasterData ? 
 		                           this.state.orderMasterData.map((packageData,index)=>{
@@ -291,7 +301,7 @@ class MyInvoice extends Component{
 		                          :
 		                          null
 		                        }
-		                      </tbody>
+		                      </tbody>*/}
 		                    </table>
 		                   
 		                    <hr className="hrhide"></hr>
@@ -299,7 +309,7 @@ class MyInvoice extends Component{
 		                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
 		                    <div className="pull-right text-right noPadLeftRight col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		                      <span className="subtotal  text-right col-lg-7 col-md-7 col-sm-7 col-xs-12 noPadLeftRight">Invoice Total </span>
-		                      <span className="subtotlecount  text-right col-lg-4 col-md-4 col-sm-4 col-xs-4 noPadLeftRight"><i className="fa fa-rupee"></i>{/*this.props.packageTotal*/}</span>
+		                      <span className="subtotlecount  text-right col-lg-4 col-md-4 col-sm-4 col-xs-4 noPadLeftRight"><i className="fa fa-rupee"></i>{this.state.totalPrice}</span>
 		                      {/* <span className="subtotlecount  text-right col-lg-4 noPadLeftRight"><i className="fa fa-rupee"></i>{this.formatRupees(this.props.invoice.totalAmount)}</span> */}
 		                    </div>  
 		                  </div>
