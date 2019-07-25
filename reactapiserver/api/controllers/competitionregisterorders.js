@@ -46,12 +46,23 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
   var transid = req.params.id;
   var billNumbers = req.params.billNumbers;
 
+  console.log("req.params in response---status->",status);
+  console.log("req.params in response--transid-->",transid);
+  console.log("req.params in response--billNumbers-->",billNumbers);
+  console.log("req.params in response---compId->",compId);
+  console.log("req.params in response---sId->",sId);
+
   CompetitionOrderMaster.findOne({competitionId: compId,studentId:sId})
                           .exec()
                           .then(competitionRegisterOrderData=>{
                             if(competitionRegisterOrderData){
-                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData)
-                              competitionRegisterOrderData.update(
+                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData);
+                              console.log("req.params in if response---status->",status);
+                              console.log("req.params in if response--transid-->",transid);
+                              console.log("req.params in if response--billNumbers-->",billNumbers);
+                              console.log("req.params in if response---compId->",compId);
+                              console.log("req.params in if response---sId->",sId);
+                              competitionRegisterOrderData.updateOne(
                                                                       {_id  :   competitionRegisterOrderData._id},
                                                                       {$set : {
                                                                             'status'    : status,
