@@ -76,7 +76,7 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                           .exec()
                           .then(competitionRegisterOrderData=>{
                             if(competitionRegisterOrderData){
-                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData);
+                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData._id);
                               console.log("req.params in if response---status->",status);
                               console.log("req.params in if response--transid-->",transid);
                               console.log("req.params in if response--billNumbers-->",billNumbers);
