@@ -65,10 +65,11 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                               competitionRegisterOrderData.updateOne(
                                                                       {_id  :   competitionRegisterOrderData._id},
                                                                       {$set : {
-                                                                            'status'    : status,
-                                                                            'transactionId' : transid,
-                                                                            'billnumbers'   : billNumbers,
-                                                                            'paymentDate'   : new Date(),
+                                                                            "status"    : status,
+                                                                            "transactionId" : parseInt(transid),
+                                                                            "billnumbers"   : parseInt(billNumbers),
+                                                                            "paymentDate"   : new Date(),
+                                                                            "paymentMode"   : "Online",
                                                                           }
                                                                       }                               
                                                                     )
