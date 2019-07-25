@@ -21,6 +21,26 @@ exports.fetch_mycompetitionorder = (req,res,next)=>{
             });
 }
 
+exports.fetch_unpaid_mycompetitionorder = (req,res,next)=>{
+  
+    var sId = req.params.studentId;
+    var compId = req.params.competitionId;
+    console.log('studentId n compId in get ',sId,compId);
+    CompetitionOrderMaster.findOne({studentId:sId,competitionId:compId,status:"UnPaid"})
+            .select("transactionId competitionOriginalFees paymentDate competitionId")
+            .exec()
+            .then(competitionorder =>{
+              console.log('competitionorder in get',competitionorder);
+              res.status(200).json(competitionorder);
+            })
+            .catch(err =>{
+              console.log(err);
+              res.status(500).json({
+                error: err
+                });
+            });
+}
+
 exports.fetch_mycompetitionorderreceipt = (req,res,next)=>{
   var sId = req.params.studentId;
   var compId = req.params.competitionId;

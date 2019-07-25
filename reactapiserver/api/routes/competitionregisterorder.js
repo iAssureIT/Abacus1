@@ -7,5 +7,6 @@ router.get('/mainexam/:studentId',CompetitionRegisterOrderController.fetch_mycom
 // router.post('/updateOrder/:studentId/:competitionId/:status/:id/:billNumbers',CompetitionRegisterOrderController.update_mycompetitionorderreceipt);
 router.get('/:studentId',CompetitionRegisterOrderController.fetch_mycompetitionorder);
 router.get('/:studentId/:competitionId',CompetitionRegisterOrderController.fetch_mycompetitionorderreceipt);
+router.get('/getOrder/:studentId/:competitionId',CompetitionRegisterOrderController.fetch_unpaid_mycompetitionorder);
 
 module.exports = router;
