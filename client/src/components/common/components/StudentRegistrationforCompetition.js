@@ -333,7 +333,7 @@ class StudentRegistrationforCompetition extends Component  {
 												:
 													competitionInfo.timeStatus=="valid" && competitionInfo.examYear=="NotAccept" ?
 														<div className="fontstyle" >									
-															<a href={`/CompetitionDetailsforPayment/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
+															<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
 														</div>
 													:														            			
 														competitionInfo.timeStatus=="invalid"  || competitionInfo.examYear=="NotAccept"?
@@ -342,7 +342,7 @@ class StudentRegistrationforCompetition extends Component  {
 															</div>
 														:						            					            			
 															<div className="fontstyle" >									
-																<a href={`/CompetitionDetailsforPayment/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
+																<a href={`/competitionDetails/${competitionInfo._id}`} title="Click to register"><button className="btn startexambtn1 startmultiexambtn">Register for Competition</button></a>
 															</div>
 												}
 										</div>)										
