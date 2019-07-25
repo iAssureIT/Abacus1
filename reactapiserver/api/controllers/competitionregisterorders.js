@@ -27,7 +27,7 @@ exports.fetch_unpaid_mycompetitionorder = (req,res,next)=>{
     var compId = req.params.competitionId;
     console.log('studentId n compId in get ',sId,compId);
     CompetitionOrderMaster.findOne({studentId:sId,competitionId:compId,status:"UnPaid"})
-            .select("transactionId competitionOriginalFees paymentDate competitionId")
+            
             .exec()
             .then(competitionorder =>{
               console.log('competitionorder in get',competitionorder);
