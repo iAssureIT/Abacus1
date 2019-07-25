@@ -90,10 +90,12 @@ exports.makepayment = (req,res,next) =>{
 
 exports.paymentGatewayforCompetition = (req,res,next) => {
     console.log('body ',req.body);
+    console.log('parrrrmmmm----> ',req.params);
     StudentMaster   .findOne({studentId:req.params.studentId})
                     .exec()
                     .then(studentMasterData=>{
                         if(studentMasterData){
+                            console.log("studentMasterData----in reg order",studentMasterData);
                             var mobileNum = studentMasterData.mobileNumber;
                             var number = mobileNum.split('-');
                             var concatNum = number[0]+number[1]+number[2];
@@ -103,6 +105,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                         .exec()
                                         .then(ExamMasterData=>{
                                             if(ExamMasterData){
+                                                console.log("ExamMasterData---in reg order------->",ExamMasterData);
                                                 const competitionRegisterOrder = new CompetitionRegisterOrder({
                                                     '_id'                       : new mongoose.Types.ObjectId(),
                                                     'competitionId'	            : req.params.competitionId,
@@ -121,6 +124,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                 });
                                                 competitionRegisterOrder.save()
                                                                         .then(data=>{
+                                                                            console.log("create reg order---->",data);
                                                                             QuickWalletMasters.findOne({})
                                                                                              .exec()
                                                                                              .then(QWCredential=>{
