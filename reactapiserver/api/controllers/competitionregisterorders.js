@@ -95,6 +95,8 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                                                                     )
                                                           .exec()
                                                           .then(data=>{
+                                                        console.log("data competitionRegisterOrderData----->",competitionRegisterOrderData._id);
+
                                                             console.log("data----->",data);
                                                             if(data.nModified == 1){
                                                               res.status(200).json({message:"Success"})
