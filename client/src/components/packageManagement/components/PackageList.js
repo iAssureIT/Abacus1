@@ -58,11 +58,13 @@ class PackageList extends Component  {
     var studentId = localStorage.getItem('user_ID');
     var packageId = event.target.getAttribute('id');
     var orderId   = this.props.match.params.orderId ? this.props.match.params.orderId : "-";
+
+    console.log("dt------>",studentId,packageId,orderId);
    //abacusapi.iassureit.com/packageordermasters/createorder/5d35633a88f89161193802a4/2pAMfuWigYxZNbW6D/ZdQp8DmsGL2Yj5uTE
     axios
       .post('/packageordermasters/createorder/'+studentId+'/'+orderId+'/'+packageId)
       .then((response)=>{
-        console.log("updatepackage = ",response.data);
+        console.log("updatepackage = ====>",response.data);
         var orderId = response.data;
         // this.props.history.push('/PackageList/'+orderId);
         this.setState({
