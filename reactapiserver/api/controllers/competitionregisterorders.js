@@ -46,7 +46,7 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
   var transid = req.params.id;
   var billNumbers = req.params.billNumbers;
 
-  CompetitionRegisterOrder.findOne({competitionId: compId,studentId:sId})
+  CompetitionOrderMaster.findOne({competitionId: compId,studentId:sId})
                           .exec()
                           .then(competitionRegisterOrderData=>{
                             if(competitionRegisterOrderData){
