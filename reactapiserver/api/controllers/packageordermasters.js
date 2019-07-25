@@ -79,9 +79,16 @@ exports.fetch_package_Total = (req,res,next)=>{
                             .exec()
                             .then(data=>{
                               if(data){
+                                var packageIdArray=[];
                                 console.log("total data---->",data);
-                                var packageIdArray = [{_id:"kq6FGRgiZgdp2HpFi"},{_id:"2u4Sb4XzFZaFFFNE5"}];
-                                // var packageIdArray = data.packages;
+                                // var packageIdArray = [{_id:"kq6FGRgiZgdp2HpFi"},{_id:"2u4Sb4XzFZaFFFNE5"}];
+                                packageIdArrayLength = (data.packages).length;
+                                var dt = data.packages
+                                for(var i=0;i<packageIdArrayLength;i++){
+                                  packageIdArray.push(dt[i])
+                                  
+                                }
+                                console.log("total packageIdArray---->",packageIdArray.length,packageIdArray);
                                 var o = Object.assign({},data);
                                 var amount = 0;
                                 var priceArray=[];
@@ -89,10 +96,10 @@ exports.fetch_package_Total = (req,res,next)=>{
                                 console.log("ln---->",ln);
                                 const cnt= packageIdArray.map((Data,index)=>{
                                   console.log("total packageIdArray---->",Data);
-                                   PackageManagementMaster.findOne({_id:Data._id})
+                                   PackageManagementMaster.findOne({_id:Data.packageId})
                                   .exec()
                                   .then((pckgData)=>{
-                                    // console.log("data next ---->",data);
+                                    console.log("data next ---->",pckgData);
                                     priceArray.push(pckgData.PackagePrice)
                                     amount += pckgData.PackagePrice;
                                     
@@ -324,13 +331,14 @@ exports.create_order = (req,res,next) =>{
     PackageOrderMaster.find(
                               {
                                 _id:req.params.Order_ID,
-                                "packages":{$elemMatch:{packageId:req.params.package_ID}}
+                                packages:{$elemMatch:{packageId:req.params.package_ID}}
                               }
                             )
                       .exec()
                       .then(pom=>{
-                        if(pom){
-                          PackageOrderMaster.update(
+                        if(pom.length>0){
+                          console.log("pom pom",pom,req.params.Order_ID,req.params.package_ID)
+                          PackageOrderMaster.updateOne(
                                                 {_id:req.params.Order_ID},
                                                 {
                                                   $pull:{
@@ -355,17 +363,18 @@ exports.create_order = (req,res,next) =>{
                                               });
                                             });                      
                         }else{
+                          console.log("in else---->")
                           PackageManagementMaster .find({_id:req.params.package_ID})
                                                   .exec()
                                                   .then(pmm=>{
                                                     if(pmm){
-                                                      console.log("pmm push----->",pmm);
+                                                      console.log("pmm push----->",pmm,req.params.package_ID);
                                                       PackageOrderMaster.updateOne(
                                                                             {_id:req.params.Order_ID},
                                                                             {
                                                                               $push:{
                                                                                   "packages":{
-                                                                                    'packageId'   : pmm._id, 
+                                                                                    'packageId'   : req.params.package_ID, 
                                                                                     'packageName' : pmm.packageName,
                                                                                     'category'    : pmm.categoryName,
                                                                                     'subCategory' : pmm.subCategory,
@@ -377,6 +386,7 @@ exports.create_order = (req,res,next) =>{
                                                                         )
                                                                         .exec()
                                                                         .then(pom=>{
+                                                                          console.log("pom update--->",pom)
                                                                           if(pom.nModified == 1){
                                                                             res.status(200).json({message:"Package added"})
                                                                           }else{
@@ -416,16 +426,19 @@ exports.create_order = (req,res,next) =>{
                                               .exec()
                                               .then(pmm=>{
                                                 if(pmm){
+                                                  console.log("req.params.package_ID insert",req.params.package_ID,pmm)
                                                   var invoiceNum = PackageOrderMaster.find({})
                                                                                      .exec()
                                                                                      .then(cntData=>{
                                                                                       console.log("cntData---pmm-->",pmm);
+                                                                                      console.log("cntData---cntData-->",req.params.package_ID);
                                                                                       var invoiceNum = 0;
                                                                                         if(cntData){
                                                                                           invoiceNum = cntData.length +1;
                                                                                         }
 
                                                                                         if(invoiceNum){
+                                                                                          console.log("sm---invoiceNum--------->",sm,pmm)
                                                                                           var packageOrderMaster = new PackageOrderMaster({
                                                                                                                   '_id'           : new mongoose.Types.ObjectId(),
                                                                                                                   'buyerId'       : req.params.student_ID,
@@ -433,7 +446,7 @@ exports.create_order = (req,res,next) =>{
                                                                                                                   'franchiseId'   : sm.franchiseId,
                                                                                                                   'status'        : 'unPaid',
                                                                                                                   'packages'      : [{
-                                                                                                                                        'packageId'   : pmm._id, 
+                                                                                                                                        'packageId'   : req.params.package_ID, 
                                                                                                                                         'packageName' : pmm.packageName,
                                                                                                                                         'category'    : pmm.categoryName,
                                                                                                                                         'subCategory' : pmm.subCategory,
@@ -446,7 +459,7 @@ exports.create_order = (req,res,next) =>{
                                                                                           packageOrderMaster.save()
                                                                                                             // .exec()
                                                                                                             .then(pom=>{
-                                                                                                             
+
                                                                                                                 res.status(200).json({message:"Order Placed",ID:pom._id})
                                                                                                             })
                                                                                                             .catch(err =>{
