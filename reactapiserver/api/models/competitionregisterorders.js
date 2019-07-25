@@ -14,10 +14,10 @@ const competitionregisterorderSchema = mongoose.Schema({
     competitionFees : Number,
     franchiseShare : Number,
     status : String,
-    transactionId : Number,
-    billnumbers : Number,
+    transactionId : String,
+    billnumbers : String,
     paymentMode : String,
-    paymentDate : Date
+    paymentDate : Date,    
 });
 
 module.exports = mongoose.model('competitionregisterorders',competitionregisterorderSchema);
