@@ -45,12 +45,14 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
   var status = req.params.status;
   var transid = req.params.id;
   var billNumbers = req.params.billNumbers;
+
   CompetitionOrderMaster.findOne({competitionId: compId,studentId:sId})
                           .exec()
                           .then(competitionRegisterOrderData=>{
                             if(competitionRegisterOrderData){
-                              competitionRegisterOrderData.updateOne(
-                                                                      {"_id"  :   competitionRegisterOrderData._id},
+                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData)
+                              competitionRegisterOrderData.update(
+                                                                      {_id  :   competitionRegisterOrderData._id},
                                                                       {$set : {
                                                                             'status'    : status,
                                                                             'transactionId' : transid,
@@ -61,6 +63,7 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                                                                     )
                                                           .exec()
                                                           .then(data=>{
+                                                            console.log("data----->",data);
                                                             if(data.nModified == 1){
                                                               res.status(200).json({message:"Success"})
                                                             }else{
