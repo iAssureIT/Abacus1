@@ -44,6 +44,7 @@ class PurchasedPracticeStartExam extends Component {
       axios
         .get('/packagequestionpapermaster/'+studentID)
         .then((response)=>{
+          console.log("purchase list",response);
           this.setState({
             PackageQPMData  :response.data,
           },()=>{

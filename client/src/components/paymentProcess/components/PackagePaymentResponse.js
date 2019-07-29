@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 import axios                from 'axios';
+import moment                from 'moment';
 import queryString from 'query-string';
 // import { FlowRouter }   from 'meteor/ostrio:flow-router-extra';
 // import {withTracker} from 'meteor/react-meteor-data';
@@ -10,7 +11,13 @@ import queryString from 'query-string';
 // import {PackageOrderMaster} from '/imports/paymentProcess/api/packageOrderMaster.js';
 	
 export default class PackagePaymentResponse extends Component{
-
+	constructor(){
+		super();
+		this.state ={
+	    	packageOrderData:"",
+		}
+		// this.getReceipt=this.getReceipt.bind(this);
+	}
 	componentDidMount(){
 	var paramValues = queryString.parse(this.props.location.search);
   		if(paramValues){
@@ -20,8 +27,8 @@ export default class PackagePaymentResponse extends Component{
   			var status = paramValues.status;
 	  		const studentId = localStorage.getItem("user_ID");
 	  		var orderId = this.props.match.params.orderId;		
-	  		var totalAmount = 648;
-	  		// var totalAmount = localStorage.getItem('totalPrice');
+	  		// var totalAmount = 648;
+	  		var totalAmount = localStorage.getItem('totalPrice');
 			if(status == 'paid'){
 				axios
 				.post('/packageordermasters/updatePackageOrder/'+studentId+'/'+orderId+'/'+status+'/'+id+'/'+billnumbers+'/'+totalAmount)
@@ -30,44 +37,67 @@ export default class PackagePaymentResponse extends Component{
 				.then((response)=>{
 					console.log('pckg payment responseeeee =-----> ',response);
 
-					// if(response.data){
-					// this.props.history.push('/payment-success/'+this.props.match.params.orderId);
-					// 	window.location.replace(response.data);
-					// }
+					if(response.data.message=="Success"){
+
+							axios.get('/packageordermasters/fetchReceipt/'+this.props.match.params.orderId)
+							.then((response)=>{
+							  console.log("packagemanagementmasters fetchTotal= ",response.data);
+							   this.setState({
+							      packageOrderData   :  response.data.data,			      
+							  },()=>{
+							  	console.log("packageOrderData----->",this.state.packageOrderData);
+							  });
+							})
+							.catch(function(error){
+							  console.log(error);
+							})						
+					}
 					
 				})
 				.catch(function(error){
 					console.log("error",error);
 				});
 
-		// if(FlowRouter.getQueryParam('status') == 'paid'){
-		// 	Meteor.call("updatePackagePaymentStatus",FlowRouter.getParam('orderId'),FlowRouter.getQueryParam('status'),FlowRouter.getQueryParam('id'),FlowRouter.getQueryParam('billnumbers'),(err,res)=>{
-		// 		if(err){
-		// 			console.log(err);
-		// 		}else{
-		// 			// Meteor.call("createQuestionPaperMasterAccordingtoPackages",FlowRouter.getParam('orderId'));
-		// 			FlowRouter.go("/packagePayment-success/"+FlowRouter.getParam('orderId'));
-		// 		}
-		// 	});
-		// }else{
-		// 	FlowRouter.go("/payment-failure");
-		// 		// Meteor.call("createQuestionPaperMasterAccordingtoPackages",FlowRouter.getParam('orderId'));
-		// }
+		// axios.get('/packageordermasters/fetchReceipt/'+this.props.match.params.orderId)
+		// 	.then((response)=>{
+		// 	  console.log("packagemanagementmasters fetchTotal= ",response.data);
+		// 	   this.setState({
+		// 	      packageOrderData   :  response.data.data,			      
+		// 	  },()=>{
+		// 	  	console.log("packageOrderData----->",this.state.packageOrderData);
+		// 	  });
+		// 	})
+		// 	.catch(function(error){
+		// 	  console.log(error);
+		// 	})
   	}
   }
 }
+
+// getReceipt(){
+// 	console.log("in get recept",this.props.match.params.orderId);
+// 	axios.get('/packageordermasters/fetchReceipt/'+this.props.match.params.orderId)
+// 	.then((response)=>{
+// 	  console.log("packagemanagementmasters fetchTotal= ",response.data);
+	  
+
+// 	  // this.setState({
+// 	  //     orderMasterData   :  response.data.data,
+// 	  //     totalPrice        : response.data.message,
+// 	  //     packageListData   : data.data.packages
+// 	  // });
+// 	})
+// 	.catch(function(error){
+// 	  console.log(error);
+// 	})
+// }
 
   	// componentWillUnmount(){
    //  	$("script[src='/js/adminLte.js']").remove();
    //  	$("link[href='/css/dashboard.css']").remove();
   	// }
   	
-  	constructor(){
-		super();
-		this.state ={
-	    
-		}
-	}
+
 
 	
 
@@ -99,35 +129,35 @@ export default class PackagePaymentResponse extends Component{
 															<div className="col-lg-6 status box-headerpayment">
 																<h4>Status :</h4>
 															</div>
-															{/*<div className="col-lg-6 box-headerrec ">
-																<h4>{this.props.packageOrderData.status}</h4>
-															</div>*/}
+															<div className="col-lg-6 box-headerrec ">
+																<h4>{this.state.packageOrderData.status}</h4>
+															</div>
 														</div>
 														<div className="col-lg-12 box-header box-title">
 															
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Amount Paid :</h4>
 															</div>
-															{/*<div className="col-lg-6 box-headerrec ">
-																<h4>{this.props.packageOrderData.amount}</h4>
-															</div>*/}
+															<div className="col-lg-6 box-headerrec ">
+																<h4>{this.state.packageOrderData.amount}</h4>
+															</div>
 														</div>
 														<div className="col-lg-12 status">
 															
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Tansaction ID :</h4>
 															</div>
-{/*															<div className="col-lg-6 box-headerrec ">
-																<h4>{this.props.packageOrderData.transactionId} </h4>
-															</div>*/}
+															<div className="col-lg-6 box-headerrec ">
+																<h4>{this.state.packageOrderData.transactionId} </h4>
+															</div>
 														</div>
 														<div className="col-lg-12 status">
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Bill Number : </h4>
 															</div>
-															{/*<div className="col-lg-6 box-headerrec">
-																<h4>{this.props.packageOrderData.billnumbers}  </h4>
-															</div>*/}
+															<div className="col-lg-6 box-headerrec">
+																<h4>{this.state.packageOrderData.billnumbers}  </h4>
+															</div>
 														</div>
 														<div className="col-lg-12 status">
 														
@@ -135,9 +165,9 @@ export default class PackagePaymentResponse extends Component{
 															<div className="col-lg-6 box-headerpayment examdetailsubtitles">
 																<h4>Payment Date & Time : </h4>
 															</div>
-															{/*<div className="col-lg-6 box-headerrec ">
-																<h4>{moment(this.props.packageOrderData.paymentDate).format('DD/MM/YYYY')}  </h4>
-															</div>*/}
+															<div className="col-lg-6 box-headerrec ">
+																<h4>{moment(this.state.packageOrderData.paymentDate).format('DD/MM/YYYY')}  </h4>
+															</div>
 														</div>
 													</div>
 									            </div>

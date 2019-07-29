@@ -17,7 +17,7 @@ const competitionregisterorderSchema = mongoose.Schema({
     transactionId : Number,
     billnumbers : Number,
     paymentMode : String,
-    paymentDate : Date
+    paymentDate : Date,
 });
 
 module.exports = mongoose.model('competitionregisterorders',competitionregisterorderSchema);

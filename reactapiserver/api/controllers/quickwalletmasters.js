@@ -25,7 +25,9 @@ exports.fetch_details = (req,res,next)=>{
 exports.makepayment = (req,res,next) =>{
     var mobileNumber    = req.body.mobileNumber;
     var packageTotal    = req.body.packageTotal;
-    var orderId         = req.body.orderId
+    var orderId         = req.body.orderId;
+    var baseUrl         = req.body.baseUrl
+    
     QuickWalletMasters  .findOne({})
                         .exec()
                         .then(QWCredential =>{
@@ -44,11 +46,11 @@ exports.makepayment = (req,res,next) =>{
                                     "mobile"         : mobileNumber,
                                     "secret"         : secret,
                                     "amount"         : packageTotal,
-                                    "redirecturl"    : 'http://localhost:3000/packagePayment-response/'+req.body.OrderId ,
+                                    "redirecturl"    : baseUrl+'/packagePayment-response/'+req.body.OrderId ,
+                                    // "redirecturl"    : 'http://localhost:3000/packagePayment-response/'+req.body.OrderId ,
                                 };
                                 var url = API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment";
-                                console.log('url ',url);
-                                console.log('quickWalletInput ',quickWalletInput);
+                                console.log("baseUrl----",baseUrl);
                                 request({
                                     "method"    :"POST", 
                                     "url"       : url,
@@ -146,8 +148,8 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "mobile"     : mobNumber,
                                                                                                                "secret"     : secret,
                                                                                                                "amount"     : req.params.compfees,
-                                                                                                               "redirecturl" : 'http://localhost:3000/payment-response/'+req.params.competitionId,             
-                                                                                                               // "redirecturl" : req.body.url+'payment-response/'+req.params.studentId+'/'+req.params.competitionId,             
+                                                                                                               // "redirecturl" : 'http://localhost:3000/payment-response/'+req.params.competitionId,             
+                                                                                                               "redirecturl" : req.body.url+'/payment-response/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
                                                                                                         console.log('quickWalletInput for competition ',quickWalletInput);

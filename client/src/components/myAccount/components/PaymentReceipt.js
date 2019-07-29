@@ -84,7 +84,7 @@ class PaymentReceipt extends Component{
 															<h4>Status :</h4>
 														</div>
 														<div className="col-lg-6 box-headerrec ">
-															{/*<h4>{this.state.orderreceipt.status}</h4>*/}
+														<h4>{this.state.orderreceipt.status}</h4>
 														</div>
 													</div>
 													<div className="col-lg-12">
@@ -93,7 +93,7 @@ class PaymentReceipt extends Component{
 														</div>
 														<div className="col-lg-6 box-headerrec ">
 															<h4><i className="fa fa-rupee"></i>
-															{/*{this.state.receiptType=="Competition Receipt"?this.state.orderreceipt.competitionFees:this.state.orderreceipt.amount}*/}
+															{this.state.receiptType=="Competition Receipt"?this.state.orderreceipt.competitionFees:this.state.orderreceipt.amount}
 															</h4>
 														</div>
 													</div>
@@ -102,7 +102,7 @@ class PaymentReceipt extends Component{
 															<h4>Tansaction ID :</h4>
 														</div>
 														<div className="col-lg-6 box-headerrec ">
-															{/*<h4> {this.state.orderreceipt.transactionId} </h4>*/}
+															<h4> {this.state.orderreceipt.transactionId} </h4>
 														</div>
 													</div>
 													<div className="col-lg-12 status">
@@ -110,7 +110,7 @@ class PaymentReceipt extends Component{
 															<h4>Bill Number : </h4>
 														</div>
 														<div className="col-lg-6 box-headerrec">
-															{/*<h4>{this.state.orderreceipt.billnumbers}  </h4>*/}
+															<h4>{this.state.orderreceipt.billnumbers}  </h4>
 														</div>
 													</div>
 													<div className="col-lg-12 status">
@@ -118,7 +118,7 @@ class PaymentReceipt extends Component{
 															<h4>Payment Date & Time : </h4>
 														</div>
 														<div className="col-lg-6 box-headerrec ">
-															{/*<h4>{moment(this.state.orderreceipt.paymentDate).format('DD/MM/YYYY')}, {moment(this.state.orderreceipt.paymentDate).format('LT')}</h4>*/}
+															<h4>{moment(this.state.orderreceipt.paymentDate).format('DD/MM/YYYY')}, {moment(this.state.orderreceipt.paymentDate).format('LT')}</h4>
 														</div>
 													</div>
 												</div>

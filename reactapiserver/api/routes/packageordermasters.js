@@ -5,6 +5,7 @@ const PackageOrderController = require('../controllers/packageordermasters');
 
 router.get('/check/:ID',PackageOrderController.check_packageorder);
 router.get('/fetchTotal/:ID',PackageOrderController.fetch_package_Total);
+router.get('/fetchReceipt/:ID',PackageOrderController.fetch_package_Receipt);
 router.get('/invoice/:invoice_ID',PackageOrderController.invoice_display);
 router.get('/updatepackage/:ID/:packageId',PackageOrderController.find_packagID)
 router.get('/:studentId',PackageOrderController.fetch_mypackageorder);

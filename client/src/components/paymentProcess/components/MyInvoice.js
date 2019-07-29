@@ -60,6 +60,7 @@ class MyInvoice extends Component{
       rate            : '', 
       totalPrice      : '', 
       orderMasterData : [],
+      packageListData : [],
       invoice         : [],
       tax             : [],
       serviceArray    : [{'serviceName': 'packageData','serviceRate':200,'totalQty':222}],
@@ -81,24 +82,26 @@ class MyInvoice extends Component{
 
           this.setState({
               orderMasterData   :  response.data.data,
-              totalPrice        : response.data.message
+              totalPrice        : response.data.message,
+              packageListData   : data.data.packages
           },()=>{
             localStorage.setItem('totalPrice',this.state.totalPrice);
+            console.log('packageListData',this.state.packageListData);
           });
         })
         .catch(function(error){
           console.log(error);
         })
 
-      axios
-        .get('/packageordermasters/invoice/1768'/*+invoice_ID*/)
-        .then((response)=>{
-          console.log("invoice = ",response.data);
+      // axios
+      //   .get('/packageordermasters/invoice/1768'/*+invoice_ID*/)
+      //   .then((response)=>{
+      //     console.log("invoice = ",response.data);
          
-        })
-        .catch(function(error){
-          console.log(error);
-        })
+      //   })
+      //   .catch(function(error){
+      //     console.log(error);
+      //   })
 
   }
 	
@@ -120,7 +123,8 @@ class MyInvoice extends Component{
     var data = {
       mobileNumber : "7721976455",
       packageTotal : this.state.totalPrice,
-      OrderId      : this.props.match.params.orderId
+      OrderId      : this.props.match.params.orderId,
+      baseUrl      : window.location.origin,
     }
     axios
       .post('/quickwalletmasters/payment/',data)
@@ -283,10 +287,10 @@ class MyInvoice extends Component{
 		                          <th className="col-lg-3 col-md-3 col-sm-3 col-xs-3 amtcount">Amount </th>
 		                        </tr>
 		                      </thead>
-		                      {/*<tbody>
+		                      <tbody>
                             {
-		                          this.state.orderMasterData ? 
-		                           this.state.orderMasterData.map((packageData,index)=>{
+		                          this.state.packageListData ? 
+		                           this.state.packageListData.map((packageData,index)=>{
 		                            return(
 		                              <tr key ={index} className="firstrow">
 		                                <td className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{packageData.packageName}<br />
@@ -301,7 +305,7 @@ class MyInvoice extends Component{
 		                          :
 		                          null
 		                        }
-		                      </tbody>*/}
+		                      </tbody>
 		                    </table>
 		                   
 		                    <hr className="hrhide"></hr>

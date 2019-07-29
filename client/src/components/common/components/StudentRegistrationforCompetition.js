@@ -170,7 +170,7 @@ class StudentRegistrationforCompetition extends Component  {
 
 
 	startExam(event){
-		event.preventDefault();
+		// event.preventDefault();
 		navigator.getMedia = ( 
 		// navigator.getUserMedia || // use the proper vendor prefix
         navigator.webkitGetUserMedia ||
@@ -295,7 +295,7 @@ class StudentRegistrationforCompetition extends Component  {
 																competitionInfo.competitionStatus=="start"?
 																	competitionInfo.examStartStatus=="start"?
 																		<div className="fontstyle" >
-																			<a href={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1 startmultiexambtn">Start Exam </button></a>
+																			<Link to={"/iAgreeAndStartExam/"+competitionInfo._id}> <button type="submit" onClick={this.startExam.bind(this)} className="btn startexambtn1 startmultiexambtn">Start Exam </button></Link>
 																		</div>
 																	:	
 																		<div className="fontstyle" >

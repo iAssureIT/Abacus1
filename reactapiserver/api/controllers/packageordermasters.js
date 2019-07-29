@@ -1,6 +1,8 @@
 const mongoose	= require("mongoose");
 
 const PackageOrderMaster        = require('../models/packageordermasters');
+const QuestionPaperMaster        = require('../models/questionpapermasters');
+const PackageQuestionPaperMaster        = require('../models/packagequestionpapermasters');
 const PackageManagementMaster   = require('../models/packagemanagementmasters');
 const StudentMaster             = require('../models/studentmasters');
 
@@ -23,7 +25,6 @@ exports.fetch_mypackageorder = (req,res,next)=>{
 }
 
 exports.update_packageorderreceipt = (req,res,next)=>{
-
    var sId = req.params.studentId;
   var orderId = req.params.orderId;
   var status = req.params.status;
@@ -34,43 +35,297 @@ exports.update_packageorderreceipt = (req,res,next)=>{
                        .exec()
                        .then(orderData=>{
                           if(orderData){
-                            console.log("orderData--->",orderData)
-                            orderData.updateOne({"_id":orderId},
-                                        {
-                                          $set:{
-                                            'status':status,
-                                            'amount':totalAmount,
-                                            "transactionId" : transid,
-                                            "billnumbers" : billNumbers,
-                                            "paymentDate" : new Date(),
-                                          }
-                                        })
-                                      .exec()
-                                      .then(data=>{
-                                        console.log("data in pckg update---->",data)
-                                           if(data.nModified == 1){
-                                              res.status(200).json({message:"Success"})
-                                            }else{
-                                              res.status(200).json({message:"Failed"})
-                                            }
-                                      })
-                                      .catch()
+                            // console.log("orderData--->",orderData)
+                            PackageOrderMaster.updateOne({"_id":orderId},
+                                  {
+                                    $set:{
+                                      'status':status,
+                                      'amount':totalAmount,
+                                      "transactionId" : transid,
+                                      "billnumbers" : billNumbers,
+                                      "paymentDate" : new Date(),
+                                    }
+                                  })
+                                .exec()
+                                .then(data=>{
+                                   if(data.nModified == 1){
+                                   
+
+                                      // res.status(200).json({message:"Success"});
+
+                                      // ----------------------------------------------to create collection after payment success in package question paper master-----------------------------------------------------------
+                                    var allPackages = orderData.packages;
+                                    if(allPackages){
+                                      // console.log("allPackages--->",allPackages);
+                                      var allPackagesLen = allPackages.length;
+                                      for(var j=0; j<allPackagesLen; j++){
+                                        var packageId = allPackages[j].packageId;
+                                        if(packageId){
+                                            PackageManagementMaster.findOne({"_id":packageId})
+                                                                   .exec()
+                                                                   .then(PMMData=>{
+                                                                      if(PMMData){
+                                                                       
+                                                                        var practicePaperIDArray = PMMData.practicePaperID;
+                                                                        if(practicePaperIDArray){
+                                                                          var practicePaperIDArrayLen = practicePaperIDArray.length;
+                                                                          for(var i=0;i<practicePaperIDArrayLen;i++ ){
+                                                                            var practicePapId = practicePaperIDArray[i].paperID;
+                                                                              if(practicePapId){
+                                                                                QuestionPaperMaster.findOne({"_id":practicePapId})
+                                                                                                   .exec()
+                                                                                                   .then(QuestionPaperMasterData=>{
+                                                                                                      if(QuestionPaperMasterData){
+                                                                                                        // console.log("QuestionPaperMasterData---PMMData._id->",orderId,PMMData._id);
+                                                                                                         PackageQuestionPaperMaster.find({"order_id":orderId,"packageId":PMMData._id})
+                                                                                                                                    .exec()
+                                                                                                                                    .then(datacount=>{
+                                                                                                                                      // console.log("dataCOunt---->",datacount);
+                                                                                                                                        var PackageQuestionPaperMasterDataLen = datacount.length;
+                                                                                                                                        // console.log("lenghts---------->",PackageQuestionPaperMasterDataLen,practicePaperIDArrayLen);
+                                                                                                                                        if(PackageQuestionPaperMasterDataLen<=practicePaperIDArrayLen){
+                                                                                                                                          // console.log("sId----->",sId);
+                                                                                                                                          StudentMaster.findOne({"studentId":sId})
+                                                                                                                                                 .exec()
+                                                                                                                                                 .then(studentInfo=>{
+                                                                                                                                                  // console.log("packageId for update----->",packageId,PMMData._id);
+                                                                                                                                                    var id = new PackageQuestionPaperMaster({
+                                                                                                                                                              '_id'              : new mongoose.Types.ObjectId(),
+                                                                                                                                                              'order_id'         : orderId,
+                                                                                                                                                              'buyerId'          : studentInfo.studentId,
+                                                                                                                                                              'packageId'        : PMMData._id,
+                                                                                                                                                              'packageName'      : PMMData.packageName,
+                                                                                                                                                              'questionPaper_id' : QuestionPaperMasterData._id,
+                                                                                                                                                              'questionPaperName': QuestionPaperMasterData.quePaperTitle,
+                                                                                                                                                              'franchiseId'      : studentInfo.franchiseId,
+                                                                                                                                                              'companyId'        : studentInfo.companyId,
+                                                                                                                                                              'studentFullName'  : studentInfo.studentFullName,
+                                                                                                                                                              'category'         : studentInfo.category,
+                                                                                                                                                              'subCategory'      : studentInfo.subCategory, 
+                                                                                                                                                              'createdAt'        : new Date(),                      
+                                                                                                                                                            });
+                                                                                                                                                     id.save()
+                                                                                                                                                         .then(result =>{
+                                                                                                                                                          // console.log("result in update",result._id,PMMData.AttemptOfPracticeTest);
+                                                                                                                                                           for(var k=0; k<PMMData.AttemptOfPracticeTest;k++){
+                                                                                                                                                                PackageQuestionPaperMaster.updateOne({"_id":result._id},
+                                                                                                                                                                  {
+                                                                                                                                                                    $push:{
+                                                                                                                                                                      noOfAttempts:{
+                                                                                                                                                                       // 'AtteptCount' : '',
+                                                                                                                                                                       'status'      : false,
+                                                                                                                                                                       'attemptedAt' : '',
+                                                                                                                                                                      }
+                                                                                                                                                                    }
+                                                                                                                                                                  })
+                                                                                                                                                                  .exec()
+                                                                                                                                                                  .then(data=>{
+                                                                                                                                                                    if(data.nModified == 1){
+                                                                                                                                                                          res.status(200).json({message:"Success"});
+                                                                                                                                                                          // console.log("in modified---success->")
+                                                                                                                                                                        }else{
+                                                                                                                                                                          // console.log("in modified---failed->")
+                                                                                                                                                                          res.status(200).json({message:"Failed"})
+                                                                                                                                                                        }
+                                                                                                                                                                  
+                                                                                                                                                                  })
+                                                                                                                                                                  .catch()
+                                                                                                                                                              }
+
+                                                                                                                                                         })
+                                                                                                                                                         .catch(err =>{
+                                                                                                                                                            console.log(err);
+                                                                                                                                                            res.status(500).json({
+                                                                                                                                                              error: err
+                                                                                                                                                            });
+                                                                                                                                                          });
+
+                                                                                                                                                })
+                                                                                                                                                 .catch()
+                                                                                                                                        }
+                                                                                                                                    })
+                                                                                                                                    .catch()
+                                                                                                      }
+                                                                                                   })
+                                                                                                   .catch()
+                                                                              }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                   })
+                                                                   .catch()
+                                        }
+                                      }
+                                    }
+
+
+                                    // -----------------------------------------------End of code-----------------------------------------
+
+
+                                    }else{
+                                      res.status(200).json({message:"Failed"})
+                                       console.log("in modified---success->");
+
+                                    }
+                                })
+                                .catch()
+// // ----------------------------------------------to create collection after payment success in package question paper master-----------------------------------------------------------
+//                                     var allPackages = orderData.packages;
+//                                     if(allPackages){
+//                                       // console.log("allPackages--->",allPackages);
+//                                       var allPackagesLen = allPackages.length;
+//                                       for(var j=0; j<allPackagesLen; j++){
+//                                         var packageId = allPackages[j].packageId;
+//                                         if(packageId){
+//                                             PackageManagementMaster.findOne({"_id":packageId})
+//                                                                    .exec()
+//                                                                    .then(PMMData=>{
+//                                                                       if(PMMData){
+//                                                                         // console.log("PMMData----->",PMMData);
+//                                                                         var practicePaperIDArray = PMMData.practicePaperID;
+//                                                                         if(practicePaperIDArray){
+//                                                                           var practicePaperIDArrayLen = practicePaperIDArray.length;
+//                                                                           for(var i=0;i<practicePaperIDArrayLen;i++ ){
+//                                                                             var practicePapId = practicePaperIDArray[i].paperID;
+//                                                                               if(practicePapId){
+//                                                                                 QuestionPaperMaster.findOne({"_id":practicePapId})
+//                                                                                                    .exec()
+//                                                                                                    .then(QuestionPaperMasterData=>{
+//                                                                                                       if(QuestionPaperMasterData){
+//                                                                                                         // console.log("QuestionPaperMasterData---PMMData._id->",orderId,PMMData._id);
+//                                                                                                          PackageQuestionPaperMaster.find({"order_id":orderId,"packageId":PMMData._id})
+//                                                                                                                                     .exec()
+//                                                                                                                                     .then(datacount=>{
+//                                                                                                                                       // console.log("dataCOunt---->",datacount);
+//                                                                                                                                         var PackageQuestionPaperMasterDataLen = datacount.length;
+//                                                                                                                                         // console.log("lenghts---------->",PackageQuestionPaperMasterDataLen,practicePaperIDArrayLen);
+//                                                                                                                                         if(PackageQuestionPaperMasterDataLen<=practicePaperIDArrayLen){
+//                                                                                                                                           // console.log("sId----->",sId);
+//                                                                                                                                           StudentMaster.findOne({"studentId":sId})
+//                                                                                                                                                  .exec()
+//                                                                                                                                                  .then(studentInfo=>{
+//                                                                                                                                                   // console.log("studentInfo----->",studentInfo);
+//                                                                                                                                                     var id = new PackageQuestionPaperMaster({
+//                                                                                                                                                               '_id'              : new mongoose.Types.ObjectId(),
+//                                                                                                                                                               'order_id'         : orderId,
+//                                                                                                                                                               'buyerId'          : studentInfo.studentId,
+//                                                                                                                                                               'packageId'        : packageId,
+//                                                                                                                                                               'packageName'      : PMMData.packageName,
+//                                                                                                                                                               'questionPaper_id' : QuestionPaperMasterData._id,
+//                                                                                                                                                               'questionPaperName': QuestionPaperMasterData.quePaperTitle,
+//                                                                                                                                                               'franchiseId'      : studentInfo.franchiseId,
+//                                                                                                                                                               'companyId'        : studentInfo.companyId,
+//                                                                                                                                                               'studentFullName'  : studentInfo.studentFullName,
+//                                                                                                                                                               'category'         : studentInfo.category,
+//                                                                                                                                                               'subCategory'      : studentInfo.subCategory, 
+//                                                                                                                                                               'createdAt'        : new Date(),                      
+//                                                                                                                                                             });
+//                                                                                                                                                      id.save()
+//                                                                                                                                                          .then(result =>{
+//                                                                                                                                                           // console.log("result in update",result._id,PMMData.AttemptOfPracticeTest);
+//                                                                                                                                                            for(var k=0; k<PMMData.AttemptOfPracticeTest;k++){
+//                                                                                                                                                                 PackageQuestionPaperMaster.updateOne({"_id":result._id},
+//                                                                                                                                                                   {
+//                                                                                                                                                                     $push:{
+//                                                                                                                                                                       noOfAttempts:{
+//                                                                                                                                                                        // 'AtteptCount' : '',
+//                                                                                                                                                                        'status'      : false,
+//                                                                                                                                                                        'attemptedAt' : '',
+//                                                                                                                                                                       }
+//                                                                                                                                                                     }
+//                                                                                                                                                                   })
+//                                                                                                                                                                   .exec()
+//                                                                                                                                                                   .then(data=>{
+//                                                                                                                                                                     // console.log("data update------>",data,orderId);
+//                                                                                                                                                                     // PackageOrderMaster.updateOne({"_id":orderId},
+//                                                                                                                                                                     //   {
+//                                                                                                                                                                     //     $set:{
+//                                                                                                                                                                     //       'status':status,
+//                                                                                                                                                                     //       'amount':totalAmount,
+//                                                                                                                                                                     //       "transactionId" : transid,
+//                                                                                                                                                                     //       "billnumbers" : billNumbers,
+//                                                                                                                                                                     //       "paymentDate" : new Date(),
+//                                                                                                                                                                     //     }
+//                                                                                                                                                                     //   })
+//                                                                                                                                                                     // .exec()
+//                                                                                                                                                                     // .then(data=>{
+//                                                                                                                                                                     //    console.log("paid status  update------>",data);
+//                                                                                                                                                                     //    if(data.nModified == 1){
+//                                                                                                                                                                     //       res.status(200).json({message:"Success"})
+//                                                                                                                                                                     //     }else{
+//                                                                                                                                                                     //       res.status(200).json({message:"Failed"})
+//                                                                                                                                                                     //     }
+//                                                                                                                                                                     // })
+//                                                                                                                                                                     // .catch()
+//                                                                                                                                                                   })
+//                                                                                                                                                                   .catch()
+//                                                                                                                                                               }
+
+//                                                                                                                                                          })
+//                                                                                                                                                          .catch(err =>{
+//                                                                                                                                                             console.log(err);
+//                                                                                                                                                             res.status(500).json({
+//                                                                                                                                                               error: err
+//                                                                                                                                                             });
+//                                                                                                                                                           });
+
+//                                                                                                                                                 })
+//                                                                                                                                                  .catch()
+//                                                                                                                                         }
+//                                                                                                                                     })
+//                                                                                                                                     .catch()
+//                                                                                                       }
+//                                                                                                    })
+//                                                                                                    .catch()
+//                                                                               }
+//                                                                           }
+//                                                                         }
+//                                                                       }
+//                                                                    })
+//                                                                    .catch()
+//                                         }
+//                                       }
+//                                     }
+
+
+//                                     // -----------------------------------------------End of code-----------------------------------------
 
                           }
                        })
                        .catch() 
 
-  PackageOrderMaster.update({"_id":orderId},
-          {
-            $set:{
-              'status':status,
-              'amount':packageTotal,
-              "transactionId" : trnsactionId,
-                "billnumbers" : billNum,
-                "paymentDate" : new Date(),
-            }
-          });
+  // PackageOrderMaster.updateOne({"_id":orderId},
+  //         {
+  //           $set:{
+  //             'status':status,
+  //             'amount':packageTotal,
+  //             "transactionId" : trnsactionId,
+  //               "billnumbers" : billNum,
+  //               "paymentDate" : new Date(),
+  //           }
+  //         });
+
+
   
+}
+
+
+
+exports.fetch_package_Receipt = (req,res,next)=>{
+    console.log("fetch_package_Receipt",req.params.ID);
+    PackageOrderMaster.findOne({_id:req.params.ID})
+                            .exec()
+                            .then(data=>{
+                              if(data){
+                               res.status(200).json({data})                              
+                              }
+                            })
+                            .catch(err=>{
+                                console.log('err ',err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });
 }
 
 exports.fetch_package_Total = (req,res,next)=>{
@@ -364,7 +619,7 @@ exports.create_order = (req,res,next) =>{
                                             });                      
                         }else{
                           console.log("in else---->")
-                          PackageManagementMaster .find({_id:req.params.package_ID})
+                          PackageManagementMaster .findOne({_id:req.params.package_ID})
                                                   .exec()
                                                   .then(pmm=>{
                                                     if(pmm){
@@ -418,11 +673,11 @@ exports.create_order = (req,res,next) =>{
                         });
                       });
   }else{
-    StudentMaster.find({studentId:req.params.student_ID})
+    StudentMaster.findOne({studentId:req.params.student_ID})
                  .exec()
                  .then(sm=>{
                     if(sm){
-                      PackageManagementMaster .find({_id:req.params.package_ID})
+                      PackageManagementMaster .findOne({_id:req.params.package_ID})
                                               .exec()
                                               .then(pmm=>{
                                                 if(pmm){

@@ -19,10 +19,10 @@ class CompetitionDetailsforPayment extends Component{
 		var competitionId = this.props.match.params.compId;
 		// console.log("competitionId---- >",competitionId,id);
 		axios
-			.get('/exammasters/exampurchase/' + competitionId + '/' + id)
+			.get('/exammasters/examInfo/' + competitionId + '/' + id)
 			.then((response)=>{
 
-				// console.log("exam deatils at client----- >",response);
+				console.log("exam deatils at client----- >",response);
 				var competitionData 	=	response.data.competitionData;
 				var competitionExams 	=	response.data.CompetitionExamData;
 				var studentMasterData  	=	response.data.studentMasterData;

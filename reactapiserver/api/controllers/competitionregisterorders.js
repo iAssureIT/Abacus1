@@ -76,26 +76,24 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                           .exec()
                           .then(competitionRegisterOrderData=>{
                             if(competitionRegisterOrderData){
-                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData._id);
-                              console.log("req.params in if response---status->",status);
-                              console.log("req.params in if response--transid-->",transid);
-                              console.log("req.params in if response--billNumbers-->",billNumbers);
-                              console.log("req.params in if response---compId->",compId);
-                              console.log("req.params in if response---sId->",sId);
-                              competitionRegisterOrderData.updateOne(
-                                                                      {_id  :   competitionRegisterOrderData._id},
+                              console.log("competitionRegisterOrderData----->",competitionRegisterOrderData); 
+                              const selector = {"_id"  : competitionRegisterOrderData._id};
+                              console.log("selector = ",selector);
+
+                                    CompetitionOrderMaster.updateOne(
+                                                                      selector,
                                                                       {$set : {
-                                                                            "status"    : status,
+                                                                            "status"        : status,
                                                                             "transactionId" : parseInt(transid),
                                                                             "billnumbers"   : parseInt(billNumbers),
-                                                                            "paymentDate"   : new Date(),
                                                                             "paymentMode"   : "Online",
+                                                                            "paymentDate"   : new Date(),
                                                                           }
                                                                       }                               
                                                                     )
                                                           .exec()
                                                           .then(data=>{
-                                                        console.log("data competitionRegisterOrderData----->",competitionRegisterOrderData._id);
+                                                            // console.log("data competitionRegisterOrderData----->",competitionRegisterOrderData);
 
                                                             console.log("data----->",data);
                                                             if(data.nModified == 1){
@@ -105,7 +103,9 @@ exports.update_mycompetitionorderreceipt = (req,res,next)=>{
                                                             }
                                                           }
                                                             )
-                                                          .catch()
+                                                          .catch(err=>{
+                                                            console.log("modify error---->",err);
+                                                          })
 
                             }
                           })

@@ -109,6 +109,56 @@ exports.competitionDetails = (req,res,next)=>{
                 });      
 }
 
+
+exports.fetchCompetitionData = (req,res,next)=>{
+  console.log("in fetch comp");
+  StudentMaster .findOne({studentId:req.params.studentId})
+                .exec()
+                .then(studentMasterData=>{
+                  if(studentMasterData){
+                    ExamMaster.findOne({_id:req.params.competitionId})
+                              .exec()
+                              .then(competitionData =>{
+                                  if(competitionData){
+                                    var dateformat = moment(new Date(competitionData.competitionDate)).format('MMM Do YYYY');
+                                    var CompetitionExamData = competitionData.competitionExams;
+                                    if(CompetitionExamData){
+                                      var arrIndex = CompetitionExamData.findIndex(function(object,index){ return object.category == studentMasterData.category && object.subCategory == studentMasterData.subCategory});
+                                      if(arrIndex){
+                                        res.status(200).json({
+                                                                competitionData     : competitionData,
+                                                                CompetitionExamData : competitionData.competitionExams[arrIndex],
+                                                                dateformat          : dateformat,
+                                                                studentMasterData   : studentMasterData,
+                                                              });
+                                      }else{
+                                        res.status(404).json({message:"competition Exam does not exist"})  
+                                      }
+                                    }else{
+                                      res.status(404).json({message:"competition Exam does not exist"})
+                                    }
+                                  }else{
+                                    res.status(404).json({message:"Exam not found"});
+                                  }
+                              })
+                              .catch(err =>{
+                                console.log(err);
+                                res.status(500).json({
+                                  error: err
+                                  });
+                              });
+                  }else{
+                    res.status(404).json({message:"Student Not found"});
+                  }
+                })
+                .catch(err =>{
+                  console.log(err);
+                  res.status(500).json({
+                    error: err
+                    });
+                });      
+}
+
 exports.fetch_exam_details_mainexam = (req,res,next)=>{
   var indiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
   var today = new Date(indiaTime);
