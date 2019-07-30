@@ -5,8 +5,8 @@ import MainLayout	from './components/layouts/MainLayout.js';
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-axios.defaults.baseURL = 'http://localhost:3042';
-// axios.defaults.baseURL = 'http://abacusapi.iassureit.com';
+// axios.defaults.baseURL = 'http://localhost:3042';
+axios.defaults.baseURL = 'http://abacusapi.iassureit.com';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
