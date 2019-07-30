@@ -229,8 +229,7 @@ class MultipleCompetition extends (Component)  {
 			                   <div className="box-header with-border">
 					            <h3 className="box-title">Register for competition</h3>
 					            </div>
-								<div className="col-lg-12  col-md-12 col-sm-12 col-xs-12 onlineSXWrap">
-									
+								<div className="col-lg-12  col-md-12 col-sm-12 col-xs-12 onlineSXWrap">									
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 categoryTable">
 					              		<table className="table table-striped formTable tab-Table">
 										    <thead className="tableHeader">
@@ -244,8 +243,7 @@ class MultipleCompetition extends (Component)  {
 										    </thead>
 										    {this.state.competitionData/*.length>0*/ ?
 											    <tbody >
-											     	{this.state.competitionData.map((competitionInfo,index)=>{
-											     		
+											     	{this.state.competitionData.map((competitionInfo,index)=>{										     		
 
 											    return (<tr key={index}>
 											     			<td>{index+1}</td>

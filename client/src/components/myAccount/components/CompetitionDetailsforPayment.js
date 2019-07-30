@@ -9,27 +9,21 @@ class CompetitionDetailsforPayment extends Component{
 	    	competitionExams 	: [],
 	    	studentMasterData 	: [],
 	    	dateformat 			: '',
-
 	    	data 				: false,
-
 	    }
 	}
 	componentDidMount(){
 		var id = localStorage.getItem("user_ID");
 		var competitionId = this.props.match.params.compId;
-		// console.log("competitionId---- >",competitionId,id);
 		axios
 			.get('/exammasters/examInfo/' + competitionId + '/' + id)
 			.then((response)=>{
-
-				console.log("exam deatils at client----- >",response);
 				var competitionData 	=	response.data.competitionData;
 				var competitionExams 	=	response.data.CompetitionExamData;
 				var studentMasterData  	=	response.data.studentMasterData;
-				if(competitionData && competitionExams && studentMasterData){
+				if(competitionData && competitionExams){
 					this.setState({
 						competitionData 	:competitionData,
-						studentMasterData 	:studentMasterData,
 						competitionExams    : competitionExams,
 						dateformat 			:response.data.dateformat,
 					},()=>{
@@ -43,7 +37,12 @@ class CompetitionDetailsforPayment extends Component{
 							})
 						} 
 					})
-				}			
+				}
+				if(studentMasterData){
+					this.setState({
+						studentMasterData 	:studentMasterData,						
+					})
+				}
 			})
 			.catch(function(error){
 				console.log("error",error);
@@ -56,28 +55,19 @@ class CompetitionDetailsforPayment extends Component{
 
   	confirmPayment(event){
   		event.preventDefault();
-
 		const studentID 	= localStorage.getItem("user_ID");
   		var competitionFees = this.refs.competitionFees.value;
   		var comp_id 		= this.refs.comp_id.value;
   		var QPId 			= this.refs.QPId.value;
-
-  		// var url  = window.location.protocol+window.location.hostname;
   		var url  = window.location.origin;
   		var studentId = localStorage.getItem('user_ID');
 		var data  = {
 				    "url" : url,                	
 					}
-		console.log("url ----->",QPId,competitionFees,studentId,comp_id);
   		axios
 			.post('/quickwalletmasters/exampurchase/'+studentId+'/'+comp_id+'/'+competitionFees,data)
-
-
 			.then((response)=>{
-				console.log('payment res =-----> ',response);
-
-				if(response.data){
-				
+				if(response.data){				
 					window.location.replace(response.data);
 				}
 				
@@ -88,8 +78,6 @@ class CompetitionDetailsforPayment extends Component{
   	}
 
 	render(){
-
-		// console.log("state competitionExams",this.state.data);
 		return(
 			<div>
 		        {/* Content Wrapper. Contains page content */}

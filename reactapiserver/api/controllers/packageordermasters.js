@@ -7,7 +7,6 @@ const PackageManagementMaster   = require('../models/packagemanagementmasters');
 const StudentMaster             = require('../models/studentmasters');
 
 exports.fetch_mypackageorder = (req,res,next)=>{
-   console.log("fetch_mypackageorder------>",req.params.ID);
     var sId = req.params.studentId;
     PackageOrderMaster.find({buyerId:sId,status:"paid"})
             .select("transactionId amount paymentDate packages")
@@ -164,7 +163,6 @@ exports.update_packageorderreceipt = (req,res,next)=>{
 
                                     }else{
                                       res.status(200).json({message:"Failed"})
-                                       console.log("in modified---success->");
 
                                     }
                                 })
@@ -312,7 +310,6 @@ exports.update_packageorderreceipt = (req,res,next)=>{
 
 
 exports.fetch_package_Receipt = (req,res,next)=>{
-    console.log("fetch_package_Receipt",req.params.ID);
     PackageOrderMaster.findOne({_id:req.params.ID})
                             .exec()
                             .then(data=>{
@@ -329,13 +326,11 @@ exports.fetch_package_Receipt = (req,res,next)=>{
 }
 
 exports.fetch_package_Total = (req,res,next)=>{
-    console.log("fetch_package_Total",req.params.ID);
     PackageOrderMaster.findOne({_id:req.params.ID})
                             .exec()
                             .then(data=>{
                               if(data){
                                 var packageIdArray=[];
-                                console.log("total data---->",data);
                                 // var packageIdArray = [{_id:"kq6FGRgiZgdp2HpFi"},{_id:"2u4Sb4XzFZaFFFNE5"}];
                                 packageIdArrayLength = (data.packages).length;
                                 var dt = data.packages
@@ -343,18 +338,15 @@ exports.fetch_package_Total = (req,res,next)=>{
                                   packageIdArray.push(dt[i])
                                   
                                 }
-                                console.log("total packageIdArray---->",packageIdArray.length,packageIdArray);
+                               
                                 var o = Object.assign({},data);
                                 var amount = 0;
                                 var priceArray=[];
                                 var ln = packageIdArray.length;
-                                console.log("ln---->",ln);
                                 const cnt= packageIdArray.map((Data,index)=>{
-                                  console.log("total packageIdArray---->",Data);
                                    PackageManagementMaster.findOne({_id:Data.packageId})
                                   .exec()
                                   .then((pckgData)=>{
-                                    console.log("data next ---->",pckgData);
                                     priceArray.push(pckgData.PackagePrice)
                                     amount += pckgData.PackagePrice;
                                     
@@ -395,11 +387,9 @@ exports.fetch_mypackageorderreceipt = (req,res,next)=>{
 }
 
 exports.check_packageorder = (req,res,next)=>{
-  console.log("check_packageorder----------->",req.params.ID);
   PackageOrderMaster.findOne({_id:req.params.ID})
           .exec()
           .then(data =>{
-             console.log("check_packageorder----data------->",data);
             if(data.packages.length > 0){
               res.status(200).json("packagesAdded");
             }else{
@@ -591,8 +581,7 @@ exports.create_order = (req,res,next) =>{
                             )
                       .exec()
                       .then(pom=>{
-                        if(pom.length>0){
-                          console.log("pom pom",pom,req.params.Order_ID,req.params.package_ID)
+                        if(pom.length>0){                         
                           PackageOrderMaster.updateOne(
                                                 {_id:req.params.Order_ID},
                                                 {
@@ -617,13 +606,11 @@ exports.create_order = (req,res,next) =>{
                                                 error: err
                                               });
                                             });                      
-                        }else{
-                          console.log("in else---->")
+                        }else{                         
                           PackageManagementMaster .findOne({_id:req.params.package_ID})
                                                   .exec()
                                                   .then(pmm=>{
                                                     if(pmm){
-                                                      console.log("pmm push----->",pmm,req.params.package_ID);
                                                       PackageOrderMaster.updateOne(
                                                                             {_id:req.params.Order_ID},
                                                                             {
@@ -641,7 +628,6 @@ exports.create_order = (req,res,next) =>{
                                                                         )
                                                                         .exec()
                                                                         .then(pom=>{
-                                                                          console.log("pom update--->",pom)
                                                                           if(pom.nModified == 1){
                                                                             res.status(200).json({message:"Package added"})
                                                                           }else{
@@ -680,20 +666,15 @@ exports.create_order = (req,res,next) =>{
                       PackageManagementMaster .findOne({_id:req.params.package_ID})
                                               .exec()
                                               .then(pmm=>{
-                                                if(pmm){
-                                                  console.log("req.params.package_ID insert",req.params.package_ID,pmm)
+                                                if(pmm){                                                 
                                                   var invoiceNum = PackageOrderMaster.find({})
                                                                                      .exec()
                                                                                      .then(cntData=>{
-                                                                                      console.log("cntData---pmm-->",pmm);
-                                                                                      console.log("cntData---cntData-->",req.params.package_ID);
                                                                                       var invoiceNum = 0;
                                                                                         if(cntData){
                                                                                           invoiceNum = cntData.length +1;
                                                                                         }
-
                                                                                         if(invoiceNum){
-                                                                                          console.log("sm---invoiceNum--------->",sm,pmm)
                                                                                           var packageOrderMaster = new PackageOrderMaster({
                                                                                                                   '_id'           : new mongoose.Types.ObjectId(),
                                                                                                                   'buyerId'       : req.params.student_ID,

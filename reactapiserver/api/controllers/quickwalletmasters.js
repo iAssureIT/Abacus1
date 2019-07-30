@@ -50,7 +50,7 @@ exports.makepayment = (req,res,next) =>{
                                     // "redirecturl"    : 'http://localhost:3000/packagePayment-response/'+req.body.OrderId ,
                                 };
                                 var url = API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment";
-                                console.log("baseUrl----",baseUrl);
+                                
                                 request({
                                     "method"    :"POST", 
                                     "url"       : url,
@@ -62,7 +62,7 @@ exports.makepayment = (req,res,next) =>{
                                                     }
                                 })
                                 .then(payresponse=>{
-                                    console.log('payresponse ',payresponse);
+                                   
                                     if(payresponse.status == 'success'){
                                         var paymentUrl = payresponse.data.url;
                                         // res.header("Access-Control-Allow-Origin","*");
@@ -92,23 +92,22 @@ exports.makepayment = (req,res,next) =>{
 }
 
 exports.paymentGatewayforCompetition = (req,res,next) => {
-    console.log('body ',req.body);
-    console.log('parrrrmmmm----> ',req.params);
+   
     StudentMaster   .findOne({studentId:req.params.studentId})
                     .exec()
                     .then(studentMasterData=>{
                         if(studentMasterData){
-                            console.log("studentMasterData----in reg order",studentMasterData);
+                           
                             var mobileNum = studentMasterData.mobileNumber;
                             var number = mobileNum.split('-');
                             var concatNum = number[0]+number[1]+number[2];
                             var mobNumber = String(concatNum);
-                            console.log("mobNumber---->",mobNumber)
+                           
                             ExamMaster.findOne({_id:req.params.competitionId})
                                         .exec()
                                         .then(ExamMasterData=>{
                                             if(ExamMasterData){
-                                                console.log("ExamMasterData---in reg order------->",ExamMasterData);
+                                               
                                                 const competitionRegisterOrder = new CompetitionRegisterOrder({
                                                     '_id'                       : new mongoose.Types.ObjectId(),
                                                     'competitionId'	            : req.params.competitionId,
@@ -127,7 +126,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                 });
                                                 competitionRegisterOrder.save()
                                                                         .then(data=>{
-                                                                            console.log("create reg order---->",data);
+                                                                           
                                                                             QuickWalletMasters.findOne({})
                                                                                              .exec()
                                                                                              .then(QWCredential=>{
@@ -142,7 +141,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                         var secret    = QWCredential.sandboxSecret;
                                                                                                     }
 
-                                                                                                    console.log("mobNumber in pay",mobNumber);
+                                                                                                   
                                                                                                     var quickWalletInput = {
                                                                                                                "partnerid"  : partnerid,
                                                                                                                "mobile"     : mobNumber,
@@ -152,7 +151,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                "redirecturl" : req.body.url+'/payment-response/'+req.params.competitionId,             
                                                                                                     };
                                                                                                     if(quickWalletInput){
-                                                                                                        console.log('quickWalletInput for competition ',quickWalletInput);
+                                                                                                       
 
                                                                                                         // var result = HTTP.call("POST", API+"/api/partner/"+quickWalletInput.partnerid+"/requestpayment",
                                                                                                                             // {params: quickWalletInput});
@@ -167,7 +166,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             "Authorization": "Bearer " + "secrect",
                                                                                                                             }
                                                                                                                         }).then(payresponse=>{
-                                                                                                                            console.log('payresponse ',payresponse);
+                                                                                                                           
                                                                                                                             if(payresponse.status == 'success'){
                                                                                                                                 var paymentUrl = payresponse.data.url;
 
@@ -177,7 +176,7 @@ exports.paymentGatewayforCompetition = (req,res,next) => {
                                                                                                                             }
                                                                                                                             res.status(200).json("Something went wrong");
                                                                                                                         });
-                                                                                                        console.log('result ',result);
+                                                                                                       
                                                                                     
                                                                                                     }
                                                                                                  }else{

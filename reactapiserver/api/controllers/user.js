@@ -280,7 +280,7 @@ exports.user_login = (req,res,next)=>{
 								expiresIn: "1h"
 							}
 							);
-							console.log('login faild');
+							// console.log('login faild');
 							res.header("Access-Control-Allow-Origin","*");
 							return res.status(200).json({
 								message				: 'Auth successful',

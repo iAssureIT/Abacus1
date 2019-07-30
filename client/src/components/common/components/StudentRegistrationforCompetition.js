@@ -302,7 +302,7 @@ class StudentRegistrationforCompetition extends Component  {
 																			<div className="fontstyle">Your exam not started yet.</div>															
 																		</div>
 																:
-																	this.props.todayDate>competitionInfo.examDate?
+																	this.state.todayDate>competitionInfo.examDate?
 																		competitionInfo.examDataStatus=="Completed"?
 																			<div className="fontstyle" >												
 																				<a href="/pastExamReports"> <button type="submit" className="btn startexambtn1 startmultiexambtn">Result</button></a>												

@@ -10,7 +10,8 @@ class MyOrder extends Component{
 constructor(){
   super();
     this.state = {
-        competitionId       : this.props.match.params.compId,
+        // competitionId       : this.props.match.params.compId,
+        competitionId       : "",
         reciptdata          : "",
         facilityPermission  : 'waitingforResult',
         competitonFee       : "",

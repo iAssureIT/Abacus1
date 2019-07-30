@@ -111,7 +111,6 @@ exports.competitionDetails = (req,res,next)=>{
 
 
 exports.fetchCompetitionData = (req,res,next)=>{
-  console.log("in fetch comp");
   StudentMaster .findOne({studentId:req.params.studentId})
                 .exec()
                 .then(studentMasterData=>{

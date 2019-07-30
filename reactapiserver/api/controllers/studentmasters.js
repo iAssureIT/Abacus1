@@ -27,7 +27,7 @@ exports.studentInfo = (req,res,next)=>{
                .exec()
                .then(student =>{
                  if(student){
-                   console.log('student ',student);
+                   
                    var studentInfo = {
                           studentFirstName      : student.studentFirstName,
                           studentMiddleName     : student.studentMiddleName,
@@ -58,7 +58,7 @@ exports.studentInfo = (req,res,next)=>{
                    };
                   //  studentInfo.submitButtonMsg         = 'Confirm & Update';
                    if(studentInfo){
-                     console.log('student studentInfo ',studentInfo);
+                     
                     res.status(200).json(studentInfo);
                    }
                  }else{
@@ -91,7 +91,7 @@ exports.studentInfo = (req,res,next)=>{
                           userProfile           : user.profile.userProfile,
                         };
                         if(studentInfo){
-                          console.log('user studentInfo ',studentInfo);
+                         
                           res.status(200).json(studentInfo);
                         }
                       })

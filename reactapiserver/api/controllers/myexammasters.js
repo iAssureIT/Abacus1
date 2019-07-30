@@ -521,7 +521,6 @@ exports.FinishExam = (req,res,next) =>{
 }
 
 exports.saveimgs = (req,res,next) =>{
-    console.log('req.body ',req.body);
     MyExamMaster.updateOne(
                     {_id: req.body.examId},
                     {
