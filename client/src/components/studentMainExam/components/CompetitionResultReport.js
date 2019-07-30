@@ -127,16 +127,32 @@ export default class CompetitionResultReport extends (Component) {
 
 
 	getResultData(){
-		axios
-	 		.get('/myexammasters/'+this.state.categoryName+'/'+this.state.subCategory+'/'+this.state.competitionId+'/'+this.state.startRange+'/'+this.state.dataRange)
-            .then((response)=> {
-                this.setState({
-		 			allCategoryWiseStudent : response.data
-		 		});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+		if(!this.state.studentNameCWTM){
+			axios
+		 		.get('/myexammasters/'+this.state.categoryName+'/'+this.state.subCategory+'/'+this.state.competitionId+'/'+this.state.startRange+'/'+this.state.dataRange)
+	            .then((response)=> {
+	                this.setState({
+			 			allCategoryWiseStudent : response.data
+			 		});
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	        }else{
+	        	axios
+		 		.get('/myexammasters/'+this.state.categoryName+'/'+this.state.studentNameCWTM+'/'+ this.state.competitionId)
+	            .then((response)=> {
+
+	                this.setState({
+			 			allCategoryWiseStudent : response.data
+			 		});
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+
+	        }
+
 	}
 
 	showhideSubCatDetails(event){		
@@ -146,14 +162,15 @@ export default class CompetitionResultReport extends (Component) {
 	getSWTMTextValue(event){
 		var studentName= $('.SearchStudentCWTMName').val();
 		if(studentName){
-			var RegExpBuildValue = this.buildRegExp(studentName);
+			var RegExpBuildValue = studentName;
+			// var RegExpBuildValue = this.buildRegExp(studentName);
 			this.setState({
 				studentNameCWTM : RegExpBuildValue,
-			},()=>{this.studWiseTestMonthlyData()});
+			},()=>{this.getResultData()});
 		}else{
 			this.setState({
 				studentNameCWTM : '',
-			},()=>{this.studWiseTestMonthlyData()});
+			},()=>{this.getResultData()});
 		}
 	}
 
@@ -273,7 +290,7 @@ export default class CompetitionResultReport extends (Component) {
 											    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 ">												    			
 												    			<img className="col-lg-12 col-md-12 profileCircle" src={allStudentView.studImg?allStudentView.studImg:"/images/user.png"}/>
 												    			<div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center">
-													    			<div className="studName">{allStudentView.firstName}{allStudentView.lastName}</div>													    		
+													    			<div className="studName">{allStudentView.firstName}&nbsp;{allStudentView.lastName}</div>													    		
 													    			{this.state.competitionDeclared==true?<div className="studOtherInfo">Rank : {allStudentView.rank} </div>:null}
 													    			<div className="studOtherInfo">Category : {allStudentView.category} - {allStudentView.subCategory}</div>
 													    			<div className="studOtherInfo">Score : {allStudentView.totalScore}</div>

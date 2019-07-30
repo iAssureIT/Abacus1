@@ -162,7 +162,7 @@ exports.search_student_competition_result_view = (req,res,next) =>{
     var studenName     = req.params.studentname;
     var competitionId   = req.params.competitionId;
     if(categoryName == "all"){
-        MyExamMaster.find({competitionId:competitionId,fullName:studenName})
+        MyExamMaster.find({competitionId:competitionId,fullName:{$regex:studenName}})
                     .select("totalMarks StudentId attemptedQues competitionName firstName lastName totalQuestion totalScore examSolvedTime status rank category subCategory studImg")
                     .exec()
                     .then(competition =>{
@@ -175,10 +175,11 @@ exports.search_student_competition_result_view = (req,res,next) =>{
                         });
                     });
     }else{
-        MyExamMaster.find({competitionId:competitionId,category:categoryName,fullName:studenName})
+        MyExamMaster.find({competitionId:competitionId,category:categoryName,fullName:{$regex:studenName}})
                     .select("totalMarks StudentId attemptedQues competitionName firstName lastName totalQuestion totalScore examSolvedTime status rank category subCategory studImg")
                     .exec()
                     .then(competition =>{
+                        console.log("competition---->",competition)
                         res.status(200).json(competition);
                     })
                     .catch(err =>{
