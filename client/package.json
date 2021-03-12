@@ -14,7 +14,7 @@
     "html2canvas": "^1.0.0-rc.2",
     "jquery": "^3.4.1",
     "jquery-migrate": "^1.4.1",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "moment": "^2.24.0",
     "query-string": "^6.8.1",
     "react": "^16.8.6",
